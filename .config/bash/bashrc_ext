@@ -1,0 +1,183 @@
+# Extension to .bashrc profile
+# Source this file from the end of ~/.bashrc
+
+source ~/.config/bash/alias.sh
+
+# Set vi move instead of the default (set -o emacs)
+set -o vi
+
+# Length sudo timeout to one week
+export TMOUT=604800
+
+# Disable Flow control in terminal (Ctrl-S & Ctrl-Q)
+stty -ixon
+# Fix <ENTER> inserting `^M` instead of being enter
+# https://askubuntu.com/questions/441744/pressing-enter-produces-m-instead-of-a-newline
+# This worked for a few months: stty icrnl
+stty sane
+
+# Disable bell sound
+bind 'set bell-style none'
+# Disable bell in less
+export LESS="$LESS -R -Q"
+
+# SET COLORS
+# For color selection and usage refer to ./colorize.py or ./color_palette.sh
+# https://misc.flogisoft.com/bash/tip_colors_and_formatting
+# Note the definition of basic colors, e.g. what kind of blue blue is, is
+# dependant on the terminal, not on the shell! See windows terminal explanation
+# for more details.
+
+# Prompt Color
+# Refer to http://bashrcgenerator.com/
+# \u               = username
+# \h               = hostname short
+# \H               = hostname long
+# \w               = directory
+# \$               = Prompt char
+# \033 = \x1B = \e = escape character
+# \e[ ... m        = colour escape sequence
+# \[  ... \]       = Don't count these chars in bash to the word wrap, cause they invisible.
+#
+# Default (refer to .bashrc)
+# PS1='\[\e]0;\u@\h: \w\a\]${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
+#
+# Red BG    (mpact)
+# PS1='\[\e[48;5;160m\e[30m\]\u\[\e[38;5;245m\]@\[\e[30m\]\h\[\e[38;5;245m\]:\[\e[97m\]\w\[\e[38;5;245m\]\$\[\e[0m\] '
+# Green BG  (dem\]o)
+# PS1='\[\e[48;5;34m\e[30m\]\u\[\e[38;5;245m\]@\[\e[30m\]\h\[\e[38;5;245m\]:\[\e[97m\]\w\[\e[38;5;245m\]\$\[\e[0m\] '
+# Yellow BG (live)
+# PS1='\[\e[48;5;226m\e[38;5;245m\]\u\[\e[38;5;249m\]@\[\e[38;5;245m\]\h\[\e[38;5;249m\]:\[\e[30m\]\w\[\e[38;5;249m\]\$\[\e[0m\] '
+# Gray BG   (Dev)
+PS1='\[\e[48;5;241m\e[32m\]\u\[\e[39m\]@\[\e[92m\]\h\[\e[39m\]:\[\e[93m\]\w\[\e[39m\]\$\[\e[0m\] '
+
+# Same as above but broken into variables
+# N='\['    # No    to add to bash word wrap width
+# Y='\]'    # Yes   to add to bash word wrap width
+# A=$N'\e[' # Start of escape sequence
+# Z='m'$Y   # End   of escape sequence
+# PS1=$A'48;5;241'$Z$A'32'$Z'\u'$A'39'$Z'@'$A'92'$Z'\h'$A'39'$Z':'$A'93'$Z'\w'$A'39'$Z'\$'$A'0'$Z' '
+
+# LS COLORS
+# ---------
+# dircolors --help
+#
+# Print a list listing of what the colours mean:
+#     dircolors -p
+#
+# Manual:
+#     man dir_colors
+#
+# Item prefixes
+# -------------
+# no:global default
+# fi:normal file
+# di:directory
+# ln:symbolic link
+# pi:named pipe
+# so:socket
+# do:door
+# bd:block device
+# cd:character device
+# or:orphan symlink
+# mi:missing file
+# su:set uid
+# sg:set gid
+# tw:sticky other writable
+# ow:other writable
+# st:sticky
+# ex:executable
+# Change BASH dir colour to something more readable
+# To use 256 colors use 38;5;FG;48;5;BG
+#   where FG = foreground 256 color number, and similarly for BG.
+# LS_COLORS=$LS_COLORS':di=38;5;255;48;5;58:' ; export LS_COLORS
+DI='di=38;5;255;48;5;58'
+# Fix Green dirs with blue fg
+OW='ow=38;5;255;48;5;58'
+LS_COLORS=$LS_COLORS:$DI:$OW: ; export LS_COLORS
+
+
+# SET UP SSH-AGENT
+#------------------
+# Refer to: https://docstore.mik.ua/orelly/networking_2ndEd/ssh/ch06_03.htm
+#
+# Automatically shutdown the agent when logging out so don't have handing
+# SSH agents in memory with the keys.
+trap '
+    test -n "$SSH_AGENT_PID" && eval `ssh-agent -k` ;
+' 0
+
+# https://docstore.mik.ua/orelly/networking_2ndEd/ssh/ch06_03.htm
+# What purpose does the eval serve? Well, when ssh-agent runs, it not only forks
+# itself in the background, it also outputs some shell commands to set several
+# environment variables necessary for using the agent.
+# The variables are:
+#   SSH_AUTH_SOCK (for SSH1 and OpenSSH) or SSH2_AUTH_SOCK (SSH2)
+#   SSH_AGENT_PID (SSH1, OpenSSH) or SSH2_AGENT_PID (SSH2)
+eval `ssh-agent`
+
+# SYMLINK REQUIRED FILES
+#-----------------------
+function symlink_if_required()  {
+    # $1 = File to check exists
+    # $2 = Source file to link if file doesnt exist
+    [ ! -e $1 ] && {
+        echo "Symlinking '$2' to '$1'"
+        ln -s $2 $1
+    }
+}
+symlink_if_required ~/.profile ~/.config/bash/.profile
+
+# COPY TEMP FILES
+#----------------
+function copy_temp_file()   {
+    # $1 = File to check exists
+    # $2 = Source file to link if file doesnt exist
+    [ ! -e $1 ] && {
+        echo "Copying '$2' to '$1'"
+        cp $2 $1
+    }
+}
+
+mkdir -p ~/.ssh
+# copy_temp_file ~/.ssh/config ~/.config/ssh/config
+
+# FUNCTIONS
+#----------------
+# Fuzzy CD
+fcd() {
+    cd $(fd --type directory --hidden |fzf)
+}
+# Fuzzy neovim edit
+fn() {
+    nvim $(fd -H -t l -t f | fzf)
+}
+# Fuzzy find file/dir and copy to the clipboard
+copy() {
+    echo -n $(fd -H | fzf) | xclip -selection c
+    echo "Copied to clipboard: $(xclip -o -selection c)"
+}
+# Fuzzy get
+# e.g. if relying on word splitting: ls $(get)
+# or ls "$(get)"
+get() {
+    # fd -H | fzf
+    # since filenames can contain newline
+    # fd -0 terminates with null instead of newline
+    # fzf --read0 = Read input delimited by ASCII NUL characters instead of newline characters
+    fd -0 -H | fzf --read0
+}
+# Fuzzy find app and open with system
+open() {
+    xdg-open $(fd --type file --type symlink | fzf)
+}
+# Fuzzy find executable and run it
+run() {
+    $(fd --type executable | fzf)
+}
+
+# TEMP
+# https://askubuntu.com/questions/34449/how-to-see-the-video-card-temperature-nvidia-ati-intel
+# report sensors temp
+# /etc/init.d/kmod start; sensors
+sensors

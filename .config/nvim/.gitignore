@@ -1,0 +1,6 @@
+**/doc/tags
+spell/*.spl
+tmp/
+old/trash/
+.netrwhist
+thesaurus/english.txt
