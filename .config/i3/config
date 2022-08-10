@@ -150,17 +150,18 @@ bindsym $mod+j focus down
 bindsym $mod+k focus up
 bindsym $mod+l focus right
 
+# move focused window
+# Shift = Move, like workspaces
+bindsym $mod+Shift+h move left
+bindsym $mod+Shift+j move down
+bindsym $mod+Shift+k move up
+bindsym $mod+Shift+l move right
+
 # Mod1 = ALT
 bindsym $mod+Mod1+h resize shrink width 10 px or 5 ppt
 bindsym $mod+Mod1+j resize grow height 10 px or 5 ppt
 bindsym $mod+Mod1+k resize shrink height 10 px or 5 ppt
 bindsym $mod+Mod1+l resize grow width 10 px or 5 ppt
-
-# move focused window
-bindsym $mod+Shift+h move left
-bindsym $mod+Shift+j move down
-bindsym $mod+Shift+k move up
-bindsym $mod+Shift+l move right
 
 # Unmapped so far
 # bindsym $mod+Control+h
@@ -215,49 +216,66 @@ bindsym $mod+Mod1+q exec ~/.config/i3/scripts/keep-focused-window.py
 # Kill all windows in workspace and move to next workspace
 bindsym $mod+Shift+Mod1+q exec ~/.config/i3/scripts/close-all-windows.py
 
-mode "window" {
+set $default-hotkeys (l)ook (a)anchor (s)stack (t)ab (d)efault (r)estart (c)onfig (h)or (v)ert (f)ull (p)arent (c)hild
+mode "$default-hotkeys" {
+    # CONFIGURATION FILE
+    # ------------------
+    # reload the configuration file
+    # bindsym c shift+reload, mode "default"
+    bindsym c reload, mode "default"
+    # restart i3 injlace (preserves your layout/session, can be used to upgrade i3)
+    # bindsym r shift+restart, mode "default"
+    bindsym r restart, mode "default"
+
     # SPLITS
     # ------
 
     # split in horizontal orientation (veticial dividers)
-    bindsym h split h
+    bindsym h split h, mode "default"
 
     # split in vertical orientation (horizontal dividers)
-    bindsym v split v
+    bindsym v split v, mode "default"
 
     # enter fullscreen mode for the focused container
-    bindsym f fullscreen toggle
+    bindsym f fullscreen toggle, mode "default"
 
     # toggle tiling / floating
-    bindsym Shift+space floating toggle
+    # bindsym Shift+space floating toggle, mode "default"
+    # mnemonic a = anchor/deanchor as floating/docked
+    bindsym a floating toggle, mode "default"
 
+    # change focus between tiling / floating windows
+    # bindsym space focus mode_toggle, mode "default"
+    # mnemonic l = look at the other window
+    bindsym l focus mode_toggle, mode "default"
 
     # LAYOUT STYLES
     # -------------
     # change container layout (stacked, tabbed, toggle split)
     # Not used stacked mode
     # split = default tiling mode
-    bindsym s layout stacking
-    bindsym w layout tabbed
-    bindsym e layout toggle split
+    bindsym s layout stacking, mode "default"
+    # bindsym w layout tabbed
+    bindsym t layout tabbed, mode "default"
+    # bindsym e layout toggle split
+    bindsym d layout toggle split, mode "default"
 
 
     # PARENT / CHILD FOCUS
     # --------------------
 
-    # change focus between tiling / floating windows
-    bindsym space focus mode_toggle
     # focus the parent container
-    bindsym a focus parent
+    # bindsym a focus parent
+    bindsym p focus parent, mode "default"
     # focus the child container
-    bindsym c focus child
+    bindsym c focus child, mode "default"
 
     # back to normal: Enter or Escape or $mod+r
     bindsym Return mode "default"
     bindsym Escape mode "default"
     # bindsym $mod+r mode "default"
 }
-bindsym $mod+space mode "window"
+bindsym $mod+space mode "$default-hotkeys"
 
 
 # _____________________________________________________________________________
@@ -299,39 +317,39 @@ assign [title="Cryptomator"] $ws10
 # Terminal F, first/primary primary dev
 set $wsF "11-F"
 bindsym $mod+f workspace number $wsF
-bindsym $mod+Control+f move container to workspace number $wsF
+bindsym $mod+Shift+f move container to workspace number $wsF
 
 # # Terminal D, secondary
 set $wsD "12-D"
 bindsym $mod+d workspace number $wsD
-bindsym $mod+Control+d move container to workspace number $wsD
+bindsym $mod+Shift+d move container to workspace number $wsD
 
 # Terminal A, Another
 set $wsA "13-A"
 bindsym $mod+a workspace number $wsG
-bindsym $mod+Control+a move container to workspace number $wsA
+bindsym $mod+Shift+a move container to workspace number $wsA
 
 # --- V,C,X,Z,B -> are Browsers
 set $wsV "21-V_home"
 bindsym $mod+v workspace number $wsV
-bindsym $mod+Control+v move container to workspace number $wsV
+bindsym $mod+Shift+v move container to workspace number $wsV
 
 set $wsC "22-C_work"
 bindsym $mod+c workspace number $wsC
-bindsym $mod+Control+c move container to workspace number $wsC
+bindsym $mod+Shift+c move container to workspace number $wsC
 
 set $wsX "23-X_mom"
 bindsym $mod+x workspace number $wsX
-bindsym $mod+Control+x move container to workspace number $wsX
+bindsym $mod+Shift+x move container to workspace number $wsX
 
 set $gwsZ "24-Z_mighty"
 bindsym $mod+z workspace number $wsZ
-bindsym $mod+Control+z move container to workspace number $wsZ
+bindsym $mod+Shift+z move container to workspace number $wsZ
 
 # Browser, dev/cookies testing etc
 set $wsB "25-B_guest"
 bindsym $mod+b workspace number $wsB
-bindsym $mod+Control+b move container to workspace number $wsB
+bindsym $mod+Shift+b move container to workspace number $wsB
 
 
 # switch to workspace
@@ -348,17 +366,17 @@ bindsym $mod+9 workspace number $ws9
 bindsym $mod+0 workspace number $ws10
 
 # move focused container to workspace
-bindsym $mod+Control+1 move container to workspace number $ws1
-bindsym $mod+Control+2 move container to workspace number $ws2
-bindsym $mod+Control+3 move container to workspace number $ws3
-bindsym $mod+Control+4 move container to workspace number $ws4
-bindsym $mod+Control+5 move container to workspace number $ws5
-bindsym $mod+Control+6 move container to workspace number $ws6
-bindsym $mod+Control+7 move container to workspace number $ws7
-bindsym $mod+Control+8 move container to workspace number $ws8
-bindsym $mod+Control+9 move container to workspace number $ws9
-bindsym $mod+Control+0 move container to workspace number $ws10
-
+# SHIFT = Move, like move windows
+bindsym $mod+Shift+1 move container to workspace number $ws1
+bindsym $mod+Shift+2 move container to workspace number $ws2
+bindsym $mod+Shift+3 move container to workspace number $ws3
+bindsym $mod+Shift+4 move container to workspace number $ws4
+bindsym $mod+Shift+5 move container to workspace number $ws5
+bindsym $mod+Shift+6 move container to workspace number $ws6
+bindsym $mod+Shift+7 move container to workspace number $ws7
+bindsym $mod+Shift+8 move container to workspace number $ws8
+bindsym $mod+Shift+9 move container to workspace number $ws9
+bindsym $mod+Shift+0 move container to workspace number $ws10
 
 
 # DEFAULTS
@@ -415,19 +433,11 @@ hide_edge_borders smart
 # exec_always feh --bg-center /home/michael/Pictures/wallpaper.jpg
 
 # _____________________________________________________________________________
-# CONFIGURATION FILE
-
-# reload the configuration file
-bindsym $mod+Shift+c reload
-# restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
-bindsym $mod+Shift+r restart
-
-# _____________________________________________________________________________
 # ACCESS & POWER CONTROL
 # -------------
 # bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
-set $mode_system System (l) lock, (e) logout, (s) suspend, (h) hibernate, (r) reboot, (Shift+s) shutdown
-mode "$mode_system" {
+set $mode-system System (l) lock, (e) logout, (s) suspend, (h) hibernate, (r) reboot, (Shift+s) shutdown
+mode "$mode-system" {
     bindsym l exec i3lock --show-failed-attempts --ignore-empty-password --color=004000, mode "default"
     bindsym e exec --no-startup-id i3-msg exit, mode "default"
     # Lock then suspend, so when wake up from syspend its locked
@@ -440,7 +450,7 @@ mode "$mode_system" {
     bindsym Return mode "default"
     bindsym Escape mode "default"
 }
-bindsym $mod+Delete mode "$mode_system"
+bindsym $mod+Delete mode "$mode-system"
 
 
 # _____________________________________________________________________________

@@ -1,6 +1,8 @@
 # Dot (config) Files
 
-Runtime configuration files for my home directory.
+- Runtime configuration files for my home directory.
+- Bare repo to allow adding file directly in $HOME dir
+- Use `dot` alias to refer to this config repo
 
 ## INSTALL SCRIPTS
 
@@ -12,18 +14,11 @@ Runtime configuration files for my home directory.
 ## CONFIGS
 
 - [Bash](bash/README.md)
-- [Emacs](emacs/README.md)
 - [Git](git/README.md)
 - [Neovim](nvim/README.md)
 
-## CLONE REPO
+## INSTALL DOTFILES
 
-HTTPS:
 ```bash
-git clone https://github.com/mangelozzi/.config.git ~/.config
-```
-
-SSH:
-```bash
-git clone git@github.com:mangelozzi/.config.git ~/.config
+curl https://raw.githubusercontent.com/mangelozzi/dotfiles/master/.config/install/_install_config.sh | bash
 ```

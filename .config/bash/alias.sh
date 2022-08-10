@@ -13,9 +13,7 @@ alias rpiboot2="sudo ~/tools/usbboot-msg/rpiboot"
 alias mycal="cal -A3 -B2"
 
 # SSH
-# Hostname/IP varies, so can only add key
-alias github='ssh-add -l || ssh-add ~/.ssh/github_dev'
-alias github='ssh-add -l | grep "KaFOpY9S84" || ssh-add ~/.ssh/github_dev'
+
 # Don't SSH into github, just used for authentication
 alias sshterm="ssh-add ~/.ssh/terminal_login"
 
@@ -43,8 +41,17 @@ alias cdn='cd ~/.config/nvim'
 alias cdt='cd ~/.config/nvim/tmp'
 alias cdp='cd ~/.config/nvim/tmp'
 
+# GITHUB add key
+# Hostname/IP varies, so can only add key
+# alias github='ssh-add -l || ssh-add ~/.ssh/github_dev'
+# alias github='ssh-add -l | grep "KaFOpY9S84" || ssh-add ~/.ssh/github_dev'
+github() {
+    ssh-add -l | grep "KaFOpY9S84" || ssh-add ~/.ssh/github_dev
+}
+
 # Git Dot files
 alias dot="git --git-dir=$HOME/.dotfiles --work-tree=$HOME"
+alias dotp="github && git --git-dir=$HOME/.dotfiles --work-tree=$HOME push"
 
 # Git
 alias gs='git status'
@@ -55,10 +62,11 @@ alias guscss='git add -u "*.scss" "*.sass"'
 alias gujs='git add -u "*.js"'
 alias ga='git add -A'
 alias gc='git commit -m'
+alias gp='github && git push'
 alias gm='git commit --amend --no-edit'
-alias gmp='git commit --amend --no-edit; git push -f'
+alias gmp='github && git commit --amend --no-edit && git push -f'
 # Show a list of patched changes in the file, e.g. gp foo.txt
-alias gp='git log -p'
+# alias gp='git log -p'
 # -R to turn removed lines into added lines, so whitespace can be be highlighted.
 # Makes add and deleted lines unreliable and confusing
 alias gd="git diff --diff-filter=M --ws-error-highlight=all ':!*.min.js' ':!*.min.css'"

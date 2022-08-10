@@ -4,7 +4,7 @@ general {
     interval = 1
     color_good = "#40b040"
     color_degraded = "#b0b000"
-    color_bad = "#b00000"
+    color_bad = "#f04040"
     # color_separator = "#0000f0"  # Has no affect, set in i3 config
     # Enable html sytles
     markup = "pango"
@@ -108,5 +108,5 @@ read_file uptime {
     path = "/proc/uptime"
 }
 cpu_usage {
-    format = "<span color='#d0d080'> CPU %usage </span>"
+    format = "<span color='#e0e040'> CPU %usage </span>"
 }
