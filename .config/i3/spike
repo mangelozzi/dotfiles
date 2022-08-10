@@ -1,0 +1,92 @@
+
+
+# Disabled resize mode, use hotkeys directly in normal mode with ALT+Mod
+# mode "resize" {
+#         # These bindings trigger as soon as you enter the resize mode
+#
+#         # Pressing left will shrink the window’s width.
+#         # Pressing right will grow the window’s width.
+#         # Pressing up will shrink the window’s height.
+#         # Pressing down will grow the window’s height.
+#         bindsym h resize shrink width 10 px or 10 ppt
+#         bindsym j resize grow height 10 px or 10 ppt
+#         bindsym k resize shrink height 10 px or 10 ppt
+#         bindsym l resize grow width 10 px or 10 ppt
+#
+#         # same bindings, but for the arrow keys
+#         bindsym Left resize shrink width 10 px or 10 ppt
+#         bindsym Down resize grow height 10 px or 10 ppt
+#         bindsym Up resize shrink height 10 px or 10 ppt
+#         bindsym Right resize grow width 10 px or 10 ppt
+#
+#         # back to normal: Enter or Escape or $mod+r
+#         bindsym Return mode "default"
+#         bindsym Escape mode "default"
+#         # bindsym $mod+r mode "default"
+# }
+# bindsym $mod+r mode "resize"
+
+
+
+# OCCASIONAL APPS
+# At startup, if run app-on-ws-init when opened, seems to hang on WS1
+# FLEXIBLE
+# exec_always --no-startup-id ~/.config/i3/scripts/app-on-ws-init.py --workspace $ws8 --command "8"
+# exec_always --no-startup-id ~/.config/i3/scripts/app-on-ws-init.py --workspace $ws9 --command "9"
+# exec_always --no-startup-id ~/.config/i3/scripts/app-on-ws-init.py --workspace $ws10 --command "10"
+# TERMINALS
+# Specify working dit like this (no ~ expansion)
+# exec_always --no-startup-id ~/.config/i3/scripts/app-on-ws-init.py --workspace $wsF --command 'gnome-terminal --working-directory=/home/michael/linkcube'
+
+# `xev` and press codes
+# or `xmodmap -pk`
+#   9        0xff1b (Escape)     0x0000 (NoSymbol)    0xff1b (Escape)
+#   66       0xffe5 (Caps_Lock)  0x0000 (NoSymbol)    0xffe5 (Caps_Lock)
+#   133      0xffeb (Super_L)    0x0000 (NoSymbol)    0xffeb (Super_L)
+#   134      0xffec (Super_R)    0x0000 (NoSymbol)    0xffec (Super_R)
+# Map Caps Lock -> Super_L
+# man xmodmap
+
+# WARNING !!! Have to restart i3 twice if changing below
+# exec_always --no-startup-id setxkbmap -layout us -option " " -option "caps:swapescape"
+# exec_always --no-startup-id xmodmap -e "add Mod4 = Escape"
+# exec_always --no-startup-id xmodmap -e "add Mod4 = Space"
+# exec_always --no-startup-id setxkbmap -layout us
+# 66 = Caps_Lock
+# exec_always --no-startup-id xmodmap -e 'clear lock'
+# exec_always --no-startup-id xmodmap -e 'clear Mod4'
+# exec_always --no-startup-id xmodmap -e 'clear Super'
+# exec_always --no-startup-id xmodmap -e 'keycode 66 = NoSymbol NoSymbol NoSymbol NoSymbol NoSymbol NoSymbol'
+# # exec_always --no-startup-id xmodmap -e 'keycode 66 = NoSymbol NoSymbol NoSymbol'
+# exec_always --no-startup-id xmodmap -e "keycode 66 = Super_L Super_L Super_L Super_L Super_L Super_L"
+
+# exec_always --no-startup-id setxkbmap -option " " -option caps:hyper
+# # 9 = Escape
+# exec_always --no-startup-id xmodmap -e "keycode 9 = Caps_Lock Caps_Lock Caps_Lock"
+# exec_always --no-startup-id xmodmap -e "add Caps_Lock = lock"
+# # # 133 = Left Super -> Map to escape, but it still has Mod4 super power
+# exec_always --no-startup-id xmodmap -e "keycode 133 = Escape Escape Escape Escape Escape Escape"
+# exec_always --no-startup-id xmodmap -e "remove keycode 133 = super"
+
+# Disable num lock
+# exec_always --no-startup-id xmodmap -e "keycode 77 = Escape"
+# Disable scroll lock
+# exec_always --no-startup-id xmodmap -e "keycode 78 = Escape"
+
+# https://wiki.archlinux.org/title/X_keyboard_extension
+# /usr/share/X11/xorg.conf.d/usr/share/X11/xorg.conf.d
+# Section "InputClass"
+#     Identifier "keyboard defaults"
+#     MatchIsKeyboard "on"
+#
+#     Option "XKbOptions" "caps:hyper"
+# EndSection
+
+# _____________________________________________________________________________
+# Was going to bing input to switch to workspace
+# -----
+# Open workspace number
+# rename workspaces
+# bindsym $mod+space exec i3-input -F 'mark %s' -l 1 -P 'Mark: ' -f '*-*-*-*-*-normal-*-20-*-*-*-*-*-*-*'
+# i3-msg -t get_workspaces
+# bindsym $mod+space exec i3-input -F "workspace %s" -l 1 -P "GOTO Workspace: " -f '*-*-*-*-*-normal-*-20-*-*-*-*-*-*-*'

@@ -111,7 +111,6 @@ bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOU
 # start a terminal
 bindsym $mod+Return exec i3-sensible-terminal
 
-
 # _____________________________________________________________________________
 # DMENU
 # -----
@@ -170,34 +169,6 @@ bindsym $mod+Mod1+l resize grow width 10 px or 5 ppt
 # bindsym $mod+Control+l
 
 
-# Disabled resize mode, use hotkeys directly in normal mode with ALT+Mod
-# mode "resize" {
-#         # These bindings trigger as soon as you enter the resize mode
-#
-#         # Pressing left will shrink the window’s width.
-#         # Pressing right will grow the window’s width.
-#         # Pressing up will shrink the window’s height.
-#         # Pressing down will grow the window’s height.
-#         bindsym h resize shrink width 10 px or 10 ppt
-#         bindsym j resize grow height 10 px or 10 ppt
-#         bindsym k resize shrink height 10 px or 10 ppt
-#         bindsym l resize grow width 10 px or 10 ppt
-#
-#         # same bindings, but for the arrow keys
-#         bindsym Left resize shrink width 10 px or 10 ppt
-#         bindsym Down resize grow height 10 px or 10 ppt
-#         bindsym Up resize shrink height 10 px or 10 ppt
-#         bindsym Right resize grow width 10 px or 10 ppt
-#
-#         # back to normal: Enter or Escape or $mod+r
-#         bindsym Return mode "default"
-#         bindsym Escape mode "default"
-#         # bindsym $mod+r mode "default"
-# }
-# bindsym $mod+r mode "resize"
-
-
-
 # _____________________________________________________________________________
 # WINDOWS
 # -------
@@ -229,7 +200,6 @@ mode "$default-hotkeys" {
 
     # SPLITS
     # ------
-
     # split in horizontal orientation (veticial dividers)
     bindsym h split h, mode "default"
 
@@ -260,7 +230,6 @@ mode "$default-hotkeys" {
     # bindsym e layout toggle split
     bindsym d layout toggle split, mode "default"
 
-
     # PARENT / CHILD FOCUS
     # --------------------
 
@@ -289,19 +258,30 @@ set $ws1 "1_Init"
 # @ = like G
 set $ws2 "2_Gimp"
 assign [class="Gimp"] $ws2
+exec_always --no-startup-id ~/.config/i3/scripts/app-on-ws-init.py --workspace $ws2 --command gimp
 # 3 = sideways W
 set $ws3 "3_Writer"
 assign [class="libreoffice-writer"] $ws2
+exec_always --no-startup-id ~/.config/i3/scripts/app-on-ws-init.py --workspace $ws3 --command 'libreoffice --norestore --writer'
+
 # $ = spreadsheets often used for $$$
 set $ws4 "4_Calc"
 assign [class="libreoffice-calc"] $ws2
+exec_always --no-startup-id ~/.config/i3/scripts/app-on-ws-init.py --workspace $ws4 --command 'libreoffice --norestore --calc'
+
 # 5 = High Five awesome KiCAD
 set $ws7 "5_KiCAD"
+exec_always --no-startup-id ~/.config/i3/scripts/app-on-ws-init.py --workspace $ws5 --command kicad
+
 # 6 = FreeCAD has come with pain and suffering
 set $ws6 "6_FreeCAD"
 assign [class="FreeCAD"] $ws6
+exec_always --no-startup-id ~/.config/i3/scripts/app-on-ws-init.py --workspace $ws6 --command ~/appimages/FreeCAD-0.20.0-Linux-x86_64_b15d808987f3b6dedc7dff3907826696.AppImage
+
 # 7 like I for Init
 set $ws7 "7_Inkscape"
+exec_always --no-startup-id ~/.config/i3/scripts/app-on-ws-init.py --workspace $ws7 --command inkscape
+
 # 8 to 10 are flexible pads
 set $ws8 "8"
 set $ws9 "9"
@@ -310,47 +290,60 @@ set $ws10 "10_Misc"
 # Accessible via the desktop dmenu (not dmenu)
 assign [title="Cryptomator"] $ws10
 
-# --- Q,W,E,R,T, and S are scratchpads
+# --- Q,W,E,R,T,G are scratchpads (T & G are terminal scratchpads)
 
-# --- F,D,A are terminals (S is scratchpad (S)erver terminal)
+# --- F,D,S,A are terminals
 
 # Terminal F, first/primary primary dev
 set $wsF "11-F"
 bindsym $mod+f workspace number $wsF
 bindsym $mod+Shift+f move container to workspace number $wsF
+exec_always --no-startup-id ~/.config/i3/scripts/app-on-ws-init.py --workspace $wsF --command i3-sensible-terminal
 
-# # Terminal D, secondary
+# Terminal D, delta
 set $wsD "12-D"
 bindsym $mod+d workspace number $wsD
 bindsym $mod+Shift+d move container to workspace number $wsD
+exec_always --no-startup-id ~/.config/i3/scripts/app-on-ws-init.py --workspace $wsD --command i3-sensible-terminal
+
+# Terminal S, secondary
+set $wsD "12-S"
+bindsym $mod+s workspace number $wsD
+bindsym $mod+Shift+s move container to workspace number $wsD
+exec_always --no-startup-id ~/.config/i3/scripts/app-on-ws-init.py --workspace $wsS --command i3-sensible-terminal
 
 # Terminal A, Another
 set $wsA "13-A"
 bindsym $mod+a workspace number $wsG
 bindsym $mod+Shift+a move container to workspace number $wsA
+exec_always --no-startup-id ~/.config/i3/scripts/app-on-ws-init.py --workspace $wsA --command i3-sensible-terminal
 
 # --- V,C,X,Z,B -> are Browsers
 set $wsV "21-V_home"
 bindsym $mod+v workspace number $wsV
 bindsym $mod+Shift+v move container to workspace number $wsV
+exec_always --no-startup-id ~/.config/i3/scripts/app-on-ws-init.py --workspace $wsV --command 'google-chrome --password-store=gnome --profile-directory="Default"'
 
 set $wsC "22-C_work"
 bindsym $mod+c workspace number $wsC
 bindsym $mod+Shift+c move container to workspace number $wsC
+exec_always --no-startup-id ~/.config/i3/scripts/app-on-ws-init.py --workspace $wsC --command 'google-chrome --password-store=gnome --profile-directory="Profile 1" https://mail.google.com/mail/u/0/#inbox'
 
 set $wsX "23-X_mom"
 bindsym $mod+x workspace number $wsX
 bindsym $mod+Shift+x move container to workspace number $wsX
+exec_always --no-startup-id ~/.config/i3/scripts/app-on-ws-init.py --workspace $wsX --command "google-chrome --password-store=gnome --profile-directory='Profile 4' 'https://mail.google.com/mail/u/0/#inbox' 'https://onlinebanking.standardbank.co.za/#/login'"
 
 set $gwsZ "24-Z_mighty"
 bindsym $mod+z workspace number $wsZ
 bindsym $mod+Shift+z move container to workspace number $wsZ
+exec_always --no-startup-id ~/.config/i3/scripts/app-on-ws-init.py --workspace $wsZ --command 'google-chrome --password-store=gnome --profile-directory="Profile 5" https://music.youtube.com/playlist?list=LM'
 
-# Browser, dev/cookies testing etc
+# Browser, guest/dev/cookies testing etc
 set $wsB "25-B_guest"
 bindsym $mod+b workspace number $wsB
 bindsym $mod+Shift+b move container to workspace number $wsB
-
+exec_always --no-startup-id ~/.config/i3/scripts/app-on-ws-init.py --workspace $wsB --command 'google-chrome --guest'
 
 # switch to workspace
 # Make F the first workspace
@@ -378,6 +371,32 @@ bindsym $mod+Shift+8 move container to workspace number $ws8
 bindsym $mod+Shift+9 move container to workspace number $ws9
 bindsym $mod+Shift+0 move container to workspace number $ws10
 
+
+# _____________________________________________________________________________
+# SCRATCHPADS
+# -----------
+
+# exec_always gedit
+# for_window [class="Gedit"] , move scratchpad
+# bindsym $mod+t [class="Gedit"] scratchpad show
+
+for_window [window_role="scratchpad-file-manager"] , move scratchpad
+for_window [window_role="scratchpad-terminal-temp"] , move scratchpad
+for_window [window_role="scratchpad-terminal-server"] , move scratchpad
+for_window [class="SpeedCrunch"] , move scratchpad
+for_window [class="Gedit"] , move scratchpad
+for_window [class="Pinta"] , move scratchpad
+bindsym $mod+q exec i3-msg [class="SpeedCrunch"] scratchpad show || (speedcrunch && i3-msg [class="SpeedCrunch"] scratchpad show)
+bindsym $mod+w exec i3-msg [class="Pinta"] scratchpad show || (pinta && i3-msg [window_role="Pinta"] scratchpad show)
+bindsym $mod+e exec i3-msg [window_role="scratchpad-file-manager"] scratchpad show || (gnome-terminal --role=scratchpad-file-manager -- ranger && i3-msg [window_role="scratchpad-file-manager"] scratchpad show)
+bindsym $mod+r exec i3-msg [class="Gedit"] scratchpad show || (gedit && i3-msg [window_role="Gedit"] scratchpad show)
+bindsym $mod+t exec i3-msg [window_role="scratchpad-terminal-temp"] scratchpad show || (gnome-terminal --role=scratchpad-terminal-temp && i3-msg [window_role="scratchpad-terminal-temp"] scratchpad show)
+bindsym $mod+g exec i3-msg [window_role="scratchpad-terminal-server"] scratchpad show || (gnome-terminal --role=scratchpad-terminal-server && i3-msg [window_role="scratchpad-terminal-server"] scratchpad show)
+
+
+# _____________________________________________________________________________
+# COLORS & BAR
+# ------------
 
 # DEFAULTS
 #   class                 border  backgr. text    indicator child_border
@@ -424,6 +443,7 @@ bar {
 # Hides the borders if one app
 hide_edge_borders smart
 
+
 # _____________________________________________________________________________
 # WALLPAPER
 # -------------
@@ -431,6 +451,7 @@ hide_edge_borders smart
 # sudo apt install -y feh
 # Refer to 'man feh' for other options
 # exec_always feh --bg-center /home/michael/Pictures/wallpaper.jpg
+
 
 # _____________________________________________________________________________
 # ACCESS & POWER CONTROL
@@ -470,6 +491,7 @@ bindsym Shift+Print exec --no-startup-id maim "/home/$USER/Pictures/screenshot_$
 # Disable screen standby/suspend, set turn monitor off after 1hr
 exec xset dpms 0 0 6000
 
+
 # _____________________________________________________________________________
 # SCREENS
 # -------
@@ -480,9 +502,9 @@ exec xset dpms 0 0 6000
 # 4. Use `saveas` from arandr to a temp file, copy the command and paste it here:
 
 # Screen definitions
-set $screens-projector "xrandr --output eDP-1 --off --output VGA-1 --off --output HDMI-1 --off --output DP-1 --off --output HDMI-2 --mode 1920x1200 --pos 0x0 --rotate normal --output DP-2 --off --output HDMI-3 --off"
-set $screens-projector-laptop "xrandr --output eDP-1 --mode 1920x1080 --pos 1920x0 --rotate normal --output VGA-1 --off --output HDMI-1 --off --output DP-1 --off --output HDMI-2 --primary --mode 1920x1200 --pos 0x0 --rotate normal --output DP-2 --off --output HDMI-3 --off"
-set $screens-laptop "xrandr --output eDP-1 --primary --mode 1920x1080 --pos 0x0 --rotate normal --output VGA-1 --off --output HDMI-1 --off --output DP-1 --off --output HDMI-2 --off --output DP-2 --off --output HDMI-3 --off"
+set $screens-projector        xrandr --output eDP-1 --off --output VGA-1 --off --output HDMI-1 --off --output DP-1 --off --output HDMI-2 --mode 1920x1200 --pos 0x0 --rotate normal --output DP-2 --off --output HDMI-3 --off
+set $screens-projector-laptop xrandr --output eDP-1 --mode 1920x1080 --pos 1920x0 --rotate normal --output VGA-1 --off --output HDMI-1 --off --output DP-1 --off --output HDMI-2 --primary --mode 1920x1200 --pos 0x0 --rotate normal --output DP-2 --off --output HDMI-3 --off
+set $screens-laptop           xrandr --output eDP-1 --primary --mode 1920x1080 --pos 0x0 --rotate normal --output VGA-1 --off --output HDMI-1 --off --output DP-1 --off --output HDMI-2 --off --output DP-2 --off --output HDMI-3 --off
 
 # Screen setup hotkeys
 bindsym $mod+F1 exec --no-startup-id $screens-laptop
@@ -490,7 +512,8 @@ bindsym $mod+F2 exec --no-startup-id $screens-projector
 bindsym $mod+F3 exec --no-startup-id $screens-projector-laptop
 
 # Default screen
-exec_always --no-startup-id $screens-projector
+# exec_always --no-startup-id $screens-projector
+
 
 # _____________________________________________________________________________
 # MEDIA KEYS
@@ -511,6 +534,7 @@ bindsym XF86AudioPause exec playerctl pause
 bindsym XF86AudioNext exec playerctl next
 bindsym XF86AudioPrev exec playerctl previous
 
+
 # _____________________________________________________________________________
 # VOLUME CONTROL
 # --------------
@@ -519,10 +543,12 @@ bindsym $mod+Left exec --no-startup-id $pulse-audio-down
 bindsym $mod+Down exec --no-startup-id $pulse-audio-mute-on
 bindsym $mod+Up exec --no-startup-id $pulse-audio-mute-off
 
+
 # _____________________________________________________________________________
 # NUM LOCK
 # --------
 exec_always --no-startup-id numlockx on
+
 
 # _____________________________________________________________________________
 # MOVE WS TO MONITOR
@@ -531,126 +557,6 @@ exec_always --no-startup-id numlockx on
 bindsym $mod+greater move workspace to output right
 bindsym $mod+less move workspace to output left
 
-# _____________________________________________________________________________
-# APP ON WS CREATION
-# ------------------
-
-# OCCASIONAL APPS
-# At startup, if run app-on-ws-init when opened, seems to hang on WS1
-exec_always --no-startup-id ~/.config/i3/scripts/app-on-ws-init.py --workspace $ws1 --command ls
-exec_always --no-startup-id ~/.config/i3/scripts/app-on-ws-init.py --workspace $ws2 --command gimp
-exec_always --no-startup-id ~/.config/i3/scripts/app-on-ws-init.py --workspace $ws3 --command 'libreoffice --norestore --writer'
-exec_always --no-startup-id ~/.config/i3/scripts/app-on-ws-init.py --workspace $ws4 --command 'libreoffice --norestore --calc'
-exec_always --no-startup-id ~/.config/i3/scripts/app-on-ws-init.py --workspace $ws5 --command kicad
-
-# FreeCAD takes long time to start up, if change ws, it will land in wrong WS
-exec_always --no-startup-id ~/.config/i3/scripts/app-on-ws-init.py --workspace $ws6 --command ~/appimages/FreeCAD-0.20.0-Linux-x86_64_b15d808987f3b6dedc7dff3907826696.AppImage
-
-# FLEXIBLE
-exec_always --no-startup-id ~/.config/i3/scripts/app-on-ws-init.py --workspace $ws7 --command inkscape
-# exec_always --no-startup-id ~/.config/i3/scripts/app-on-ws-init.py --workspace $ws8 --command "8"
-# exec_always --no-startup-id ~/.config/i3/scripts/app-on-ws-init.py --workspace $ws9 --command "9"
-# exec_always --no-startup-id ~/.config/i3/scripts/app-on-ws-init.py --workspace $ws10 --command "10"
-# UTILS
-exec_always --no-startup-id ~/.config/i3/scripts/app-on-ws-init.py --workspace $wsQ --command speedcrunch
-exec_always --no-startup-id ~/.config/i3/scripts/app-on-ws-init.py --workspace $wsW --command pinta
-exec_always --no-startup-id ~/.config/i3/scripts/app-on-ws-init.py --workspace $wsE --command nautilus
-# exec_always --no-startup-id ~/.config/i3/scripts/app-on-ws-init.py --workspace $wsR --command ~/appimages/cryptomator-1.6.5-x86_64.AppImage
-exec_always --no-startup-id ~/.config/i3/scripts/app-on-ws-init.py --workspace $wsT --command gedit
-# TERMINALS / SCRATCH PAD
-# Specify working dit like this (no ~ expansion)
-# exec_always --no-startup-id ~/.config/i3/scripts/app-on-ws-init.py --workspace $wsF --command 'gnome-terminal --working-directory=/home/michael/linkcube'
-exec_always --no-startup-id ~/.config/i3/scripts/app-on-ws-init.py --workspace $wsA --command i3-sensible-terminal
-exec_always --no-startup-id ~/.config/i3/scripts/app-on-ws-init.py --workspace $wsS --command i3-sensible-terminal
-exec_always --no-startup-id ~/.config/i3/scripts/app-on-ws-init.py --workspace $wsD --command i3-sensible-terminal
-exec_always --no-startup-id ~/.config/i3/scripts/app-on-ws-init.py --workspace $wsF --command i3-sensible-terminal
-exec_always --no-startup-id ~/.config/i3/scripts/app-on-ws-init.py --workspace $wsG --command i3-sensible-terminal
-# BROWSERS
-# Mighty
-exec_always --no-startup-id ~/.config/i3/scripts/app-on-ws-init.py --workspace $wsZ --command 'google-chrome --password-store=gnome --profile-directory="Profile 5" https://music.youtube.com/playlist?list=LM'
-# Mom
-exec_always --no-startup-id ~/.config/i3/scripts/app-on-ws-init.py --workspace $wsX --command "google-chrome --password-store=gnome --profile-directory='Profile 4' 'https://mail.google.com/mail/u/0/#inbox' 'https://onlinebanking.standardbank.co.za/#/login'"
-# Work
-exec_always --no-startup-id ~/.config/i3/scripts/app-on-ws-init.py --workspace $wsC --command 'google-chrome --password-store=gnome --profile-directory="Profile 1" https://mail.google.com/mail/u/0/#inbox'
-# Default (home) Browser
-exec_always --no-startup-id ~/.config/i3/scripts/app-on-ws-init.py --workspace $wsV --command 'google-chrome --password-store=gnome --profile-directory="Default"'
-# Guest
-exec_always --no-startup-id ~/.config/i3/scripts/app-on-ws-init.py --workspace $wsB --command 'google-chrome --guest'
-
-# `xev` and press codes
-# or `xmodmap -pk`
-#   9        0xff1b (Escape)     0x0000 (NoSymbol)    0xff1b (Escape)
-#   66       0xffe5 (Caps_Lock)  0x0000 (NoSymbol)    0xffe5 (Caps_Lock)
-#   133      0xffeb (Super_L)    0x0000 (NoSymbol)    0xffeb (Super_L)
-#   134      0xffec (Super_R)    0x0000 (NoSymbol)    0xffec (Super_R)
-# Map Caps Lock -> Super_L
-# man xmodmap
-
-# WARNING !!! Have to restart i3 twice if changing below
-# exec_always --no-startup-id setxkbmap -layout us -option " " -option "caps:swapescape"
-# exec_always --no-startup-id xmodmap -e "add Mod4 = Escape"
-# exec_always --no-startup-id xmodmap -e "add Mod4 = Space"
-# exec_always --no-startup-id setxkbmap -layout us
-# 66 = Caps_Lock
-# exec_always --no-startup-id xmodmap -e 'clear lock'
-# exec_always --no-startup-id xmodmap -e 'clear Mod4'
-# exec_always --no-startup-id xmodmap -e 'clear Super'
-# exec_always --no-startup-id xmodmap -e 'keycode 66 = NoSymbol NoSymbol NoSymbol NoSymbol NoSymbol NoSymbol'
-# # exec_always --no-startup-id xmodmap -e 'keycode 66 = NoSymbol NoSymbol NoSymbol'
-# exec_always --no-startup-id xmodmap -e "keycode 66 = Super_L Super_L Super_L Super_L Super_L Super_L"
-
-exec_always --no-startup-id setxkbmap -option " " -option caps:hyper
-# 9 = Escape
-exec_always --no-startup-id xmodmap -e "keycode 9 = Caps_Lock Caps_Lock Caps_Lock"
-exec_always --no-startup-id xmodmap -e "add Caps_Lock = lock"
-# # 133 = Left Super -> Map to escape, but it still has Mod4 super power
-exec_always --no-startup-id xmodmap -e "keycode 133 = Escape Escape Escape Escape Escape Escape"
-exec_always --no-startup-id xmodmap -e "remove keycode 133 = super"
-
-# Disable num lock
-# exec_always --no-startup-id xmodmap -e "keycode 77 = Escape"
-# Disable scroll lock
-# exec_always --no-startup-id xmodmap -e "keycode 78 = Escape"
-
-# Set the initial workspace
-exec --no-startup-id i3-msg workspace $ws1
-
-# _____________________________________________________________________________
-# SCRATCH PAD
-# -----------
-# Move calc and gedit to scratch pad
-# bindsym $mod+Shift+minus move scratchpad
-# bindsym $mod+minus [class="Gedit"] scratchpad show
-# exec_always gedit
-# for_window [class="Gedit"] , move scratchpad
-# bindsym $mod+t [class="Gedit"] scratchpad show
-
-# does not work
-# bindsym $mod+F3 nvim ~/.config/
-# bindsym $mod+b [role="scratchpad-pulse"] scratchpad show; move position center
-# bindsym $mod+n [role="scratchpad-ttrm"] scratchpad show; move position center
-# bindsym $mod+v [role="scratchpad-mus"] scratchpad show; move position center
-# exec_always --no-startup-id pgrep -f '^alacritty --class pulse,pulse' || alacritty --class pulse,pulse -e pulsemixer
-# exec_always --no-startup-id pgrep -f '^alacritty --class ttrm,ttrm' || alacritty --class ttrm,ttrm
-# exec_always --no-startup-id pgrep -f '^alacritty --class mus,mus' || alacritty --class mus,mus -e ncmpcpp
-# exec_always --no-startup-id pgrep -f '^alacritty --class fm,fm' || alacritty --class fm,fm -e ranger
-
-# bindsym $mod+e [window_role="scratchpad-file-manager"] scratchpad show; move position center
-# exec_always --no-startup-id gnome-terminal --role=scratchpad-file-manager -- ranger
-# for_window [window_role="scratchpad-file-manager"] , move scratchpad
-
-for_window [window_role="scratchpad-file-manager"] , move scratchpad
-for_window [window_role="scratchpad-terminal"] , move scratchpad
-for_window [window_role="scratchpad-server"] , move scratchpad
-for_window [class="SpeedCrunch"] , move scratchpad
-for_window [class="Gedit"] , move scratchpad
-for_window [class="Pinta"] , move scratchpad
-bindsym $mod+e exec i3-msg [window_role="scratchpad-file-manager"] scratchpad show || (gnome-terminal --role=scratchpad-file-manager -- ranger && i3-msg [window_role="scratchpad-file-manager"] scratchpad show)
-bindsym $mod+t exec i3-msg [window_role="scratchpad-terminal"] scratchpad show || (gnome-terminal --role=scratchpad-terminal && i3-msg [window_role="scratchpad-terminal"] scratchpad show)
-bindsym $mod+s exec i3-msg [window_role="scratchpad-server"] scratchpad show || (gnome-terminal --role=scratchpad-terminal && i3-msg [window_role="scratchpad-terminal"] scratchpad show)
-bindsym $mod+q exec i3-msg [class="SpeedCrunch"] scratchpad show || (speedcrunch && i3-msg [class="SpeedCrunch"] scratchpad show)
-bindsym $mod+r exec i3-msg [class="Gedit"] scratchpad show || (gedit && i3-msg [window_role="Gedit"] scratchpad show)
-bindsym $mod+w exec i3-msg [class="Pinta"] scratchpad show || (pinta && i3-msg [window_role="Pinta"] scratchpad show)
 
 # _____________________________________________________________________________
 # MARKS
@@ -663,11 +569,10 @@ bindsym $mod+m exec i3-input -F 'mark %s' -l 1 -P 'Mark: ' -f '*-*-*-*-*-normal-
 # read 1 character and go to the window with the character
 bindsym $mod+apostrophe exec i3-input -F '[con_mark="%s"] focus' -l 1 -P 'Goto: ' -f '*-*-*-*-*-normal-*-20-*-*-*-*-*-*-*'
 
+
 # _____________________________________________________________________________
-# Was going to bing input to switch to workspace
-# -----
-# Open workspace number
-# rename workspaces
-# bindsym $mod+space exec i3-input -F 'mark %s' -l 1 -P 'Mark: ' -f '*-*-*-*-*-normal-*-20-*-*-*-*-*-*-*'
-# i3-msg -t get_workspaces
-# bindsym $mod+space exec i3-input -F "workspace %s" -l 1 -P "GOTO Workspace: " -f '*-*-*-*-*-normal-*-20-*-*-*-*-*-*-*'
+# INIT
+# ------------------
+
+# Set the initial workspace
+exec --no-startup-id i3-msg workspace $ws1

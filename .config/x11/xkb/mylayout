@@ -1,0 +1,31 @@
+// SYMLINK Install:
+// sudo ln -s /home/$USER/.config/x11/xkb/mylayout /usr/share/X11/xkb/symbols/mylayout
+
+// Testing with:
+// setxkbmap -model pc105 -layout mylayout -option "terminate:ctrl_alt_bksp"
+
+// To convert numeric keycodes from xev to xkb codes, e.g. `<AE12>`,
+// Refer to /usr/share/X11/xkb/keycodes/xfree86 and evdev (for <LWIN>)
+
+// Escape = 9 = <ESC>
+// Caps_Lock = 66 = <CAPS>
+// Left Super = 133 = <LWIN>
+// Menu = 135 = <COMP> = <MENU> (alias)
+
+// Helpful docs:
+// Old through resource: https://www.charvolant.org/doug/xkb/html/node5.html#SECTION00053000000000000000
+// Concise useful SO answer: https://askubuntu.com/a/846184/433891
+// Longer SO thread: https://askubuntu.com/questions/482678/how-to-add-a-new-keyboard-layout-custom-keyboard-layout-definition
+
+default  partial alphanumeric_keys modifier_keys
+xkb_symbols "basic" {
+  name[Group1] = "My Layout";
+  include "us"
+  key <ESC>  { [ Caps_Lock ] };
+  key <CAPS> { [ Super_L   ] };
+  key <MENU> { [ Super_L   ] };
+  key <LWIN> { [ Escape    ] };
+  modifier_map Lock { Caps_Lock };
+  modifier_map Mod4 { Super_L   };
+  include "level3(ralt_switch)"
+};
