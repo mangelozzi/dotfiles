@@ -3,9 +3,6 @@
 
 source ~/.config/bash/alias.sh
 
-# Set vi move instead of the default (set -o emacs)
-set -o vi
-
 # Length sudo timeout to one week
 export TMOUT=604800
 
@@ -180,4 +177,4 @@ run() {
 # https://askubuntu.com/questions/34449/how-to-see-the-video-card-temperature-nvidia-ati-intel
 # report sensors temp
 # /etc/init.d/kmod start; sensors
-sensors
+# sensors

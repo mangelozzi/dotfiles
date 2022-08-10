@@ -36,6 +36,7 @@ alias cdw='cd /mnt/c/work/'
 alias cdc='cd ~/.local/share/Cryptomator/mnt'
 
 # Neovim
+alias vim=nvim
 alias cdn='cd ~/.config/nvim'
 # Neovim Tmp/ or Plugin dir
 alias cdt='cd ~/.config/nvim/tmp'

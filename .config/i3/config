@@ -57,7 +57,7 @@
 #
 
 # If press the same switch to workspace hotkey again, return to where you came from instead
-workspace_auto_back_and_forth yes
+# workspace_auto_back_and_forth yes
 show_marks yes
 
 set $mod Mod4

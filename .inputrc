@@ -1,0 +1,26 @@
+# FILE: ~/.inputrc
+#
+# In recent versions of gnome-terminal, you can use the following escape sequences to change the cursor:
+#
+#################### VIM ####################
+# FOR MORE INFORMATION CHECK:
+# https://wiki.archlinux.org/index.php/Readline
+
+# TURN ON VIM (E.G. FOR READLINE)
+set editing-mode vi
+
+# SHOW THE VIM MODE IN THE PROMPT (COMMAND OR INSERT)
+set show-mode-in-prompt on
+
+# SET THE MODE STRING AND CURSOR TO INDICATE THE VIM MODE
+#   FOR THE NUMBER AFTER `\e[`:
+#     0: blinking block
+#     1: blinking block (default)
+#     2: steady block
+#     3: blinking underline
+#     4: steady underline
+#     5: blinking bar (xterm)
+#     6: steady bar (xterm)
+
+set vi-ins-mode-string "\033[0;93mins\e[m \1\e[6 q\e]12;yellow\a\2"
+set vi-cmd-mode-string "\033[0;32mnrm\e[m \1\e[2 q\e]12;green\a\2"
