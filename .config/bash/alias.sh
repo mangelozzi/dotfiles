@@ -51,8 +51,12 @@ github() {
 }
 
 # Git Dot files
-alias dot="git --git-dir=$HOME/.dotfiles --work-tree=$HOME"
-alias dotp="github && git --git-dir=$HOME/.dotfiles --work-tree=$HOME push"
+dot="git --git-dir=$HOME/.dotfiles --work-tree=$HOME"
+alias dot="$dot"
+# Purposes don't have many dot aliases to keep default git skills sharp
+alias dotp="github && $dot push"
+alias dota="dot commit --amend --no-edit"
+alias dotap="dot commit --amend --no-edit; github && dot push -f"
 
 # Git
 alias gs='git status'

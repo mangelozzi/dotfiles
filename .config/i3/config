@@ -307,14 +307,14 @@ bindsym $mod+Shift+d move container to workspace number $wsD
 exec_always --no-startup-id ~/.config/i3/scripts/app-on-ws-init.py --workspace $wsD --command i3-sensible-terminal
 
 # Terminal S, secondary
-set $wsD "12-S"
-bindsym $mod+s workspace number $wsD
-bindsym $mod+Shift+s move container to workspace number $wsD
+set $wsS "13-S"
+bindsym $mod+s workspace number $wsS
+bindsym $mod+Shift+s move container to workspace number $wsS
 exec_always --no-startup-id ~/.config/i3/scripts/app-on-ws-init.py --workspace $wsS --command i3-sensible-terminal
 
 # Terminal A, Another
-set $wsA "13-A"
-bindsym $mod+a workspace number $wsG
+set $wsA "14-A"
+bindsym $mod+a workspace number $wsA
 bindsym $mod+Shift+a move container to workspace number $wsA
 exec_always --no-startup-id ~/.config/i3/scripts/app-on-ws-init.py --workspace $wsA --command i3-sensible-terminal
 
@@ -386,11 +386,17 @@ for_window [window_role="scratchpad-terminal-server"] , move scratchpad
 for_window [class="SpeedCrunch"] , move scratchpad
 for_window [class="Gedit"] , move scratchpad
 for_window [class="Pinta"] , move scratchpad
+# Q for Quick
 bindsym $mod+q exec i3-msg [class="SpeedCrunch"] scratchpad show || (speedcrunch && i3-msg [class="SpeedCrunch"] scratchpad show)
-bindsym $mod+w exec i3-msg [class="Pinta"] scratchpad show || (pinta && i3-msg [window_role="Pinta"] scratchpad show)
+# W for Writer
+bindsym $mod+w exec i3-msg [class="Gedit"] scratchpad show || (gedit && i3-msg [window_role="Gedit"] scratchpad show)
+# E for Explorer
 bindsym $mod+e exec i3-msg [window_role="scratchpad-file-manager"] scratchpad show || (gnome-terminal --role=scratchpad-file-manager -- ranger && i3-msg [window_role="scratchpad-file-manager"] scratchpad show)
-bindsym $mod+r exec i3-msg [class="Gedit"] scratchpad show || (gedit && i3-msg [window_role="Gedit"] scratchpad show)
+# R for RGB (image editor)
+bindsym $mod+r exec i3-msg [class="Pinta"] scratchpad show || (pinta && i3-msg [window_role="Pinta"] scratchpad show)
+# T for Temp Terminal
 bindsym $mod+t exec i3-msg [window_role="scratchpad-terminal-temp"] scratchpad show || (gnome-terminal --role=scratchpad-terminal-temp && i3-msg [window_role="scratchpad-terminal-temp"] scratchpad show)
+# G for Go terminal (server usually)
 bindsym $mod+g exec i3-msg [window_role="scratchpad-terminal-server"] scratchpad show || (gnome-terminal --role=scratchpad-terminal-server && i3-msg [window_role="scratchpad-terminal-server"] scratchpad show)
 
 
@@ -455,24 +461,39 @@ hide_edge_borders smart
 
 # _____________________________________________________________________________
 # ACCESS & POWER CONTROL
-# -------------
+# ----------------------
+
+# Don't need this I think:
+# Add to /etc/sudoers.d/....
+# michael ALL=NOPASSWD:/usr/bin/systemctl reboot
+# michael ALL=NOPASSWD:/usr/bin/systemctl reboot *
+# michael ALL=NOPASSWD:/usr/bin/systemctl suspend
+# michael ALL=NOPASSWD:/usr/bin/systemctl suspend *
+# michael ALL=NOPASSWD:/usr/bin/systemctl hibernate
+# michael ALL=NOPASSWD:/usr/bin/systemctl hibernate *
+
+# Original
 # bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
-set $mode-system System (l) lock, (e) logout, (s) suspend, (h) hibernate, (r) reboot, (Shift+s) shutdown
+
+# from https://wiki.archlinux.org/title/I3#Shutdown.2C_reboot.2C_lock_screen
+set $locker i3lock --show-failed-attempts --ignore-empty-password --color=004000 && sleep 1
+set $mode-system SYSTEM (l)ock, (e)xit, (s)uspend, (h)ibernate, (r)eboot, shut(d)own
 mode "$mode-system" {
-    bindsym l exec i3lock --show-failed-attempts --ignore-empty-password --color=004000, mode "default"
-    bindsym e exec --no-startup-id i3-msg exit, mode "default"
-    # Lock then suspend, so when wake up from syspend its locked
+    # Loc then suspend, so when wake up from syspend its locked
     # bindsym s exec --no-startup-id systemctl suspend, mode "default"
-    bindsym s exec --no-startup-id i3lock --show-failed-attempts --ignore-empty-password --color=004000 && systemctl suspend, mode "default"
-    bindsym h exec --no-startup-id systemctl hibernate, mode "default"
+    # back to normal: Enter or Escape
+    bindsym l exec --no-startup-id $locker, mode "default"
+    bindsym e exec --no-startup-id i3-msg exit, mode "default"
+    bindsym s exec --no-startup-id $locker && systemctl suspend, mode "default"
+    bindsym h exec --no-startup-id $locker && systemctl hibernate, mode "default"
     bindsym r exec --no-startup-id systemctl reboot, mode "default"
-    bindsym Shift+s exec --no-startup-id systemctl poweroff, mode "default"
+    bindsym d exec --no-startup-id systemctl poweroff -i, mode "default"
     # back to normal: Enter or Escape
     bindsym Return mode "default"
     bindsym Escape mode "default"
 }
 bindsym $mod+Delete mode "$mode-system"
-
+bindsym $mod+Pause mode "$mode-system"
 
 # _____________________________________________________________________________
 # SCREENSHOT
