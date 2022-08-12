@@ -94,8 +94,8 @@ set $refresh_i3status killall -SIGUSR1 i3status
 # % maps to volume %, dB is logarithmic
 # set $pulse-audio-up pactl set-sink-volume @DEFAULT_SINK@ +5% && $refresh_i3status
 # set $pulse-audio-down pactl set-sink-volume @DEFAULT_SINK@ -5% && $refresh_i3status
-set $pulse-audio-up pactl set-sink-volume @DEFAULT_SINK@ +5dB && $refresh_i3status
-set $pulse-audio-down pactl set-sink-volume @DEFAULT_SINK@ -5dB && $refresh_i3status
+set $pulse-audio-up pactl set-sink-volume @DEFAULT_SINK@ +3dB && $refresh_i3status
+set $pulse-audio-down pactl set-sink-volume @DEFAULT_SINK@ -3dB && $refresh_i3status
 set $pulse-audio-mute-toggle pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status
 set $pulse-audio-mute-on pactl set-sink-mute @DEFAULT_SINK@ 1 && $refresh_i3status
 set $pulse-audio-mute-off pactl set-sink-mute @DEFAULT_SINK@ 0 && $refresh_i3status
@@ -334,7 +334,7 @@ bindsym $mod+x workspace number $wsX
 bindsym $mod+Shift+x move container to workspace number $wsX
 exec_always --no-startup-id ~/.config/i3/scripts/app-on-ws-init.py --workspace $wsX --command "google-chrome --password-store=gnome --profile-directory='Profile 4' 'https://mail.google.com/mail/u/0/#inbox' 'https://onlinebanking.standardbank.co.za/#/login'"
 
-set $gwsZ "24-Z_mighty"
+set $wsZ "24-Z_mighty"
 bindsym $mod+z workspace number $wsZ
 bindsym $mod+Shift+z move container to workspace number $wsZ
 exec_always --no-startup-id ~/.config/i3/scripts/app-on-ws-init.py --workspace $wsZ --command 'google-chrome --password-store=gnome --profile-directory="Profile 5" https://music.youtube.com/playlist?list=LM'
@@ -463,14 +463,15 @@ hide_edge_borders smart
 # ACCESS & POWER CONTROL
 # ----------------------
 
-# Don't need this I think:
-# Add to /etc/sudoers.d/....
-# michael ALL=NOPASSWD:/usr/bin/systemctl reboot
-# michael ALL=NOPASSWD:/usr/bin/systemctl reboot *
+# Add to /etc/sudoers.d/...
 # michael ALL=NOPASSWD:/usr/bin/systemctl suspend
 # michael ALL=NOPASSWD:/usr/bin/systemctl suspend *
 # michael ALL=NOPASSWD:/usr/bin/systemctl hibernate
 # michael ALL=NOPASSWD:/usr/bin/systemctl hibernate *
+# michael ALL=NOPASSWD:/usr/bin/systemctl reboot
+# michael ALL=NOPASSWD:/usr/bin/systemctl reboot *
+# michael ALL=NOPASSWD:/usr/bin/systemctl shutdown
+# michael ALL=NOPASSWD:/usr/bin/systemctl shutdown *
 
 # Original
 # bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
@@ -484,10 +485,10 @@ mode "$mode-system" {
     # back to normal: Enter or Escape
     bindsym l exec --no-startup-id $locker, mode "default"
     bindsym e exec --no-startup-id i3-msg exit, mode "default"
-    bindsym s exec --no-startup-id $locker && systemctl suspend, mode "default"
-    bindsym h exec --no-startup-id $locker && systemctl hibernate, mode "default"
-    bindsym r exec --no-startup-id systemctl reboot, mode "default"
-    bindsym d exec --no-startup-id systemctl poweroff -i, mode "default"
+    bindsym s exec --no-startup-id $locker && sudo systemctl suspend, mode "default"
+    bindsym h exec --no-startup-id $locker && sudo systemctl hibernate, mode "default"
+    bindsym r exec --no-startup-id sudo systemctl reboot, mode "default"
+    bindsym d exec --no-startup-id sudo systemctl poweroff -i, mode "default"
     # back to normal: Enter or Escape
     bindsym Return mode "default"
     bindsym Escape mode "default"
@@ -523,14 +524,16 @@ exec xset dpms 0 0 6000
 # 4. Use `saveas` from arandr to a temp file, copy the command and paste it here:
 
 # Screen definitions
+set $screens-laptop           xrandr --output eDP-1 --primary --mode 1920x1080 --pos 0x0 --rotate normal --output VGA-1 --off --output HDMI-1 --off --output DP-1 --off --output HDMI-2 --off --output DP-2 --off --output HDMI-3 --off
 set $screens-projector        xrandr --output eDP-1 --off --output VGA-1 --off --output HDMI-1 --off --output DP-1 --off --output HDMI-2 --mode 1920x1200 --pos 0x0 --rotate normal --output DP-2 --off --output HDMI-3 --off
 set $screens-projector-laptop xrandr --output eDP-1 --mode 1920x1080 --pos 1920x0 --rotate normal --output VGA-1 --off --output HDMI-1 --off --output DP-1 --off --output HDMI-2 --primary --mode 1920x1200 --pos 0x0 --rotate normal --output DP-2 --off --output HDMI-3 --off
-set $screens-laptop           xrandr --output eDP-1 --primary --mode 1920x1080 --pos 0x0 --rotate normal --output VGA-1 --off --output HDMI-1 --off --output DP-1 --off --output HDMI-2 --off --output DP-2 --off --output HDMI-3 --off
+set $screens-laptop-duplicated xrandr --output eDP-1 --mode 1920x1080 --pos 1920x0 --rotate normal --output VGA-1 --off --output HDMI-1 --off --output DP-1 --off --output HDMI-2 --same-as eDP-1
 
 # Screen setup hotkeys
 bindsym $mod+F1 exec --no-startup-id $screens-laptop
 bindsym $mod+F2 exec --no-startup-id $screens-projector
 bindsym $mod+F3 exec --no-startup-id $screens-projector-laptop
+bindsym $mod+F4 exec --no-startup-id $screens-laptop-duplicated
 
 # Default screen
 # exec_always --no-startup-id $screens-projector

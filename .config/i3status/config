@@ -27,8 +27,9 @@ order += "tztime local"
 # order += "tztime berlin"
 
 volume master {
-    format = " %volume "
-    format_muted = " MUTE (%volume)"
+    # format = " %volume "
+    format = "<span color='#b0ffff'> 🔈 %volume </span>"
+    format_muted = " 🔇(%volume)"
     device = "pulse"
 }
 

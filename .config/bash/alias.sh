@@ -50,6 +50,11 @@ github() {
     ssh-add -l | grep "KaFOpY9S84" || ssh-add ~/.ssh/github_dev
 }
 
+# GIT SET REPOS
+alias gitdot='export GIT_DIR=~/.dotfiles GIT_WORK_TREE=~'
+alias gitlc='export GIT_DIR=~/linkcube/.git GIT_WORK_TREE=~/linkcube'
+alias gitterm='export GIT_DIR=~/terminal/.git GIT_WORK_TREE=~/terminal'
+
 # Git Dot files
 dot="git --git-dir=$HOME/.dotfiles --work-tree=$HOME"
 alias dot="$dot"
