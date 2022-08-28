@@ -1,0 +1,14 @@
+#!/bin/sh
+
+# Add Cronjob to suspend every night, every night of the week except fri:
+# 1. `crontab -e` (not as sudo!)
+# 2. Enter in the following line, note, since using crontab -e for a certain user, don't need to specify the user:
+#   `50 21   * * sun,mon,tue,wed,thu,sat   ~/.config/i3/scripts/cron_suspend`
+
+# Trouble shooting:
+# Ubuntu: grep CRON /var/log/syslog
+# Log the output
+#   `50 21   * * sun,mon,tue,wed,thu,sat   ~/.config/i3/scripts/cron_suspend >> ~/.config/i3/scripts/cron.log  2>&1`
+
+export DISPLAY=:0
+i3lock --show-failed-attempts --ignore-empty-password --color=004000 && sleep 1 && sudo systemctl suspend

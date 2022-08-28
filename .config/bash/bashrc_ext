@@ -166,7 +166,7 @@ get() {
 }
 # Fuzzy find app and open with system
 open() {
-    xdg-open $(fd --type file --type symlink | fzf)
+    xdg-open "$(fd --type file --type symlink | fzf)"
 }
 # Fuzzy find executable and run it
 run() {

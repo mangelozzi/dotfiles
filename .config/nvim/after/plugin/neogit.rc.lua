@@ -2,6 +2,7 @@ local neogit = require('neogit')
 
 -- Map <leader>g to opening neogit
 vim.api.nvim_set_keymap('n', '<leader>i', ":lua require('neogit').open({ kind = 'tab' })<CR>", {noremap = true})
+vim.api.nvim_set_keymap('n', '<leader>I', ":lua require('neogit').open({ cwd='/home/michael/.config/' })<CR>", {noremap = true})
 
 -- Settings, refer to: https://github.com/TimUntersberger/neogit
 neogit.setup {

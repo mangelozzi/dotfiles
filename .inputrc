@@ -22,5 +22,21 @@ set show-mode-in-prompt on
 #     5: blinking bar (xterm)
 #     6: steady bar (xterm)
 
-set vi-ins-mode-string "\033[0;93mins\e[m \1\e[6 q\e]12;yellow\a\2"
-set vi-cmd-mode-string "\033[0;32mnrm\e[m \1\e[2 q\e]12;green\a\2"
+# With ins/nrm prefix
+# set vi-ins-mode-string "\033[0;93mins\e[m \1\e[6 q\e]12;yellow\a\2"
+# set vi-cmd-mode-string "\033[0;32mnrm\e[m \1\e[2 q\e]12;green\a\2"
+# no prefix (shows up in logs)
+set vi-ins-mode-string "\1\e[6 q\e]12;yellow\a\2"
+set vi-cmd-mode-string "\1\e[2 q\e]12;green\a\2"
+
+# To investigate:
+# $if mode=vi
+#     set keymap vi-command
+#     Control-l: clear-screen
+#
+#     set keymap vi-insert
+#     Control-l: clear-screen
+# $endif
+# set show-mode-in-prompt on
+# "\e[A": history-search-backward
+# "\e[B": history-search-forward
