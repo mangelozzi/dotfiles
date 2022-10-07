@@ -59,6 +59,9 @@ Plug 'numToStr/Comment.nvim'
 Plug 'tpope/vim-eunuch'
 Plug 'tpope/vim-repeat'
 Plug 'vim-scripts/ReplaceWithRegister'
+" xml attributes with x
+Plug 'kana/vim-textobj-user' | Plug 'whatyouhide/vim-textobj-xmlattr'
+Plug 'whatyouhide/vim-textobj-xmlattr'
 Plug 'christoomey/vim-titlecase'
 " Require it here before plug loads
 let g:titlecase_map_keys = 0

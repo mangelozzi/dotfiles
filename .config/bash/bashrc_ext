@@ -6,6 +6,10 @@ source ~/.config/bash/alias.sh
 # Length sudo timeout to one week
 export TMOUT=604800
 
+# Reset cursor to "normal" mode when switching to different applications
+# !!! Not verified if this works:
+PS0="\e[2 q\2"
+
 # Disable Flow control in terminal (Ctrl-S & Ctrl-Q)
 stty -ixon
 # Fix <ENTER> inserting `^M` instead of being enter

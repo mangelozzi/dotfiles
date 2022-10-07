@@ -110,16 +110,16 @@ function! myal#Format()
         " 2. Now black will edit the file and save it
         !isort --profile black %
         !black -S --line-length 100 %
-        if v:shell_error != 0
-            " If it failed to format, show the error message so can see the line/col number
-            " 'normal g<' does not make the message stay up
-            call feedkeys("g<")
-        endif
     elseif &filetype == "javascript"
         " 2. Prettier edit in place (--write)
         !prettier --write --print-width 100 --tab-width 4 "%:p"
     elseif &filetype == "json"
         execute '%!python -m json.tool'
+    endif
+    if v:shell_error != 0
+        " If it failed to format, show the error message so can see the line/col number
+        " 'normal g<' does not make the message stay up
+        call feedkeys("g<")
     endif
     " 3. Finally load the changes the autoformatter has made (and are saved)
     edit!
