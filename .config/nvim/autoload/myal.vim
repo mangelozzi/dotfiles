@@ -110,7 +110,7 @@ function! myal#Format()
         " 2. Now black will edit the file and save it
         !isort --profile black %
         !black -S --line-length 100 %
-    elseif &filetype == "javascript"
+    elseif &filetype == "javascript" || &filetype == "typescript"
         " 2. Prettier edit in place (--write)
         !prettier --write --print-width 100 --tab-width 4 "%:p"
     elseif &filetype == "json"
