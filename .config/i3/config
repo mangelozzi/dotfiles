@@ -191,7 +191,7 @@ bindsym $mod+Shift+Mod1+q exec ~/.config/i3/scripts/close-all-windows.py
 # -------
 bindsym $mod+Tab focus mode_toggle
 
-set $default-hotkeys (l)ook (a)anchor (s)stack (t)ab (r)estart (c)onfig (h)or (v)ert t(o)ggle (f)ull (p)arent (c)hild
+set $default-hotkeys (s)plit (t)ab (a)anchor (h)or (v)ert t(o)ggle (r)estart (c)onfig (f)ull (p)arent (c)hild
 mode "$default-hotkeys" {
     # CONFIGURATION FILE
     # ------------------
@@ -221,14 +221,17 @@ mode "$default-hotkeys" {
     # change focus between tiling / floating windows
     # bindsym space focus mode_toggle, mode "default"
     # mnemonic l = look at the other window
-    bindsym l focus mode_toggle, mode "default"
+    # Use $mod+Tab instead
+    # bindsym l focus mode_toggle, mode "default"
 
     # LAYOUT STYLES
     # -------------
     # change container layout (stacked, tabbed, toggle split)
     # Not used stacked mode
     # split = default tiling mode
-    bindsym s layout stacking, mode "default"
+    # bindsym $mod+s layout stacking  <- default for stacked (like tabbed but verticial)
+    bindsym s layout toggle split, mode "default"
+
     # bindsym w layout tabbed
     bindsym t layout tabbed, mode "default"
     # bindsym e layout toggle split
