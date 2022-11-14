@@ -42,6 +42,8 @@ call plug#begin(plugdir)
 
 " Plug own plugin at nvim/tmp/nvim-rgflow.lua
 let rgflow_local = fnamemodify($MYVIMRC, ":p:h")."/tmp/nvim-rgflow.lua"
+let g:rgflow_flags = "--smart-case -g *.{*,py} -g !*{min.css,min.js,pyc,htmlz} -g !spike/* --fixed-strings --no-fixed-strings --no-ignore --ignore -M 500"
+
 Plug rgflow_local
 
 " Plug own plugin at nvim/tmp/vim-wsl

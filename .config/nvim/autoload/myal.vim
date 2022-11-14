@@ -108,13 +108,14 @@ function! myal#Format()
     write
     if &filetype == "python"
         " 2. Now black will edit the file and save it
-        !isort --profile black %
+        !isort --line-length 100 --profile black %
         !black -S --line-length 100 %
     elseif &filetype == "javascript" || &filetype == "typescript"
         " 2. Prettier edit in place (--write)
         !prettier --write --print-width 100 --tab-width 4 "%:p"
     elseif &filetype == "json"
-        execute '%!python -m json.tool'
+        " Without the | write does not keep the changes
+        execute "%!python -m json.tool --indent 4" | write
     endif
     if v:shell_error != 0
         " If it failed to format, show the error message so can see the line/col number
