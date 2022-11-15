@@ -261,43 +261,55 @@ bindsym $mod+space mode "$default-hotkeys"
 # Define names for default workspaces for which we configure key bindings later on.
 # We use variables to avoid repeating the names in multiple places.
 # Want to be able to reach with ONLY left hand, so if mouse on right copy and pasting
-# 1 = like I for init
-set $ws1 "1_Init"
-# @ = like G
-set $ws2 "2_Gimp"
-assign [class="Gimp"] $ws2
-exec_always --no-startup-id ~/.config/i3/scripts/app-on-ws-init.py --workspace $ws2 --command gimp
-# 3 = sideways W
-set $ws3 "3_Writer"
-assign [class="libreoffice-writer"] $ws2
-exec_always --no-startup-id ~/.config/i3/scripts/app-on-ws-init.py --workspace $ws3 --command 'libreoffice --norestore --writer'
 
-# $ = spreadsheets often used for $$$
-set $ws4 "4_Calc"
-assign [class="libreoffice-calc"] $ws2
-exec_always --no-startup-id ~/.config/i3/scripts/app-on-ws-init.py --workspace $ws4 --command 'libreoffice --norestore --calc'
+# 1 is for Nautilus file browswer
+set $ws1 "1N"
+exec_always --no-startup-id ~/.config/i3/scripts/app-on-ws-init.py --workspace $ws1 --command 'nautilus'
+
+# 2 and 3 are free
+set $ws2 "2?"
+set $ws3 "3?"
+
+# $ like S for inkScape
+# Note the snap version SUCKs, everytime open/import/save file, must browse to the same point each time. Rather use appimage
+set $ws4 "4I"
+exec_always --no-startup-id ~/.config/i3/scripts/app-on-ws-init.py --workspace $ws4 --command ~/appimages/inkscape.AppImage
+
+# % = spreadsheets often used with percentages
+set $ws5 "5C"
+assign [class="libreoffice-calc"] $ws5
+exec_always --no-startup-id ~/.config/i3/scripts/app-on-ws-init.py --workspace $ws5 --command 'libreoffice --norestore --calc'
+
+# ^ = upwards pen that is mighter than the sword
+set $ws6 "6W"
+assign [class="libreoffice-writer"] $ws6
+exec_always --no-startup-id ~/.config/i3/scripts/app-on-ws-init.py --workspace $ws6 --command 'libreoffice --norestore --writer'
+
+# 7 free
+set $ws7 "7?"
+
+# 8 = Gimp
+set $ws8 "8G"
+assign [class="Gimp"] $ws8
+exec_always --no-startup-id ~/.config/i3/scripts/app-on-ws-init.py --workspace $ws8 --command gimp
+
+# 9 free
+set $ws9 "9?"
+
+# Cryptomator can be slow to access (far away), don't use it often
+set $ws10 "10C"
+# Cryptomator Accessible via the desktop dmenu (not dmenu)
+assign [title="Cryptomator"] $ws10
+exec_always --no-startup-id ~/.config/i3/scripts/app-on-ws-init.py --workspace $ws10 --command '~/appimages/cryptomator-1.6.5-x86_64.AppImage'
 
 # 5 = High Five awesome KiCAD
-set $ws7 "5_KiCAD"
-exec_always --no-startup-id ~/.config/i3/scripts/app-on-ws-init.py --workspace $ws5 --command kicad
+# set $ws5 "5_KiCAD"
+# exec_always --no-startup-id ~/.config/i3/scripts/app-on-ws-init.py --workspace $ws5 --command kicad
 
 # 6 = FreeCAD has come with pain and suffering
-set $ws6 "6_FreeCAD"
-assign [class="FreeCAD"] $ws6
-exec_always --no-startup-id ~/.config/i3/scripts/app-on-ws-init.py --workspace $ws6 --command ~/appimages/FreeCAD-0.20.0-Linux-x86_64_b15d808987f3b6dedc7dff3907826696.AppImage
-
-# 7 like I for Init
-# Note the snap version SUCKs, everytime open/import/save file, must browse to the same point each time. Rather use appimage
-set $ws7 "7_Inkscape"
-exec_always --no-startup-id ~/.config/i3/scripts/app-on-ws-init.py --workspace $ws7 --command ~/appimages/inkscape.AppImage
-
-# 8 to 10 are flexible pads
-set $ws8 "8"
-set $ws9 "9"
-set $ws10 "10_Misc"
-# Assign cryptopmator to the slow ws (0)
-# Accessible via the desktop dmenu (not dmenu)
-assign [title="Cryptomator"] $ws10
+# set $ws6 "6_FreeCAD"
+# assign [class="FreeCAD"] $ws6
+# exec_always --no-startup-id ~/.config/i3/scripts/app-on-ws-init.py --workspace $ws6 --command ~/appimages/FreeCAD-0.20.0-Linux-x86_64_b15d808987f3b6dedc7dff3907826696.AppImage
 
 # --- Q,W,E,R,T,G are scratchpads (T & G are terminal scratchpads)
 # Scratch only works well for apps that dont have popups, change writer/pinta to workspaces
@@ -543,9 +555,11 @@ bindsym Print exec --no-startup-id maim --select $screenshot-file && cat $screen
 # Screen shot whole screen and save to Pictures/ with dated name
 bindsym Shift+Print exec --no-startup-id maim "/home/$USER/Pictures/screenshot_$(date +'%Y-%m-%d_%H:%M:%S').png"
 
-# Disable screen standby/suspend, set turn monitor off after 1hr
-exec xset dpms 0 0 6000
-
+# https://askubuntu.com/questions/763994/screen-times-out-in-i3-wm
+# Disable the screen saver
+exec xset s off
+# standby time (0 = off), suspend time (0 = off), turn monitor off time (3600 seconds = 1hr)
+exec xset dpms 0 0 3600
 
 # _____________________________________________________________________________
 # SCREENS
@@ -631,6 +645,10 @@ bindsym $mod+m exec i3-input -F 'mark %s' -l 1 -P 'Mark: ' -f '*-*-*-*-*-normal-
 # read 1 character and go to the window with the character
 bindsym $mod+apostrophe exec i3-input -F '[con_mark="%s"] focus' -l 1 -P 'Goto: ' -f '*-*-*-*-*-normal-*-20-*-*-*-*-*-*-*'
 
+# _____________________________________________________________________________
+# AUTO START
+# ------------------
+exec_always --no-startup-id dropbox start
 
 # _____________________________________________________________________________
 # INIT
