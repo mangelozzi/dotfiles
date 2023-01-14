@@ -81,7 +81,7 @@ sudo systemctl disable gdm.service
 # sudo systemctl disable lightdm.service
 mkdir -p ~/tools/
 cd ~/tools/
-git clone --recurse-submodules https://github.com/nullgemm/ly
+git clone --recurse-submodules https://github.com/fairyglade/ly
 cd ly
 make
 read -p 'About to test the greeter press CTRL+C to exit...'
