@@ -18,6 +18,12 @@ sudo apt install -y curl
 # Wget -very slow to download big files
 sudo apt install -y wget
 
+# Speedcrunch
+sudo apt install -y speedcrunch
+
+# QDirStat
+sudo apt install -y qdirstat
+
 # Ripgrep
 # if ! command -v rg &> /dev/null
 # then
