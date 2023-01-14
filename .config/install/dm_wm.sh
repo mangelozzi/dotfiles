@@ -1,4 +1,5 @@
 # DM - Display Manager
+# --------------------
 
 echo
 echo "Ly display manager (greeter)"
@@ -25,10 +26,42 @@ eval $(/usr/bin/gnome-keyring-daemon --start)
 export SSH_AUTH_SOCK
 /sbin/sway
 EOF
-chmod +x ~/.local/bin/start-swith-with-gnome-keyring.sh
+sudo chmod +x /home/michael/.local/bin/start-swith-with-gnome-keyring.sh
 
 
-# WM - Window Manager
+# I3 DEPENDENCIES
+# ---------------
+
+# Media player key support used with i3
+sudo apt install -y playerctl
+
+# Backlight screen brightness
+sudo apt install -y xbacklight
+
+# Wallpaper
+# sudo apt install -y feh
+
+# Multiple screen support
+sudo apt install -y arandr
+
+# Numlock support
+sudo apt install -y numlockx
+
+# Set the system font size
+sudo apt install -y lxappearance
+
+# Screen shot tool (maim = make image)
+sudo apt install -y maim
+
+# Python package for interfacing is i3
+python3 -m pip install i3ipc
+
+# Indicator sound output switcher (choose sound output to which device)
+sudo apt install gir1.2-keybinder-3.0
+sudo dpkg -i ~/.config/i3/support/indicator-sound-switcher_2.3.9-1_all.deb
+
+# I3WM - Window Manager
+# ---------------------
 
 echo
 echo "I3WM"
