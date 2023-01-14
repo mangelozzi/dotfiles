@@ -281,20 +281,22 @@ assign [class="libreoffice-calc"] $ws5
 exec_always --no-startup-id ~/.config/i3/scripts/app-on-ws-init.py --workspace $ws5 --command 'libreoffice --norestore --calc'
 
 # ^ = upwards pen that is mighter than the sword
-set $ws6 "6W"
-assign [class="libreoffice-writer"] $ws6
-exec_always --no-startup-id ~/.config/i3/scripts/app-on-ws-init.py --workspace $ws6 --command 'libreoffice --norestore --writer'
+set $ws6 "6?"
+# assign [class="libreoffice-writer"] $ws6
+# exec_always --no-startup-id ~/.config/i3/scripts/app-on-ws-init.py --workspace $ws6 --command 'libreoffice --norestore --writer'
 
-# 7 free
+# 7 = Gimp
 set $ws7 "7?"
+# assign [class="Gimp"] $ws7
+# exec_always --no-startup-id ~/.config/i3/scripts/app-on-ws-init.py --workspace $ws7 --command gimp
 
-# 8 = Gimp
-set $ws8 "8G"
-assign [class="Gimp"] $ws8
-exec_always --no-startup-id ~/.config/i3/scripts/app-on-ws-init.py --workspace $ws8 --command gimp
+# 8 free
+set $ws8 "8?"
 
 # 9 free
-set $ws9 "9?"
+set $ws9 "9D"
+assign [class="DBeaver"] $ws9
+exec_always --no-startup-id ~/.config/i3/scripts/app-on-ws-init.py --workspace $ws9 --command dbeaver-ce
 
 # Cryptomator can be slow to access (far away), don't use it often
 set $ws10 "10C"

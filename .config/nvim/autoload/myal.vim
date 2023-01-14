@@ -94,7 +94,6 @@ function! myal#Run()
     elseif &filetype == "vim"
         source %
     elseif &filetype == "html" || &filetype == "markdown"
-        " WslBrowse chrome tab 2
         !google-chrome %
     else
         echom "No run command linked for this filetype, using system app..."
@@ -112,7 +111,14 @@ function! myal#Format()
         !black -S --line-length 100 %
     elseif &filetype == "javascript" || &filetype == "typescript"
         " 2. Prettier edit in place (--write)
-        !prettier --write --print-width 100 --tab-width 4 "%:p"
+        !prettier --write --print-width 100 --single-quote true --tab-width 4 --arrow-parens avoid "%:p"
+    elseif &filetype == "html" || &filetype == "htmldjango"
+        " 2. Prettier edit in place (--write)
+        !djlint --format-css --format-js "%:p"
+        " !prettier --write --print-width 100 --tab-width 4 "%:p"
+    elseif &filetype == "css"
+        " 2. Prettier edit in place (--write)
+        !djlint "%:p"
     elseif &filetype == "json"
         " Without the | write does not keep the changes
         execute "%!python -m json.tool --indent 4" | write
