@@ -1,0 +1,51 @@
+# DM - Display Manager
+
+echo
+echo "Ly display manager (greeter)"
+# https://github.com/fairyglade/ly
+# Dependencies
+sudo apt install -y build-essential libpam0g-dev libxcb-xkb-dev
+# First disable the default Gnome display manager
+sudo systemctl disable gdm.service
+# sudo systemctl disable lightdm.service
+mkdir -p ~/tools/
+cd ~/tools/
+git clone --recurse-submodules https://github.com/fairyglade/ly
+cd ly
+make
+read -p 'About to test the greeter press CTRL+C to exit...'
+make run
+read -p 'If it was not successful, press CTRL+C to abort installation, <ENTER> to continue...'
+sudo make install installsystemd
+sudo systemctl enable ly.service
+sudo systemctl disable getty@tty2.service
+cat <<EOF >> ~/.local/bin/start-swith-with-gnome-keyring.sh
+#!/usr/bin/env sh
+eval $(/usr/bin/gnome-keyring-daemon --start)
+export SSH_AUTH_SOCK
+/sbin/sway
+EOF
+chmod +x ~/.local/bin/start-swith-with-gnome-keyring.sh
+
+
+# WM - Window Manager
+
+echo
+echo "I3WM"
+echo "- Installation from <https://i3wm.org/docs/repositories.html>:"
+echo "- May have fix 'sudo nvim /etc/apt/sources.list.d/sur5r-i3.list' by adding the architecture flag:"
+echo "    deb http://debian.sur5r.net/i3/ ..."
+echo "    to"
+echo "    deb [arch=amd64] http://debian.sur5r.net/i3/ ..."
+
+cd ~/appimages
+/usr/lib/apt/apt-helper download-file https://debian.sur5r.net/i3/pool/main/s/sur5r-keyring/sur5r-keyring_2022.02.17_all.deb keyring.deb SHA256:52053550c4ecb4e97c48900c61b2df4ec50728249d054190e8a0925addb12fc6
+sudo apt install ./keyring.deb
+echo "deb http://debian.sur5r.net/i3/ $(grep '^DISTRIB_CODENAME=' /etc/lsb-release | cut -f2 -d=) universe" | sudo tee /etc/apt/sources.list.d/sur5r-i3.list
+sudo apt update
+
+echo Make sure the version is right before installing it:
+apt-cache show i3
+read -p 'Press <ENTER> to continue (CTRL+C to abort)...'
+
+sudo apt install -y i3

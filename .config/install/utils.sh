@@ -72,32 +72,6 @@ python3 -m pip install ranger-fm
 # Ranger dev icons
 git clone https://github.com/alexanderjeurissen/ranger_devicons ~/.config/ranger/plugins/ranger_devicons
 
-# Ly display manager (greeter)
-# https://github.com/fairyglade/ly
-# Dependencies
-sudo apt install -y build-essential libpam0g-dev libxcb-xkb-dev
-# First disable the default Gnome display manager
-sudo systemctl disable gdm.service
-# sudo systemctl disable lightdm.service
-mkdir -p ~/tools/
-cd ~/tools/
-git clone --recurse-submodules https://github.com/fairyglade/ly
-cd ly
-make
-read -p 'About to test the greeter press CTRL+C to exit...'
-make run
-read -p 'If it was not successful, press CTRL+C to abort installation, <ENTER> to continue...'
-sudo make install
-sudo systemctl enable ly.service
-sudo systemctl disable getty@tty2.service
-cat <<EOF >> ~/.local/bin/start-swith-with-gnome-keyring.sh
-#!/usr/bin/env sh
-eval $(/usr/bin/gnome-keyring-daemon --start)
-export SSH_AUTH_SOCK
-/sbin/sway
-EOF
-chmod +x ~/.local/bin/start-swith-with-gnome-keyring.sh
-
 # --- Script end ---
 set +x
 echo
