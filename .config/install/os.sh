@@ -16,7 +16,7 @@ echo "System settings"
 echo "1. Top right select settings"
 echo "2. Left menu 'Display' -> Enable 'Fractional Scaling' and set to '125%'"
 echo "3. Left menu 'Privacy' -> 'Screen Lock' -> disable away"
-echo "4. Left menu 'Universal Access' -> 'Typing Assist (AcessX) -> 'Bounce keys' -> Enable with shortest acceptance delay"
+echo "4. Left menu 'Accessibility' -> 'Typing Assist (AcessX) -> 'Bounce keys' -> Enable with shortest acceptance delay"
 pause
 
 echo
@@ -32,6 +32,7 @@ echo "3. Check 'Custom font'"
 echo "4. Click the name of the font and chaange to 'Noto Mono Bold'"
 echo "5. Select the 'Colors' Tab"
 echo "6. Lighten up the blues and purples"
+echo "7. Under Unnamed -> Sound -> Uncheck 'Terminal bell'"
 echo
 pause
 
@@ -51,6 +52,8 @@ echo
 echo "Disable when close lid it powers down"
 echo "Uncomment and change the following property to ignore:"
 echo "    HandleLidSwitch=ignore"
+echo " And add the docked equivalent:"
+echo "    HandleLidSwitchDocked=ignore"
 pause
 sudo vi /etc/systemd/logind.conf
 echo "Note: The change will only be active after next reboot"
