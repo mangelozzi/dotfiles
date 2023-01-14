@@ -30,9 +30,12 @@ sudo apt install xclip
 sudo apt install -y python3-pip
 pip3 install pynvim
 
-sudo apt install -y curl
 # NPM
-curl -sL https://deb.nodesource.com/setup_18.x | sudo -E bash -
+
+# If require a certain versionj of node (refer to https://github.com/nodesource/distributions):
+# sudo apt install -y curl
+# curl -sL https://deb.nodesource.com/setup_18.x | sudo -E bash -
+# Since ubuntu 22.04 NodeJs 18 installs by default (min required)
 sudo apt install -y nodejs
 echo -e "\n\nTesting Node installation version"
 node -v
@@ -59,7 +62,6 @@ nvim --headless +PlugInstall +qall
 echo "Get .NET framework"
 wget https://packages.microsoft.com/config/ubuntu/20.04/packages-microsoft-prod.deb -O ~/packages-microsoft-prod.deb
 sudo dpkg -i ~/packages-microsoft-prod.deb
-sudo apt-get update
 sudo apt-get install -y apt-transport-https
 sudo apt-get install -y aspnetcore-runtime-3.1
 
