@@ -60,6 +60,11 @@ python3 -m pip install i3ipc
 sudo apt install gir1.2-keybinder-3.0
 sudo dpkg -i ~/.config/i3/support/indicator-sound-switcher_2.3.9-1_all.deb
 
+# Setup the Keyboard remap
+sudo ln -s /home/$USER/.config/x11/xkb/mylayout /usr/share/X11/xkb/symbols/mylayout
+sudo ln -s /home/$USER/.config/x11/xorg.conf/90-custom-kbd.conf /usr/share/X11/xorg.conf.d/90-custom-kbd.conf
+
+
 # I3WM - Window Manager
 # ---------------------
 
