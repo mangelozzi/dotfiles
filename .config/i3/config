@@ -368,7 +368,7 @@ exec_always --no-startup-id ~/.config/i3/scripts/app-on-ws-init.py --workspace $
 set $wsX "23-X_mom"
 bindsym $mod+x workspace number $wsX
 bindsym $mod+Shift+x move container to workspace number $wsX
-exec_always --no-startup-id ~/.config/i3/scripts/app-on-ws-init.py --workspace $wsX --command "google-chrome --password-store=gnome --profile-directory='Profile 4' 'https://mail.google.com/mail/u/0/#inbox' 'https://onlinebanking.standardbank.co.za/#/login'"
+exec_always --no-startup-id ~/.config/i3/scripts/app-on-ws-init.py --workspace $wsX --command "google-chrome --password-store=gnome --profile-directory='Profile 2' 'https://mail.google.com/mail/u/0/#inbox' 'https://onlinebanking.standardbank.co.za/#/login'"
 
 set $wsZ "24-Z_muzik"
 bindsym $mod+z workspace number $wsZ

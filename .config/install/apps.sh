@@ -62,8 +62,13 @@ then
         echo "Type 'chrome://settings/?search=hardware' into chrome"
         echo "And uncheck use hardware 'Use hardware acceleration when available'"
         echo "To speed up Chrome if using M2800"
-        read -p "to setup chrome"
+        echo
+        echo "Set up the profiles in the following order so it matches i3"
+        echo "  1. personnel"
+        echo "  2. work"
+        echo "  3. mom"
         google-chrome
+        read -p "to setup chrome"
         ;;
     esac
 else
