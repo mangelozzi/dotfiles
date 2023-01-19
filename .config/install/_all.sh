@@ -7,5 +7,6 @@ bash utils.sh
 bash os.sh
 bash nvim.sh
 bash dm_wm.sh
+bash apps.sh
 echo
 echo "COMPLETE."

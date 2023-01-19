@@ -1,0 +1,52 @@
+# COPIED TO -> /etc/sudoers.d/sudoers
+
+# !!!!!!!!!!!!!!!
+# !!! WARNING !!!
+# !!!!!!!!!!!!!!!
+# - If one changes this file, must copy (not symb link) it to its install location
+#   and set its permissions with to being owned by root:root, and chmod to 440
+# - To edit this file use (If one gets it wrong, the PC will unusable (no sudo command)!!!):
+#       sudo visudo /etc/sudoers.d/terminal_sudoers
+# - Must provide the full path to the command, e.g. /usr/bin/foo, else would could create a script in any dir with the same name and run it
+#       which ls
+# - Command only requires `*` if it already has a parameter passed in, and you wish to use in an alternate way
+
+# NOTES
+# -----
+# root ALL=(ALL) ALL
+#   means:
+# root ON_ALL_MACHINE=(AS_ALL_USERS) CAN_EXECUTE_ALL_COMMANDS
+#
+# %sudo ALL=(ALL) ALL
+#   means:
+# MEMBERS_OF_GROUP_SUDO can same as above
+
+# If hostname set incorrectly, specify not to wait for long timeout before executing SUDO command
+Defaults !fqdn
+
+# Set the default sudo timeout to 24*60 MINUTES
+Defaults:ALL timestamp_timeout=1440
+
+# On Dev computer disable password nag with:
+# michael ALL=(ALL) NOPASSWD: ALL
+
+# Prod terminals
+# For testing, using ls vs ll
+# michael ALL=NOPASSWD:/usr/bin/ls
+
+# Used to get motherboard Serial Number
+michael ALL=NOPASSWD:/usr/sbin/dmidecode -t 2
+
+# Used in update.py and alias
+michael ALL=NOPASSWD:/usr/sbin/reboot
+
+# i3
+# Because an argument is passed into the command, required a star to be used with other args
+michael ALL=NOPASSWD:/usr/bin/systemctl suspend
+michael ALL=NOPASSWD:/usr/bin/systemctl suspend *
+michael ALL=NOPASSWD:/usr/bin/systemctl hibernate
+michael ALL=NOPASSWD:/usr/bin/systemctl hibernate *
+michael ALL=NOPASSWD:/usr/bin/systemctl reboot
+michael ALL=NOPASSWD:/usr/bin/systemctl reboot *
+michael ALL=NOPASSWD:/usr/bin/systemctl shutdown
+michael ALL=NOPASSWD:/usr/bin/systemctl shutdown *

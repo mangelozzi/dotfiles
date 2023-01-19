@@ -1,23 +1,5 @@
 source lib.sh
 
-# echo "Disable piece of rubbish AMD radeon graphics card"
-# echo "Change the line:"
-# echo '    GRUB_CMDLINE_LINUX_DEFAULT="quiet splash"'
-# echo "        to"
-# echo '    GRUB_CMDLINE_LINUX_DEFAULT="quiet splash radeon.modeset=0"'
-# echo "Copy this text -> splash radeon.modeset=0"
-# pause
-# sudo vi /etc/default/grub
-
-
-echo
-echo "Lets manually set some settings"
-echo "System settings"
-echo "1. Top right select settings"
-echo "2. Left menu 'Display' -> Enable 'Fractional Scaling' and set to '125%'"
-echo "3. Left menu 'Privacy' -> 'Screen Lock' -> disable away"
-echo "4. Left menu 'Accessibility' -> 'Typing Assist (AcessX) -> 'Bounce keys' -> Enable with shortest acceptance delay"
-pause
 
 echo
 echo "setup Terminal"
@@ -40,13 +22,6 @@ echo
 echo "Lets set vi to be the default editor for config system files:"
 sudo update-alternatives --config editor
 
-echo
-echo "Change the first line:"
-echo "Defaults        env_reset"
-echo "  to"
-echo "Defaults        env_reset,timestamp_timeout=1440"
-pause "copy the change then continue"
-sudo visudo
 
 echo
 echo "Disable when close lid it powers down"
@@ -58,32 +33,8 @@ pause
 sudo vi /etc/systemd/logind.conf
 echo "Note: The change will only be active after next reboot"
 
-pause "install chrome"
-if ! command -v google-chrome &> /dev/null
-then
-    pause "Install chrome"
-    read -p "Install Chrome (y/n)? " CHROME
-    case ${CHROME:0:1} in
-    y|Y )
-        mkdir -p ~/appimages/
-        cd ~
-        wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-        sudo dpkg -i google-chrome-stable_current_amd64.deb
-        echo
-        echo "Only need to do this if graphics card is enabled:"
-        echo "Type 'chrome://settings/?search=hardware' into chrome"
-        echo "And uncheck use hardware 'Use hardware acceleration when available'"
-        echo "To speed up Chrome if using M2800"
-        pause "to setup chrome"
-        google-chrome
-        ;;
-    esac
-else
-    echo "Chrome already installed"
-fi
-
 echo
-echo "Dock"
-echo "1. Right click firefox remove from favourites"
-echo "2. Bottom left clicks apps icon and click Chrome, right click its icon and select add to favourites"
-pause
+echo "Sudoers"
+sudo cp ~/.config/os/sudoers -> /etc/sudoers.d/sudoers
+sudo chown root:root /etc/sudoers.d/sudoers
+sudo chmod 440 /etc/sudoers.d/sudoers
