@@ -1,7 +1,7 @@
 echo
 echo "LY DM - Ly Display Manager (greeter)"
 echo "------------------------------------"
-read "Press <ENTER> to continue..."
+read -p "Press <ENTER> to continue..."
 echo
 # https://github.com/fairyglade/ly
 # Dependencies
@@ -20,6 +20,7 @@ read -p 'If it was not successful, press CTRL+C to abort installation, <ENTER> t
 sudo make install installsystemd
 sudo systemctl enable ly.service
 sudo systemctl disable getty@tty2.service
+mkdir -p ~/.local/bin/
 cat <<EOF >> ~/.local/bin/start-swith-with-gnome-keyring.sh
 #!/usr/bin/env sh
 eval $(/usr/bin/gnome-keyring-daemon --start)
