@@ -22,7 +22,6 @@ echo
 echo "Lets set vi to be the default editor for config system files:"
 sudo update-alternatives --config editor
 
-
 echo
 echo "Disable when close lid it powers down"
 echo "Uncomment and change the following property to ignore:"
