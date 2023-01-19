@@ -57,8 +57,9 @@ sudo apt install -y maim
 python3 -m pip install i3ipc
 
 # Indicator sound output switcher (choose sound output to which device)
-sudo apt install gir1.2-keybinder-3.0
-sudo dpkg -i ~/.config/i3/support/indicator-sound-switcher_2.3.9-1_all.deb
+sudo apt-add-repository ppa:yktooo/ppa
+sudo apt-get update
+sudo apt-get install indicator-sound-switcher
 
 # Setup the Keyboard remap
 sudo ln -s /home/$USER/.config/x11/xkb/mylayout /usr/share/X11/xkb/symbols/mylayout
