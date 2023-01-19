@@ -1,8 +1,16 @@
 source lib.sh
 
 echo
-pause "install input-remapper"
-sudo apt install git python3-setuptools gettext
+echo "git setup"
+echo "--------------"
+git config --global user.email "mangelozzi@gmail.com"
+git config --global user.name "Michael Angelozzi"
+
+echo
+echo "input-remapper"
+echo "--------------"
+read -p "Press <ENTER> to continue..."
+sudo apt install -y git python3-setuptools gettext
 mkdir -p ~/tools
 cd ~/tools
 git clone https://github.com/sezanzeb/input-remapper.git
@@ -11,7 +19,9 @@ sudo apt install ./dist/input-remapper-1.5.0.deb
 
 
 echo
-pause "install speedcrunch"
+echo "SpeedCrunch"
+echo "-----------"
+read -p "Press <ENTER> to continue..."
 sudo apt install -y speedcrunch
 echo
 echo "Change settings"
@@ -21,18 +31,22 @@ echo "Change the following settings:"
 echo '`Settings` -> `Display` -> `Color scheme` -> `Terminal`'
 echo '`Settings` -> `Display` -> `Font` -> `Noboto 14 bold`'
 speedcrunch &
-pause "Waiting for settings to be changed"
+read -p "Waiting for settings to be changed"
 
 
 echo
-pause "install node"
+echo "node"
+echo "----"
+read -p "Press <ENTER> to continue..."
 sudo apt install -y nodejs
 node -v
 npm -v
 
 
 echo
-pause "install chrome"
+echo "chrome"
+echo "------"
+read -p "Press <ENTER> to continue..."
 if ! command -v google-chrome &> /dev/null
 then
     pause "Install chrome"
@@ -48,7 +62,7 @@ then
         echo "Type 'chrome://settings/?search=hardware' into chrome"
         echo "And uncheck use hardware 'Use hardware acceleration when available'"
         echo "To speed up Chrome if using M2800"
-        pause "to setup chrome"
+        read -p "to setup chrome"
         google-chrome
         ;;
     esac

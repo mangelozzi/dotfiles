@@ -1,8 +1,8 @@
-# DM - Display Manager
-# --------------------
-
 echo
-echo "Ly display manager (greeter)"
+echo "LY DM - Ly Display Manager (greeter)"
+echo "------------------------------------"
+read "Press <ENTER> to continue..."
+echo
 # https://github.com/fairyglade/ly
 # Dependencies
 sudo apt install -y build-essential libpam0g-dev libxcb-xkb-dev
@@ -29,8 +29,10 @@ EOF
 sudo chmod +x /home/michael/.local/bin/start-swith-with-gnome-keyring.sh
 
 
-# I3 DEPENDENCIES
-# ---------------
+echo
+echo "I3 DEPENDENCIES"
+echo "---------------"
+read "Press <ENTER> to continue..."
 
 # Media player key support used with i3
 sudo apt install -y playerctl
@@ -66,11 +68,11 @@ sudo ln -s /home/$USER/.config/x11/xkb/mylayout /usr/share/X11/xkb/symbols/mylay
 sudo ln -s /home/$USER/.config/x11/xorg.conf/90-custom-kbd.conf /usr/share/X11/xorg.conf.d/90-custom-kbd.conf
 
 
-# I3WM - Window Manager
-# ---------------------
-
 echo
-echo "I3WM"
+echo "I3WM - Window Manager"
+echo "---------------------"
+read "Press <ENTER> to continue..."
+echo
 echo "- Installation from <https://i3wm.org/docs/repositories.html>:"
 echo "- May have fix 'sudo nvim /etc/apt/sources.list.d/sur5r-i3.list' by adding the architecture flag:"
 echo "    deb http://debian.sur5r.net/i3/ ..."

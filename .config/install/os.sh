@@ -34,6 +34,6 @@ echo "Note: The change will only be active after next reboot"
 
 echo
 echo "Sudoers"
-sudo cp ~/.config/os/sudoers -> /etc/sudoers.d/sudoers
+sudo cp ~/.config/os/sudoers /etc/sudoers.d/sudoers
 sudo chown root:root /etc/sudoers.d/sudoers
 sudo chmod 440 /etc/sudoers.d/sudoers

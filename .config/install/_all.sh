@@ -3,27 +3,39 @@ SCRIPT_DIR="$(dirname $SCRIPT_PATH)"
 cd $SCRIPT_DIR
 
 echo
-ppause "Press <ENTER> to run bash.sh ..."
-bash bash.sh
+echo "bash.sh"
+echo "======="
+read -p "Press <ENTER> to continue..."
+# bash bash.sh
 
 echo
-ppause "Press <ENTER> to run utils.sh ..."
-bash utils.sh
+echo "utils.sh"
+echo "========"
+read -p "Press <ENTER> to continue..."
+# bash utils.sh
 
 echo
-ppause "Press <ENTER> to run os.sh ..."
-bash os.sh
+echo "os.sh"
+echo "====="
+read -p "Press <ENTER> to continue..."
+# bash os.sh
 
 echo
-ppause "Press <ENTER> to run dm_wm.sh ..."
-bash dm_wm.sh
+echo "dm_wm.sh"
+echo "========"
+read -p "Press <ENTER> to continue..."
+# bash dm_wm.sh
 
 echo
-ppause "Press <ENTER> to run nvim.sh ..."
-bash nvim.sh
+echo "nvim.sh"
+echo "========"
+read -p "Press <ENTER> to continue..."
+# bash nvim.sh
 
 echo
-ppause "Press <ENTER> to run apps.sh ..."
+echo "apps.sh"
+echo "======="
+read -p "Press <ENTER> to continue..."
 bash apps.sh
 
 echo
