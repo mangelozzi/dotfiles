@@ -30,7 +30,7 @@ neogit.setup {
       folded = false
     },
     recent = {
-      folded = true
+      folded = false
     },
   },
   -- override/add mappings

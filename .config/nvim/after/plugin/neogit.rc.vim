@@ -12,3 +12,4 @@ hi NeogitHunkHeader             guifg=#202020 guibg=#b0b0b0
 hi NeogitHunkHeaderHighlight    guifg=#202020 guibg=#ffffff
 
 nmap <leader>ga :!git add %<CR>
+nmap <Esc> :tabclose<CR>
