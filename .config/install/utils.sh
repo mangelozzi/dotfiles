@@ -21,6 +21,9 @@ sudo apt install -y wget
 # QDirStat
 sudo apt install -y qdirstat
 
+# Calendar used by "mycal" command
+sudo apt install -y ncal
+
 # Ripgrep
 # if ! command -v rg &> /dev/null
 # then

@@ -10,7 +10,8 @@ alias ml="source ~/.venv/ml/bin/activate"
 # TOOLS
 alias rpiboot="sudo ~/tools/rpiboot/rpiboot"
 alias rpiboot2="sudo ~/tools/usbboot-msg/rpiboot"
-alias mycal="cal -A3 -B2"
+# -b to highlight the current day
+alias mycal="ncal -b -A3 -B2"
 
 # SSH
 
