@@ -1,0 +1,6 @@
+#!/bin/bash
+setxkbmap -option
+setxkbmap -model pc105 -layout us
+# Must run as sudo!
+# sudo xkeysnail --quiet /home/michael/.config/xkeysnail/config.py
+sudo xkeysnail --watch /home/michael/.config/xkeysnail/config.py

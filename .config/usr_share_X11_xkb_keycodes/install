@@ -1,0 +1,10 @@
+#!/bin/bash
+
+if [ ! -f /usr/share/X11/xkb/keycodes/evdev.bak ]; then
+    echo "Creating back up of evdev keycode file"
+    sudo cp /usr/share/X11/xkb/keycodes/evdev /usr/share/X11/xkb/keycodes/evdev.bak
+fi
+
+sudo cp /home/michael/.config/usr_share_X11_xkb_keycodes/evdev /usr/share/X11/xkb/keycodes/evdev
+sudo chown root:root /usr/share/X11/xkb/keycodes/evdev
+sudo chmod 644 /usr/share/X11/xkb/keycodes/evdev

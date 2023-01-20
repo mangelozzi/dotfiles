@@ -650,7 +650,6 @@ bindsym $mod+apostrophe exec i3-input -F '[con_mark="%s"] focus' -l 1 -P 'Goto: 
 # AUTO START
 # ------------------
 exec --no-startup-id dropbox start
-exec --no-startup-id sudo ~/.config/xkeysnail/run
 
 # _____________________________________________________________________________
 # INIT

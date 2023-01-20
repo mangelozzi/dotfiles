@@ -7,14 +7,6 @@ git config --global user.email "mangelozzi@gmail.com"
 git config --global user.name "Michael Angelozzi"
 
 echo
-echo "xkeysnail"
-echo "---------"
-read -p "Press <ENTER> to continue..."
-# xkeysnail requires sudo pip install, and sudo to run!
-sudo apt install python3-pip
-sudo pip3 install xkeysnail
-
-echo
 echo "SpeedCrunch"
 echo "-----------"
 read -p "Press <ENTER> to continue..."
@@ -37,7 +29,6 @@ read -p "Press <ENTER> to continue..."
 sudo apt install -y nodejs
 node -v
 npm -v
-
 
 echo
 echo "chrome"
@@ -70,3 +61,8 @@ then
 else
     echo "Chrome already installed"
 fi
+
+echo "libre office"
+echo "------------"
+read -p "Press <ENTER> to continue..."
+sudo apt install libreoffice
