@@ -50,3 +50,6 @@ michael ALL=NOPASSWD:/usr/bin/systemctl reboot
 michael ALL=NOPASSWD:/usr/bin/systemctl reboot *
 michael ALL=NOPASSWD:/usr/bin/systemctl shutdown
 michael ALL=NOPASSWD:/usr/bin/systemctl shutdown *
+
+# xkeysnail key remapper
+michael ALL=NOPASSWD:/home/michael/.config/xkeysnail/run

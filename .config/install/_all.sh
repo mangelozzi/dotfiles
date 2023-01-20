@@ -6,31 +6,31 @@ echo
 echo "bash.sh"
 echo "======="
 read -p "Press <ENTER> to continue..."
-# bash bash.sh
+bash bash.sh
 
 echo
 echo "utils.sh"
 echo "========"
 read -p "Press <ENTER> to continue..."
-# bash utils.sh
+bash utils.sh
 
 echo
 echo "os.sh"
 echo "====="
 read -p "Press <ENTER> to continue..."
-# bash os.sh
+bash os.sh
 
 echo
 echo "dm_wm.sh"
 echo "========"
 read -p "Press <ENTER> to continue..."
-# bash dm_wm.sh
+bash dm_wm.sh
 
 echo
 echo "nvim.sh"
 echo "========"
 read -p "Press <ENTER> to continue..."
-# bash nvim.sh
+bash nvim.sh
 
 echo
 echo "apps.sh"

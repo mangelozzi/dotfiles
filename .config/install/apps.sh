@@ -7,16 +7,12 @@ git config --global user.email "mangelozzi@gmail.com"
 git config --global user.name "Michael Angelozzi"
 
 echo
-echo "input-remapper"
-echo "--------------"
+echo "xkeysnail"
+echo "---------"
 read -p "Press <ENTER> to continue..."
-sudo apt install -y git python3-setuptools gettext
-mkdir -p ~/tools
-cd ~/tools
-git clone https://github.com/sezanzeb/input-remapper.git
-cd input-remapper && ./scripts/build.sh
-sudo apt install ./dist/input-remapper-1.5.0.deb
-
+# xkeysnail requires sudo pip install, and sudo to run!
+sudo apt install python3-pip
+sudo pip3 install xkeysnail
 
 echo
 echo "SpeedCrunch"

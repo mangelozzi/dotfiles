@@ -302,7 +302,7 @@ exec_always --no-startup-id ~/.config/i3/scripts/app-on-ws-init.py --workspace $
 set $ws10 "10C"
 # Cryptomator Accessible via the desktop dmenu (not dmenu)
 assign [title="Cryptomator"] $ws10
-exec_always --no-startup-id ~/.config/i3/scripts/app-on-ws-init.py --workspace $ws10 --command '~/appimages/cryptomator-1.6.5-x86_64.AppImage'
+exec_always --no-startup-id ~/.config/i3/scripts/app-on-ws-init.py --workspace $ws10 --command 'cryptomator'
 
 # 5 = High Five awesome KiCAD
 # set $ws5 "5_KiCAD"
@@ -627,7 +627,6 @@ exec_always --no-startup-id indicator-sound-switcher
 # --------
 exec_always --no-startup-id numlockx on
 
-
 # _____________________________________________________________________________
 # MOVE WS TO MONITOR
 # -----------------
@@ -650,7 +649,8 @@ bindsym $mod+apostrophe exec i3-input -F '[con_mark="%s"] focus' -l 1 -P 'Goto: 
 # _____________________________________________________________________________
 # AUTO START
 # ------------------
-exec_always --no-startup-id dropbox start
+exec --no-startup-id dropbox start
+exec --no-startup-id sudo ~/.config/xkeysnail/run
 
 # _____________________________________________________________________________
 # INIT
