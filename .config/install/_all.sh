@@ -9,6 +9,12 @@ read -p "Press <ENTER> to continue..."
 bash bash.sh
 
 echo
+echo "fonts.sh"
+echo "========"
+read -p "Press <ENTER> to continue..."
+bash fonts.sh
+
+echo
 echo "utils.sh"
 echo "========"
 read -p "Press <ENTER> to continue..."
