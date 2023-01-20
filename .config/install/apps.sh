@@ -1,8 +1,9 @@
 source lib.sh
 
 echo
-echo "git setup"
-echo "--------------"
+echo "gitk and git setup"
+echo "------------------"
+sudo apt install -y gitk
 git config --global user.email "mangelozzi@gmail.com"
 git config --global user.name "Michael Angelozzi"
 
