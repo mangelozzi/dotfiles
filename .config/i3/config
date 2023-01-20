@@ -263,43 +263,43 @@ bindsym $mod+space mode "$default-hotkeys"
 # Want to be able to reach with ONLY left hand, so if mouse on right copy and pasting
 
 # 1 is for Nautilus file browswer
-set $ws1 "1N"
+set $ws1 "1-1_Naut"
 exec_always --no-startup-id ~/.config/i3/scripts/app-on-ws-init.py --workspace $ws1 --command 'nautilus'
 
 # 2 and 3 are free
-set $ws2 "2?"
-set $ws3 "3?"
+set $ws2 "2-2_?"
+set $ws3 "3-3_?"
 
 # $ like S for inkScape
 # Note the snap version SUCKs, everytime open/import/save file, must browse to the same point each time. Rather use appimage
-set $ws4 "4I"
+set $ws4 "4-4_Ink"
 exec_always --no-startup-id ~/.config/i3/scripts/app-on-ws-init.py --workspace $ws4 --command ~/appimages/inkscape.AppImage
 
 # % = spreadsheets often used with percentages
-set $ws5 "5C"
+set $ws5 "5-5_Calc"
 assign [class="libreoffice-calc"] $ws5
 exec_always --no-startup-id ~/.config/i3/scripts/app-on-ws-init.py --workspace $ws5 --command 'libreoffice --norestore --calc'
 
 # ^ = upwards pen that is mighter than the sword
-set $ws6 "6?"
+set $ws6 "6-6_?"
 # assign [class="libreoffice-writer"] $ws6
 # exec_always --no-startup-id ~/.config/i3/scripts/app-on-ws-init.py --workspace $ws6 --command 'libreoffice --norestore --writer'
 
 # 7 = Gimp
-set $ws7 "7?"
+set $ws7 "7-7_?"
 # assign [class="Gimp"] $ws7
 # exec_always --no-startup-id ~/.config/i3/scripts/app-on-ws-init.py --workspace $ws7 --command gimp
 
 # 8 free
-set $ws8 "8?"
+set $ws8 "8-8_?"
 
 # 9 free
-set $ws9 "9D"
+set $ws9 "9-9_DB"
 assign [class="DBeaver"] $ws9
 exec_always --no-startup-id ~/.config/i3/scripts/app-on-ws-init.py --workspace $ws9 --command dbeaver-ce
 
 # Cryptomator can be slow to access (far away), don't use it often
-set $ws10 "10C"
+set $ws10 "10-0_Cry"
 # Cryptomator Accessible via the desktop dmenu (not dmenu)
 assign [title="Cryptomator"] $ws10
 exec_always --no-startup-id ~/.config/i3/scripts/app-on-ws-init.py --workspace $ws10 --command 'cryptomator'
@@ -317,7 +317,7 @@ exec_always --no-startup-id ~/.config/i3/scripts/app-on-ws-init.py --workspace $
 # Scratch only works well for apps that dont have popups, change writer/pinta to workspaces
 
 # Terminal W, Writer
-set $wsW "91-W"
+set $wsW "91-Writ"
 bindsym $mod+w workspace number $wsW
 bindsym $mod+Shift+w move container to workspace number $wsW
 exec_always --no-startup-id ~/.config/i3/scripts/app-on-ws-init.py --workspace $wsW --command /usr/bin/gedit

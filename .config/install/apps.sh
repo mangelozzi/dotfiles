@@ -63,7 +63,21 @@ else
     echo "Chrome already installed"
 fi
 
+
 echo "libre office"
 echo "------------"
 read -p "Press <ENTER> to continue..."
 sudo apt install libreoffice
+
+
+echo "DBeaver"
+echo "-------"
+read -p "Press <ENTER> to continue..."
+echo "Download from https://dbeaver.io/download/"
+echo "cd ~/Downloads"
+echo "sudo dpkg -i dbeaver-ce_22.3.2_amd64.deb"
+echo "Setup:"
+echo "    1. Choose a postgres connection"
+echo "    2. Use the DJANGO_DB_USER // DJANGO_DB_PASS from the cfg1_custom.py file"
+echo "    3. Select the 'Postgres' Tab -> 'Settings' -> 'Show all databases'"
+read -p "Press <ENTER> to continue..."
