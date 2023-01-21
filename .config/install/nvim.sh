@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # temp="USER INPUT"
+echo "Ensure you have installed nodejs (run nodejs.sh)"
 read -p "Will install Neovim for the current user, press <ENTER> to continue..."
-
 
 set -x
 NVIM_FILE=nvim-linux64.deb
@@ -30,29 +30,6 @@ sudo apt install xclip
 sudo apt install -y python3-pip
 pip3 install pynvim
 
-# NPM
-
-# If require a certain versionj of node (refer to https://github.com/nodesource/distributions):
-# sudo apt install -y curl
-# curl -sL https://deb.nodesource.com/setup_18.x | sudo -E bash -
-# Since ubuntu 22.04 NodeJs 18 installs by default (min required)
-sudo apt install -y nodejs
-echo -e "\n\nTesting Node installation version"
-node -v
-npm -v
-echo -e "\n\n"
-# LSP: python
-sudo npm install -g pyright
-# LSP: JSON, CSS, HTML
-sudo npm install -g vscode-langservers-extracted
-# LSP: Javascript
-sudo npm install -g typescript typescript-language-server
-# LSP: Bash
-sudo npm install -g bash-language-server
-# LSP: Vvim
-sudo npm install -g vim-language-server
-# NPM: Packages
-sudo npm install -g jshint prettier-miscellaneous
 
 echo -e "\nInstalling Plugins:"
 nvim --headless +PlugInstall +qall

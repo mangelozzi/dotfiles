@@ -22,15 +22,6 @@ echo '`Settings` -> `Display` -> `Font` -> `Noboto 14 bold`'
 speedcrunch &
 read -p "Waiting for settings to be changed"
 
-
-echo
-echo "node"
-echo "----"
-read -p "Press <ENTER> to continue..."
-sudo apt install -y nodejs
-node -v
-npm -v
-
 echo
 echo "chrome"
 echo "------"

@@ -21,6 +21,12 @@ read -p "Press <ENTER> to continue..."
 bash utils.sh
 
 echo
+echo "nodejs.sh"
+echo "======="
+read -p "Press <ENTER> to continue..."
+bash nodejs.sh
+
+echo
 echo "nvim.sh"
 echo "========"
 read -p "Press <ENTER> to continue..."
