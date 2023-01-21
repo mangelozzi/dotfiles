@@ -602,8 +602,10 @@ bindsym $mod+F4 exec --no-startup-id $screens-laptop-duplicated
 # Refer to https://faq.i3wm.org/question/3747/enabling-multimedia-keys/?answer=3759#post-id-3759
 
 # Sreen brightness controls
-bindsym XF86MonBrightnessUp exec xbacklight -inc 20 # increase screen brightness
-bindsym XF86MonBrightnessDown exec xbacklight -dec 20 # decrease screen brightness
+bindsym XF86MonBrightnessUp exec --no-startup-id sudo brightnessctl set +10%
+# bindsym XF86MonBrightnessDown exec --no-startup-id sudo brightnessctl set 10%-
+# Make down set to min brightness: Reason is say we set down to -10%, then dimmest one has is 10%, and it could be lower)
+bindsym XF86MonBrightnessDown exec --no-startup-id sudo brightnessctl set 1
 
 # Touchpad controls
 bindsym XF86TouchpadToggle exec /some/path/toggletouchpad.sh # toggle touchpad

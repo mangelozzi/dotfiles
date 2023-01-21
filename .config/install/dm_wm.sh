@@ -39,7 +39,7 @@ read "Press <ENTER> to continue..."
 sudo apt install -y playerctl
 
 # Backlight screen brightness
-sudo apt install -y xbacklight
+sudo apt install -y brightnessctl
 
 # Wallpaper
 # sudo apt install -y feh

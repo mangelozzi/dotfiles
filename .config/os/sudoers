@@ -42,6 +42,8 @@ michael ALL=NOPASSWD:/usr/sbin/reboot
 
 # i3
 # Because an argument is passed into the command, required a star to be used with other args
+michael ALL=NOPASSWD:/usr/bin/brightnessctl
+michael ALL=NOPASSWD:/usr/bin/brightnessctl *
 michael ALL=NOPASSWD:/usr/bin/systemctl suspend
 michael ALL=NOPASSWD:/usr/bin/systemctl suspend *
 michael ALL=NOPASSWD:/usr/bin/systemctl hibernate
