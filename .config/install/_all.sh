@@ -51,4 +51,10 @@ read -p "Press <ENTER> to continue..."
 bash apps.sh
 
 echo
+echo "tools.sh"
+echo "========"
+read -p "Press <ENTER> to continue..."
+bash tools.sh
+
+echo
 echo "COMPLETE."
