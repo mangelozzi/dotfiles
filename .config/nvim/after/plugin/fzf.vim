@@ -18,7 +18,7 @@ let $FZF_DEFAULT_OPTS='--bind ctrl-a:select-all'
 " --hidden = Search hidden files (for dot config files)
 " Refer to: https://github.com/sharkdp/fd#excluding-specific-files-or-directories
 " htmlcov = python unittest coverage reports
-let $FZF_DEFAULT_COMMAND="fdfind --type file --no-ignore -E '*__pycache__*' -E '*.jpg' -E '*.png' -E '*.zip' -E 'spike/*' -E '*.git' -E '*.svg' -E '*.min.css' -E '**/htmlcov/*'"
+let $FZF_DEFAULT_COMMAND="fdfind --type file --no-ignore -E '*__pycache__*' -E '*.jpg' -E '*.png' -E '*.zip' -E 'spike/*' -E '*.git' -E '*.min.css' -E '**/htmlcov/*' -E '**/static/*/wcapp/*.js'"
 
 " Don't abort the function, so if no match is found, its communicates it.
 nnoremap <silent> <leader>zn :copen<CR> :call clearmatches()<CR>

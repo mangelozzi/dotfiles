@@ -341,8 +341,8 @@ nmap <BS> <C-^>
 " m" to mark the current position to " register, then `" to jump back there
 " afterwards.
 " Also copy the word to the search register (happens natively, but adds range?)
-nmap <silent> * m""1yiw<ESC>: let @/ = @1<CR>:set hlsearch<CR>:%s/<C-R>///gn<CR>`"
-nmap <silent> # m""1yiw<ESC>: let @/ = @1<CR>:set hlsearch<CR>:%s/<C-R>?//gn<CR>`"
+nnoremap <silent> * m""1yiw<ESC>: let @/ = @1<CR>:set hlsearch<CR>:%s/<C-R>///gn<CR>`"
+nnoremap <silent> # m""1yiw<ESC>: let @/ = @1<CR>:set hlsearch<CR>:%s/<C-R>?//gn<CR>`"
 
 " Swap to single/double/back quotes with <leader>' or <leader>" or <leader>` respectively.
 noremap <leader>' :s/[`"]/'/g<CR>:noh<CR>
