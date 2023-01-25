@@ -41,8 +41,9 @@ neogit.setup {
       -- ["B"] = "BranchPopup",
       -- Removes the default mapping of "s"
       ["o"] = "GoToFile",
-      ["S"] = "", -- Stage all
-      ["U"] = "", -- Unstage all
+      ["S"] = "", -- Stage unstaged changes
+      ["<C-s>"] = "", -- Stage Everything
+      ["U"] = "", -- Unstage staged changes
       ["L"] = "", -- Use L as Low
       ["Z"] = "", -- Stash
     }
