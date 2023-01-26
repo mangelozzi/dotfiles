@@ -8,6 +8,11 @@ git config --global user.email "mangelozzi@gmail.com"
 git config --global user.name "Michael Angelozzi"
 
 echo
+echo "pinta"
+echo "-----"
+sudo apt install -y pinta
+
+echo
 echo "SpeedCrunch"
 echo "-----------"
 read -p "Press <ENTER> to continue..."
