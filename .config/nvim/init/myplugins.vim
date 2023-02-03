@@ -47,8 +47,8 @@ let g:rgflow_flags = "--smart-case -g *.{*,py} -g !*{min.css,min.js,pyc,htmlz} -
 Plug rgflow_local
 
 " Plug own plugin at nvim/tmp/vim-wsl
-let wsl_local = fnamemodify($MYVIMRC, ":p:h")."/tmp/vim-wsl"
-Plug wsl_local
+" let wsl_local = fnamemodify($MYVIMRC, ":p:h")."/tmp/vim-wsl"
+" Plug wsl_local
 
 " Plug own plugin at nvim/tmp/vim-capesky
 let capesky_local = fnamemodify($MYVIMRC, ":p:h")."/tmp/vim-capesky"
