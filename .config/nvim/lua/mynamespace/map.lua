@@ -1,0 +1,2 @@
+-- Example
+-- vim.api.nvim_set_keymap("n", "<leader>a", ":Git blame<cr>", { noremap = true })

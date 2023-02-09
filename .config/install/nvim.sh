@@ -32,8 +32,9 @@ pip3 install pynvim
 
 
 echo -e "\nInstalling Plugins:"
-nvim --headless +PlugInstall +qall
+# nvim --headless +PlugInstall +qall
 # nvim --headless +TSInstall +qpython +qjsonc +qtsx +qbash +qjavascript
+nvim --headless -c 'autocmd User PackerComplete quitall' -c 'PackerSync'
 
 echo ".NET fixes for Ubuntu 22.04 See (https://github.com/dotnet/sdk/issues/24759)"
 wget http://archive.ubuntu.com/ubuntu/pool/main/o/openssl/libssl1.1_1.1.1-1ubuntu2.1~18.04.20_amd64.deb

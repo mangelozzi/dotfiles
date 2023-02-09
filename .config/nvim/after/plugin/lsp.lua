@@ -50,3 +50,13 @@ require('mason-lspconfig').setup_handlers({
     })
   end,
 })
+
+require('lspconfig').sumneko_lua.setup {
+    settings = {
+        Lua = {
+            diagnostics = {
+                globals = { 'vim' }
+            }
+        }
+    }
+}

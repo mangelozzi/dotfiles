@@ -1,5 +1,31 @@
+vim.g.nvim_path = vim.fn.fnamemodify(vim.env.MYVIMRC, ":p:h")
+
+require("mynamespace/env")      -- Nvim Environment
+require("mynamespace/settings") -- Various settings that aren't options
+require("mynamespace/opt")      -- Set various vim options and related commands
+require("mynamespace/map")      -- Hotkey mappings
+require("mynamespace/plugins")  -- Enable plugins
+
+
+-- Key:         Ctrl-e
+-- Action:      Show treesitter capture group for textobject under cursor.
+-- vim.api.nvim_set_keymap("n", "<leader>nc", ":NvimTreeCollapseKeepBuffers<CR>", { noremap = true })
+
+--bindkey("n",    "<F7>",
+--    function()
+--        local result = vim.treesitter.get_captures_at_cursor(0)
+--        print(vim.inspect(result))
+--    end,
+--    { noremap = true, silent = false }
+--)
+
+-- TSPlayground provided command. (Need to install the plugin.)
+-- bindkey("n",    "<C-e>",  ":TSHighlightCapturesUnderCursor<CR>",   opts)
+-- This was misbehaving a lot.
+-- Might be more stable now in recent treesitter versions.
+
 -- print(" loading init.lua")
-local api = vim.api
+-- local api = vim.api
 
 -- Keymappings
 -- nvim_set_keymap({mode}, {lhs}, {rhs}, {opts})
@@ -14,15 +40,15 @@ local api = vim.api
 --            key is an error.
 -- api.nvim_set_keymap("", "Y", "y$", {noremap=true,})
 
-test = {}
-function test.make_window()
-    buf  = vim.api.nvim_create_buf(false, true)
-    vim.api.nvim_buf_set_lines(buf, 0, -1, false, {"one", "two", "three"})
-    local configi = {relative='editor', anchor='SW', width=9, height=3, col=10, row=5,  style='minimal'}
-    local win = vim.api.nvim_open_win(buf, true, configi)
-    vim.api.nvim_win_set_option(win, 'winhl', 'Normal:_NormalReversed')
-end
-return test
+-- test = {}
+-- function test.make_window()
+--     buf  = vim.api.nvim_create_buf(false, true)
+--     vim.api.nvim_buf_set_lines(buf, 0, -1, false, {"one", "two", "three"})
+--     local configi = {relative='editor', anchor='SW', width=9, height=3, col=10, row=5,  style='minimal'}
+--     local win = vim.api.nvim_open_win(buf, true, configi)
+--     vim.api.nvim_win_set_option(win, 'winhl', 'Normal:_NormalReversed')
+-- end
+-- return test
 
 --[[
 function hlyank(event, timeout)
