@@ -165,20 +165,21 @@ function! myal#AlignToColumn(motion)
     normal j
 endfunction
 
-function! myal#DuplicateLine(pasteAbove)
-    let l:winview = winsaveview()
-    let reg_backup_value = getreg('z')    " Backup the contents of the unnamed register
-    let reg_backup_type = getregtype('z')      " Save the type of the register as well
-    let cmd = 'normal "zyy"z'
-    let cmd .= (a:pasteAbove) ? 'P' : 'p'
-    exe cmd
-    call setreg('z', reg_backup_value, reg_backup_value) " Restore register
-    call winrestview(l:winview)
-    let cmd = 'normal '
-    if !a:pasteAbove
-        normal j
-    endif
-endfunction
+" Use ed command instead
+" function! myal#DuplicateLine(pasteAbove)
+"     let l:winview = winsaveview()
+"     let reg_backup_value = getreg('z')    " Backup the contents of the unnamed register
+"     let reg_backup_type = getregtype('z')      " Save the type of the register as well
+"     let cmd = 'normal "zyy"z'
+"     let cmd .= (a:pasteAbove) ? 'P' : 'p'
+"     exe cmd
+"     call setreg('z', reg_backup_value, reg_backup_value) " Restore register
+"     call winrestview(l:winview)
+"     let cmd = 'normal '
+"     if !a:pasteAbove
+"         normal j
+"     endif
+" endfunction
 
 function! myal#PrintHiGroup()
     if len(synstack(line("."), col("."))) == 0

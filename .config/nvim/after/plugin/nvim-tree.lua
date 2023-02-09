@@ -109,7 +109,7 @@ require("nvim-tree").setup { -- BEGIN_DEFAULT_OPTS
                     { key = "E",                              action = "expand_all" }, -- expand the whole tree, stopping after expanding |actions.expand_all.max_folder_discovery| folders; this might hang neovim for a while if running on a big folder
                     { key = "S",                              action = "search_node" }, -- prompt the user to enter a path and then expands the tree to match the path
                     -- { key = ".",                              action = "run_file_command" },
-                    { key = "<C-k>",                          action = "toggle_file_info" }, -- toggle a popup with file infos about the file under the cursor
+                    { key = "i",                              action = "toggle_file_info" }, -- Mnemonic: Info, <C-k> used to switch windows toggle a popup with file infos about the file under the cursor
                     { key = "?",                              action = "toggle_help" },
                     { key = "s",                              action = "toggle_mark" }, -- Mnemonic: Star - Toggle node in bookmarks
                     { key = "bmv",                            action = "bulk_move" }, -- Move all bookmarked nodes into specified location

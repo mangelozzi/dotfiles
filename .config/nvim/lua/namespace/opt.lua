@@ -101,15 +101,11 @@ vim.opt.linebreak = true        -- wrap at word breaks
 vim.opt.showbreak = "↪"         -- show an ellipsis at the start of wrapped lines
 
 -- IDENTATION
--- vim.api.nvim_command('filetype plugin on') -- Enable plugins (for newtrw), built in, comes with VIM (on is the default for Neovim)
-vim.api.nvim_command('filetype indent off')
-
 vim.opt.autoindent = true       -- When opening a new line keep indentation
 vim.opt.smartindent = true      -- Testing it
 vim.opt.indentexpr = ""
 vim.opt.shiftround = true       -- Round indent to multiple of 'shiftwidth'. Applies to > and < commands. CTRL-T and CTRL-D in insert mode always round to a multiple of shiftwidths.
 
-vim.api.nvim_command('highlight SpecialKey ctermfg = 3')
 
 -- WORD TOOLS
 -- Specify the spelling language, have to use `:vim.opt.spell` to enable it.
@@ -118,7 +114,6 @@ vim.opt.spelllang = "en_gb"
 
 -- GUI COMPUTER
 -- Sets selectmode, mousemodel, keymodel, and selection
-vim.api.nvim_command('behave xterm')
 vim.opt.mouse = 'a'             -- Enable use of the mouse for all modes
 vim.opt.number = true           -- Display line numbers in the left margin (sucks for copy pasting on servers)
 vim.opt.relativenumber = true   -- Relative line number in margin

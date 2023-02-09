@@ -1,10 +1,11 @@
 vim.g.nvim_path = vim.fn.fnamemodify(vim.env.MYVIMRC, ":p:h")
 
-require("mynamespace/env")      -- Nvim Environment
-require("mynamespace/settings") -- Various settings that aren't options
-require("mynamespace/opt")      -- Set various vim options and related commands
-require("mynamespace/map")      -- Hotkey mappings
-require("mynamespace/plugins")  -- Enable plugins
+require("namespace/env")      -- Nvim Environment
+require("namespace/settings") -- Various settings that aren't options
+require("namespace/opt")      -- Set various vim options and related commands
+require("namespace/cmd")      -- Run various vim commands
+require("namespace/map")      -- Hotkey mappings
+require("namespace/plugins")  -- Enable plugins
 
 
 -- Key:         Ctrl-e
