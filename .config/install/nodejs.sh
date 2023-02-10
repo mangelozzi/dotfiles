@@ -30,3 +30,5 @@ sudo npm install -g bash-language-server
 sudo npm install -g vim-language-server
 # NPM: Packages
 sudo npm install -g jshint prettier-miscellaneous
+# For formatting lua code
+sudo npm install -g lua-fmt

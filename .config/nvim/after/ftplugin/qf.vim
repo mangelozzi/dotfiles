@@ -1,1 +1,0 @@
-noremap <buffer> o <CR>

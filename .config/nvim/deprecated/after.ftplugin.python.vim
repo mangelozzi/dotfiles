@@ -15,5 +15,5 @@
 
 " Treesitter based folding
 setlocal foldlevel=99
-set foldmethod=expr
-set foldexpr=nvim_treesitter#foldexpr()
+setlocal foldmethod=expr
+setlocal foldexpr=nvim_treesitter#foldexpr()

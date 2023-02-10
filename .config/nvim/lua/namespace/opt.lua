@@ -106,6 +106,16 @@ vim.opt.smartindent = true      -- Testing it
 vim.opt.indentexpr = ""
 vim.opt.shiftround = true       -- Round indent to multiple of 'shiftwidth'. Applies to > and < commands. CTRL-T and CTRL-D in insert mode always round to a multiple of shiftwidths.
 
+-- COPY PASTE
+-- In Linux there are multiple clipboard like buffers called selections:
+--   The PRIMARY (*) selection is updated every time you select text. To paste from it (in graphical programs), middle-click or use ShiftInsert. In Vim, it is accessible through the "* register.
+--   The CLIPBOARD (+) selection is updated when you explicitly cut or copy anything (text or other data). In other words, it is used just like the Windows or Mac OS clipboards. To paste from it, the usual shortcut is CtrlV in grapical programs. In Vim, it is accessible through the "+ register. In Windows:
+--   * is the system clipboard
+--   + is NOT the system clipboard
+--
+-- vim.opt.clipboard = 'unnamed' -- Use "* for all yank, delete, change and put operations which would normally go to the unnamed register.
+vim.opt.clipboard = vim.opt.clipboard + 'unnamedplus' -- Use "+ for all yank, delete, change and put operations which would normally go to the unnamed register.
+
 
 -- WORD TOOLS
 -- Specify the spelling language, have to use `:vim.opt.spell` to enable it.
@@ -120,3 +130,4 @@ vim.opt.relativenumber = true   -- Relative line number in margin
 vim.opt.signcolumn = "number"   -- "auto", "number", "yes" or "no"
 
 vim.opt.thesaurus = vim.opt.thesaurus + (vim.g.nvim_path .. '/thesaurus/english.txt')
+

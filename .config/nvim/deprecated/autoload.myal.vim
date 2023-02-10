@@ -6,71 +6,71 @@
 " NOTE mappings cannot be placed here, because they won't be applied
 " Autoload is only loaded on demand (i.e. when a function is called)
 
-function! myal#PythonVar2Dict(...)
-    " Python variable to dict (repeatable with dot)
-    " from:   foo = 'bar'
-    " to:   'foo' : 'bar',
-    " Usage: nnoremap <expr> <leader>{ myal#PythonVar2Dict()
-    if a:0
-        " perform operation
-        " let save_cursor = getcurpos()
-        execute "normal! I'\<ESC>ea'\<ESC>f=r:A,\<ESC>j^"
-    else
-        " set up
-        let &operatorfunc = matchstr(expand('<sfile>'), '[^. ]*$')
-        return "g@\<space>"
-    endif
-endfunction
+" function! myal#PythonVar2Dict(...)
+"     " Python variable to dict (repeatable with dot)
+"     " from:   foo = 'bar'
+"     " to:   'foo' : 'bar',
+"     " Usage: nnoremap <expr> <leader>{ myal#PythonVar2Dict()
+"     if a:0
+"         " perform operation
+"         " let save_cursor = getcurpos()
+"         execute "normal! I'\<ESC>ea'\<ESC>f=r:A,\<ESC>j^"
+"     else
+"         " set up
+"         let &operatorfunc = matchstr(expand('<sfile>'), '[^. ]*$')
+"         return "g@\<space>"
+"     endif
+" endfunction
+"
+" function! myal#PythonDict2Var(...)
+"     " Python dict to variable (repeatable with dot)
+"     " from: 'foo' : 'bar',
+"     " to:     foo = 'bar'
+"     " Usage: nnoremap <expr> <leader>= myal#PythonDict2Var()
+"   if a:0
+"     " perform operation
+"     execute "normal! ^xelxf:r=$xj"
+"   else
+"     " set up
+"     let &operatorfunc = matchstr(expand('<sfile>'), '[^. ]*$')
+"     return "g@\<space>"
+"   endif
+" endfunction
 
-function! myal#PythonDict2Var(...)
-    " Python dict to variable (repeatable with dot)
-    " from: 'foo' : 'bar',
-    " to:     foo = 'bar'
-    " Usage: nnoremap <expr> <leader>= myal#PythonDict2Var()
-  if a:0
-    " perform operation
-    execute "normal! ^xelxf:r=$xj"
-  else
-    " set up
-    let &operatorfunc = matchstr(expand('<sfile>'), '[^. ]*$')
-    return "g@\<space>"
-  endif
-endfunction
 
+" function! myal#SortLinesOpFunc(...)
+"     " nnoremap <silent> \s :<C-u>set operatorfunc=myal#SortLinesOpFunc<CR>g@
+"     '[,']sort
+" endfunction
 
-function! myal#SortLinesOpFunc(...)
-    " nnoremap <silent> \s :<C-u>set operatorfunc=myal#SortLinesOpFunc<CR>g@
-    '[,']sort
-endfunction
+" function! myal#Breakpoint(...)
+"     if &filetype == "python"
+"         normal Obreakpoint()
+"     elseif index(["javascript", "html", "htmldjango"], &filetype) != -1
+"         normal Odebugger;
+"     else
+"         echom "No run breakpoint defined for this file type"
+"     endif
+" endfunction
 
-function! myal#Breakpoint(...)
-    if &filetype == "python"
-        normal Obreakpoint()
-    elseif index(["javascript", "html", "htmldjango"], &filetype) != -1
-        normal Odebugger;
-    else
-        echom "No run breakpoint defined for this file type"
-    endif
-endfunction
-
-function! myal#ScssToSass()
-    " let l:winview = winsaveview()
-    " Trailing ;
-    :%s/;$//e
-    " Replace /* with //
-    :%s/\/\*/\/\//e
-    " Remove */
-    :%s/ \*\///e
-    " replace { then content with new line
-    :%s/\s\+{\s*/\r    /e
-    " Remove `; {`
-    :%s/\s*;\s*}\s*//e
-    " Delete any lines that are just whitespace with a curl brace
-    :g/^\s*[{}]\s*$/de
-    " Delete whitespce then opening curly brace from line endings
-    :%s/\s*{\s*$//e
-    " call winrestview(l:winview)
-endfunction
+" function! myal#ScssToSass()
+"     " let l:winview = winsaveview()
+"     " Trailing ;
+"     :%s/;$//e
+"     " Replace /* with //
+"     :%s/\/\*/\/\//e
+"     " Remove */
+"     :%s/ \*\///e
+"     " replace { then content with new line
+"     :%s/\s\+{\s*/\r    /e
+"     " Remove `; {`
+"     :%s/\s*;\s*}\s*//e
+"     " Delete any lines that are just whitespace with a curl brace
+"     :g/^\s*[{}]\s*$/de
+"     " Delete whitespce then opening curly brace from line endings
+"     :%s/\s*{\s*$//e
+"     " call winrestview(l:winview)
+" endfunction
 
 " Prevent FZF commands from open in none modifiable buffers
 function! myal#FZFOpen(cmd)
@@ -84,86 +84,91 @@ function! myal#FZFOpen(cmd)
     exe a:cmd
 endfunction
 
-function! myal#Run()
-    " F5
-    " 1. First save file changes
-    write
-    if &filetype == "python"
-        " Such a round about way due to printing
-        call feedkeys(":!python %\<CR>")
-    elseif &filetype == "vim"
-        source %
-    elseif &filetype == "html" || &filetype == "markdown"
-        !google-chrome %
-    else
-        echom "No run command linked for this filetype, using system app..."
-        WslBrowse
-    endif
-endfunction
+" function! myal#Run()
+"     " F5
+"     " 1. First save file changes
+"     write
+"     if &filetype == "python"
+"         " Such a round about way due to printing
+"         call feedkeys(":!python %\<CR>")
+"     elseif &filetype == "vim"
+"         source %
+"     elseif &filetype == "html" || &filetype == "markdown"
+"         !google-chrome %
+"     else
+"         echom "No run command linked for this filetype, using system app..."
+"         WslBrowse
+"     endif
+" endfunction
 
-function! myal#Format()
-    " Mapped to F6
-    " 1. First save file changes
-    write
-    if &filetype == "python"
-        " 2. Now black will edit the file and save it
-        !isort --line-length 100 --profile black %
-        !black -S --line-length 100 %
-    elseif &filetype == "javascript" || &filetype == "typescript"
-        " 2. Prettier edit in place (--write)
-        !prettier --write --print-width 100 --single-quote true --tab-width 4 --arrow-parens avoid "%:p"
-    elseif &filetype == "html" || &filetype == "htmldjango"
-        " 2. Prettier edit in place (--write)
-        !djlint --format-css --format-js "%:p"
-        " !prettier --write --print-width 100 --tab-width 4 "%:p"
-    elseif &filetype == "css"
-        " 2. Prettier edit in place (--write)
-        !djlint "%:p"
-    elseif &filetype == "json"
-        " Without the | write does not keep the changes
-        execute "%!python -m json.tool --indent 4" | write
-    endif
-    if v:shell_error != 0
-        " If it failed to format, show the error message so can see the line/col number
-        " 'normal g<' does not make the message stay up
-        call feedkeys("g<")
-    endif
-    " 3. Finally load the changes the autoformatter has made (and are saved)
-    edit!
-endfunction
+" function! myal#Format()
+"     " Mapped to F6
+"     " 1. First save file changes
+"     write
+"     if &filetype == "python"
+"         " 2. Now black will edit the file and save it
+"         !isort --line-length 100 --profile black %
+"         !black -S --line-length 100 %
+"     elseif &filetype == "javascript" || &filetype == "typescript"
+"         " 2. Prettier edit in place (--write)
+"         !prettier --write --print-width 100 --single-quote true --tab-width 4 --arrow-parens avoid "%:p"
+"     elseif &filetype == "lua"
+"         echo "is lua to format"
+"         " 2. Prettier edit in place (--write)
+"         !luafmt --write-mode replace "%:p"
+"         echo "luafmt --write-mode replace" "%:p"
+"     elseif &filetype == "html" || &filetype == "htmldjango"
+"         " 2. Prettier edit in place (--write)
+"         !djlint --format-css --format-js "%:p"
+"         " !prettier --write --print-width 100 --tab-width 4 "%:p"
+"     elseif &filetype == "css"
+"         " 2. Prettier edit in place (--write)
+"         !djlint "%:p"
+"     elseif &filetype == "json"
+"         " Without the | write does not keep the changes
+"         execute "%!python -m json.tool --indent 4" | write
+"     endif
+"     if v:shell_error != 0
+"         " If it failed to format, show the error message so can see the line/col number
+"         " 'normal g<' does not make the message stay up
+"         call feedkeys("g<")
+"     endif
+"     " 3. Finally load the changes the autoformatter has made (and are saved)
+"     edit!
+" endfunction
 
-function! myal#Other()
-    " F7
-    if &filetype == "vim"
-        ColorizerAttachToBuffer<CR>
-        :lua vim.lsp.stop_client(vim.lsp.get_active_clients())<CR>:e<CR>
-    elseif &filetype == "javascript"
-        !jshint --config ~/.config/nvim/tools/.jshintrc %
-    endif
-endfunction
+" function! myal#Other()
+"     " F7
+"     if &filetype == "vim"
+"         ColorizerAttachToBuffer<CR>
+"         :lua vim.lsp.stop_client(vim.lsp.get_active_clients())<CR>:e<CR>
+"     elseif &filetype == "javascript"
+"         !jshint --config ~/.config/nvim/tools/.jshintrc %
+"     endif
+" endfunction
 
-" This function sets up the opfunc so it can be repeated with a dot.
-" Align to Column works by moving the next none whitespace character to the
-" desired columned. e.g. 32<hotkey> will align the next none whitespace
-" character to column 32. Then press dot to repeat the operation.
-function! myal#SetupAlignToColumn(col)
-    if v:count != 0
-        let w:myal_align_col = v:count
-    endif
-    set opfunc=myal#AlignToColumn
-    return 'g@l'
-endfunction
-function! myal#AlignToColumn(motion)
-    " Get cursor to just before next none space
-    let reg_backup_value = getreg('z')    " Backup the contents of the unnamed register
-    let reg_backup_type = getregtype('z')      " Save the type of the register as well
-    let l:winview = winsaveview()
-    let cmd = 'normal wh'.w:myal_align_col.'a'."\<SPACE>\<ESC>".'"zd'.(w:myal_align_col - 1).'|'
-    exe cmd
-    call winrestview(l:winview)
-    call setreg('z', reg_backup_value, reg_backup_value) " Restore register
-    normal j
-endfunction
+" " This function sets up the opfunc so it can be repeated with a dot.
+" " Align to Column works by moving the next none whitespace character to the
+" " desired columned. e.g. 32<hotkey> will align the next none whitespace
+" " character to column 32. Then press dot to repeat the operation.
+" function! myal#SetupAlignToColumn(col)
+"     if v:count != 0
+"         let w:myal_align_col = v:count
+"     endif
+"     set opfunc=myal#AlignToColumn
+"     return 'g@l'
+" endfunction
+" function! myal#AlignToColumn(motion)
+"     " Get cursor to just before next none space
+"     let reg_backup_value = getreg('z')    " Backup the contents of the unnamed register
+"     let reg_backup_type = getregtype('z')      " Save the type of the register as well
+"     let l:winview = winsaveview()
+"     let cmd = 'normal wh'.w:myal_align_col.'a'."\<SPACE>\<ESC>".'"zd'.(w:myal_align_col - 1).'|'
+"     exe cmd
+"     call winrestview(l:winview)
+"     call setreg('z', reg_backup_value, reg_backup_value) " Restore register
+"     normal j
+" endfunction
 
 " Use ed command instead
 " function! myal#DuplicateLine(pasteAbove)
@@ -275,6 +280,7 @@ function! myal#QuitIfLastBuffer()
         :bd
     endif
 endfunction
+
 " from https://stackoverflow.com/a/44950143/5506400
 function! myal#DeleteCurBufferNotCloseWindow() abort
     if &modified
@@ -310,18 +316,18 @@ function! myal#DeleteCurBufferNotCloseWindow() abort
     endif
 endfunction
 
-function! myal#StripTrailingWhitespace()
-    let l:winview = winsaveview()
-    :%s/\s\+$//e
-    call winrestview(l:winview)
-    echom "Trailing whitespace stripped."
-endfun
-function! myal#AutoIndentFile()
-    let l:winview = winsaveview()
-    normal gg=G
-    call winrestview(l:winview)
-    echom "Auto Indented buffer."
-endfun
+" function! myal#StripTrailingWhitespace()
+"     let l:winview = winsaveview()
+"     :%s/\s\+$//e
+"     call winrestview(l:winview)
+"     echom "Trailing whitespace stripped."
+" endfun
+" function! myal#AutoIndentFile()
+"     let l:winview = winsaveview()
+"     normal gg=G
+"     call winrestview(l:winview)
+"     echom "Auto Indented buffer."
+" endfun
 
 function! myal#GetVisualSelection(mode)
     " call with visualmode() as the argument

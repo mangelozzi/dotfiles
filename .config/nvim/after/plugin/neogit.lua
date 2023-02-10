@@ -1,9 +1,5 @@
 local neogit = require('neogit')
 
--- Map <leader>g to opening neogit
-vim.api.nvim_set_keymap('n', '<leader>i', ":lua require('neogit').open({ kind = 'tab' })<CR>", {noremap = true})
-vim.api.nvim_set_keymap('n', '<leader>I', ":lua require('neogit').open({ cwd='/home/michael/.config/' })<CR>", {noremap = true})
-
 -- Settings, refer to: https://github.com/TimUntersberger/neogit
 neogit.setup {
   -- Neogit refreshes its internal state after specific events, which can be expensive depending on the repository size.
@@ -46,9 +42,29 @@ neogit.setup {
       ["U"] = "", -- Unstage staged changes
       ["L"] = "", -- Use L as Low
       ["Z"] = "", -- Stash
+      ["<ESC>"] = ":tabclose", -- Close the status tab page
     }
   }
 }
 
+-- COLORS
 
+vim.api.nvim_set_hl(0, 'NeogitNotificationInfo',        { fg = "#80ff80"})
+vim.api.nvim_set_hl(0, 'NeogitNotificationWarning',     { fg = "#ffff00"})
+vim.api.nvim_set_hl(0, 'NeogitNotificationError',       { fg = "#ff00ff"})
 
+-- vim.api.nvim_set_hl(0, 'NeogitDiffAddHighlight', { link = "DiffAdd"})
+-- vim.api.nvim_set_hl(0, 'NeogitDiffDeleteHighlight', { link = "DiffChange"})
+
+vim.api.nvim_set_hl(0, 'NeogitDiffAddHighlight',        { fg = '#80ff80', bg = '#404040' })
+vim.api.nvim_set_hl(0, 'NeogitDiffDeleteHighlight',     { fg = '#ff0000', bg = '#404040' })
+vim.api.nvim_set_hl(0, 'NeogitDiffContextHighlight',    { fg = '#ffffff', bg = '#404040' })
+
+vim.api.nvim_set_hl(0, 'NeogitHunkHeader',              { fg = '#202020', bg = '#b0b0b0' })
+vim.api.nvim_set_hl(0, 'NeogitHunkHeaderHighlight',     { fg = '#202020', bg = '#ffffff' })
+
+-- KEY MAPS TO START NEOGIT
+-- Prefer '<leader>i' to '<leader>g' cause can open git review with one hand while drinking water with other
+-- Map <leader>g to opening neogit
+vim.api.nvim_set_keymap('n', '<leader>i', ":lua require('neogit').open({ kind = 'tab' })<CR>", {noremap = true})
+vim.api.nvim_set_keymap('n', '<leader>I', ":lua require('neogit').open({ cwd='/home/michael/.config/' })<CR>", {noremap = true})

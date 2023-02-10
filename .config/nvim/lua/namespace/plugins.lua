@@ -38,7 +38,6 @@ return require('packer').startup(function(use)
     use('wellle/targets.vim')
     use('tpope/vim-surround')
     use('numToStr/Comment.nvim')
-    use('tpope/vim-eunuch')
     use('tpope/vim-repeat')
     use('vim-scripts/ReplaceWithRegister')
     use({ -- xml attributes with x
@@ -61,7 +60,6 @@ return require('packer').startup(function(use)
     use('norcalli/nvim-colorizer.lua')
     use('pangloss/vim-javascript')
 
-    ------------------------------------------------------------------
     -- SPELLCHECK EXTRAS
     use({
         'inkarkat/vim-SpellCheck',
@@ -81,14 +79,6 @@ return require('packer').startup(function(use)
 	requires = {{'junegunn/fzf'}}
     })
 
-    -- " {{{2 TREE BROWSER
-    -- Plug 'preservim/nerdtree', { 'on': ['NERDTreeToggle', 'NERDTreeFind']}
-    -- " TODO: Could replace syntax tree highligthing with this:
-    -- " https://github.com/preservim/nerdtree/issues/433#issuecomment-92590696
-    -- Plug 'tiagofumo/vim-nerdtree-syntax-highlight', { 'on': ['NERDTreeToggle', 'NERDTreeFind']}
-    -- Plug 'kshenoy/vim-signature', { 'on': ['NERDTreeToggle', 'NERDTreeFind']}
-    -- " Make NERDtree error Plug 'Xuyuanp/nerdtree-git-plugin'
-
     -- TREE BROWSER
     use({
         -- optional, for file icons, better to load it before than as a dependency: https://github.com/nvim-tree/nvim-tree.lua/issues/1458
@@ -102,7 +92,7 @@ return require('packer').startup(function(use)
     })
 
     -- LSP
-    -- LSP Setup with Mason, from: https://github.com/VonHeikemen/lsp-zero.nvim/blob/v1.x/doc/md/lsp.md#you-might-not-need-lsp-zero
+    -- Setup with Mason, from: https://github.com/VonHeikemen/lsp-zero.nvim/blob/v1.x/doc/md/lsp.md#you-might-not-need-lsp-zero
     use({
         "williamboman/mason.nvim",
         "williamboman/mason-lspconfig.nvim",
