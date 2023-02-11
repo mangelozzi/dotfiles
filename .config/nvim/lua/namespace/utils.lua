@@ -123,55 +123,9 @@ function M.strip_whitespace()
     print("Trailing whitespace stripped.")
 end
 
-
-
--- Prevent FZF commands from open in none modifiable buffers
--- function M.fzf_open(cmd)
---     -- If more than 1 window, and buffer is not modifiable, or file type is
---     -- NERD tree or Quickfix type
---     local ft = vim.opt_local.filetype:get()
---     if vim.fn.winnr('$') > 1 and (not vim.opt_local.modifiable:get() or ft == 'NvimTree' or ft == 'qf') then
---         -- Move one window to the right, then up
---         vim.cmd('wincmd l')
---         vim.cmd('wincmd k')
---     end
---     vim.cmd('exe a:' .. cmd)
--- end
-
-
 return M
 
 
--- function! myal#PythonVar2Dict(...)
---     " Python variable to dict (repeatable with dot)
---     " from:   foo = 'bar'
---     " to:   'foo' : 'bar',
---     " Usage: nnoremap <expr> <leader>{ myal#PythonVar2Dict()
---     if a:0
---         " perform operation
---         " let save_cursor = getcurpos()
---         execute "normal! I'\<ESC>ea'\<ESC>f=r:A,\<ESC>j^"
---     else
---         " set up
---         let &operatorfunc = matchstr(expand('<sfile>'), '[^. ]*$')
---         return "g@\<space>"
---     endif
--- endfunction
---
--- function! myal#PythonDict2Var(...)
---     " Python dict to variable (repeatable with dot)
---     " from: 'foo' : 'bar',
---     " to:     foo = 'bar'
---     " Usage: nnoremap <expr> <leader>= myal#PythonDict2Var()
---   if a:0
---     " perform operation
---     execute "normal! ^xelxf:r=$xj"
---   else
---     " set up
---     let &operatorfunc = matchstr(expand('<sfile>'), '[^. ]*$')
---     return "g@\<space>"
---   endif
--- endfunction
 
 
 -- " This function sets up the opfunc so it can be repeated with a dot.

@@ -1,6 +1,13 @@
+-- System Dependant variables
+vim.g.is_win   = vim.fn.has('win32') or vim.fn.has('win64')
+vim.g.is_linux = vim.fn.has('unix') and not vim.fn.has('macunix')
+vim.g.is_mac   = vim.fn.has('macunix')
+
+
 -- Disable unused providers
 vim.g.loaded_ruby_provider = 0
 vim.g.loaded_perl_provider = 0
+
 
 -- PYTHON 2
 -- Disable python2 support

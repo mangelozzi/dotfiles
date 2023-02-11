@@ -5,6 +5,7 @@ require("namespace/opt")      -- Set various vim options and related commands
 require("namespace/cmd")      -- Run various vim commands
 require("namespace/keymap")   -- Hotkey mappings
 require("namespace/autocmds") -- Auto commands
+require("namespace/colors")   -- Color theme, must be after 'opt', changes settings
 require("namespace/plugins")  -- Enable plugins
 
 -- -- require caches result, then have to restart
@@ -14,38 +15,6 @@ require("namespace/plugins")  -- Enable plugins
 -- dofile(vim.g.nvim_path .. "/lua/namespace/keymap.lua")   -- Hotkey mappings
 -- dofile(vim.g.nvim_path .. "/lua/namespace/autocmds.lua") -- Auto commands
 -- dofile(vim.g.nvim_path .. "/lua/namespace/plugins.lua")  -- Enable plugins
-
-vim.cmd('color capesky') -- set theme
-
-
--- init/status.vim and status_diff.vim to sort out
-
--- " {{{1 SOURCE INIT FILES
--- "==============================================================================
--- " Sourced plugins before own personal maps
--- " Where <sfile> when executing a ":source" command, is replaced with the file name of the sourced file.
--- "source <sfile>:h/init/env.vim
--- " source <sfile>:h/init/myplugins.vim
--- " {{{1 COLOUR SCHEME & DIFF MODE
--- " Set Color Scheme (diff color scheme set in diff section
--- if !&diff
---     " If NOT diff mode
---     " color michael
---     color capesky       " Note this resets all highlighting
---     " Set status line after color theme
---     source <sfile>:h/init/status.vim
--- endif
---
--- if &diff
---     " Make all unchanged text by default one standard color
---     " syntax off
---     set norelativenumber
---     color michael_diff  " Note this resets all highlighting
---     " Set status line after color theme
---     source <sfile>:h/init/status_diff.vim
---     " normal <C-w>=
---     normal zR
--- endif
 
 
 
