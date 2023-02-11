@@ -2,11 +2,10 @@
 
 local utils = require("namespace.utils")
 
-local augroup = vim.api.nvim_create_augroup
-local NamespaceGroup = augroup("Namespace", {})
+local NamespaceGroup = vim.api.nvim_create_augroup("Namespace", {clear = true})
 
 local no_trim_fts = {
-    ["markdown"] = true,
+    ["markdown"] = true
 }
 local function strip_whitespace_handler(opts)
     local ft = vim.bo[opts.buf].filetype
@@ -16,19 +15,38 @@ local function strip_whitespace_handler(opts)
 end
 
 vim.api.nvim_create_autocmd(
-    "BufWritePre", {
-        desc = 'Strip whitespace before save on all filetypes except markdown files',
+    "BufWritePre",
+    {
+        desc = "Strip whitespace before save on all filetypes except markdown files",
         group = NamespaceGroup,
-        callback = strip_whitespace_handler,
+        callback = strip_whitespace_handler
+    }
+)
+
+vim.api.nvim_create_autocmd(
+    "BufWritePost",
+    {
+        desc = "Source the lua/vim file after saving.",
+        group = NamespaceGroup,
+        pattern = {"*.lua", "*.vim"},
+        callback = function()
+            vim.cmd("source")
+            print("File sourced after saving.")
+        end
     }
 )
 
 -- https://github.com/wbthomason/packer.nvim#quickstart
 -- You can configure Neovim to automatically run :PackerCompile whenever plugins.lua is updated
--- Not working
--- vim.cmd([[
---   augroup NameSpace
---     autocmd!
---     autocmd BufWritePost plugins.lua source <afile> | PackerCompile | PackerSync
---   augroup end
--- ]])
+vim.api.nvim_create_autocmd(
+    "BufWritePost",
+    {
+        desc = "Run packer sync/compile after editing plugins.lua file",
+        group = NamespaceGroup,
+        pattern = "plugins.lua",
+        callback = function()
+            vim.cmd("PackerCompile")
+            vim.cmd("PackerSync")
+        end
+    }
+)

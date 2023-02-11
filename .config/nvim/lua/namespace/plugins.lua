@@ -10,6 +10,8 @@
 -- 'tmhedberg/SimpylFold'
 
 -- PLUGINS TO CHECKOUT
+-- 'jose-elias-alvarez/null-ls.nvim' for autoformatting
+-- 'mfussenegger/nvim-dap' auto inserting correct breakpoint type
 -- 'adisen99/codeschool.nvim'
 
 -- Boot strap packer
