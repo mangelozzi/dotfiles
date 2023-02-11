@@ -1,3 +1,6 @@
+-- :help lua-vim-options
+-- vim.opt_local for buffer local options
+
 -- COLORS
 -- vim.opt.background = "dark"
 vim.opt.termguicolors = true
@@ -35,9 +38,10 @@ vim.opt.list = false            -- Dont show spaces/tabs/newlines etc
 vim.opt.modeline = false        -- Modelines are vimscript snippets in normal files which vim interprets, e.g. `ex:`
 vim.opt.undolevels = 3000       -- Default 1000.
 -- Do not show "match xx of xx and other messages during auto-completion
+-- vim.opt.shortmess :append { "c" }
 vim.opt.shortmess = vim.opt.shortmess + "c"
 -- Do show echom messages during file manipulation and autocmd (like default Vim, see Neovim FAQ)
-vim.opt.shortmess = vim.opt.shortmess - "F"
+vim.opt.shortmess:remove { "F" }
 vim.opt.virtualedit = "block"   -- Virtual edit is useful for visual block edit
 vim.opt.joinspaces = false      -- Do not add two space after a period when joining lines or formatting texts, see https://tinyurl.com/y3yy9kov
 vim.opt.synmaxcol = 500         -- Text after this column number is not highlighted
@@ -47,7 +51,7 @@ vim.opt.swapfile = false        -- Disable creating swapfiles, see https://goo.g
 vim.opt.backup = false
 -- set noshowmode               -- Disables showing which mode one is in (does not giveback any more space cause I use 2 lines for the command area)
 -- Disable automatic line wrap (line break inssert) in certain file types
-vim.opt.formatoptions = vim.opt.formatoptions - "t"
+vim.opt.formatoptions:remove { "t" }
 
 -- Show white space chars. extends and precedes is for when word wrap is off
 -- Get shapes from here https://www.copypastecharacter.com/graphic-shapes
@@ -67,7 +71,7 @@ vim.opt.showmode = true          -- Do show mode in command window area, e.g. `-
 
 -- FINDING FILES
 -- Use with wild menu
-vim.opt.path = vim.opt.path + "**"
+vim.opt.path:append { "**" }
 
 -- WILD COMPLETION
 vim.opt.wildmenu = true         -- Better command-line completion
@@ -80,11 +84,11 @@ vim.opt.wildmode = "longest:full,full"
 
 -- Ignore certain files and folders when globbing
 vim.opt.wildignore = "*.pyc,*.zip,package-lock.json"
-vim.opt.wildignore = vim.opt.wildignore + "**/spike/**,**/ignore/**,**/temp/static/**"
-vim.opt.wildignore = vim.opt.wildignore + "**/venv/**,**/node_modules/**,**/.git/**"
+vim.opt.wildignore:append {"**/spike/**", "**/ignore/**", "**/temp/static/**"}
+vim.opt.wildignore:append {"**/venv/**", "**/node_modules/**", "**/.git/**"}
 vim.opt.pumblend = 10           -- Transparency of Pop Up Menu, 0=solid, 100=Fully Transparent
 
--- vim.opt.completeopt = vim.opt.completeopt - "preview"    " Turn off annoying vsplit top preview window
+-- vim.opt.completeopt:remove { "preview" } -- Turn off annoying vsplit top preview window
 -- Can vim.opt.'completeopt' to have a better completion experience
 -- Refer to init file, and waiting for https://github.com/nvim-lua/completion-nvim/issues/235
 vim.opt.completeopt = "menuone,noinsert,noselect"
@@ -114,7 +118,7 @@ vim.opt.shiftround = true       -- Round indent to multiple of 'shiftwidth'. App
 --   + is NOT the system clipboard
 --
 -- vim.opt.clipboard = 'unnamed' -- Use "* for all yank, delete, change and put operations which would normally go to the unnamed register.
-vim.opt.clipboard = vim.opt.clipboard + 'unnamedplus' -- Use "+ for all yank, delete, change and put operations which would normally go to the unnamed register.
+vim.opt.clipboard:append {'unnamedplus'} -- Use "+ for all yank, delete, change and put operations which would normally go to the unnamed register.
 
 
 -- WORD TOOLS
@@ -129,5 +133,5 @@ vim.opt.number = true           -- Display line numbers in the left margin (suck
 vim.opt.relativenumber = true   -- Relative line number in margin
 vim.opt.signcolumn = "number"   -- "auto", "number", "yes" or "no"
 
-vim.opt.thesaurus = vim.opt.thesaurus + (vim.g.nvim_path .. '/thesaurus/english.txt')
+vim.opt.thesaurus:append {vim.g.nvim_path .. '/thesaurus/english.txt'}
 

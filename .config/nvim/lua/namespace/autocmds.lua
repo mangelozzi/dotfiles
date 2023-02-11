@@ -22,3 +22,13 @@ vim.api.nvim_create_autocmd(
         callback = strip_whitespace_handler,
     }
 )
+
+-- https://github.com/wbthomason/packer.nvim#quickstart
+-- You can configure Neovim to automatically run :PackerCompile whenever plugins.lua is updated
+-- Not working
+-- vim.cmd([[
+--   augroup NameSpace
+--     autocmd!
+--     autocmd BufWritePost plugins.lua source <afile> | PackerCompile | PackerSync
+--   augroup end
+-- ]])

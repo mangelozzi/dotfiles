@@ -7,6 +7,14 @@ require("namespace/keymap")   -- Hotkey mappings
 require("namespace/autocmds") -- Auto commands
 require("namespace/plugins")  -- Enable plugins
 
+-- -- require caches result, then have to restart
+-- dofile(vim.g.nvim_path .. "/lua/namespace/globals.lua")  -- Globals variables/settings
+-- dofile(vim.g.nvim_path .. "/lua/namespace/opt.lua")      -- Set various vim options and related commands
+-- dofile(vim.g.nvim_path .. "/lua/namespace/cmd.lua")      -- Run various vim commands
+-- dofile(vim.g.nvim_path .. "/lua/namespace/keymap.lua")   -- Hotkey mappings
+-- dofile(vim.g.nvim_path .. "/lua/namespace/autocmds.lua") -- Auto commands
+-- dofile(vim.g.nvim_path .. "/lua/namespace/plugins.lua")  -- Enable plugins
+
 vim.cmd('color capesky') -- set theme
 
 

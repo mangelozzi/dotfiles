@@ -124,6 +124,21 @@ function M.strip_whitespace()
 end
 
 
+
+-- Prevent FZF commands from open in none modifiable buffers
+-- function M.fzf_open(cmd)
+--     -- If more than 1 window, and buffer is not modifiable, or file type is
+--     -- NERD tree or Quickfix type
+--     local ft = vim.opt_local.filetype:get()
+--     if vim.fn.winnr('$') > 1 and (not vim.opt_local.modifiable:get() or ft == 'NvimTree' or ft == 'qf') then
+--         -- Move one window to the right, then up
+--         vim.cmd('wincmd l')
+--         vim.cmd('wincmd k')
+--     end
+--     vim.cmd('exe a:' .. cmd)
+-- end
+
+
 return M
 
 
