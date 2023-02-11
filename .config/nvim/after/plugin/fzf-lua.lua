@@ -110,19 +110,32 @@ vim.api.nvim_set_hl(0, "FzfLuaTitle",               { fg = "#ffffff"}) -- Previe
 -- vim.api.nvim_set_hl(0, "FzfLuaHelpNormal",          { fg = "#00ff00", bg="#ff0000" })
 -- vim.api.nvim_set_hl(0, "FzfLuaHelpBorder",          { fg = "#00ff00", bg="#ff0000" })
 
--- Buffers
+-- (B)uffers
 vim.keymap.set("n", "<leader><leader>", require("fzf-lua").buffers, {noremap = true, silent = true})
 
--- Files
+-- (F)iles
 vim.keymap.set("n", "<leader>f", require("fzf-lua").files, {noremap = true, silent = true})
 
--- Lines
+-- (L)ines
 vim.keymap.set("n", "<leader>zl", require("fzf-lua").lines, {noremap = true, silent = true})
 
--- History
+-- (H)istory
 vim.keymap.set("n", "<leader>zh", require("fzf-lua").oldfiles, {noremap = true, silent = true})
 
 -- Help
 vim.keymap.set("n", "<leader>z?", require("fzf-lua").help_tags, {noremap = true, silent = true})
+
+-- (G)rep for search results
+vim.keymap.set("n", "<leader>zg", require("fzf-lua").live_grep, {noremap = true, silent = true})
+-- live grep (C)ontinue last search
+vim.keymap.set("n", "<leader>zc", require("fzf-lua").live_grep_resume, {noremap = true, silent = true})
+
+-- (R)g Grep first - then can search the grep result
+vim.keymap.set("n", "<leader>zr", require("fzf-lua").grep, {noremap = true, silent = true})
+
+-- cword grep
+vim.keymap.set("n", "<leader>zz", require("fzf-lua").grep_cword, {noremap = true, silent = true})
+-- cWORD
+vim.keymap.set("n", "<leader>zZ", require("fzf-lua").grep_cWORD, {noremap = true, silent = true})
 
 -- Way more here: https://github.com/ibhagwan/fzf-lua#misc
