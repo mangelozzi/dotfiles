@@ -74,18 +74,6 @@ require("fzf-lua").setup {
 
 
 
--- Buffers
-vim.keymap.set("n", "<leader><leader>", require("fzf-lua").buffers, {noremap = true, silent = true})
-
--- Files
-vim.keymap.set("n", "<leader>f", require("fzf-lua").files, {noremap = true, silent = true})
-
--- Lines
-vim.keymap.set("n", "<leader>zl", require("fzf-lua").lines, {noremap = true, silent = true})
-
--- History
-vim.keymap.set("n", "<leader>zh", require("fzf-lua").oldfiles, {noremap = true, silent = true})
-
 -- let $FZF_DEFAULT_OPTS=' --color fg:#D8DEE9,bg:#2E3440,hl:#40a000,fg+:#D8DEE9,bg+:#434C5E,hl+:#60d000,pointer:#fF616A,info:#4C566A,spinner:#4C566A,header:#4C566A,prompt:#81A1C1,marker:#EBCB8B'
 
 
@@ -121,3 +109,20 @@ vim.api.nvim_set_hl(0, "FzfLuaTitle",               { fg = "#ffffff"}) -- Previe
 -- vim.api.nvim_set_hl(0, "FzfLuaScrollFloatFull",     { fg = "#00ff00", bg="#ff0000" })
 -- vim.api.nvim_set_hl(0, "FzfLuaHelpNormal",          { fg = "#00ff00", bg="#ff0000" })
 -- vim.api.nvim_set_hl(0, "FzfLuaHelpBorder",          { fg = "#00ff00", bg="#ff0000" })
+
+-- Buffers
+vim.keymap.set("n", "<leader><leader>", require("fzf-lua").buffers, {noremap = true, silent = true})
+
+-- Files
+vim.keymap.set("n", "<leader>f", require("fzf-lua").files, {noremap = true, silent = true})
+
+-- Lines
+vim.keymap.set("n", "<leader>zl", require("fzf-lua").lines, {noremap = true, silent = true})
+
+-- History
+vim.keymap.set("n", "<leader>zh", require("fzf-lua").oldfiles, {noremap = true, silent = true})
+
+-- Help
+vim.keymap.set("n", "<leader>z?", require("fzf-lua").help_tags, {noremap = true, silent = true})
+
+-- Way more here: https://github.com/ibhagwan/fzf-lua#misc
