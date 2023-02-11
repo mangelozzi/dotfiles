@@ -347,14 +347,23 @@ vim.api.nvim_set_keymap("n", "<leader>nn", ":NvimTreeToggle<CR>", { noremap = tr
 
 -- :NvimTreeFindFile Move the cursor in the tree for the current buffer, opening folders if needed.
 -- Find file and show within CWD
-vim.api.nvim_set_keymap("n", "<leader>nf", ":NvimTreeFindFile<CR>", { noremap = true })
+local function smart_find_file()
+    -- If the file does not exist on the file system, then just show the tree
+    if vim.fn.expand('%') ~= '' then
+        vim.cmd('NvimTreeFindFile')
+    else
+        vim.cmd('NvimTreeToggle')
+    end
+end
+-- vim.api.nvim_set_keymap("n", "<leader>nf", ":NvimTreeFindFile<CR>", { noremap = true })
+vim.keymap.set("n", "<leader>nf", smart_find_file, { noremap = true })
 
 -- Open to current buffer dir
 -- vim.api.nvim_set_keymap("n", "<leader>no", ":NvimTreeFocus<CR>", { noremap = true })
-vim.api.nvim_set_keymap("n", "<leader>nd", ":NvimTreeOpen " .. vim.fn.expand('%:p:h') .. "<CR>", { noremap = true })
+vim.keymap.set("n", "<leader>nd", ":NvimTreeOpen " .. vim.fn.expand('%:p:h') .. "<CR>", { noremap = true })
 
 -- Collapses the nvim-tree recursively, but keep the directories open, which are used in an open buffer.
-vim.api.nvim_set_keymap("n", "<leader>nc", ":NvimTreeCollapseKeepBuffers<CR>", { noremap = true })
+vim.keymap.set("n", "<leader>nc", ":NvimTreeCollapseKeepBuffers<CR>", { noremap = true })
 
 -- Collapses the nvim-tree recursively.
 -- Use the 'W' command in Nvim-Tree
