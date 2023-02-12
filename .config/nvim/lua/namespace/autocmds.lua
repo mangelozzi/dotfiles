@@ -2,7 +2,7 @@
 
 local utils = require("namespace.utils")
 
-local NamespaceGroup = vim.api.nvim_create_augroup("Namespace", {clear = true})
+local NamespaceGroup = vim.api.nvim_create_augroup("NamespaceGroup", {clear = true})
 
 local no_trim_fts = {
     ["markdown"] = true
