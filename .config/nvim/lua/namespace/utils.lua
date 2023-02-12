@@ -123,6 +123,40 @@ function M.strip_whitespace()
     print("Trailing whitespace stripped.")
 end
 
+function M.quit_if_last_buffer()
+    -- vim.fn.getbufvar(i, '&buftype') ==# 'help' then
+    -- If help buftype = 'help'
+    -- If NvimTree buftype = 'nofile'
+    local buf_list = vim.api.nvim_list_bufs()
+    for _, buf_id in pairs(buf_list) do
+        if vim.api.nvim_buf_is_loaded(buf_id) then
+            local empty = vim.api.nvim_buf_line_count(buf_id)
+            local safe = vim.api.nvim_buf_get_option(buf_id, 'modifiable') and not vim.api.nvim_buf_get_option(buf_id, 'modified')
+            local buftype = vim.api.nvim_buf_get_option(buf_id, 'buftype')
+            if not safe and buftype == '' then
+                return
+            end
+        end
+    end
+    vim.cmd('quit')
+end
+function M.close_all_buffers()
+    local buf_list = vim.api.nvim_list_bufs()
+    -- First close all safe buffers
+    for _, buf_id in pairs(buf_list) do
+        if vim.api.nvim_buf_is_loaded(buf_id) then
+            local empty = vim.api.nvim_buf_line_count(buf_id)
+            local safe = vim.api.nvim_buf_get_option(buf_id, 'modifiable') and not vim.api.nvim_buf_get_option(buf_id, 'modified')
+            local buftype = vim.api.nvim_buf_get_option(buf_id, 'buftype')
+            if safe or empty  or buftype ~= '' then
+                vim.api.nvim_buf_delete(buf_id, { force = false, unload = false})
+            end
+        end
+    end
+    M.quit_if_last_buffer()
+end
+
+
 return M
 
 

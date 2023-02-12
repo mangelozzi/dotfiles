@@ -196,19 +196,15 @@ vim.keymap.set("", "<M-J>", ":t-1<CR>j", {noremap = true})
 
 
 -- <F2> Reload vim config
-vim.keymap.set("", "<F2>", ":source $MYVIMRC<CR>", {noremap = true})
-vim.keymap.set("!", "<F2>", "<ESC>:source $MYVIMRC<CR>", {noremap = true})
+vim.keymap.set({"", "!"}, "<F2>", "<ESC>:source $MYVIMRC<CR>", {noremap = true})
 
 -- <F3> Open VIM RC file and change local pwd to it
-vim.keymap.set("", "<F3>", "<cmd>e $MYVIMRC<CR> :lcd %:p:h<CR>", {noremap = true})
-vim.keymap.set("!", "<F3>", "<ESC><cmd>e $MYVIMRC<CR> :lcd %:p:h<CR>", {noremap = true})
+vim.keymap.set({"", "!"}, "<F3>", "<ESC><cmd>e $MYVIMRC<CR> :lcd %:p:h<CR>", {noremap = true})
 
--- <F4> CLOSE BUFFER
--- Same as buffer delete, however if its the last none help or empty buffer,
--- then quit.
--- map  <F4>      <cmd>call myal#DeleteCurBufferNotCloseWindow()<CR>
--- map! <F4> <ESC><cmd>call myal#DeleteCurBufferNotCloseWindow()<CR>
---
+-- <F4> CLOSE ALL BUFFER
+-- Close all safe buffers, then just work through not safe to close buffers
+vim.keymap.set({"", "!"}, "<F4>", utils.close_all_buffers, { noremap = true})
+
 -- Run the current buffer with a sensible app, e.g. python or Chrome etc
 -- Mnemonic use F5 in webpage a lot, use F5 to launch current file in chrome
 -- map  <F5>      :call myal#Run()<CR>

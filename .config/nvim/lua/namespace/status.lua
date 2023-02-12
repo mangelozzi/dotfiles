@@ -17,8 +17,8 @@ local function get_filename()
     return vim.fn.fnamemodify(vim.fn.expand "%", ":t")
 end
 
------------------------------
 local function contract_home(file)
+    -- Contract "/home/michael" to "~"
     return string.gsub(file, "/home/[^/]+/", "~/")
 end
 local function ensure_no_slash_prefix(file)
@@ -28,7 +28,7 @@ local function ensure_no_slash_prefix(file)
     return file
 end
 local function ensure_slash_suffix(file)
-    if file and string.sub(file, -1) ~= "/" then
+    if file ~= "" and string.sub(file, -1) ~= "/" then
         return file .. "/"
     end
     return file
@@ -97,7 +97,6 @@ local function get_hi_groups(is_current_window)
         line_group = "StatusLineNC"
         prefix = "_blur"
     end
-    print(prefix .. "StatusSubtle")
     return {
         col_line   = change_color(line_group),
         col_file   = change_color(prefix .. "StatusFile"),
@@ -125,7 +124,8 @@ local function print_status_hi_groups()
     print_groups('Help Current Window result', get_hi_groups(true))
     vim.cmd("messages")
 end
-vim.keymap.set('n', '<F9>', print_status_hi_groups, { noremap = true})
+-- vim.keymap.set('n', '<F9>', print_status_hi_groups, { noremap = true})
+
 
 vim.g.get_status_line = function(current_window)
     local groups = get_hi_groups(current_window)
@@ -150,7 +150,7 @@ vim.g.get_status_line = function(current_window)
         " ",
         get_filename(),
         " ",
-        change_color("StatusModified"),
+        change_color("_StatusModified"),
         get_modified(),
         groups['col_fade3'], "▐",
         groups['col_fade2'], "▐",
