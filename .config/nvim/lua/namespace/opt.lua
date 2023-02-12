@@ -50,8 +50,9 @@ vim.opt.cursorline = true       -- High lights the line number and cusor line
 vim.opt.swapfile = false        -- Disable creating swapfiles, see https://goo.gl/FA6m6h
 vim.opt.backup = false
 -- set noshowmode               -- Disables showing which mode one is in (does not giveback any more space cause I use 2 lines for the command area)
--- Disable automatic line wrap (line break inssert) in certain file types
-vim.opt.formatoptions:remove { "t" }
+
+-- Disable auto wrap lines, auto insert comment leader, other stupid magic
+vim.opt.formatoptions:remove { "f", "c", "r", "o" }
 
 -- Show white space chars. extends and precedes is for when word wrap is off
 -- Get shapes from here https://www.copypastecharacter.com/graphic-shapes

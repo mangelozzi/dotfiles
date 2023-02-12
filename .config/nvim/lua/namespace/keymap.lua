@@ -147,6 +147,13 @@ vim.keymap.set({"n", "x"}, "<C-l>", "<C-W><C-l>", {noremap = true})
 -- Prefer <C-G> to print full path, can see relative path in status bar anyways
 vim.keymap.set({"n", "x"}, "<C-g>", "3<C-g>", {noremap = true})
 
+-- If dont execute leader command, perform no operation instead of move one char to the right
+vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
+
+-- Remap for dealing with word wrap
+vim.keymap.set({"n", "x"}, 'k', "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
+vim.keymap.set({"n", "x"}, 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
+
 -- nmap <F7> <cmd>call myal#PrintHiGroup()<CR>
 
 --

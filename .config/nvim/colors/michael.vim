@@ -187,11 +187,11 @@ hi _StatusFile          guifg=#000000 guibg=#00FF00 gui=bold
 hi _StatusSubtle        guifg=#007700 guibg=#00A000
 
 hi StatusLineNC         guifg=#000000 guibg=#A0A0A0 gui=none " Status line None current
-hi _StatusFadeNC1       guifg=#A8A8A8 guibg=#B0B0B0
-hi _StatusFadeNC2       guifg=#b8b8b8 guibg=#b8b8b8
-hi _StatusFadeNC3       guifg=#c0c0c0 guibg=#c8c8c8
-hi _StatusFileNC        guifg=#000000 guibg=#d0d0d0 gui=bold
-hi _StatusSubtleNC      guifg=#707070 guibg=#A0A0A0
+hi _blurStatusFade1       guifg=#A8A8A8 guibg=#B0B0B0
+hi _blurStatusFade2       guifg=#b8b8b8 guibg=#b8b8b8
+hi _blurStatusFade3       guifg=#c0c0c0 guibg=#c8c8c8
+hi _blurStatusFile        guifg=#000000 guibg=#d0d0d0 gui=bold
+hi _blurStatusSubtle      guifg=#707070 guibg=#A0A0A0
 
 hi _qfStatusLine        guifg=#000000 guibg=#C0C000 gui=none " WARNING! By default gui set to reverse, need to overide it with none
 hi _qfStatusFade1       guifg=#C8C800 guibg=#D0D000

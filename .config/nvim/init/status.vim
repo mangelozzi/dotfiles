@@ -157,5 +157,6 @@ augroup update_status_line
     " Quickfix custom Coloring
     autocmd BufWinEnter,BufEnter * if &buftype == 'quickfix' | set winhighlight=Normal:_qfNormal,LineNr:_qfLineNr,CursorLineNr:_qfCursorLineNr,CursorLine:_qfCursorLine | endif
     autocmd BufWinLeave * if &buftype == 'quickfix' | set winhighlight=Normal:Normal | endif
+
 augroup END
 

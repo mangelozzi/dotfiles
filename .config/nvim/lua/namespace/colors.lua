@@ -27,11 +27,14 @@ if vim.o.diff then
     -- syntax off
     vim.cmd("color michael_diff") -- Note this resets all highlighting
     -- Set status line after color theme
-    vim.cmd("source " .. vim.g.nvim_path .. "/init/status_diff.vim") -- set theme
+    -- vim.cmd("source " .. vim.g.nvim_path .. "/init/status_diff.vim") -- set theme
 else
     -- If NOT diff mode
     -- color michael
     vim.cmd("color capesky") -- set theme
     -- Set status line after color theme
-    vim.cmd("source " .. vim.g.nvim_path .. "/init/status.vim") -- set theme
+    -- vim.cmd("source " .. vim.g.nvim_path .. "/init/status.vim") -- set theme
 end
+
+-- Used by autocmd to highlight text when yanked
+vim.api.nvim_set_hl(0, 'HighlightOnYank', { fg = "#00ff00", bg="#008000"})

@@ -50,3 +50,16 @@ vim.api.nvim_create_autocmd(
         end
     }
 )
+
+-- [[ Highlight on yank ]]
+-- See `:help vim.highlight.on_yank()`
+vim.api.nvim_create_autocmd(
+    "TextYankPost",
+    {
+        callback = function()
+            vim.highlight.on_yank {timeout = 150, higroup = "HighlightOnYank"}
+        end,
+        group = NamespaceGroup,
+        pattern = "*"
+    }
+)

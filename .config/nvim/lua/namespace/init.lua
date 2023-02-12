@@ -6,7 +6,8 @@ require("namespace/cmd")      -- Run various vim commands
 require("namespace/keymap")   -- Hotkey mappings
 require("namespace/autocmds") -- Auto commands
 require("namespace/colors")   -- Color theme, must be after 'opt', changes settings
-require("namespace/plugins")  -- Enable plugins
+require("namespace/status")   -- Color theme, must be after 'opt', changes settings
+require("namespace/plugins")  -- Enable plugins - AFTER: keymap so correct leader used
 
 -- -- require caches result, then have to restart
 -- dofile(vim.g.nvim_path .. "/lua/namespace/globals.lua")  -- Globals variables/settings
