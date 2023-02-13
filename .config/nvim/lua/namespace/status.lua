@@ -193,7 +193,7 @@ vim.api.nvim_create_autocmd(
         desc = "StatusLine colouring dependant on active window",
         callback = function()
             vim.wo.statusline = vim.g.get_status_line(true)
-            vim.cmd("redrawstatus!")
+            -- vim.cmd("redrawstatus!") -- MAKES fzf-lua preview text hidden, see: https://github.com/ibhagwan/fzf-lua/issues/643
         end,
         group = StatusLineGroup,
         pattern = "*",

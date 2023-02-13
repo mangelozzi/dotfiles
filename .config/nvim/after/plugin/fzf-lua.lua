@@ -61,8 +61,10 @@ require("fzf-lua").setup {
     --   scrollborder_f = 'FloatBorder',   -- scrollbar "full" section highlight
     -- },
     winopts = {
+        height = 0.85,            -- window height
+        width  = 0.90,            -- window width
         preview = {
-            horizontal     = 'right:40%',     -- right|left:size
+            horizontal     = 'right:50%',     -- right|left:size
         },
     },
     files = {

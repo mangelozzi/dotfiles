@@ -35,14 +35,16 @@ tonumber("123")
 vim.split("hello how are you", " ")
 ```
 
-## EXTERNAL COMMAND STRING
+## COMMANDS
+
+### External Command String
 
 ```lua
 local return_code = os.execute('echo hi')
 local ok = return_code == 0
 ```
 
-## EXTERNAL COMMAND LIST
+### External Command List
 
 ```lua
 local output = vim.fn.system { 'echo', 'hi' }
@@ -51,7 +53,7 @@ local return_code = vim.v.shell_error
 -- return_code = 0, if it was an error something like -1
 ```
 
-## START ASYNC JOB
+### Start ASYNC Job
 
 ```lua
 local command = {"ls", "-la"}
@@ -64,4 +66,12 @@ vim.fn.jobstart(command, {
     end,
     on_stderr = function(_, data) print(data) end,
 })
+```
+
+### Defer a command
+
+```lua
+callback = function() vim.fn.feedkeys("g<") end
+delay_ms = 1000
+vim.defer_fn(callback , delay_ms)
 ```
