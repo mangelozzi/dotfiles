@@ -1,3 +1,5 @@
+if not require("namespace.utils").get_is_installed("fzf-lua") then return end
+
 -- See all config options here: https://github.com/ibhagwan/fzf-lua#default-options
 require("fzf-lua").setup {
     fzf_opts = {

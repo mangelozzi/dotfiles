@@ -1,12 +1,18 @@
+-- Generally the expanded version of ~/.config/nvim
 vim.g.nvim_path = vim.fn.fnamemodify(vim.env.MYVIMRC, ":p:h")
 
-require("namespace/globals")  -- Globals variables/settings
-require("namespace/opt")      -- Set various vim options and related commands
-require("namespace/cmd")      -- Run various vim commands
-require("namespace/keymap")   -- Hotkey mappings
-require("namespace/autocmds") -- Auto commands
-require("namespace/colors")   -- Color theme, must be after 'opt', changes settings
-require("namespace/status")   -- Color theme, must be after 'opt', changes settings
+-- Global flag for changing to minimal config for testing
+vim.g.use_minimal_config = true
+
+if vim.g.use_minimal_config then
+    require("namespace/globals")  -- Globals variables/settings
+    require("namespace/opt")      -- Set various vim options and related commands
+    require("namespace/cmd")      -- Run various vim commands
+    require("namespace/keymap")   -- Hotkey mappings
+    require("namespace/autocmds") -- Auto commands
+    require("namespace/colors")   -- Color theme, must be after 'opt', changes settings
+    require("namespace/status")   -- Color theme, must be after 'opt', changes settings
+end
 require("namespace/plugins")  -- Enable plugins - AFTER: keymap so correct leader used
 
 -- -- require caches result, then have to restart

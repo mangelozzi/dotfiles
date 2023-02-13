@@ -1,6 +1,8 @@
+if not require("namespace.utils").get_is_installed("diffview.nvim") then return end
+
 -- Refer to :h diffview-config-view.x.layout
 local actions = require("diffview.actions")
-require("diffview").setup({
+require('diffview').setup({
     enhanced_diff_hl = false, -- See |diffview-config-enhanced_diff_hl|
     use_icons = true,         -- Requires nvim-web-devicons
     show_help_hints = true,   -- Show hints for how to open the help panel
@@ -12,7 +14,7 @@ require("diffview").setup({
     hooks = { -- See ':h diffview-config-hooks'
         view_opened = function()
             -- Hide the files panel
-            require("diffview.actions").toggle_files()
+            actions.toggle_files()
         end,
     },
     keymaps = {

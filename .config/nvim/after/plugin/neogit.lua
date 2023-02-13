@@ -1,7 +1,7 @@
-local neogit = require('neogit')
+if not require("namespace.utils").get_is_installed("neogit") then return end
 
 -- Settings, refer to: https://github.com/TimUntersberger/neogit
-neogit.setup {
+require('neogit').setup {
   -- Neogit refreshes its internal state after specific events, which can be expensive depending on the repository size.
   -- Disabling `auto_refresh` will make it so you have to manually refresh the status after you open it.
   auto_refresh = true,

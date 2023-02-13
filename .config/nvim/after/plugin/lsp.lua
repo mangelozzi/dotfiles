@@ -1,3 +1,5 @@
+if not require("namespace.utils").get_is_installed("nvim-lspconfig") then return end
+
 -- Based on https://github.com/VonHeikemen/lsp-zero.nvim#you-might-not-need-lsp-zero
 require('mason').setup()
 

@@ -1,3 +1,5 @@
+if not require("namespace.utils").get_is_installed("Comment.nvim") then return end
+
 require('Comment').setup(
 {
     ---LHS of toggle mappings in NORMAL mode

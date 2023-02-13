@@ -1,3 +1,5 @@
+if not require("namespace.utils").get_is_installed("nvim-tree.lua") then return end
+
 -- set termguicolors to enable highlight groups
 vim.opt.termguicolors = true
 
@@ -31,7 +33,7 @@ vim.opt.termguicolors = true
 --      },
 -- })
 
-require("nvim-tree").setup { -- BEGIN_DEFAULT_OPTS
+require('nvim-tree').setup { -- BEGIN_DEFAULT_OPTS
      auto_reload_on_write = true,
      disable_netrw = true, -- default is false
      hijack_cursor = false,

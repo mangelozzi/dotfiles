@@ -1,4 +1,6 @@
-local cmp = require'cmp'
+if not require("namespace.utils").get_is_installed("nvim-cmp") then return end
+
+local cmp = require('cmp')
 cmp.setup({
     preselect = cmp.PreselectMode.None,
     completion = {

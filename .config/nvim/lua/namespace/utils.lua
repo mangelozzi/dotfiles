@@ -1,5 +1,9 @@
 local M = {}
 
+function M.get_is_installed(plugin_name)
+    return packer_plugins and packer_plugins[plugin_name] and packer_plugins[plugin_name].loaded
+end
+
 function M.trim(s)
     -- Strip leading/trailing whitespace
     return s:gsub("^%s*(.-)%s*$", "%1")

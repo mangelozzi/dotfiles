@@ -154,6 +154,15 @@ vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
 vim.keymap.set({"n", "x"}, 'k', "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
 vim.keymap.set({"n", "x"}, 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
 
+-- Insert django style {% tag %}
+-- <C-m> = <CR>
+-- vim.keymap.set({"n", "x"}, '<leader>b', "o{%  %}<Esc>hhi", { noremap = true })  -- Mnemonic: (B)lock
+-- vim.keymap.set({"n", "x"}, '<leader>n', "o{#  #}<Esc>hhi", { noremap = true })  -- Mnemonic: (N)o ... i.e. commented out
+-- vim.keymap.set({"n", "x"}, '<leader>m', "o{{  }}<Esc>hhi", { noremap = true })  -- Mnemonic: A m has lots of vertical lines like {{}}
+vim.keymap.set("i", '<C-b>', "{%  %}<Esc>hhi", { noremap = true })  -- Mnemonic: (B)lock
+vim.keymap.set("i", '<C-n>', "{%  %}<Esc>hhi", { noremap = true })  -- Mnemonic: (N)o ... i.e. commented out
+vim.keymap.set("i", '<C-f>', "{{  }}<Esc>hhi", { noremap = true })  -- Mnemonic: (F)ilter, variables can be filtered
+
 -- nmap <F7> <cmd>call myal#PrintHiGroup()<CR>
 
 --
