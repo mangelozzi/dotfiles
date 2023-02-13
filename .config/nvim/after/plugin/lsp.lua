@@ -9,7 +9,7 @@ require('mason-lspconfig').setup({
     'html',
     'pyright',
     'tsserver',
-    'sumneko_lua',
+    'lua_ls',
     'jsonls',
     'marksman',
     --'rust_analyzer',
@@ -47,16 +47,12 @@ require('mason-lspconfig').setup_handlers({
     lspconfig[server_name].setup({
       on_attach = lsp_attach,
       capabilities = lsp_capabilities,
+        -- https://neovim.discourse.group/t/how-to-suppress-warning-undefined-global-vim/1882/5
+        settings = {
+            Lua = {
+            diagnostics = { globals = {'vim'} }
+            }
+        }
     })
   end,
 })
-
-require('lspconfig').sumneko_lua.setup {
-    settings = {
-        Lua = {
-            diagnostics = {
-                globals = { 'vim' }
-            }
-        }
-    }
-}

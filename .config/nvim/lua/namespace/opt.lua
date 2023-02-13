@@ -38,8 +38,8 @@ vim.opt.list = false            -- Dont show spaces/tabs/newlines etc
 vim.opt.modeline = false        -- Modelines are vimscript snippets in normal files which vim interprets, e.g. `ex:`
 vim.opt.undolevels = 3000       -- Default 1000.
 -- Do not show "match xx of xx and other messages during auto-completion
--- vim.opt.shortmess :append { "c" }
-vim.opt.shortmess = vim.opt.shortmess + "c"
+vim.opt.shortmess:append("c")
+-- vim.opt.shortmess = vim.opt.shortmess + "c"
 -- Do show echom messages during file manipulation and autocmd (like default Vim, see Neovim FAQ)
 vim.opt.shortmess:remove { "F" }
 vim.opt.virtualedit = "block"   -- Virtual edit is useful for visual block edit

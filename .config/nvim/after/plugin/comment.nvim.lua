@@ -5,14 +5,14 @@ require('Comment').setup(
         ---Line-comment toggle keymap, e.g. in javascript //
         line = '<leader>jl',
         ---Block-comment toggle keymap, e.g. in javascript /* .. */
-        block = '<leader>jB',
+        block = '<leader>jL',
     },
     ---LHS of operator-pending mappings in NORMAL and VISUAL mode
     opleader = {
         ---Line-comment keymap
         line = '<leader>j', -- NICE
         ---Block-comment keymap
-        block = '<leader>jb', -- NICE
+        block = '<leader>J', -- NICE
     },
     ---LHS of extra mappings
     extra = {

@@ -1,5 +1,22 @@
 local M = {}
 
+function M.trim(s)
+    -- Strip leading/trailing whitespace
+    return s:gsub("^%s*(.-)%s*$", "%1")
+end
+
+-- Run a bash command and return the result
+-- E.g. require('namespace.utils').get_return_value('ls -la')
+function M.get_return_value(cmd)
+    local handle = io.popen(cmd)
+    if handle then
+        local result = handle:read("a")
+        handle:close()
+        return M.trim(result)
+    else
+        return 'ERROR running command ' .. cmd
+    end
+end
 
 -- Auto format code
 function M.format_code()

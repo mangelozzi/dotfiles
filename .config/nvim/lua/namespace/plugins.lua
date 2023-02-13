@@ -45,13 +45,11 @@ return require("packer").startup(
         use("numToStr/Comment.nvim")
         use("tpope/vim-repeat")
         use("vim-scripts/ReplaceWithRegister")
-        use(
-            {
-                -- xml attributes with x
-                "whatyouhide/vim-textobj-xmlattr",
-                requires = {{"kana/vim-textobj-user"}}
-            }
-        )
+        use {
+            -- xml attributes with x
+            "whatyouhide/vim-textobj-xmlattr",
+            requires = "kana/vim-textobj-user",
+        }
         -- Require to set it before plug loads
         vim.g.titlecase_map_keys = 0
         use("christoomey/vim-titlecase")
@@ -71,13 +69,17 @@ return require("packer").startup(
         -- SPELLCHECK EXTRAS
         use {
             "inkarkat/vim-SpellCheck",
-            requires = {{"inkarkat/vim-ingo-library"}}
+            requires = "inkarkat/vim-ingo-library",
         }
 
         -- GIT
         use {
             "TimUntersberger/neogit",
-            requires = {{"nvim-lua/plenary.nvim"}}
+            requires = "nvim-lua/plenary.nvim",
+        }
+        use {
+            "sindrets/diffview.nvim",
+            requires = "nvim-lua/plenary.nvim",
         }
 
         -- FZF
@@ -85,19 +87,14 @@ return require("packer").startup(
         use {
             "ibhagwan/fzf-lua",
             -- optional for icon support
-            requires = {"nvim-tree/nvim-web-devicons"},
+            requires = "nvim-tree/nvim-web-devicons"
         }
 
         -- TREE BROWSER
         use {
-            -- optional, for file icons, better to load it before than as a dependency: https://github.com/nvim-tree/nvim-tree.lua/issues/1458
+            -- optional, for file icons, better to load it before than as a requirement: https://github.com/nvim-tree/nvim-tree.lua/issues/1458
             "nvim-tree/nvim-web-devicons",
-            {
-                "nvim-tree/nvim-tree.lua"
-                -- tag = 'nightly', -- optional, updated every week. (see issue #1193)
-                -- Have to change after/nvim-tree to run later with config key so easier just to load it at start up
-                -- cmd = {'NvimTreeToggle', 'NvimTreeFindFile', 'NvimTreeOpen'},
-            }
+            "nvim-tree/nvim-tree.lua"
         }
 
         -- LSP

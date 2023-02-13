@@ -67,4 +67,6 @@ vim.api.nvim_set_hl(0, 'NeogitHunkHeaderHighlight',     { fg = '#202020', bg = '
 -- Prefer '<leader>i' to '<leader>g' cause can open git review with one hand while drinking water with other
 -- Map <leader>g to opening neogit
 vim.api.nvim_set_keymap('n', '<leader>i', ":lua require('neogit').open({ kind = 'tab' })<CR>", {noremap = true})
-vim.api.nvim_set_keymap('n', '<leader>I', ":lua require('neogit').open({ cwd='/home/michael/.config/' })<CR>", {noremap = true})
+
+-- This does not work, using for DiffView instead
+-- vim.api.nvim_set_keymap('n', '<leader>I', ":lua require('neogit').open({ cwd='/home/michael/.config/' })<CR>", {noremap = true})
