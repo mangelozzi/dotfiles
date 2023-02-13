@@ -1,5 +1,11 @@
 # Neovim Lua API
 
+## INSPECT A TABLE
+
+```lua
+print(vim.inspect(foo))
+```
+
 ## CREATE A CUSTOM COMMAND
 
 ```lua
@@ -29,7 +35,25 @@ tonumber("123")
 vim.split("hello how are you", " ")
 ```
 
+## EXTERNAL COMMAND STRING
+
+```lua
+local return_code = os.execute('echo hi')
+local ok = return_code == 0
+```
+
+## EXTERNAL COMMAND LIST
+
+```lua
+local output = vim.fn.system { 'echo', 'hi' }
+-- output will have the value 'hi'
+local return_code = vim.v.shell_error
+-- return_code = 0, if it was an error something like -1
+```
+
 ## START ASYNC JOB
+
+```lua
 local command = {"ls", "-la"}
 vim.fn.jobstart(command, {
     stdout_buffered = true, -- Wait for complete lines, before getting updates
@@ -40,3 +64,4 @@ vim.fn.jobstart(command, {
     end,
     on_stderr = function(_, data) print(data) end,
 })
+```
