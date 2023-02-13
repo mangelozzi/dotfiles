@@ -1,5 +1,8 @@
 if not require("namespace.utils").get_is_installed("fzf-lua") then return end
 
+-- let $FZF_DEFAULT_OPTS=' --color fg:#D8DEE9,bg:#2E3440,hl:#40a000,fg+:#D8DEE9,bg+:#434C5E,hl+:#60d000,pointer:#fF616A,info:#4C566A,spinner:#4C566A,header:#4C566A,prompt:#81A1C1,marker:#EBCB8B'
+
+-- Way more here: https://github.com/ibhagwan/fzf-lua#misc
 -- See all config options here: https://github.com/ibhagwan/fzf-lua#default-options
 require("fzf-lua").setup {
     fzf_opts = {
@@ -77,10 +80,6 @@ require("fzf-lua").setup {
 }
 
 
-
--- let $FZF_DEFAULT_OPTS=' --color fg:#D8DEE9,bg:#2E3440,hl:#40a000,fg+:#D8DEE9,bg+:#434C5E,hl+:#60d000,pointer:#fF616A,info:#4C566A,spinner:#4C566A,header:#4C566A,prompt:#81A1C1,marker:#EBCB8B'
-
-
 -- Line
 vim.api.nvim_set_hl(0, "FzfLine",                   { fg="#d0d0d0", bg="#000000"}) -- Matched part of currently selected line
 vim.api.nvim_set_hl(0, "FzfLineMatchedFg",          { fg="#00e000"}) -- Matched part of currently selected line
@@ -141,5 +140,3 @@ vim.keymap.set("n", "<leader>zr", require("fzf-lua").grep, {noremap = true, sile
 vim.keymap.set("n", "<leader>zz", require("fzf-lua").grep_cword, {noremap = true, silent = true})
 -- cWORD
 vim.keymap.set("n", "<leader>zZ", require("fzf-lua").grep_cWORD, {noremap = true, silent = true})
-
--- Way more here: https://github.com/ibhagwan/fzf-lua#misc
