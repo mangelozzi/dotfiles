@@ -127,7 +127,14 @@ vim.api.nvim_set_hl(0, "FzfLuaHelpBorder",          { fg = "#ffffff", bg="#50505
 vim.keymap.set("n", "<leader><leader>", require("fzf-lua").buffers, {noremap = true, silent = true})
 
 -- (F)iles
+-- cwd
 vim.keymap.set("n", "<leader>f", require("fzf-lua").files, {noremap = true, silent = true})
+-- home dir
+vim.keymap.set("n", "<leader>~", function() require("fzf-lua").files({ cwd = "~" }) end, {noremap = true, silent = true})
+-- .config
+vim.keymap.set("n", "<leader>.", function() require("fzf-lua").files({ cwd = "~/.config" }) end, {noremap = true, silent = true})
+-- One dir up
+vim.keymap.set("n", "<leader>/", function() require("fzf-lua").files({ cwd = ".." }) end, {noremap = true, silent = true})
 
 -- (L)ines
 vim.keymap.set("n", "<leader>zl", require("fzf-lua").lines, {noremap = true, silent = true})
