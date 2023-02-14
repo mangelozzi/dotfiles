@@ -4,7 +4,6 @@ if not require("namespace.utils").get_is_installed("fzf-lua") then return end
 
 -- Way more here: https://github.com/ibhagwan/fzf-lua#misc
 -- See all config options here: https://github.com/ibhagwan/fzf-lua#default-options
-
 require("fzf-lua").setup {
     -- options are sent as `<left>=<right>`
     -- set to `false` to remove a flag
@@ -14,6 +13,7 @@ require("fzf-lua").setup {
         -- ["--layout"] = "reverse-list",
         -- ["--border"] = "none"
         ["--keep-right"] = "",  -- If a line is long, truncate the front of the line
+        ["--tiebreak"] = "end",
     },
     -- fzf '--color=' options (optional)
     -- Sets the colors of FZF (not the colors of FZF-Lua interface
@@ -79,12 +79,20 @@ require("fzf-lua").setup {
         },
     },
     files = {
-        prompt = 'Files❯ ',
+        prompt = 'Buffers >>> ',
         fd_opts = "--type file --no-ignore -E '*__pycache__*' -E '*.jpg' -E '*.png' -E '*.zip' -E 'spike/*' -E '*.git' -E '*.min.css' -E '**/htmlcov/*' -E '**/static/*/wcapp/*.js'",
     },
-    buffers = { prompt = 'Buffers❯ '},
-    oldfiles = { prompt = 'History❯ '},
-    lines = { prompt = 'Lines❯ '},
+    buffers = { prompt = 'Buffers >>> '}, -- Buffers❯
+    oldfiles = { prompt = 'History >>> '},
+    lines = { prompt = 'Lines >>> '},
+    -- optional override of file extension icon colors
+    -- available colors (terminal):
+    --    clear, bold, black, red, green, yellow
+    --    blue, magenta, cyan, grey, dark_grey, white
+    file_icon_colors = {
+        -- Does not seem to work for me
+        ["sh"] = "green",
+    },
 }
 
 
@@ -138,6 +146,8 @@ vim.keymap.set("n", "<leader>/", function() require("fzf-lua").files({ cwd = "..
 
 -- (L)ines
 vim.keymap.set("n", "<leader>zl", require("fzf-lua").lines, {noremap = true, silent = true})
+-- Breakpoints
+vim.keymap.set("n", "<leader><S-DEL>", function() require("fzf-lua").lines({query="breakpoint"}) end, {noremap = true, silent = true})
 
 -- (H)istory
 vim.keymap.set("n", "<leader>zh", require("fzf-lua").oldfiles, {noremap = true, silent = true})
