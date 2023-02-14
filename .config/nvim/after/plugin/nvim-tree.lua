@@ -54,8 +54,6 @@ end
 
 -- Refer :help nvim-tree-setup
 require('nvim-tree').setup { -- BEGIN_DEFAULT_OPTS
-     disable_netrw = true, -- default: false
-     open_on_setup = true, -- default: false
      view = {
           width = 30,
           signcolumn = "yes",
@@ -124,7 +122,7 @@ require('nvim-tree').setup { -- BEGIN_DEFAULT_OPTS
           highlight_git = false,
           full_name = false,
           highlight_opened_files = "icon", -- "none" (default), "icon", "name" or "all"
-          highlight_modified = "icon",  -- Nice and subtle, override the open icon
+          highlight_modified = "icon",  -- "none", "name" or "all". Nice and subtle, override the open icon
           root_folder_label = ":~:s?$?/..?",
           indent_width = 2,
           indent_markers = {
@@ -280,7 +278,23 @@ vim.api.nvim_set_hl(0, "RootFolder", { fg = directory_root })
 
 -- Highlight color if buffer modified
 -- vim.api.nvim_set_hl(0, "NvimTreeModified", { fg = "#ff0000", bg="#00ff00" })  -- Does nto seem to work, see https://github.com/nvim-tree/nvim-tree.lua/issues/1997
-vim.api.nvim_set_hl(0, "NvimTreeModifiedFile", {fg="#ff0000" })
+vim.api.nvim_set_hl(0, "NvimTreeModifiedFile", {fg="#ff0000", bg="#500000" })
+
+
+-- Open at startup
+-- https://github.com/nvim-tree/nvim-tree.lua/wiki/Open-At-Startup
+local PluginNvimTreeGroup = vim.api.nvim_create_augroup("PluginNvimTreeGroup", {clear = true})
+vim.api.nvim_create_autocmd(
+    "VimEnter" , {
+        callback = function (data)
+            local is_actual_file = vim.fn.filereadable(data.file) == 1
+            if not is_actual_file then
+                -- Only if not a real file auto show tree
+                require("nvim-tree.api").tree.toggle({focus = false })
+            end
+        end,
+        group = PluginNvimTreeGroup
+})
 
 -- NvimTreeFolderIcon xxx ctermfg=143 guifg=#a6bd5f
 -- NvimTreeOpenedFolderIcon xxx ctermfg=148 guifg=#a8e519
