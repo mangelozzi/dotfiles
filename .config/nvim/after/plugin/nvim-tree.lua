@@ -45,34 +45,19 @@ local function copy_file_to(node)
     vim.fn.system { 'cp', file_src, file_out }
 end
 
+-- Use `o` to open a file
+-- Use `<CR>` to open a file and close the tree
+local function edit_and_close(node)
+    api.node.open.edit(node, {})
+    api.tree.close()
+end
+
+-- Refer :help nvim-tree-setup
 require('nvim-tree').setup { -- BEGIN_DEFAULT_OPTS
-     auto_reload_on_write = true,
-     disable_netrw = true, -- default is false
-     hijack_cursor = false,
-     hijack_netrw = true,
-     hijack_unnamed_buffer_when_opening = false,
-     ignore_buffer_on_setup = false,
-     open_on_setup = false,
-     open_on_setup_file = false,
-     sort_by = "name",
-     root_dirs = {},
-     prefer_startup_root = false,
-     sync_root_with_cwd = false,
-     reload_on_bufenter = false,
-     respect_buf_cwd = false,
-     on_attach = "disable",
-     remove_keymaps = true,
-     select_prompts = false,
+     disable_netrw = true, -- default: false
+     open_on_setup = true, -- default: false
      view = {
-          centralize_selection = false,
-          cursorline = true,
-          debounce_delay = 15,
           width = 30,
-          hide_root_folder = false,
-          side = "left",
-          preserve_window_proportions = false,
-          number = false,
-          relativenumber = false,
           signcolumn = "yes",
           mappings = {
                custom_only = false,
@@ -80,8 +65,9 @@ require('nvim-tree').setup { -- BEGIN_DEFAULT_OPTS
                     -- Namespace mappings
                     { key = "c", action = "copy_file_to", action_cb = copy_file_to },
                     { key = "<C-c>", action = "global_cwd", action_cb = change_root_to_global_cwd },
+                    { key = "<CR>", action = "edit_and_close", action_cb=edit_and_close },
                     -- user mappings go here
-                    { key = { "<CR>", "o"}, action = "edit" },
+                    { key = "o", action = "edit" },
                     -- { key = "<C-e>",                          action = "edit_in_place" },
                     -- { key = "O",                              action = "edit_no_picker" },
                     { key = "<C-]>",        action = "cd" }, -- cd in the directory under the cursor
@@ -132,26 +118,13 @@ require('nvim-tree').setup { -- BEGIN_DEFAULT_OPTS
                     { key = "bmv",          action = "bulk_move" }, -- Move all bookmarked nodes into specified location
                },
           },
-          float = {
-               enable = false,
-               quit_on_focus_loss = true,
-               open_win_config = {
-                    relative = "editor",
-                    border = "rounded",
-                    width = 30,
-                    height = 30,
-                    row = 1,
-                    col = 1,
-               },
-          },
      },
      renderer = {
-          add_trailing = false,
-          group_empty = false,
+          group_empty = true, -- default: true. Compact folders that only contain a single folder into one node in the file tree.
           highlight_git = false,
           full_name = false,
-          highlight_opened_files = "all", -- default: "none",
-          highlight_modified = "none",
+          highlight_opened_files = "icon", -- "none" (default), "icon", "name" or "all"
+          highlight_modified = "name",
           root_folder_label = ":~:s?$?/..?",
           indent_width = 2,
           indent_markers = {
@@ -182,7 +155,7 @@ require('nvim-tree').setup { -- BEGIN_DEFAULT_OPTS
                     default = "",
                     symlink = "",
                     bookmark = "",
-                    modified = "●",
+                    modified = "",  -- default: ● - Rather change background color
                     folder = {
                          arrow_closed = "-", -- default: "",
                          arrow_open = "+", -- default: "",
@@ -207,36 +180,11 @@ require('nvim-tree').setup { -- BEGIN_DEFAULT_OPTS
           special_files = { "Cargo.toml", "Makefile", "README.md", "readme.md" },
           symlink_destination = true,
      },
-     hijack_directories = {
-          enable = true,
-          auto_open = true,
-     },
-     update_focused_file = {
-          enable = false,
-          update_root = false,
-          ignore_list = {},
-     },
-     ignore_ft_on_setup = {},
-     system_open = {
-          cmd = "",
-          args = {},
-     },
-     diagnostics = {
-          enable = false,
-          show_on_dirs = false,
-          show_on_open_dirs = true,
-          debounce_delay = 50,
-          severity = {
-               min = vim.diagnostic.severity.HINT,
-               max = vim.diagnostic.severity.ERROR,
-          },
-          icons = {
-               hint = "",
-               info = "",
-               warning = "",
-               error = "",
-          },
-     },
+     modified = {
+        enable = true,
+        show_on_dirs = true,
+        show_on_open_dirs = true,
+      },
      filters = {
           dotfiles = false,
           git_clean = false,
@@ -244,96 +192,8 @@ require('nvim-tree').setup { -- BEGIN_DEFAULT_OPTS
           custom = {},
           exclude = {},
      },
-     filesystem_watchers = {
-          enable = true,
-          debounce_delay = 50,
-          ignore_dirs = {},
-     },
      git = {
           enable = true, -- default: true
-          ignore = true,
-          show_on_dirs = true,
-          show_on_open_dirs = true,
-          timeout = 400,
-     },
-     modified = {
-          enable = false,
-          show_on_dirs = true,
-          show_on_open_dirs = true,
-     },
-     actions = {
-          use_system_clipboard = true,
-          change_dir = {
-               enable = true,
-               global = false,
-               restrict_above_cwd = false,
-          },
-          expand_all = {
-               max_folder_discovery = 300,
-               exclude = {},
-          },
-          file_popup = {
-               open_win_config = {
-                    col = 1,
-                    row = 1,
-                    relative = "cursor",
-                    border = "shadow",
-                    style = "minimal",
-               },
-          },
-          open_file = {
-               quit_on_open = false,
-               resize_window = true,
-               window_picker = {
-                    enable = true,
-                    picker = "default",
-                    chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890",
-                    exclude = {
-                         filetype = { "notify", "packer", "qf", "diff", "fugitive", "fugitiveblame" },
-                         buftype = { "nofile", "terminal", "help" },
-                    },
-               },
-          },
-          remove_file = {
-               close_window = true,
-          },
-     },
-     trash = {
-          cmd = "gio trash",
-     },
-     live_filter = {
-          prefix = "[FILTER]: ",
-          always_show_folders = true,
-     },
-     tab = {
-          sync = {
-               open = false,
-               close = false,
-               ignore = {},
-          },
-     },
-     notify = {
-          threshold = vim.log.levels.INFO,
-     },
-     ui = {
-          confirm = {
-               remove = true,
-               trash = true,
-          },
-     },
-     log = {
-          enable = false,
-          truncate = false,
-          types = {
-               all = false,
-               config = false,
-               copy_paste = false,
-               dev = false,
-               diagnostics = false,
-               git = false,
-               profile = false,
-               watcher = false,
-          },
      },
 } -- END_DEFAULT_OPTS
 
@@ -397,3 +257,79 @@ vim.keymap.set("n", "<leader>nc", ":NvimTreeCollapseKeepBuffers<CR>", { noremap 
 --      if layout[1] == "leaf" and vim.api.nvim_buf_get_option(vim.api.nvim_win_get_buf(layout[2]), "filetype") == "NvimTree" and layout[3] == nil then vim.cmd("confirm quit") end
 -- end
 -- })
+
+
+
+local directory = '#ffff00'
+local directory_open = directory
+local directory_closed = '#d0ca50'
+local directory_empty = '#c0c0c0'
+local directory_root = '#00ff00'
+
+vim.api.nvim_set_hl(0, "Directory", { fg = directory })
+vim.api.nvim_set_hl(0, "NvimTreeFolderIcon", { fg = directory_closed })
+vim.api.nvim_set_hl(0, "NvimTreeOpenedFolderIcon", { fg = directory_open })
+vim.api.nvim_set_hl(0, "NvimTreeClosedFolderIcon", { fg = directory_closed })
+
+vim.api.nvim_set_hl(0, "NvimTreeFolderName", { fg = directory_closed })
+vim.api.nvim_set_hl(0, "NvimTreeEmptyFolderName", { fg = directory_empty })
+vim.api.nvim_set_hl(0, "NvimTreeOpenedFolderName", { fg = directory_open })
+vim.api.nvim_set_hl(0, "NvimTreeClosedFolderName", { fg = directory_closed })
+vim.api.nvim_set_hl(0, "RootFolder", { fg = directory_root })
+
+
+-- Highlight color if buffer modified
+-- vim.api.nvim_set_hl(0, "NvimTreeModified", { fg = "#ff0000", bg="#00ff00" })  -- Does nto seem to work, see https://github.com/nvim-tree/nvim-tree.lua/issues/1997
+vim.api.nvim_set_hl(0, "NvimTreeModifiedFile", {bg="#500000" })
+
+-- NvimTreeFolderIcon xxx ctermfg=143 guifg=#a6bd5f
+-- NvimTreeOpenedFolderIcon xxx ctermfg=148 guifg=#a8e519
+-- NvimTreeClosedFolderIcon xxx ctermfg=143 guifg=#a6bd5f
+-- NvimTreeFolderName xxx ctermfg=143 guifg=#a6bd5f
+-- NvimTreeEmptyFolderName xxx ctermfg=250 guifg=#b8b8b8
+-- NvimTreeOpenedFolderName xxx ctermfg=148 guifg=#a8e519
+-- NvimTreeClosedFolderName xxx ctermfg=143 guifg=#a6bd5f
+-- NvimTreeImageFile xxx gui=bold guifg=#d096ae
+-- NvimTreeOpenedFile xxx gui=bold guifg=#4fe62d
+-- NvimTreeModifiedFile xxx guifg=#ff0000 guibg=#00ff00
+-- NvimTreeGitDirty xxx guifg=#8cbe17
+-- NvimTreeGitDeleted xxx guifg=#8cbe17
+-- NvimTreeGitStaged xxx guifg=#4fe62d
+-- NvimTreeGitMerge xxx guifg=#17be49
+-- NvimTreeGitRenamed xxx guifg=#d096ae
+-- NvimTreeGitNew xxx guifg=#ea87b0
+-- NvimTreeWindowPicker xxx gui=bold guifg=#ededed guibg=#4493c8
+-- NvimTreeLiveFilterPrefix xxx gui=bold guifg=#d096ae
+-- NvimTreeLiveFilterValue xxx gui=bold
+-- NvimTreeBookmark xxx guifg=#4fe62d
+-- NvimTreeIndentMarker xxx guifg=#8094b4
+-- NvimTreeSymlink xxx gui=bold guifg=#b6e519
+-- NvimTreeRootFolder xxx guifg=#d096ae
+-- NvimTreeExecFile xxx gui=bold guifg=#4fe62d
+-- NvimTreeSpecialFile xxx gui=bold,underline guifg=#ea87b0
+-- NvimTreeFileIgnored xxx links to NvimTreeGitIgnored
+-- NvimTreeGitIgnored xxx links to Comment
+-- NvimTreePopup  xxx links to Normal
+-- NvimTreeNormal xxx links to Normal
+-- NvimTreeStatusLineNC xxx links to StatusLineNC
+-- NvimTreeCursorLineNr xxx links to CursorLineNr
+-- NvimTreeCursorLine xxx links to CursorLine
+-- NvimTreeWinSeparator xxx links to WinSeparator
+-- NvimTreeSignColumn xxx links to NvimTreeNormal
+-- NvimTreeEndOfBuffer xxx links to EndOfBuffer
+-- NvimTreeStatusLine xxx links to StatusLine
+-- NvimTreeNormalNC xxx links to NvimTreeNormal
+-- NvimTreeLineNr xxx links to LineNr
+-- NvimTreeCursorColumn xxx links to CursorColumn
+-- NvimTreeFileDirty xxx links to NvimTreeGitDirty
+-- NvimTreeFileNew xxx links to NvimTreeGitNew
+-- NvimTreeFileRenamed xxx links to NvimTreeGitRenamed
+-- NvimTreeFileMerge xxx links to NvimTreeGitMerge
+-- NvimTreeFileStaged xxx links to NvimTreeGitStaged
+-- NvimTreeFileDeleted xxx links to NvimTreeGitDeleted
+-- NvimTreeLspDiagnosticsError xxx links to DiagnosticError
+-- NvimTreeLspDiagnosticsWarning xxx links to DiagnosticWarn
+-- NvimTreeLspDiagnosticsInformation xxx links to DiagnosticInfo
+-- NvimTreeLspDiagnosticsHint xxx links to DiagnosticHint
+-- NvimTreeModified xxx guifg=#ff0000 guibg=#00ff00
+-- NvimTreeFileIcon xxx cleared
