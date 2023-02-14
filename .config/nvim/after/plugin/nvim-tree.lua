@@ -60,7 +60,7 @@ require('nvim-tree').setup { -- BEGIN_DEFAULT_OPTS
           width = 30,
           signcolumn = "yes",
           mappings = {
-               custom_only = false,
+               custom_only = true,  -- Disable default bindings, so can use <C-e> for say extra lines
                list = {
                     -- Namespace mappings
                     { key = "c", action = "copy_file_to", action_cb = copy_file_to },
@@ -124,7 +124,7 @@ require('nvim-tree').setup { -- BEGIN_DEFAULT_OPTS
           highlight_git = false,
           full_name = false,
           highlight_opened_files = "icon", -- "none" (default), "icon", "name" or "all"
-          highlight_modified = "name",
+          highlight_modified = "icon",  -- Nice and subtle, override the open icon
           root_folder_label = ":~:s?$?/..?",
           indent_width = 2,
           indent_markers = {
@@ -183,7 +183,7 @@ require('nvim-tree').setup { -- BEGIN_DEFAULT_OPTS
      modified = {
         enable = true,
         show_on_dirs = true,
-        show_on_open_dirs = true,
+        show_on_open_dirs = false,
       },
      filters = {
           dotfiles = false,
@@ -193,7 +193,7 @@ require('nvim-tree').setup { -- BEGIN_DEFAULT_OPTS
           exclude = {},
      },
      git = {
-          enable = true, -- default: true
+          enable = false, -- default: true, however on large git project becomes very slow
      },
 } -- END_DEFAULT_OPTS
 
@@ -280,7 +280,7 @@ vim.api.nvim_set_hl(0, "RootFolder", { fg = directory_root })
 
 -- Highlight color if buffer modified
 -- vim.api.nvim_set_hl(0, "NvimTreeModified", { fg = "#ff0000", bg="#00ff00" })  -- Does nto seem to work, see https://github.com/nvim-tree/nvim-tree.lua/issues/1997
-vim.api.nvim_set_hl(0, "NvimTreeModifiedFile", {bg="#500000" })
+vim.api.nvim_set_hl(0, "NvimTreeModifiedFile", {fg="#ff0000" })
 
 -- NvimTreeFolderIcon xxx ctermfg=143 guifg=#a6bd5f
 -- NvimTreeOpenedFolderIcon xxx ctermfg=148 guifg=#a8e519
