@@ -31,6 +31,7 @@ function M.format_code()
     local file = vim.fn.expand("%:p")
     -- 2. Format the file differently depending on the file type
     if vim.bo.filetype == "python" then
+        -- https://github.com/psf/black
         -- Black will edit the file and save it
         vim.cmd("!black -S --line-length 100 " .. file)
         if vim.v.shell_error == 0 then
@@ -38,6 +39,7 @@ function M.format_code()
             vim.cmd("!isort --line-length 100 --profile black " .. file)
         end
     elseif vim.bo.filetype == "javascript" or vim.bo.filetype == "typescript" then
+        -- https://prettier.io/
         -- Prettier edit in place (--write)
         vim.cmd("!prettier --write --print-width 100 --single-quote true --tab-width 4 --arrow-parens avoid " .. file)
     elseif vim.bo.filetype == "html" or vim.bo.filetype == "htmldjango" then
@@ -49,6 +51,7 @@ function M.format_code()
         -- Set filein/fileout both to be the same (replace)
         vim.cmd("!python -m json.tool --indent 4 " .. file .. " " .. file)
     elseif vim.bo.filetype == "lua" then
+        -- https://github.com/trixnz/lua-fmt
         vim.cmd("!luafmt --write-mode replace " .. file)
     end
     if vim.v.shell_error ~= 0 then

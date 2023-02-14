@@ -4,29 +4,20 @@ if not require("namespace.utils").get_is_installed("fzf-lua") then return end
 
 -- Way more here: https://github.com/ibhagwan/fzf-lua#misc
 -- See all config options here: https://github.com/ibhagwan/fzf-lua#default-options
+
 require("fzf-lua").setup {
+    -- options are sent as `<left>=<right>`
+    -- set to `false` to remove a flag
+    -- set to '' for a non-value flag
+    -- for raw args use `fzf_args` instead
     fzf_opts = {
         -- ["--layout"] = "reverse-list",
         -- ["--border"] = "none"
-    },
-    keymap = {
-        fzf = {
-            -- fzf '--bind=' options
-            ["esc"] = "abort",
-            ["ctrl-u"] = "unix-line-discard",
-            ["ctrl-f"] = "half-page-down",
-            ["ctrl-b"] = "half-page-up",
-            ["ctrl-a"] = "beginning-of-line",
-            ["ctrl-e"] = "end-of-line",
-            ["alt-a"] = "toggle-all",
-            -- Only valid with fzf previewers (bat/cat/git/etc)
-            ["f3"] = "toggle-preview-wrap",
-            ["f4"] = "toggle-preview",
-            ["shift-down"] = "preview-page-down",
-            ["shift-up"] = "preview-page-up"
-        }
+        ["--keep-right"] = "",  -- If a line is long, truncate the front of the line
     },
     -- fzf '--color=' options (optional)
+    -- Sets the colors of FZF (not the colors of FZF-Lua interface
+    -- Linked to the Hilight groups below
     fzf_colors = {
         -- Line
         ["fg"]          = { "fg", "FzfLine" },
@@ -45,24 +36,41 @@ require("fzf-lua").setup {
         ["header"]      = { "fg", "FzfHeaderFg" },
         ["gutter"]      = { "bg", "FzfGutterBg" },
     },
-    -- hl = {
-    --   normal         = 'Normal',        -- window normal color (fg+bg)
-    --   border         = 'FloatBorder',   -- border color
-    --   help_normal    = 'Normal',        -- <F1> window normal
-    --   help_border    = 'FloatBorder',   -- <F1> window border
-    --   -- Only used with the builtin previewer:
-    --   cursor         = 'Cursor',        -- cursor highlight (grep/LSP matches)
-    --   cursorline     = 'CursorLine',    -- cursor line
-    --   cursorlinenr   = 'CursorLineNr',  -- cursor line number
-    --   search         = 'IncSearch',     -- search matches (ctags|help)
-    --   title          = 'Normal',        -- preview border title (file/buffer)
-    --   -- Only used with 'winopts.preview.scrollbar = 'float'
-    --   scrollfloat_e  = 'PmenuSbar',     -- scrollbar "empty" section highlight
-    --   scrollfloat_f  = 'PmenuThumb',    -- scrollbar "full" section highlight
-    --   -- Only used with 'winopts.preview.scrollbar = 'border'
-    --   scrollborder_e = 'FloatBorder',   -- scrollbar "empty" section highlight
-    --   scrollborder_f = 'FloatBorder',   -- scrollbar "full" section highlight
-    -- },
+    keymap = {
+        builtin = {
+            -- Generally useing Alt... for preview
+            ["<F1>"]        = "toggle-help",
+            ["<F2>"]        = "toggle-fullscreen",
+            -- Only valid with the 'builtin' previewer
+            ["<M-w>"]       = "toggle-preview-wrap",  -- Mnemonic (W)rap
+            ["<M-j>"]        = "toggle-preview",
+            ["<M-k>"]        = "toggle-preview",
+            -- Rotate preview clockwise/counter-clockwise
+            ["<M-h>"]        = "toggle-preview-ccw",
+            ["<M-l>"]        = "toggle-preview-cw",
+            ["<M-f>"]       = "preview-page-down", -- Like vim forwards
+            ["<M-b>"]       = "preview-page-up",  -- Like vim backwards
+            ["<M-o>"]       = "preview-page-reset",  -- Mnemonic: (O)rigin
+        },
+        fzf = {
+            -- WARNING: These completely REPLACE the existing bindings
+            -- Custom
+            ["esc"] = "abort",
+            -- fzf '--bind=' options
+            ["ctrl-z"]      = "abort",
+            ["ctrl-u"]      = "unix-line-discard",
+            ["ctrl-f"]      = "half-page-down",  -- Match list
+            ["ctrl-b"]      = "half-page-up",  -- Match list
+            ["ctrl-a"]      = "beginning-of-line",
+            ["ctrl-e"]      = "end-of-line",
+            ["alt-a"]       = "toggle-all",
+            -- Only valid with fzf previewers (bat/cat/git/etc)
+            ["f3"]          = "toggle-preview-wrap",
+            ["f4"]          = "toggle-preview",
+            ["shift-down"]  = "preview-page-down",
+            ["shift-up"]    = "preview-page-up",
+        },
+    },
     winopts = {
         height = 0.85,            -- window height
         width  = 0.90,            -- window width
@@ -81,7 +89,9 @@ require("fzf-lua").setup {
 
 
 -- Line
-vim.api.nvim_set_hl(0, "FzfLine",                   { fg="#d0d0d0", bg="#000000"}) -- Matched part of currently selected line
+-- Sets the colors of FZF (not the colors of FZF-Lua interface
+local bg = "#404040"
+vim.api.nvim_set_hl(0, "FzfLine",                   { fg="#d0d0d0", bg=bg}) -- Matched part of currently selected line
 vim.api.nvim_set_hl(0, "FzfLineMatchedFg",          { fg="#00e000"}) -- Matched part of currently selected line
 -- Selected Line
 vim.api.nvim_set_hl(0, "FzfSelectedLine",           { fg="#ffffff", bg="#006000"}) -- Matched part of currently selected line
@@ -95,23 +105,23 @@ vim.api.nvim_set_hl(0, "FzfSpinnerFg",              { fg="#ff0000"}) -- Like Fzf
 vim.api.nvim_set_hl(0, "FzfHeaderFg",               { fg="#ff0000"}) -- Matched part of currently selected line
 vim.api.nvim_set_hl(0, "FzfGutterBg",               { bg="#404040"}) -- Left sign column bG
 
-
-  -- key is the highlight group name
-  -- value[1] is the setup/call arg option name
-  -- value[2] is the default link if value[1] is undefined
--- vim.api.nvim_set_hl(0, "FzfLuaNormal",              { link="Normal" })
-vim.api.nvim_set_hl(0, "FzfLuaBorder",              { fg="#606060" })
--- vim.api.nvim_set_hl(0, "FzfLuaCursor",              { fg = "#ff0000", bg="#00ffff" })
--- vim.api.nvim_set_hl(0, "FzfLuaCursorLine",          { fg = "#00ff00", bg="#ff00ff" })
--- vim.api.nvim_set_hl(0, "FzfLuaCursorLineNr",        { fg = "#0000ff", bg="#ffff00" })
--- vim.api.nvim_set_hl(0, "FzfLuaSearch",              { fg = "#ff0000", bg="#ff0000"})
-vim.api.nvim_set_hl(0, "FzfLuaTitle",               { fg = "#ffffff"}) -- Preview title bar
--- vim.api.nvim_set_hl(0, "FzfLuaScrollBorderEmpty",   { fg = "#00ff00", bg="#ff0000" })
--- vim.api.nvim_set_hl(0, "FzfLuaScrollBorderFull",    { fg = "#00ff00", bg="#ff0000" })
--- vim.api.nvim_set_hl(0, "FzfLuaScrollFloatEmpty",    { fg = "#00ff00", bg="#ff0000" })
--- vim.api.nvim_set_hl(0, "FzfLuaScrollFloatFull",     { fg = "#00ff00", bg="#ff0000" })
--- vim.api.nvim_set_hl(0, "FzfLuaHelpNormal",          { fg = "#00ff00", bg="#ff0000" })
--- vim.api.nvim_set_hl(0, "FzfLuaHelpBorder",          { fg = "#00ff00", bg="#ff0000" })
+-- Sets the colors of FZF-Lua (not the colors of Lua interface
+-- key is the highlight group name
+-- value[1] is the setup/call arg option name
+-- value[2] is the default link if value[1] is undefined
+vim.api.nvim_set_hl(0, "FzfLuaNormal",              { fg = "#e0e0e0", bg=bg        })  -- The float window background, the matches list, the uncoloured preview text
+vim.api.nvim_set_hl(0, "FzfLuaBorder",              { fg = "#606060", bg="#000000" })  -- Border around float window
+vim.api.nvim_set_hl(0, "FzfLuaCursor",              { fg = "#ff0000", bg="#00ff00" })  -- ?
+vim.api.nvim_set_hl(0, "FzfLuaCursorLine",          { fg = "#ffffff", bg="#505050" })  -- The selected line of the preview
+vim.api.nvim_set_hl(0, "FzfLuaCursorLineNr",        { fg = "#ff0000", bg="#00ff00" })  -- ?
+vim.api.nvim_set_hl(0, "FzfLuaSearch",              { fg = "#ff0000", bg="#00ff00" })  -- ?
+vim.api.nvim_set_hl(0, "FzfLuaTitle",               { fg = "#ffffff", bg=bg        })  -- Preview title bar
+vim.api.nvim_set_hl(0, "FzfLuaScrollBorderEmpty",   { fg = "#ff0000", bg="#00ff00" })  -- ?
+vim.api.nvim_set_hl(0, "FzfLuaScrollBorderFull",    { fg = "#ff0000", bg="#00ff00" })  -- ?
+vim.api.nvim_set_hl(0, "FzfLuaScrollFloatEmpty",    { fg = "#ff0000", bg="#00ff00" })  -- ?
+vim.api.nvim_set_hl(0, "FzfLuaScrollFloatFull",     { fg = "#ff0000", bg="#00ff00" })  -- ?
+vim.api.nvim_set_hl(0, "FzfLuaHelpNormal",          { fg = "#000000", bg="#505050" })  -- Press <F1> to show the help window
+vim.api.nvim_set_hl(0, "FzfLuaHelpBorder",          { fg = "#ffffff", bg="#505050" })  -- ?
 
 -- (B)uffers
 vim.keymap.set("n", "<leader><leader>", require("fzf-lua").buffers, {noremap = true, silent = true})
