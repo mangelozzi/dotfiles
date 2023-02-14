@@ -205,7 +205,7 @@ vim.api.nvim_create_autocmd(
         desc = "StatusLine colouring dependant on inactive window",
         callback = function()
             vim.wo.statusline = vim.g.get_status_line(false)
-            vim.cmd("redrawstatus!")
+            -- vim.cmd("redrawstatus!")
         end,
         group = StatusLineGroup,
         pattern = "*",
