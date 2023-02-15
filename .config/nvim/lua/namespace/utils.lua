@@ -181,6 +181,18 @@ function M.close_all_buffers()
 end
 
 
+function M.close_buffer_keep_window()
+    local file = vim.api.nvim_buf_get_name(0)
+    vim.cmd('edit #')  -- switch to alternate file, like <C-^>
+    local other_file = vim.api.nvim_buf_get_name(0)
+    if file == other_file then
+        -- If switch to alternate file results in the same file name we create a new file to switch to
+        vim.cmd('enew')
+    end
+    -- Now delete the original buffer
+    vim.cmd('bdelete #')
+end
+
 return M
 
 

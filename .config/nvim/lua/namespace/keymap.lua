@@ -210,9 +210,14 @@ vim.keymap.set({"", "!"}, "<F2>", "<ESC>:source $MYVIMRC<CR>", {noremap = true})
 -- <F3> Open VIM RC file and change local pwd to it
 vim.keymap.set({"", "!"}, "<F3>", "<ESC><cmd>e $MYVIMRC<CR> :lcd %:p:h<CR>", {noremap = true})
 
--- <F4> CLOSE ALL BUFFER
+-- <F4> Close Buffer Keep window
+-- Close the current buffer, but keep the window open
+vim.keymap.set({"", "!"}, "<F4>", utils.close_buffer_keep_window, { noremap = true})
+
+-- <S-F4> Close all buffer
 -- Close all safe buffers, then just work through not safe to close buffers
-vim.keymap.set({"", "!"}, "<F4>", utils.close_all_buffers, { noremap = true})
+vim.keymap.set({"", "!"}, "<S-F4>", utils.close_all_buffers, { noremap = true})
+
 
 -- Run the current buffer with a sensible app, e.g. python or Chrome etc
 -- Mnemonic use F5 in webpage a lot, use F5 to launch current file in chrome

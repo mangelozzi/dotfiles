@@ -26,3 +26,8 @@ require('Comment').setup(
         eol = '<leader>jA',
     },
 })
+
+-- Use Javascript style comments in HTML files
+local ft = require('Comment.ft')
+ft.set('html', {'//%s', '/*%s*/'})
+ft.set('htmldjango', {'//%s', '/*%s*/'})
