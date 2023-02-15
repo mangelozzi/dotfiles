@@ -70,8 +70,9 @@ local namespace_plugins = function(use)
     use("junegunn/vim-easy-align")
 
     -- COLOR RELATED
-    use("norcalli/nvim-colorizer.lua")
-    use("pangloss/vim-javascript")
+    use("norcalli/nvim-colorizer.lua")  -- Color Hex codes with the color
+    -- use("pangloss/vim-javascript")  -- Improves JS indentation and syntax highlighting, hopefully treesitter replaces this
+    use("mrjones2014/nvim-ts-rainbow")  -- Rainbow bracket pairs
 
     -- SPELLCHECK EXTRAS
     use {
