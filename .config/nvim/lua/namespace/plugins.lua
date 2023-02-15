@@ -101,8 +101,9 @@ local namespace_plugins = function(use)
     -- TREE BROWSER
     use {
         -- optional, for file icons, better to load it before than as a requirement: https://github.com/nvim-tree/nvim-tree.lua/issues/1458
-        "nvim-tree/nvim-web-devicons",
-        "nvim-tree/nvim-tree.lua"
+        "nvim-tree/nvim-tree.lua",
+        after = "nvim-web-devicons",
+        requires = "nvim-tree/nvim-web-devicons",
     }
 
     -- LSP
@@ -128,6 +129,12 @@ local namespace_plugins = function(use)
     -- TREESITTER
     -- They recommend updating the parsers on update
     use("nvim-treesitter/nvim-treesitter", {run = ":TSUpdate"})
+    -- Tresitter text objects
+    use {
+        "nvim-treesitter/nvim-treesitter-textobjects",
+        after = "nvim-treesitter",
+        requires = "nvim-treesitter/nvim-treesitter",
+    }
 
     -- Automatically set up your configuration after cloning packer.nvim
     -- Put this at the end after all plugins
