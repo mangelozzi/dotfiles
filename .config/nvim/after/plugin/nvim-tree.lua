@@ -277,7 +277,6 @@ vim.api.nvim_set_hl(0, "NvimTreeClosedFolderName", { fg = directory_closed })
 vim.api.nvim_set_hl(0, "NvimTreeRootFolder", { fg = "#00e000", bg="#004000" })  -- Top dir path
 
 -- Highlight color if buffer modified
--- vim.api.nvim_set_hl(0, "NvimTreeModified", { fg = "#ff0000", bg="#00ff00" })  -- Does nto seem to work, see https://github.com/nvim-tree/nvim-tree.lua/issues/1997
 vim.api.nvim_set_hl(0, "NvimTreeModifiedFile", {fg="#ff0000", bg="#500000" })
 vim.api.nvim_set_hl(0, "NvimTreeOpenedFile", {fg="#00e000" })
 vim.api.nvim_set_hl(0, "NvimTreeFileIcon", {fg="#ffffff"})  -- If the file icon does not have an associated color, use this default color
@@ -345,4 +344,3 @@ vim.api.nvim_create_autocmd(
 -- NvimTreeFileMerge xxx links to NvimTreeGitMerge
 -- NvimTreeFileStaged xxx links to NvimTreeGitStaged
 -- NvimTreeFileDeleted xxx links to NvimTreeGitDeleted
--- NvimTreeModified xxx guifg=#ff0000 guibg=#00ff00

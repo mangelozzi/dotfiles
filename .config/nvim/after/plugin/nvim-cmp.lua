@@ -4,7 +4,7 @@ local cmp = require('cmp')
 cmp.setup({
     preselect = cmp.PreselectMode.None,
     completion = {
-        keyword_length = 4,  -- Min word length before showing result
+        keyword_length = 3,  -- Min word length before showing result
         -- autocomplete = false,  -- Dont auto popup
     },
 
