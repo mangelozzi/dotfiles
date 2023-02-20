@@ -42,7 +42,7 @@ local function copy_file_to(node)
     local dir = vim.fn.fnamemodify(file_out, ":h")
     vim.fn.system { 'mkdir', '-p', dir }
     -- Copy the file
-    vim.fn.system { 'cp', file_src, file_out }
+    vim.fn.system { 'cp', '-R', file_src, file_out }
 end
 
 -- Use `o` to open a file
