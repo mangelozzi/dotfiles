@@ -24,6 +24,9 @@ sudo apt install -y qdirstat
 # Calendar used by "mycal" command
 sudo apt install -y ncal
 
+# Peek - Screen recorder tool
+sudo apt install peek
+
 # Ripgrep
 # if ! command -v rg &> /dev/null
 # then

@@ -107,7 +107,7 @@ vim.opt.showbreak = "↪"         -- show an ellipsis at the start of wrapped li
 
 -- IDENTATION
 vim.opt.autoindent = true       -- When opening a new line keep indentation
-vim.opt.smartindent = true      -- Testing it
+vim.opt.smartindent = false     -- Testing it
 vim.opt.indentexpr = ""
 vim.opt.shiftround = true       -- Round indent to multiple of 'shiftwidth'. Applies to > and < commands. CTRL-T and CTRL-D in insert mode always round to a multiple of shiftwidths.
 
