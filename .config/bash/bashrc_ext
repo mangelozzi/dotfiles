@@ -177,8 +177,14 @@ run() {
     $(fd --type executable | fzf)
 }
 
+# --- GNOME SETTINGS (Default ubuntu panel ---
+# Setting this environment variable is required to make the appearance panel appear in the options
+# An alias is added is alias.sh: alias settings="gnome-control-center &"
+XDG_CURRENT_DESKTOP=ubuntu:GNOME
+
 # TEMP
 # https://askubuntu.com/questions/34449/how-to-see-the-video-card-temperature-nvidia-ati-intel
 # report sensors temp
 # /etc/init.d/kmod start; sensors
 # sensors
+

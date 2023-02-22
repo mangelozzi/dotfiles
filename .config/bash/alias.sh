@@ -89,3 +89,8 @@ alias gdpy="git diff --diff-filter=M --ws-error-highlight=all '*.py'"
 alias gdhtml="git diff --diff-filter=M --ws-error-highlight=all '*.html'"
 alias gdjs="git diff --diff-filter=M --ws-error-highlight=all '*.js'"
 alias gdsass="git diff --diff-filter=M --ws-error-highlight=all '*.sass' '*.scss'"
+
+# Gnome Settings (Default Ubuntu Panel ---
+# Setting this environment variable is required to make the appearance panel appear in the options
+# XDG_CURRENT_DESKTOP=ubuntu:GNOME
+alias settings="gnome-control-center &"
