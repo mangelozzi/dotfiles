@@ -5,7 +5,11 @@ require('neogit').setup {
   -- Neogit refreshes its internal state after specific events, which can be expensive depending on the repository size.
   -- Disabling `auto_refresh` will make it so you have to manually refresh the status after you open it.
   auto_refresh = true,
-  -- Setting any section to `false` will make the section not render at all
+  -- The time after which an output console is shown for slow running commands
+  console_timeout = 5000,
+  -- Automatically show console if a command takes more than console_timeout milliseconds
+  -- If don't send to console, get lots of popups
+  auto_show_console = true,  -- Setting any section to `false` will make the section not render at all
   sections = {
     untracked = {
       folded = false

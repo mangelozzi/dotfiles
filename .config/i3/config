@@ -551,11 +551,19 @@ bindsym $mod+Delete mode "$mode-system"
 
 # Screenshot area, copy to clipboard, save to $screenshot-file, and open with Pinta
 set $screenshot-file "/home/$USER/Pictures/last_screenshot.png"
-# Pinta require the file written to disk first, so we write to disk, then copy it, then open with Pinta
-bindsym Print exec --no-startup-id maim --select $screenshot-file && cat $screenshot-file | xclip -selection clipboard -t image/png && pinta $screenshot-file
 
-# Screen shot whole screen and save to Pictures/ with dated name
-bindsym Shift+Print exec --no-startup-id maim "/home/$USER/Pictures/screenshot_$(date +'%Y-%m-%d_%H:%M:%S').png"
+# Screen shot select to clipboard
+bindsym Print exec maim --select --capturebackground | xclip -selection clipboard -t image/png
+
+# Screen selection shot whole screen and save to Pictures/ with dated name
+bindsym Control+Print exec maim --select "/home/$USER/Pictures/screenshot_$(date +'%Y-%m-%d_%H:%M:%S').png"
+
+# Pinta require the file written to disk first, so we write to disk, then copy it, then open with Pinta
+bindsym Shift+Print exec maim --select $screenshot-file && cat $screenshot-file | xclip -selection clipboard -t image/png && pinta $screenshot-file
+
+# Capture whole back (useful for grapping pops like select boxes in chrome, when capture region fails, see:
+# https://github.com/naelstrof/maim/issues/254
+bindsym Control+Shift Print exec maim --capturebackground | xclip -selection clipboard -t image/png
 
 # https://askubuntu.com/questions/763994/screen-times-out-in-i3-wm
 # Disable the screen saver

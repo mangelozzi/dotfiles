@@ -132,7 +132,7 @@ vim.opt.spelllang = "en_gb"
 vim.opt.mouse = 'a'             -- Enable use of the mouse for all modes
 vim.opt.number = true           -- Display line numbers in the left margin (sucks for copy pasting on servers)
 vim.opt.relativenumber = not vim.o.diff   -- Use relative line number in margin if not in diff mode
-vim.opt.signcolumn = "number"   -- "auto", "number", "yes" or "no"
+vim.opt.signcolumn = "yes:1"   -- "auto", a number of cols, "yes" or "no"
 
 vim.opt.thesaurus:append {vim.g.nvim_path .. '/thesaurus/english.txt'}
 

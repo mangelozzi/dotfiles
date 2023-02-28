@@ -3,3 +3,6 @@ vim.keymap.set("n", "-", "Iprint('\\n-------------------------------------------
 
 -- Insert django style {% tag %}
 vim.keymap.set("n", "<leader>t", "o{%  %}<Esc>hhi", {noremap = true, buffer = true})
+
+-- A dash generally has spaces around it, but often html strings are joined with dash
+vim.opt_local.iskeyword:append('-')
