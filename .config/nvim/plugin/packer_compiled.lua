@@ -164,6 +164,11 @@ _G.packer_plugins = {
     path = "/home/michael/.local/share/nvim/site/pack/packer/start/nvim-rgflow.lua",
     url = "/home/michael/.config/nvim/tmp/nvim-rgflow.lua"
   },
+  ["nvim-toggler"] = {
+    loaded = true,
+    path = "/home/michael/.local/share/nvim/site/pack/packer/start/nvim-toggler",
+    url = "https://github.com/nguyenvukhang/nvim-toggler"
+  },
   ["nvim-tree.lua"] = {
     load_after = {},
     loaded = true,
@@ -268,10 +273,10 @@ _G.packer_plugins = {
 time([[Defining packer_plugins]], false)
 -- Load plugins in order defined by `after`
 time([[Sequenced loading]], true)
-vim.cmd [[ packadd nvim-treesitter ]]
-vim.cmd [[ packadd nvim-treesitter-textobjects ]]
 vim.cmd [[ packadd nvim-web-devicons ]]
 vim.cmd [[ packadd nvim-tree.lua ]]
+vim.cmd [[ packadd nvim-treesitter ]]
+vim.cmd [[ packadd nvim-treesitter-textobjects ]]
 time([[Sequenced loading]], false)
 
 _G._packer.inside_compile = false
