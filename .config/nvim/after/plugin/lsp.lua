@@ -14,6 +14,7 @@ require('mason-lspconfig').setup({
         'lua_ls',
         'jsonls',
         'marksman',
+        'omnisharp',  -- C Sharp
         --'rust_analyzer',
     }
 })

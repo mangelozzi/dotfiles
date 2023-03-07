@@ -7,6 +7,7 @@ require('nvim-treesitter.configs').setup {
         "c",
         "comment",
         "cpp",
+        "c_sharp",
         "css",
         "diff",
         "html",

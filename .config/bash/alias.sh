@@ -47,8 +47,8 @@ alias cdp='cd ~/.config/nvim/tmp'
 # Hostname/IP varies, so can only add key
 # alias github='ssh-add -l || ssh-add ~/.ssh/github_dev'
 # alias github='ssh-add -l | grep "KaFOpY9S84" || ssh-add ~/.ssh/github_dev'
-github() {
-    ssh-add -l | grep "KaFOpY9S84" || ssh-add ~/.ssh/github_dev
+gitdev() {
+    ssh-add -l | grep "KaFOpY9S84" || ssh-add ~/.ssh/gitdev
 }
 
 # GIT SET REPOS
@@ -94,3 +94,8 @@ alias gdsass="git diff --diff-filter=M --ws-error-highlight=all '*.sass' '*.scss
 # Setting this environment variable is required to make the appearance panel appear in the options
 # XDG_CURRENT_DESKTOP=ubuntu:GNOME
 alias settings="gnome-control-center &"
+
+# IOEC
+alias cdgc="cd ~/Ggateway/Gateway/Gateway.Client"
+alias cdgg="cd ~/Ggateway/Gateway"
+alias cdgn="cd ~/GatewayNext/Gateway"

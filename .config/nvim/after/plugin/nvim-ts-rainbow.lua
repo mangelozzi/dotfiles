@@ -16,7 +16,7 @@ require("nvim-treesitter.configs").setup {
 
 vim.api.nvim_set_hl(0, 'rainbowcol1', { fg = "#ffffff", bold = false}) -- bold white
 vim.api.nvim_set_hl(0, 'rainbowcol2', { fg = "#a0ffff", bold = false}) -- blueish
-vim.api.nvim_set_hl(0, 'rainbowcol3', { fg = "#a0ffa0", bold = false}) -- greenish
+vim.api.nvim_set_hl(0, 'rainbowcol3', { fg = "#80ff80", bold = false}) -- greenish
 vim.api.nvim_set_hl(0, 'rainbowcol4', { fg = "#ffc0c0", bold = false}) -- redish
 vim.api.nvim_set_hl(0, 'rainbowcol5', { fg = "#ffff40", bold = false}) -- yellowish
 vim.api.nvim_set_hl(0, 'rainbowcol6', { fg = "#c0c0c0", bold = false}) -- gray

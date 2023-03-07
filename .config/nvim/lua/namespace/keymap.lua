@@ -1,4 +1,12 @@
 --[[
+
+Currently leader in nmap:
+    a, b, c, d, e, g, m, o, p, q, u, v
+    A, B, C, E, F, G, H, L, M, N, O, P, R, S, T, U, V, W, X, Y, Z
+    0
+    !@#$%^&*()_+
+    []{}|\;,<>?
+
 Example
 vim.keymap.set("n", "<leader>a", ":Git blame<cr>", { noremap = true })
 Multiple modes like this:
@@ -405,6 +413,11 @@ vim.keymap.set("n", "]T", "vat<ESC>`>", {noremap = true})
 
 -- Sort operator
 vim.keymap.set({"n", "x"}, "<leader>s", utils.sort_lines, {silent = true})
+
+-- TODO NO WORKING SO WELL
+-- Rename tag - csst - from: https://stackoverflow.com/questions/16340037/change-html-tag-in-vim-but-keeping-the-attributes-surround
+-- Mneomonic - W for Web tag
+vim.keymap.set({"n", "x"}, "<leader>w", function() vim.fn.feedkeys("cstt") end, {noremap = true})
 
 
 -- " {{{2 Insert
