@@ -7,5 +7,5 @@
 -- e.g. "foo bar" -> "Foo Bar"
 -- gT used for switching buffers, disable default hotkeys with:
 -- Menomic h = heading
-vim.keymap.set({'n', 'x'}, 'gh', '<Plug>Titlecase', {})
-vim.keymap.set({'n', 'x'}, 'gH', '<Plug>TitlecaseLine', {})
+vim.keymap.set({'n', 'x'}, 'gh', '<Plug>Titlecase', {noremap = true})
+vim.keymap.set({'n', 'x'}, 'gH', '<Plug>TitlecaseLine', {noremap = true})

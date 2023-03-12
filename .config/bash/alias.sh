@@ -12,6 +12,7 @@ alias rpiboot="sudo ~/tools/rpiboot/rpiboot"
 alias rpiboot2="sudo ~/tools/usbboot-msg/rpiboot"
 # -b to highlight the current day
 alias mycal="ncal -b -A3 -B2"
+alias mycal12="ncal -b -A12 -B0"
 
 # SSH
 
@@ -43,10 +44,10 @@ alias cdn='cd ~/.config/nvim'
 alias cdt='cd ~/.config/nvim/tmp'
 alias cdp='cd ~/.config/nvim/tmp'
 
-# GITHUB add key
+# GIT development add key
 # Hostname/IP varies, so can only add key
-# alias github='ssh-add -l || ssh-add ~/.ssh/github_dev'
-# alias github='ssh-add -l | grep "KaFOpY9S84" || ssh-add ~/.ssh/github_dev'
+# alias gitdev='ssh-add -l || ssh-add ~/.ssh/gitdev'
+# alias gitdev='ssh-add -l | grep "KaFOpY9S84" || ssh-add ~/.ssh/gitdev'
 gitdev() {
     ssh-add -l | grep "KaFOpY9S84" || ssh-add ~/.ssh/gitdev
 }
@@ -60,9 +61,9 @@ alias gitterm='export GIT_DIR=~/terminal/.git GIT_WORK_TREE=~/terminal'
 dot="git --git-dir=$HOME/.dotfiles --work-tree=$HOME"
 alias dot="$dot"
 # Purposes don't have many dot aliases to keep default git skills sharp
-alias dotp="github && $dot push"
+alias dotp="gitdev && $dot push"
 alias dota="dot commit --amend --no-edit"
-alias dotap="dot commit --amend --no-edit; github && dot push -f"
+alias dotap="dot commit --amend --no-edit; gitdev && dot push -f"
 
 # Git
 alias gs='git status'
@@ -71,11 +72,13 @@ alias gupy='git add -u "*.py"'
 alias guhtml='git add -u "*.html"'
 alias guscss='git add -u "*.scss" "*.sass"'
 alias gujs='git add -u "*.js"'
+# Create a new branch with any of the current changes, and change the HEAD to start tracking it.
+alias gb='git checkout -b '
 alias ga='git add -A'
 alias gc='git commit -m'
-alias gp='github && git push'
+alias gp='gitdev && git push'
 alias gm='git commit --amend --no-edit'
-alias gmp='github && git commit --amend --no-edit && git push -f'
+alias gmp='gitdev && git commit --amend --no-edit && git push -f'
 # Show a list of patched changes in the file, e.g. gp foo.txt
 # alias gp='git log -p'
 # -R to turn removed lines into added lines, so whitespace can be be highlighted.
@@ -99,3 +102,5 @@ alias settings="gnome-control-center &"
 alias cdgc="cd ~/Ggateway/Gateway/Gateway.Client"
 alias cdgg="cd ~/Ggateway/Gateway"
 alias cdgn="cd ~/GatewayNext/Gateway"
+alias fortistart="sudo systemctl start forticlient.service"
+alias fortistop="sudo systemctl stop forticlient.service"

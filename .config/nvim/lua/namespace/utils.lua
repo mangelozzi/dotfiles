@@ -82,7 +82,9 @@ function M.run()
     elseif vim.bo.filetype == "vim" then
         vim.cmd("source " .. file)
     elseif vim.bo.filetype == "html" or vim.bo.filetype == "markdown" then
-        vim.cmd("!google-chrome " .. file)
+        -- Escape spaces
+        local clean_file = file:gsub(' ', '\\ ')
+        vim.cmd("!google-chrome " .. clean_file)
     else
         print("No run command linked for this filetype, using system app...")
         vim.cmd("!/usr/bin/xdg-open " .. file)
