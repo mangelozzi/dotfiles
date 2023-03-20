@@ -55,3 +55,6 @@ michael ALL=NOPASSWD:/usr/bin/systemctl shutdown *
 
 # xkeysnail key remapper
 michael ALL=NOPASSWD:/home/michael/.config/xkeysnail/run
+
+# LinkCube
+michael ALL=NOPASSWD:/usr/bin/fail2ban-client banned

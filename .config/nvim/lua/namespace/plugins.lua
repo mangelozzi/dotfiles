@@ -1,6 +1,7 @@
 -- AFTER EDITS TO THIS FILE
 -- 1. Source this file with :so
 -- 2. :PackerSync
+--      - The difference between :PackerSync and :PackerUpdate is that both update the packages, but Sync will also install new packages and remove old packages
 
 -- USED PLUGINS
 -- 'stefandtw/quickfix-reflector.vim' -- BAD!! make qf window modifiable,

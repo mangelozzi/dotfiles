@@ -1,5 +1,12 @@
 if not require("namespace.utils").get_is_installed("nvim-treesitter") then return end
 
+-- To update a single treesitter config:
+--  :TSInstall python
+-- To update all:
+--  :TSUpdate
+-- To update/sync all:
+--  :TSUpdateSync
+
 require('nvim-treesitter.configs').setup {
     -- A list of parser names, or "all" (the four listed parsers should always be installed)
     ensure_installed = {
