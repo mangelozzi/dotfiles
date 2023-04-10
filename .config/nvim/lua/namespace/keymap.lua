@@ -403,7 +403,7 @@ vim.keymap.set("o", "A", utils.text_object_all, {})
 vim.keymap.set({"x", "o"}, "il", ":<C-U>normal! ^vg_<CR>", {noremap = true})
 vim.keymap.set({"x", "o"}, "al", ":<C-U>normal! 0vg_<CR>", {noremap = true})
 
--- Navigate to the start/end of the inner text
+-- Navigate to the start/end of the inner text of a <tag>...</tag> set
 vim.keymap.set("n", "[t", "vit<ESC>`<", {noremap = true})
 vim.keymap.set("n", "]t", "vit<ESC>`>", {noremap = true})
 

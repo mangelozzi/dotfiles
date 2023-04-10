@@ -59,3 +59,23 @@ require('mason-lspconfig').setup_handlers({
         })
     end,
 })
+
+
+-- Try make pyright not so CPU hungry
+lspconfig.pyright.setup({
+  on_attach = lsp_attach,
+  flags = {
+    debounce_text_changes = 300
+  },
+  settings = {
+    python = {
+      analysis = {
+        autoSearchPaths = true,
+        diagnosticMode = "openFilesOnly",
+        useLibraryCodeForTypes = true,
+        typeCheckingMode = "basic",
+        maxNumberOfProblems = 50
+      },
+    }
+  }
+})

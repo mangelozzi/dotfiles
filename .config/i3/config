@@ -66,7 +66,7 @@ set $mod Mod4
 # is used in the bar {} block below.
 # NOTE: To apply system wide run: lxappearance and set to Noto Regular 12
 # This will adjust it in all the GTKs
-font pango:Noto 12
+font pango:Noto 9
 
 # This font is widely installed, provides lots of unicode glyphs, right-to-left
 # text rendering and scalability on retina/hidpi displays (thanks to pango).
@@ -273,7 +273,8 @@ set $ws3 "3-3_?"
 # $ like S for inkScape
 # Note the snap version SUCKs, everytime open/import/save file, must browse to the same point each time. Rather use appimage
 set $ws4 "4-4_Ink"
-exec_always --no-startup-id ~/.config/i3/scripts/app-on-ws-init.py --workspace $ws4 --command ~/appimages/inkscape.AppImage
+# Apt only has v1.1 which does not have multi page support
+exec_always --no-startup-id ~/.config/i3/scripts/app-on-ws-init.py --workspace $ws4 --command ~/appimages/Inkscape-b0a8486-x86_64.AppImage
 
 # % = spreadsheets often used with percentages
 set $ws5 "5-5_Calc"
@@ -473,7 +474,8 @@ client.background       #ffffff
 # bar
 bar {
     status_command i3status
-    font pango: mono 12
+    # Change the font size of the status bar
+    font pango: mono 9
     position top
     colors {
         background #303030
@@ -588,17 +590,27 @@ exec xset dpms 0 0 3600
 # set $screens-projector        xrandr --output eDP-1 --off --output VGA-1 --off --output HDMI-1 --off --output DP-1 --off --output HDMI-2 --mode 1920x1200 --pos 0x0 --rotate normal --output DP-2 --off --output HDMI-3 --off
 # set $screens-projector-laptop xrandr --output eDP-1 --mode 1920x1080 --pos 1920x0 --rotate normal --output VGA-1 --off --output HDMI-1 --off --output DP-1 --off --output HDMI-2 --primary --mode 1920x1200 --pos 0x0 --rotate normal --output DP-2 --off --output HDMI-3 --off
 # set $screens-laptop-duplicated xrandr --output eDP-1 --mode 1920x1080 --pos 1920x0 --rotate normal --output VGA-1 --off --output HDMI-1 --off --output DP-1 --off --output HDMI-2 --same-as eDP-1
-# Dell Precision 7530
-set $screens-laptop            xrandr --output eDP-1 --primary --mode 1920x1080 --pos 0x0 --rotate normal --output DP-1 --off --output DP-2 --off --output HDMI-1 --off --output DP-3 --off --output DP-2-1 --off --output DP-2-2 --off --output DP-2-3 --off --output DP-1-0 --off --output DP-1-1 --off --output DP-1-2 --off --output DP-1-3 --off --output HDMI-1-0 --off --output DP-1-4 --off --output DP-1-5 --off
-set $screens-projector         xrandr --output eDP-1 --off --output DP-1 --off --output DP-2 --off --output HDMI-1 --off --output DP-3 --off --output DP-2-1 --primary --mode 1920x1200 --pos 0x0 --rotate normal --output DP-2-2 --off --output DP-2-3 --off --output DP-1-0 --off --output DP-1-1 --off --output DP-1-2 --off --output DP-1-3 --off --output HDMI-1-0 --off --output DP-1-4 --off --output DP-1-5 --off
-set $screens-projector-laptop  xrandr --output eDP-1 --mode 1920x1080 --pos 1920x0 --rotate normal --output DP-1 --off --output DP-2 --off --output HDMI-1 --off --output DP-3 --off --output DP-2-1 --primary --mode 1920x1200 --pos 0x0 --rotate normal --output DP-2-2 --off --output DP-2-3 --off --output DP-1-0 --off --output DP-1-1 --off --output DP-1-2 --off --output DP-1-3 --off --output HDMI-1-0 --off --output DP-1-4 --off --output DP-1-5 --off
-set $screens-laptop-duplicated xrandr --output eDP-1 --primary --mode 1920x1080 --pos 0x0 --rotate normal --output DP-1 --off --output DP-2 --off --output HDMI-1 --off --output DP-3 --off --output DP-2-1 --mode 1920x1080 --pos 0x0 --rotate normal --output DP-2-2 --off --output DP-2-3 --off --output DP-1-0 --off --output DP-1-1 --off --output DP-1-2 --off --output DP-1-3 --off --output HDMI-1-0 --off --output DP-1-4 --off --output DP-1-5 --off
 
-# Screen setup hotkeys
-bindsym $mod+F1 exec --no-startup-id $screens-laptop
-bindsym $mod+F2 exec --no-startup-id $screens-projector
-bindsym $mod+F3 exec --no-startup-id $screens-projector-laptop
-bindsym $mod+F4 exec --no-startup-id $screens-laptop-duplicated
+
+# Dell Precision 7530
+set $only-laptop                xrandr --output DP-0 --off --output DP-1 --off --output DP-2 --off --output DP-3 --off --output HDMI-0 --off --output DP-4 --primary --mode 1920x1080 --pos 0x0 --rotate normal --output DP-5 --off --output DP-6 --off
+set $only-hdmi-screen           xrandr --output DP-0 --off --output DP-1 --off --output DP-2 --off --output DP-3 --off --output HDMI-0 --mode 1920x1080 --pos 0x0 --rotate normal --output DP-4 --off --output DP-5 --off --output DP-6 --off
+set $only-dock-proj             xrandr --output eDP-1 --off --output DP-1 --off --output DP-2 --off --output HDMI-1 --off --output DP-3 --off --output DP-2-1 --primary --mode 1920x1200 --pos 0x0 --rotate normal --output DP-2-2 --off --output DP-2-3 --off --output DP-1-0 --off --output DP-1-1 --off --output DP-1-2 --off --output DP-1-3 --off --output HDMI-1-0 --off --output DP-1-4 --off --output DP-1-5 --off
+set $only-hdmi-proj             xrandr --output DP-0 --off --output DP-1 --off --output DP-2 --off --output DP-3 --off --output HDMI-0 --mode 1920x1200 --pos 0x0 --rotate normal --output DP-4 --off --output DP-5 --off --output DP-6 --off
+
+set $mirror-laptop-hdmi-screen  xrandr --output DP-0 --off --output DP-1 --off --output DP-2 --off --output DP-3 --off --output HDMI-0 --mode 1920x1080 --pos 0x0 --rotate normal --output DP-4 --mode 1920x1080 --pos 0x0 --rotate normal --output DP-5 --off --output DP-6 --off
+set $mirror-laptop-hdmi-proj    xrandr --output DP-0 --off --output DP-1 --off --output DP-2 --off --output DP-3 --off --output HDMI-0 --mode 1920x1200 --pos 0x0 --rotate normal --output DP-4 --mode 1920x1080 --pos 0x0 --rotate normal --output DP-5 --off --output DP-6 --off
+set $mirror-laptop-dock-proj    xrandr --output eDP-1 --primary --mode 1920x1080 --pos 0x0 --rotate normal --output DP-1 --off --output DP-2 --off --output HDMI-1 --off --output DP-3 --off --output DP-2-1 --mode 1920x1080 --pos 0x0 --rotate normal --output DP-2-2 --off --output DP-2-3 --off --output DP-1-0 --off --output DP-1-1 --off --output DP-1-2 --off --output DP-1-3 --off --output HDMI-1-0 --off --output DP-1-4 --off --output DP-1-5 --off
+
+# Only
+bindsym $mod+F1 exec --no-startup-id $only-laptop
+bindsym $mod+F2 exec --no-startup-id $only-hdmi-screen
+bindsym $mod+F3 exec --no-startup-id $only-hdmi-proj
+bindsym $mod+F4 exec --no-startup-id $only-dock-proj
+# Mirror
+bindsym $mod+F5 exec --no-startup-id $mirror-laptop-hdmi-screen
+bindsym $mod+F6 exec --no-startup-id $mirror-laptop-hdmi-proj
+bindsym $mod+F7 exec --no-startup-id $mirror-laptop-dock-proj
 
 # Default screen
 # exec_always --no-startup-id $screens-projector
@@ -663,6 +675,21 @@ bindsym $mod+less move workspace to output left
 bindsym $mod+m exec i3-input -F 'mark %s' -l 1 -P 'Mark: ' -f '*-*-*-*-*-normal-*-20-*-*-*-*-*-*-*'
 # read 1 character and go to the window with the character
 bindsym $mod+apostrophe exec i3-input -F '[con_mark="%s"] focus' -l 1 -P 'Goto: ' -f '*-*-*-*-*-normal-*-20-*-*-*-*-*-*-*'
+
+# _____________________________________________________________________________
+# FLOATING WINDOWS
+# ------------------
+# Threshold max window size, depends on your display size
+# floating_maximum_size 1600 980
+
+# https://www.reddit.com/r/i3wm/comments/oygcea/sometimes_when_i_open_a_floating_window_some_part/
+# Tell every floating window to be placed in the center of the current screen.
+# 'absolute' moves it to the center all all displays
+for_window [floating] move position center
+
+# If somehow a window somehow is outside the screen, create key binding to center it to the current screen
+# 'absolute' is the center of all display which is awkard
+bindsym $mod+Shift+Tab move position center
 
 # _____________________________________________________________________________
 # AUTO START
