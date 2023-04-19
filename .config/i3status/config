@@ -10,26 +10,26 @@ general {
     markup = "pango"
 }
 
-order += "volume_master"
 # order += "ipv6"
 # order += "disk /"
 # order += "run_watch DHCP"
 # order += "run_watch VPNC"
 # order += "path_exists VPN"
-order += "wireless wlan0"
-order += "ethernet eno1"
-order += "battery 0"
+# order += "wireless wlan0"
+# order += "ethernet eno1"
 # order += "cpu_temperature 0"
 # order += "memory"
 # order += "load"
 order += "cpu_usage"
+order += "battery 0"
 order += "tztime local"
+order += "volume_master"
 # order += "tztime berlin"
 
 volume master {
     # format = " %volume "
-    format = "<span color='#b0ffff'> 🔈 %volume </span>"
-    format_muted = " 🔇(%volume)"
+    format = "<span color='#b0ffff'>🔈 %volume</span>"
+    format_muted = "🔇(%volume)"
     device = "pulse"
 }
 
@@ -45,11 +45,11 @@ ethernet eno1 {
 }
 
 battery 0 {
-    format = " %status %percentage %remaining %emptytime "
+    format = "<span color='#e0e040'>%status %percentage %remaining %emptytime</span>"
     format_down = "No battery"
-    status_chr = "⚡ CHR"
+    status_chr = "⚡CHR"
     # Means running off battery
-    # status_bat = "🔋 BAT"
+    # status_bat = "🔋BAT"
     status_bat = "BAT"
     status_unk = "???"
     status_full = "FULL"
@@ -77,7 +77,7 @@ path_exists VPN {
 }
 
 tztime local {
-    format = " %Y-%m-%d  %H:%M:%S"
+    format = "%Y-%m-%d %H:%M:%S"
     # hide_if_equals_localtime = true
 }
 
@@ -109,5 +109,5 @@ read_file uptime {
     path = "/proc/uptime"
 }
 cpu_usage {
-    format = "<span color='#e0e040'> CPU %usage </span>"
+    format = "<span color='#80f080'>CPU %usage</span>"
 }

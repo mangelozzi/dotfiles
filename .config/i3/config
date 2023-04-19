@@ -263,39 +263,46 @@ bindsym $mod+space mode "$default-hotkeys"
 # Want to be able to reach with ONLY left hand, so if mouse on right copy and pasting
 
 # 1 is for Nautilus file browswer
-set $ws1 "1-1_Naut"
+set $ws1 "1_Naut"
 exec_always --no-startup-id ~/.config/i3/scripts/app-on-ws-init.py --workspace $ws1 --command 'nautilus'
 
 # 2 and 3 are free
-set $ws2 "2-2_?"
-set $ws3 "3-3_?"
+set $ws2 "2_?"
+set $ws3 "3_?"
+set $ws4 "4-?"
+set $ws5 "5-?"
+set $ws6 "6-?"
+set $ws7 "7-?"
 
 # $ like S for inkScape
 # Note the snap version SUCKs, everytime open/import/save file, must browse to the same point each time. Rather use appimage
-set $ws4 "4-4_Ink"
+# set $ws4 "4-4_Ink"
 # Apt only has v1.1 which does not have multi page support
-exec_always --no-startup-id ~/.config/i3/scripts/app-on-ws-init.py --workspace $ws4 --command ~/appimages/Inkscape-b0a8486-x86_64.AppImage
+# exec_always --no-startup-id ~/.config/i3/scripts/app-on-ws-init.py --workspace $ws4 --command ~/appimages/Inkscape-b0a8486-x86_64.AppImage
 
 # % = spreadsheets often used with percentages
-set $ws5 "5-5_Calc"
-assign [class="libreoffice-calc"] $ws5
-exec_always --no-startup-id ~/.config/i3/scripts/app-on-ws-init.py --workspace $ws5 --command 'libreoffice --norestore --calc'
+# set $ws5 "5_Calc"
+# set $ws5 "5_?"
+# assign [class="libreoffice-calc"] $ws5
+# exec_always --no-startup-id ~/.config/i3/scripts/app-on-ws-init.py --workspace $ws5 --command 'libreoffice --norestore --calc'
 
 # ^ = upwards pen that is mighter than the sword
-set $ws6 "6-6_?"
+# set $ws6 "6_Writ"
 # assign [class="libreoffice-writer"] $ws6
 # exec_always --no-startup-id ~/.config/i3/scripts/app-on-ws-init.py --workspace $ws6 --command 'libreoffice --norestore --writer'
 
 # 7 = Gimp
-set $ws7 "7-7_?"
+# set $ws7 "7_?"
 # assign [class="Gimp"] $ws7
 # exec_always --no-startup-id ~/.config/i3/scripts/app-on-ws-init.py --workspace $ws7 --command gimp
 
-# 8 free
-set $ws8 "8-8_?"
+# 8 Telegram
+set $ws8 "8_Tel"
+assign [class="TelegramDesktop"] $ws8
+exec_always --no-startup-id ~/.config/i3/scripts/app-on-ws-init.py --workspace $ws8 --command telegram-desktop
 
-# 9 free
-set $ws9 "9-9_DB"
+# 9 DB
+set $ws9 "9_DB"
 assign [class="DBeaver"] $ws9
 exec_always --no-startup-id ~/.config/i3/scripts/app-on-ws-init.py --workspace $ws9 --command dbeaver-ce
 
@@ -555,7 +562,7 @@ bindsym $mod+Delete mode "$mode-system"
 set $screenshot-file "/home/$USER/Pictures/last_screenshot.png"
 
 # Screen shot select to clipboard
-bindsym Print exec maim --select --capturebackground | xclip -selection clipboard -t image/png
+bindsym Print exec maim --select --capturebackground --hidecursor | xclip -selection clipboard -t image/png
 
 # Screen selection shot whole screen and save to Pictures/ with dated name
 bindsym Control+Print exec maim --select "/home/$USER/Pictures/screenshot_$(date +'%Y-%m-%d_%H:%M:%S').png"

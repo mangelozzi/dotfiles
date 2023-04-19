@@ -13,6 +13,7 @@ alias rpiboot2="sudo ~/tools/usbboot-msg/rpiboot"
 # -b to highlight the current day
 alias mycal="ncal -b -A3 -B2"
 alias mycal12="ncal -b -A12 -B0"
+alias inkscape="~/appimages/Inkscape-b0a8486-x86_64.AppImage"
 
 # SSH
 
