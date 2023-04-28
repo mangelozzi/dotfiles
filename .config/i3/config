@@ -331,10 +331,10 @@ bindsym $mod+Shift+w move container to workspace number $wsW
 exec_always --no-startup-id ~/.config/i3/scripts/app-on-ws-init.py --workspace $wsW --command /usr/bin/gedit
 
 # Terminal R, Pinta (Raphello)
-set $wsR "92-R"
+set $wsR "92-R_Pinta"
 bindsym $mod+r workspace number $wsR
 bindsym $mod+Shift+r move container to workspace number $wsR
-exec_always --no-startup-id ~/.config/i3/scripts/app-on-ws-init.py --workspace $wsR --command /snap/bin/pinta
+exec_always --no-startup-id ~/.config/i3/scripts/app-on-ws-init.py --workspace $wsR --command /usr/bin/pinta
 
 # --- F,D,S,A are terminals
 
@@ -363,33 +363,33 @@ bindsym $mod+Shift+a move container to workspace number $wsA
 exec_always --no-startup-id ~/.config/i3/scripts/app-on-ws-init.py --workspace $wsA --command i3-sensible-terminal
 
 # --- V,C,X,Z,B -> are Browsers
-set $wsV "21-V_home"
+set $wsV "21-Vhome"
 bindsym $mod+v workspace number $wsV
 bindsym $mod+Shift+v move container to workspace number $wsV
 exec_always --no-startup-id ~/.config/i3/scripts/app-on-ws-init.py --workspace $wsV --command 'google-chrome --password-store=gnome --profile-directory="Default"'
 
-set $wsC "22-C_work"
+set $wsC "22-Cwork"
 bindsym $mod+c workspace number $wsC
 bindsym $mod+Shift+c move container to workspace number $wsC
 exec_always --no-startup-id ~/.config/i3/scripts/app-on-ws-init.py --workspace $wsC --command 'google-chrome --password-store=gnome --profile-directory="Profile 1" https://mail.google.com/mail/u/0/#inbox'
 
-set $wsX "23-X_mom"
+set $wsX "23-Xmom"
 bindsym $mod+x workspace number $wsX
 bindsym $mod+Shift+x move container to workspace number $wsX
 exec_always --no-startup-id ~/.config/i3/scripts/app-on-ws-init.py --workspace $wsX --command "google-chrome --password-store=gnome --profile-directory='Profile 2' 'https://mail.google.com/mail/u/0/#inbox' 'https://onlinebanking.standardbank.co.za/#/login'"
 
-set $wsZ "24-Z_muzik"
+set $wsZ "24-Zik"
 bindsym $mod+z workspace number $wsZ
 bindsym $mod+Shift+z move container to workspace number $wsZ
 exec_always --no-startup-id ~/.config/i3/scripts/app-on-ws-init.py --workspace $wsZ --command 'google-chrome --password-store=gnome --profile-directory="Default"'
 
 # Browser, guest/dev/cookies testing etc
-set $wsB "25-B_guest"
+set $wsB "25-Bguest"
 bindsym $mod+b workspace number $wsB
 bindsym $mod+Shift+b move container to workspace number $wsB
 exec_always --no-startup-id ~/.config/i3/scripts/app-on-ws-init.py --workspace $wsB --command 'google-chrome --guest'
 
-set $wsN "26-N_mighty"
+set $wsN "26-Nmighty"
 bindsym $mod+N workspace number $wsN
 bindsym $mod+Shift+n move container to workspace number $wsN
 exec_always --no-startup-id ~/.config/i3/scripts/app-on-ws-init.py --workspace $wsN --command 'google-chrome --password-store=gnome --profile-directory="Profile 5" https://music.youtube.com/playlist?list=LM'
@@ -564,15 +564,17 @@ set $screenshot-file "/home/$USER/Pictures/last_screenshot.png"
 # Screen shot select to clipboard
 bindsym Print exec maim --select --capturebackground --hidecursor | xclip -selection clipboard -t image/png
 
-# Screen selection shot whole screen and save to Pictures/ with dated name
-bindsym Control+Print exec maim --select "/home/$USER/Pictures/screenshot_$(date +'%Y-%m-%d_%H:%M:%S').png"
-
 # Pinta require the file written to disk first, so we write to disk, then copy it, then open with Pinta
-bindsym Shift+Print exec maim --select $screenshot-file && cat $screenshot-file | xclip -selection clipboard -t image/png && pinta $screenshot-file
+bindsym Control+Print exec maim --select $screenshot-file && cat $screenshot-file | xclip -selection clipboard -t image/png && pinta $screenshot-file
 
 # Capture whole back (useful for grapping pops like select boxes in chrome, when capture region fails, see:
 # https://github.com/naelstrof/maim/issues/254
-bindsym Control+Shift Print exec maim --capturebackground | xclip -selection clipboard -t image/png
+# Mnemonic: Shift is bigger, i.e. FULL SCREEN
+bindsym Shift+Print exec maim --capturebackground $screenshot-file && cat $screenshot-file | xclip -selection clipboard -t image/png && pinta $screenshot-file
+
+# Screen selection shot whole screen and save to Pictures/ with dated name
+# Mnemonic: Don't often wish to save and not view, so control and shift is slow, less common way
+bindsym Control+Shift+Print exec maim --select "/home/$USER/Pictures/screenshot_$(date +'%Y-%m-%d_%H:%M:%S').png"
 
 # https://askubuntu.com/questions/763994/screen-times-out-in-i3-wm
 # Disable the screen saver
