@@ -79,6 +79,8 @@ function M.run()
     local file = vim.fn.expand("%:p")
     if vim.bo.filetype == "python" then
         vim.cmd("!python " .. file)
+    elseif vim.bo.filetype == "typescript" then
+        vim.cmd("!tsc --target es2015 --noImplicitAny " .. file)
     elseif vim.bo.filetype == "vim" then
         vim.cmd("source " .. file)
     elseif vim.bo.filetype == "html" or vim.bo.filetype == "markdown" then
@@ -143,10 +145,10 @@ end
 
 
 function M.strip_whitespace()
-    vim.g.cursor_position = vim.fn.winsaveview()
-    vim.cmd(':%s/\\s\\+$//e')   -- Backslashes escaped to form :%s/\s\+$//e
-    vim.defer_fn(function() vim.fn.winrestview(vim.g.cursor_position) end, 0)
-    print("Trailing whitespace stripped.")
+    -- vim.g.cursor_position = vim.fn.winsaveview()
+    -- vim.cmd(':%s/\\s\\+$//e')   -- Backslashes escaped to form :%s/\s\+$//e
+    -- vim.defer_fn(function() vim.fn.winrestview(vim.g.cursor_position) end, 0)
+    -- print("Trailing whitespace stripped.")
 end
 
 function M.quit_if_last_buffer()

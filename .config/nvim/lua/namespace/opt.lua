@@ -7,6 +7,7 @@ vim.opt.termguicolors = true
 
 -- vim.opt.guicursor = ""
 vim.opt.guicursor = "n-v-c-sm:block,i-ci-ve:ver50,r-cr-o:hor25"
+vim.opt.mousemodel = "extend"
 
 -- CRITICAL
 vim.opt.compatible = false      -- Must be first command. Enter the current millenium. Not required for Neovim.

@@ -266,8 +266,19 @@ bindsym $mod+space mode "$default-hotkeys"
 set $ws1 "1_Naut"
 exec_always --no-startup-id ~/.config/i3/scripts/app-on-ws-init.py --workspace $ws1 --command 'nautilus'
 
+# 2 = IOEC VM
+set $ws2 "2_Ioec"
+assign [class="VirtualBox Machine"] $ws2
+# exec_always --no-startup-id ~/.config/i3/scripts/app-on-ws-init.py --workspace $ws2 --command "VBoxManage startvm ioec"
+exec_always --no-startup-id ~/.config/i3/scripts/app-on-ws-init.py --workspace $ws2 --command "VBoxManage controlvm ioec resume || VBoxManage startvm ioec"
+# ---
+bindsym $mod+2+Control exec --no-startup-id "VBoxManage controlvm ioec pause"
+bindsym $mod+2+Mod1 exec --no-startup-id "VBoxManage controlvm ioec poweroff"
+
+# exec_always --no-startup-id ~/.config/i3/scripts/app-on-ws-init.py --workspace $ws7 --command gimp
+
 # 2 and 3 are free
-set $ws2 "2_?"
+# set $ws2 "2_?"
 set $ws3 "3_?"
 set $ws4 "4-?"
 set $ws5 "5-?"
@@ -371,7 +382,7 @@ exec_always --no-startup-id ~/.config/i3/scripts/app-on-ws-init.py --workspace $
 set $wsC "22-Cwork"
 bindsym $mod+c workspace number $wsC
 bindsym $mod+Shift+c move container to workspace number $wsC
-exec_always --no-startup-id ~/.config/i3/scripts/app-on-ws-init.py --workspace $wsC --command 'google-chrome --password-store=gnome --profile-directory="Profile 1" https://mail.google.com/mail/u/0/#inbox'
+exec_always --no-startup-id ~/.config/i3/scripts/app-on-ws-init.py --workspace $wsC --command 'google-chrome --password-store=gnome --profile-directory="Profile 1" https://mail.google.com/mail/u/0/#inbox https://outlook.office.com/mail/'
 
 set $wsX "23-Xmom"
 bindsym $mod+x workspace number $wsX
@@ -559,7 +570,7 @@ bindsym $mod+Delete mode "$mode-system"
 # Refer to: https://gist.github.com/dianjuar/ee774561a8bc02b077989bc17424a19f
 
 # Screenshot area, copy to clipboard, save to $screenshot-file, and open with Pinta
-set $screenshot-file "/home/$USER/Pictures/last_screenshot.png"
+set $screenshot-file "/$HOME/Pictures/last_screenshot.png"
 
 # Screen shot select to clipboard
 bindsym Print exec maim --select --capturebackground --hidecursor | xclip -selection clipboard -t image/png
@@ -574,7 +585,7 @@ bindsym Shift+Print exec maim --capturebackground $screenshot-file && cat $scree
 
 # Screen selection shot whole screen and save to Pictures/ with dated name
 # Mnemonic: Don't often wish to save and not view, so control and shift is slow, less common way
-bindsym Control+Shift+Print exec maim --select "/home/$USER/Pictures/screenshot_$(date +'%Y-%m-%d_%H:%M:%S').png"
+bindsym Control+Shift+Print exec maim --select "/$HOME/Pictures/screenshot_$(date +'%Y-%m-%d_%H:%M:%S').png"
 
 # https://askubuntu.com/questions/763994/screen-times-out-in-i3-wm
 # Disable the screen saver

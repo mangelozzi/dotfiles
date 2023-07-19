@@ -5,9 +5,6 @@ vim.cmd('filetype indent off')
 -- COLORS
 vim.cmd('highlight SpecialKey ctermfg = 3')
 
--- GUI COMPUTER
-vim.cmd('behave xterm')
-
 -- BUILT IN PACKAGES (same on linux servers)
 
 -- Cfilter (Quickfix window filtering, like global g/pattern/d )

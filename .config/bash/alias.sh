@@ -102,8 +102,10 @@ alias gdsass="git diff --diff-filter=M --ws-error-highlight=all '*.sass' '*.scss
 alias settings="gnome-control-center &"
 
 # IOEC
-alias cdgc="cd ~/Ggateway/Gateway/Gateway.Client"
-alias cdgg="cd ~/Ggateway/Gateway"
-alias cdgn="cd ~/GatewayNext/Gateway"
+alias cdG="cd ~/ioec/gateway/Gateway/Gateway.Client"
+alias cdg="cd ~/ioec/gateway/Gateway"
+alias cdi="cd ~/ioec/"
+alias cda="cd ~/ioec/admin"
+alias fe="cd ~/ioec/gateway/Gateway/Gateway.Client; npm start"
 alias fortistart="sudo systemctl start forticlient.service"
 alias fortistop="sudo systemctl stop forticlient.service"

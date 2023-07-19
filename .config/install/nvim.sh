@@ -5,13 +5,21 @@ echo "Ensure you have installed nodejs (run nodejs.sh)"
 read -p "Will install Neovim for the current user, press <ENTER> to continue..."
 
 set -x
-NVIM_FILE=nvim-linux64.deb
-NVIM_PATH=~/appimages/
 
-mkdir -p $NVIM_PATH
-# curl -L https://github.com/neovim/neovim/releases/download/nightly/nvim-linux64.deb -o $NVIM_PATH$NVIM_FILE
-curl -L https://github.com/neovim/neovim/releases/download/stable/nvim-linux64.deb -o $NVIM_PATH$NVIM_FILE
-sudo apt install $NVIM_PATH$NVIM_FILE
+# NVIM_FILE=nvim-linux64.deb
+# NVIM_PATH=~/appimages/
+# Seems like .deb is not available for nightly builds, use appimage instead
+# mkdir -p $NVIM_PATH
+# # curl -L https://github.com/neovim/neovim/releases/download/nightly/nvim-linux64.deb -o $NVIM_PATH$NVIM_FILE
+# curl -L https://github.com/neovim/neovim/releases/download/stable/nvim-linux64.deb -o $NVIM_PATH$NVIM_FILE
+# sudo apt install $NVIM_PATH$NVIM_FILE
+
+NVIM_FILE=nvim.appimage;
+NVIM_PATH=~/appimages/;
+mkdir -p NVIM_PATH
+sudo curl -L https://github.com/neovim/neovim/releases/download/nightly/nvim.appimage -o $NVIM_PATH$NVIM_FILE
+sudo chmod +x $NVIM_PATH$NVIM_FILE
+sudo ln -s $NVIM_PATH$NVIM_FILE /usr/bin/nvim
 
 # Get config dir
 cd ~

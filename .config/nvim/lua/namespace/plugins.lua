@@ -144,6 +144,12 @@ local namespace_plugins = function(use)
     if packer_bootstrap then
         require("packer").sync()
     end
+
+    -- Github Copilot
+    use {
+        "zbirenbaum/copilot.lua",
+    }
+
 end
 
 local plugins =  vim.g.use_minimal_config and namespace_plugins or minimal_plugins
