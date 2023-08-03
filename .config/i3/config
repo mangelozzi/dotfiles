@@ -268,12 +268,15 @@ exec_always --no-startup-id ~/.config/i3/scripts/app-on-ws-init.py --workspace $
 
 # 2 = IOEC VM
 set $ws2 "2_Ioec"
-assign [class="VirtualBox Machine"] $ws2
-# exec_always --no-startup-id ~/.config/i3/scripts/app-on-ws-init.py --workspace $ws2 --command "VBoxManage startvm ioec"
-exec_always --no-startup-id ~/.config/i3/scripts/app-on-ws-init.py --workspace $ws2 --command "VBoxManage controlvm ioec resume || VBoxManage startvm ioec"
-# ---
-bindsym $mod+2+Control exec --no-startup-id "VBoxManage controlvm ioec pause"
-bindsym $mod+2+Mod1 exec --no-startup-id "VBoxManage controlvm ioec poweroff"
+exec_always --no-startup-id ~/.config/i3/scripts/app-on-ws-init.py --workspace $ws2 --command 'remmina --enable-fullscreen remmina -c ~/.local/share/remmina/group_rdp_windev_192-168-101-148.remmina'
+assign [class="org.remmina.Remmina"] $ws2
+
+# assign [class="VirtualBox Machine"] $ws2
+# # exec_always --no-startup-id ~/.config/i3/scripts/app-on-ws-init.py --workspace $ws2 --command "VBoxManage startvm ioec"
+# exec_always --no-startup-id ~/.config/i3/scripts/app-on-ws-init.py --workspace $ws2 --command "VBoxManage controlvm ioec resume || VBoxManage startvm ioec"
+# # ---
+# bindsym $mod+2+Control exec --no-startup-id "VBoxManage controlvm ioec pause"
+# bindsym $mod+2+Mod1 exec --no-startup-id "VBoxManage controlvm ioec poweroff"
 
 # exec_always --no-startup-id ~/.config/i3/scripts/app-on-ws-init.py --workspace $ws7 --command gimp
 

@@ -284,6 +284,7 @@ local function smart_find_file()
     -- If the file does not exist on the file system, then just show the tree
     if vim.fn.expand('%') ~= '' then
         vim.cmd('NvimTreeFindFile')
+        vim.fn.feedkeys("$10zh")  -- Move to the end of the line, then 4 times scroll left
     else
         vim.cmd('NvimTreeToggle')
     end

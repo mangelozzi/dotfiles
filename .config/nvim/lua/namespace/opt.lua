@@ -49,7 +49,15 @@ vim.opt.synmaxcol = 500         -- Text after this column number is not highligh
 vim.opt.cursorline = true       -- High lights the line number and cusor line
 -- vim.opt.timeoutlen = 1000    -- Timeout for a hotkey mapping, default is 1000ms
 vim.opt.swapfile = false        -- Disable creating swapfiles, see https://goo.gl/FA6m6h
+
+-- 'backup' 'writebackup'	action	 
+--    off	     off	no backup made
+--    off	     on		backup current file, deleted afterwards (DEFAULT)
+--    on	     off	delete old backup, backup current file
+--    on	     on		delete old backup, backup current file
 vim.opt.backup = false
+vim.opt.writebackup = true
+
 -- set noshowmode               -- Disables showing which mode one is in (does not giveback any more space cause I use 2 lines for the command area)
 
 -- Disable auto wrap lines, auto insert comment leader, other stupid magic
