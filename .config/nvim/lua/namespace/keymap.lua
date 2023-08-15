@@ -73,6 +73,9 @@ vim.keymap.set({"", "!"}, "<F6>", utils.format_code, {})
 vim.keymap.set({"", "!"}, "<F7>", utils.breakpoint, {})
 vim.keymap.set("n", "<leader><DEL>", utils.breakpoint, {})
 
+-- Copy the current filepath into the system clipboard
+vim.keymap.set({"", "!"}, "<F8>", "<ESC>:let@+=@%<CR>", {})
+
 -- Keyboard volume up and down and down to no operation
 -- vim.keymap.set('', '<C-Space>', '<nop>', { noremap = true })
 -- vim.keymap.set('!', '<C-Space>', '<nop>', { noremap = true })
