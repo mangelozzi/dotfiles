@@ -75,7 +75,7 @@ local namespace_plugins = function(use)
     -- COLOR RELATED
     use("norcalli/nvim-colorizer.lua")  -- Color Hex codes with the color
     -- use("pangloss/vim-javascript")  -- Improves JS indentation and syntax highlighting, hopefully treesitter replaces this
-    use("mrjones2014/nvim-ts-rainbow")  -- Rainbow bracket pairs
+    -- use("mrjones2014/nvim-ts-rainbow")  -- Rainbow bracket pairs
 
     -- SPELLCHECK EXTRAS
     use {
@@ -85,8 +85,9 @@ local namespace_plugins = function(use)
 
     -- GIT
     use {
-        "TimUntersberger/neogit",
+        "NeogitOrg/neogit",
         requires = "nvim-lua/plenary.nvim",
+        commit = "1b6edb5",
     }
     use {
         "sindrets/diffview.nvim",
@@ -146,9 +147,9 @@ local namespace_plugins = function(use)
     end
 
     -- Github Copilot
-    use {
-        "zbirenbaum/copilot.lua",
-    }
+    -- use {
+    --     "zbirenbaum/copilot.lua",
+    -- }
 
 end
 
