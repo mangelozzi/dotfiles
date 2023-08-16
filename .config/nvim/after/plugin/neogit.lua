@@ -41,12 +41,12 @@ require('neogit').setup {
       -- ["B"] = "BranchPopup",
       -- Removes the default mapping of "s"
       ["o"] = "GoToFile",
-      ["S"] = "", -- Stage unstaged changes
-      ["<C-s>"] = "", -- Stage Everything
-      ["U"] = "", -- Unstage staged changes
-      ["L"] = "", -- Use L as Low
-      ["Z"] = "", -- Stash
-      ["<ESC>"] = ":tabclose", -- Close the status tab page
+      ["S"] = false, -- Stage unstaged changes
+      ["<C-s>"] = false, -- Stage Everything
+      ["U"] = false, -- Unstage staged changes
+      ["L"] = false, -- Use L as Low
+      ["Z"] = false, -- Stash
+      ["<ESC>"] = "Close", -- Close the status tab page
     }
   }
 }

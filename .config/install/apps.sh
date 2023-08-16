@@ -6,6 +6,8 @@ echo "------------------"
 sudo apt install -y gitk
 git config --global user.email "mangelozzi@gmail.com"
 git config --global user.name "Michael Angelozzi"
+# By default set branch's to track origin: git push --set-upstream origin ... for each new branch
+git config --global push.default simple
 
 echo
 echo "pinta"
