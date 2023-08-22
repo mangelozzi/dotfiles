@@ -1,0 +1,331 @@
+" VsVim RC file (Visual Studio Vim Extention)
+
+set hlsearch
+set incsearch
+set ignorecase
+set clipboard=unnamed
+let mapleader = " "
+
+" {{{1 VSC Commands
+"==============================================================================
+
+nmap <M-j> :vsc Edit.LineDown<CR>
+nmap <M-k> :vsc Edit.LineUp<CR>
+nmap vA :vsc Edit.SelectAll<CR>
+nmap <leader>rg :vsc Edit.FindInFiles<CR>
+nmap <leader>jl :vsc Edit.ToggleLineComment<CR>
+vmap <leader>j :vsc Edit.CommentSelection<CR>
+vmap <leader>J :vsc Edit.UncommentSelection<CR>
+nmap <leader>i :vsc Team.Git.Commit<CR>
+nmap <leader>I :vsc Team.Git.CompareWithUnmodified<CR>
+
+nmap <leader>h :noh<CR>
+nmap <M-J> "zyy"zp
+
+
+" Duplicate line and keep cursor in same column position in the new line
+nmap <M-k> :vsc Edit.MoveSelectedLinesUp<CR>
+nmap <M-j> :vsc Edit.MoveSelectedLinesDown<CR>
+nnoremap <M-S-k> "zyy"zP
+nnoremap <M-S-j> "zyy"zp
+" nnoremap <M-k> "zddk"zP
+" nnoremap <M-j> "zdd"zp
+
+
+" {{{1 LEADER
+"==============================================================================
+" Change leader from \ to ;
+" Must appear before any mappings, as the mapping uses the current value of
+" variable at the time of the mapping.
+let mapleader = " "
+
+" CRITICAL
+set shiftwidth=4
+set softtabstop=4
+set expandtab
+
+" GENERAL
+set history=10000           " NeoVim 10000. Number of previous commands remembered.
+set scrolloff=3             " When doing a search etc, always show at least n lines above and below the match
+set nostartofline           " Stop certain movements going to start of line (more like modern editors)
+set nowrap                  " Disable word wrapping
+set showcmd                 " Show partial commands in the last line of the screen
+
+
+" NOT GENERAL (i.e. for Servers)
+set nolist                  " Dont show spaces/tabs/newlines etc
+set nomodeline              " Modelines are vimscript snippets in normal files which vim interprets, e.g. `ex:`
+set virtualedit=block       " Virtual edit is useful for visual block edit
+set nojoinspaces            " Do not add two space after a period when joining lines or formatting texts, see https://tinyurl.com/y3yy9kov
+set cursorline              " High lights the line number and cusor line
+set timeoutlen=1000         " Default is 1000ms, set to 2s.
+" set noshowmode              " Disables showing which mode one is in (does not giveback any more space cause I use 2 lines for the command area)
+
+
+" SEARCHING
+set ignorecase              " Use case insensitive search...
+set smartcase               " ...except when using capital letters
+set incsearch               " Start highlighting partial match as start typing
+set wrapscan                " search-next wraps back to start of file (default with neovim)
+set hlsearch                " Highlight searches, use :noh to turn off residual highlightin
+
+
+" IDENTATION
+set autoindent              " When opening a new line keep indentation
+
+" {{{1 COPY PASTE
+"==============================================================================
+" In Linux there are multiple clipboard like buffers called selections:
+"   The PRIMARY (*) selection is updated every time you select text. To paste from it (in graphical programs), middle-click or use ShiftInsert. In Vim, it is accessible through the "* register.
+"   The CLIPBOARD (+) selection is updated when you explicitly cut or copy anything (text or other data). In other words, it is used just like the Windows or Mac OS clipboards. To paste from it, the usual shortcut is CtrlV in grapical programs. In Vim, it is accessible through the "+ register. In Windows:
+"   * is the system clipboard
+"   + is NOT the system clipboard
+
+" Broken current neovim implementation always copies selection to "* and "+
+" Note Linux clipboard for pasting into gedit uses +
+" set clipboard=unnamed      " Use "* for all yank, delete, change and put operations which would normally go to the unnamed register.
+set clipboard=unnamedplus " Use "+ for all yank, delete, change and put operations which would normally go to the unnamed register.
+
+" Left click yank selection to *, then re-select selection, then move left one char. Use middle click to paste, see mousemodel. The neovim default only copies the selection if middle click is pressed (this is required to select text then paste in another OS app).
+" noremap <LeftRelease> "*ygv
+
+" Left double clicking on the word visual select inner word, yank to "*, then re-select previous selection, then move left one char
+" noremap <2-LeftMouse> viw"*ygv
+
+"" CTRL+INS should paste, in neoqt it pastes "<S-Insert>" instead
+inoremap <S-Insert> <C-r>+
+cnoremap <S-Insert> <C-r>+
+" {{{1 KEY MAPPINGS
+"==============================================================================
+" Can show a list of mappings with :map
+" Useful to check no leader clashes
+" Note!!! Comments on a separate line.
+" CTRL (^) maps lower and uppercase to same key (by convention use uppercase)
+" Meta (M-?) can map lower and upper case words)
+
+" Practically available/free hotkeys
+"   Q (Ex mode) -> MAPPED: ^
+"   Z (First half of quick exit)
+"   ^c (Aborts pending command) (not good when SSH'ing)
+"   ^k -> MAPPED: Switch window
+"   ^l (small L, redraw screen) -> MAPPED: Switch window
+"   ^q (XON)
+"   ^s (XOFF) -> MAPPED: :save
+"   ,  (repeat last line search, reversing direct)
+" LEADER -> aeghijmqtuvwxy (g for git one day)
+"   j  - Comment, mneomoic (Jargon)
+"   k  - replace with register
+"   kk - replace with register line
+"   K  - replace with regsiter to end of line
+" {{{2 All modes
+" Map ; to : for speed
+map ; :
+map! <M-;> <ESC>:
+
+" CTRL+S to save
+map <C-s> :w<CR>
+" map! <C-s> <C-o>:w<CR>
+map! <C-s> <ESC>:w<CR>
+
+" Make x/X not change the registers, i.e. uses the black hole register
+" Note: Use d/D to change the register
+noremap x "_x
+noremap X "_X
+vnoremap x "_x
+vnoremap X "_X
+
+" {{{2 Escape
+" Map other forms of escape to true <ESC>, e.g. useful for multiline editing
+" DONT SEE THIS BEHAVIOUR ANYMORE - deprecated.
+" requres <ESC>.
+" noremap <C-[> <ESC>
+" noremap <C-c> <ESC>
+" " Line below makes exiting from input dialogue always fail
+" " noremap! <C-[> <ESC>
+" noremap! <C-c> <ESC>
+
+" Keyboard volume up and down and down to no operation
+noremap! <C-Space> <nop>
+noremap  <C-Space> <nop>
+
+" {{{2 Map (noremap)
+"   Normal, Visual+Select, and Operator Pending modes
+
+" Disable annoying ex mode (Type "visual" to exit)
+" Change it to the hard to reach ^
+noremap Q ^
+
+" :h yy = If you like "Y" to work from the cursor to the end of line (which is
+" more logical, but not Vi-compatible) use ":map Y y$".
+noremap Y y$
+
+" Map backspace to other buffer
+" Note!!! Using recursive version so will recurse to <ESC> when in the
+" quickfix window
+nmap <BS> <C-^>
+nmap <BS> <C-^>
+
+"noremap <leader>sf :lvimgrep // %<left><left><left>
+
+" When pressing star, don't jump to the next match
+" Set highlight search to trigger the highlighting which sometimes doesnt
+" appear otherwise.
+" After highlighting print how many matches there are with a search with 'n'
+" m" to mark the current position to " register, then `" to jump back there
+" afterwards.
+" Also copy the word to the search register (happens natively, but adds range?)
+nmap * m""1yiw<ESC>: let @/ = @1<CR>:set hlsearch<CR>:%s/<C-R>///gn<CR>`"
+nmap # m""1yiw<ESC>: let @/ = @1<CR>:set hlsearch<CR>:%s/<C-R>?//gn<CR>`"
+
+" Swap to single/double/back quotes with <leader>' or <leader>" or <leader>` respectively.
+noremap <leader>' :s/[`"]/'/g<CR>:noh<CR>
+noremap <leader>" :s/['`]/"/g<CR>:noh<CR>
+noremap <leader>` :s/['"]/`/g<CR>:noh<CR>
+
+" Swap to underscore/dash with <leader>_ or <leader>-
+noremap <leader>_ :s/-/_/g<CR>:noh<CR>
+noremap <leader>- :s/_/-/g<CR>:noh<CR>
+xnoremap <leader>_ :s/-/_/g<CR>:noh<CR>
+xnoremap <leader>- :s/_/-/g<CR>:noh<CR>
+
+" Swap to forward/backwards slashes with <leader>/ or <leader>\ respectively.
+" noremap <leader>/ :s#\\#/#g<CR>:noh<CR>  !!! Rather use it for file substitue
+noremap <leader>\ :s#/#\\#g<CR>:noh<CR>
+
+" Swap numbers to given number, excl zeros
+noremap <leader>1 :s/[1-9]/1/g<CR>:noh<CR>
+noremap <leader>2 :s/[1-9]/2/g<CR>:noh<CR>
+noremap <leader>3 :s/[1-9]/3/g<CR>:noh<CR>
+noremap <leader>4 :s/[1-9]/4/g<CR>:noh<CR>
+noremap <leader>5 :s/[1-9]/5/g<CR>:noh<CR>
+noremap <leader>6 :s/[1-9]/6/g<CR>:noh<CR>
+noremap <leader>7 :s/[1-9]/7/g<CR>:noh<CR>
+noremap <leader>8 :s/[1-9]/8/g<CR>:noh<CR>
+noremap <leader>9 :s/[1-9]/9/g<CR>:noh<CR>
+" Swap to underscore/dash with <leader>_ or <leader>-
+xnoremap <leader>_ :s/-/_/g<CR>:noh<CR>
+xnoremap <leader>- :s/_/-/g<CR>:noh<CR>
+
+" Easier split navigations
+nnoremap <C-J> <C-W><C-J>
+nnoremap <C-K> <C-W><C-K> " Careful of conflict with LSP (implemented in LSP section)
+nnoremap <C-L> <C-W><C-L>
+nnoremap <C-H> <C-W><C-H>
+
+" Prefer <C-G> to print full path, can see relative path in status bar anyways
+nnoremap <C-G> 3<C-G>
+
+" Disable highlighting
+map <LEADER>h :noh<CR>
+
+" {{{2 Map! (noremap!)
+
+" Left/Right arrow backspace and delete
+" <C-u> - Natively supports delete to beginning of line
+" <C-h> - Natively is <Backspace>
+noremap! <C-l> <Del>
+noremap! <C-a> <Home>
+
+" Easier insert mode paste
+noremap! <C-R>; <C-R>"
+
+" {{{2 Productivity Enhancement
+" First delete space to left, then cut to end of line and paste on line above.
+" Hand for moving commends from aside to above.
+" TODO test if space to left, and if so they delete to the left.
+nmap <leader>D hxDO<c-r>"
+
+
+" {{{2 Insert
+
+" Set paste then nopaste automatically when working with system registers
+inoremap <C-R>* <C-O>:set paste<CR><C-R>*<C-O>:set nopaste<cr>
+inoremap <C-R>+ <C-O>:set paste<CR><C-R>+<C-O>:set nopaste<cr>
+inoremap <C-SPACE> _
+" {{{2 Function keys
+" <F1> to <F8> COMMON ACTIONS -------------------------------------------------
+" <F1> ESCAPE If I hit <F1> it was a mistake because I was reaching for <ESC>
+map  <F1> <ESC>
+map! <F1> <ESC>
+
+
+
+
+
+
+
+
+
+
+" vv to visual select to end of line without select the $
+vnoremap v $h
+
+" swap the words `light` and `dark` in visual range, useful for light/dark
+" theme dev.
+" vnoremap <leader>s :s/dark/zzz/ge<CR>gv:s/light/dark/ge<CR>gv:s/zzz/light/ge<CR>
+
+" Sometimes in visual mode when trying to run commands with leader, exit vmode first
+vmap <leader> <ESC><ESC><leader>
+
+
+" Paste from last copied
+nnoremap <leader>p "0p
+nnoremap <leader>P "0P
+
+
+" {{{2 Command mode
+"   Make it more bash like
+" If wish to implement more functionality (requiring functions), refer to:
+" https://github.com/houtsnip/vim-emacscommandline/blob/master/plugin/emacscommandline.vim
+
+" Delete word before cursor (natively supported)
+" C-W
+
+" Backspace (natively supported)
+" ^H
+
+" Goto line start / end
+" C-E -> natively supported goto line end
+cnoremap <C-A>		<Home>
+"cnoremap <C-E>         <End>
+
+" Move one character forwards/backwards
+cnoremap <C-B>		<Left>
+cnoremap <C-F>		<Right>
+
+" Delete character under cursor
+cnoremap <C-D>		<Del>
+
+" Recall Next/Previous command-line
+cnoremap <C-P>		<Up>
+cnoremap <C-N>		<Down>
+
+" Move back/forward one one word
+cnoremap <M-b>	        <S-Left>
+cnoremap <M-f>	        <S-Right>
+
+" Delete from cursor to line start/end
+" C-u (natively supported deleting to line start)
+cnoremap <C-k> <C-\>estrpart(getcmdline(), 0, getcmdpos() - 1)<CR>
+
+" Rip grep in files, use <cword> under the cursor as starting point
+" nnoremap <leader>rg :call myal#SearchInFiles('n')<Cr>
+" Rip grep in files, use visual selection as starting point
+" xnoremap <leader>rg :<C-U>call myal#SearchInFiles(visualmode())<Cr>
+
+" Disabled A in visual mode, cause use A to append at the end of selection.
+xnoremap <leader>A :<C-U>normal! ggVG<CR>
+
+" Line Wise text objects (excludes the ending line char)
+" g_ means move to the last printable char of the line
+onoremap il :<C-U>normal! ^vg_<CR>
+onoremap al :<C-U>normal! 0vg_<CR>
+xnoremap il :<C-U>normal! ^vg_<CR>
+xnoremap al :<C-U>normal! 0vg_<CR>
+
+" Navigate to the start/end of the inner text
+nnoremap [t vit<ESC>`<
+nnoremap ]t vit<ESC>`>
+" Navigate to the start/end of the <tag>...</tag> set
+nnoremap [T vat<ESC>`<
+nnoremap ]T vat<ESC>`>
