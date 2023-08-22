@@ -69,19 +69,28 @@ alias dota="dot commit --amend --no-edit"
 alias dotap="dot commit --amend --no-edit; gitdev && dot push -f"
 
 # Git
+alias gl='git log'
 alias gs='git status'
-alias gu='git add -u'
-alias gupy='git add -u "*.py"'
-alias guhtml='git add -u "*.html"'
-alias guscss='git add -u "*.scss" "*.sass"'
-alias gujs='git add -u "*.js"'
-# Create a new branch with any of the current changes, and change the HEAD to start tracking it.
-alias gb='git branch'
-alias gcmp='gitdev && git checkout master && git pull'
-alias gcb='git checkout -b '
-alias ga='git add -A'
 alias gco='git checkout'
+alias gb='git branch'
+# List branches on remote
+alias gbr='git branch -r'
+alias gcmp='gitdev && git checkout master && git pull'
+alias ga='git add -A'
+alias gu='git add -u'
+# alias gupy='git add -u "*.py"'
+# alias guhtml='git add -u "*.html"'
+# alias guscss='git add -u "*.scss" "*.sass"'
+# alias gujs='git add -u "*.js"'
 alias gc='git commit -m'
+# ---
+# Create a new branch with any of the current changes, and change the HEAD to start tracking it.
+alias gcb='git checkout -b '
+# After creating a branch, make it track origin
+alias gpuo='git push -u origin'
+# Git new branch...
+alias gnb='git checkout -b $1; git push -u origin $1;'
+# ---
 alias gp='gitdev && git push'
 alias gm='git commit --amend --no-edit'
 alias gmp='gitdev && git commit --amend --no-edit && git push -f'
