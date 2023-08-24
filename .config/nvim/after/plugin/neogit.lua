@@ -11,42 +11,105 @@ require('neogit').setup {
   -- If don't send to console, get lots of popups
   auto_show_console = true,  -- Setting any section to `false` will make the section not render at all
   sections = {
+    sequencer = {
+      folded = false,
+      hidden = false,
+    },
     untracked = {
-      folded = false
+      folded = false,
+      hidden = false,
     },
     unstaged = {
-      folded = false
+      folded = false,
+      hidden = false,
     },
     staged = {
-      folded = false
+      folded = false,
+      hidden = false,
     },
     stashes = {
-      folded = true
+      folded = true,
+      hidden = false,
     },
-    unpulled = {
-      folded = true
+    unpulled_upstream = {
+      folded = true,
+      hidden = false,
     },
-    unmerged = {
-      folded = false
+    unmerged_upstream = {
+      folded = false,
+      hidden = false,
+    },
+    unpulled_pushRemote = {
+      folded = true,
+      hidden = false,
+    },
+    unmerged_pushRemote = {
+      folded = false,
+      hidden = false,
     },
     recent = {
-      folded = false
+      folded = true,
+      hidden = false,
+    },
+    rebase = {
+      folded = true,
+      hidden = false,
     },
   },
   -- override/add mappings
   mappings = {
     -- modify status buffer mappings
+    -- status = {
+    --   -- Adds a mapping with "B" as key that does the "BranchPopup" command
+    --   -- ["B"] = "BranchPopup",
+    --   -- Removes the default mapping of "s"
+    --   ["S"] = false, -- Stage unstaged changes
+    --   ["<C-s>"] = false, -- Stage Everything
+    --   ["U"] = false, -- Unstage staged changes
+    --   ["L"] = false, -- Use L as Low
+    --   ["Z"] = false, -- Stash
+    --   ["<ESC>"] = "Close", -- Close the status tab page
+    -- Setting any of these to `false` will disable the mapping.
     status = {
-      -- Adds a mapping with "B" as key that does the "BranchPopup" command
-      -- ["B"] = "BranchPopup",
-      -- Removes the default mapping of "s"
-      ["o"] = "GoToFile",
-      ["S"] = false, -- Stage unstaged changes
-      ["<C-s>"] = false, -- Stage Everything
-      ["U"] = false, -- Unstage staged changes
-      ["L"] = false, -- Use L as Low
-      ["Z"] = false, -- Stash
-      ["<ESC>"] = "Close", -- Close the status tab page
+      ["q"] = "Close",
+      ["I"] = "InitRepo",
+      ["1"] = "Depth1",
+      ["2"] = "Depth2",
+      ["3"] = "Depth3",
+      ["4"] = "Depth4",
+      ["<tab>"] = "Toggle",
+      ["x"] = "Discard",
+      ["s"] = "Stage",
+      ["S"] = false, -- "StageUnstaged",
+      ["<c-s>"] = false, -- "StageAll",
+      ["u"] = "Unstage",
+      ["U"] = false, -- "UnstageStaged",
+      ["d"] = "DiffAtFile",
+      ["$"] = "CommandHistory",
+      ["#"] = "Console",
+      ["<c-r>"] = "RefreshBuffer",
+      ["<enter>"] = "GoToFile",
+      ["o"] = "GoToFile", -- Michael
+      ["<c-v>"] = "VSplitOpen",
+      ["<c-x>"] = "SplitOpen",
+      ["<c-t>"] = "TabOpen",
+      ["?"] = "HelpPopup",
+      ["D"] = "DiffPopup",
+      ["p"] = "PullPopup",
+      ["r"] = "RebasePopup",
+      ["m"] = "MergePopup",
+      ["P"] = "PushPopup",
+      ["c"] = "CommitPopup",
+      ["l"] = "LogPopup",
+      ["v"] = "RevertPopup",
+      ["Z"] = false, -- "StashPopup",
+      ["A"] = "CherryPickPopup",
+      ["b"] = "BranchPopup",
+      ["f"] = "FetchPopup",
+      ["X"] = "ResetPopup",
+      ["M"] = false, -- "RemotePopup",
+      ["{"] = "GoToPreviousHunkHeader",
+      ["}"] = "GoToNextHunkHeader",
     }
   }
 }
