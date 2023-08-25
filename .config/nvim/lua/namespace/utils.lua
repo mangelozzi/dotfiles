@@ -41,15 +41,17 @@ function M.format_code()
     elseif vim.bo.filetype == "javascript" or vim.bo.filetype == "typescript" then
         -- https://prettier.io/
         -- Prettier edit in place (--write)
-        vim.cmd("!prettier --write --print-width 100 --single-quote true --tab-width 4 --arrow-parens avoid " .. file)
+        vim.cmd("!prettier --write " .. file)
     elseif vim.bo.filetype == "html" or vim.bo.filetype == "htmldjango" then
-        vim.cmd("!djlint --format-css --format-js " .. file)
+        -- vim.cmd("!djlint --format-css --format-js " .. file)
+        vim.cmd("!prettier --write " .. file)
     elseif vim.bo.filetype == "css" then
-        vim.cmd("!djlink " .. file)
+        vim.cmd("!prettier --write " .. file)
     elseif vim.bo.filetype == "json" then
         -- The json module is included in Python's Standard Library
         -- Set filein/fileout both to be the same (replace)
-        vim.cmd("!python -m json.tool --indent 4 " .. file .. " " .. file)
+        vim.cmd("!prettier --write " .. file)
+
     elseif vim.bo.filetype == "lua" then
         -- https://github.com/trixnz/lua-fmt
         vim.cmd("!luafmt --write-mode replace " .. file)
@@ -197,10 +199,30 @@ function M.close_buffer_keep_window()
     vim.cmd('bdelete #')
 end
 
+
+function M.reload_config()
+    local loadThese = {}
+    for moduleName in pairs(package.loaded) do
+        if moduleName:match("^namespace") then
+            loadThese[moduleName] = package.loaded[moduleName]
+            package.loaded[moduleName] = nil
+        end
+    end
+    dofile(vim.env.MYVIMRC)
+    print('Reload config, but need to press it twice ... '.. os.time())
+end
+
+
+function M.get_git_branch()
+    -- :lua local parentDir = vim.fn.expand("%:p:h"); local command = "git -C " .. parentDir .. " branch --show-current 2>/dev/null"; local result = vim.fn.systemlist(command); vim.print(result)
+    local parentDir = vim.fn.expand("%:p:h");
+    local command = "git -C " .. parentDir .. " branch --show-current 2>/dev/null";
+    local result = vim.fn.systemlist(command);
+    local branch = #result > 0 and result[1] or "No Branch";
+    return branch
+end
+
 return M
-
-
-
 
 -- " This function sets up the opfunc so it can be repeated with a dot.
 -- " Align to Column works by moving the next none whitespace character to the

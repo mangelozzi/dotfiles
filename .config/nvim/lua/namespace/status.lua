@@ -165,6 +165,7 @@ vim.g.get_status_line = function(current_window)
     local s3 = table.concat{
         "%=",                                     -- Left/Right separator
         groups['col_line'],
+        vim.b.current_git_branch or "",
         get_file_type(),
         "│%-3c",                                    -- Current column number, left aligned 3 characters wide
         "▏%P ",                                     -- Percentage through the file

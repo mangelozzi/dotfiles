@@ -72,6 +72,7 @@ require('neogit').setup {
     -- Setting any of these to `false` will disable the mapping.
     status = {
       ["q"] = "Close",
+      ["<ESC>"] = "Close", -- Michael
       ["I"] = "InitRepo",
       ["1"] = "Depth1",
       ["2"] = "Depth2",

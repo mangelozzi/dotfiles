@@ -13,7 +13,6 @@
 -- PLUGINS TO CHECKOUT
 -- 'jose-elias-alvarez/null-ls.nvim' for autoformatting
 -- 'mfussenegger/nvim-dap' auto inserting correct breakpoint type
--- 'adisen99/codeschool.nvim'
 
 -- Boot strap packer
 local ensure_packer = function()
@@ -76,6 +75,11 @@ local namespace_plugins = function(use)
     use("norcalli/nvim-colorizer.lua")  -- Color Hex codes with the color
     -- use("pangloss/vim-javascript")  -- Improves JS indentation and syntax highlighting, hopefully treesitter replaces this
     use("mrjones2014/nvim-ts-rainbow")  -- Rainbow bracket pairs
+
+    -- COLOR SCHEME
+    -- use "rafamadriz/neon"
+    -- use "olimorris/onedarkpro.nvim"
+    -- 'adisen99/codeschool.nvim'
 
     -- SPELLCHECK EXTRAS
     use {

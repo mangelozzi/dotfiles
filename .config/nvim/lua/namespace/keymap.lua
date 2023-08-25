@@ -61,7 +61,29 @@ local utils = require("namespace.utils")
 -- vim.keymap.set('!', '<ESC>', '<ESC><ESC>', { noremap = true })
 
 -- Save
-vim.keymap.set({"", "!"}, "<C-s>", "<ESC>:w<CR>", {noremap = true})
+vim.keymap.set({"", "!"}, "<C-s>", "<ESC>:w!<CR>", {noremap = true})
+
+vim.keymap.set("n", "<leader><DEL>", utils.breakpoint, {})
+
+-- Keyboard volume up and down and down to no operation
+-- vim.keymap.set('', '<C-Space>', '<nop>', { noremap = true })
+-- vim.keymap.set('!', '<C-Space>', '<nop>', { noremap = true })
+
+-- FUNCTION KEYS ---
+
+-- <F2> Reload vim config
+vim.keymap.set({"", "!"}, "<F2>", utils.reload_config, { noremap = true})
+
+-- -- <F3> Open VIM RC file and change local pwd to it
+-- vim.keymap.set({"", "!"}, "<F3>", "<ESC><cmd>e $MYVIMRC<CR> :lcd %:p:h<CR>", {noremap = true})
+
+-- <F4> Close Buffer Keep window
+-- Close the current buffer, but keep the window open
+vim.keymap.set({"", "!"}, "<F4>", utils.close_buffer_keep_window, { noremap = true})
+
+-- <S-F4> Close all buffer
+-- Close all safe buffers, then just work through not safe to close buffers
+vim.keymap.set({"", "!"}, "<S-F4>", utils.close_all_buffers, { noremap = true})
 
 -- Run the file
 vim.keymap.set({"", "!"}, "<F5>", utils.run, {})
@@ -71,14 +93,27 @@ vim.keymap.set({"", "!"}, "<F6>", utils.format_code, {})
 
 -- Insert a debugger breakpoint statement
 vim.keymap.set({"", "!"}, "<F7>", utils.breakpoint, {})
-vim.keymap.set("n", "<leader><DEL>", utils.breakpoint, {})
 
 -- Copy the current filepath into the system clipboard
 vim.keymap.set({"", "!"}, "<F8>", "<ESC>:let@+=@%<CR>", {})
 
--- Keyboard volume up and down and down to no operation
--- vim.keymap.set('', '<C-Space>', '<nop>', { noremap = true })
--- vim.keymap.set('!', '<C-Space>', '<nop>', { noremap = true })
+-- Run some other feature related to the file type
+-- map  <F7>      :call myal#Other()<CR>
+-- map! <F7> <ESC>:call myal#Other()<CR>
+--
+-- Change PWD for the current window to that of the current buffer head.
+-- https://dmerej.info/blog/post/vim-cwd-and-neovim/
+-- map  <F8>      <cmd>lcd %:h<CR>
+-- map! <F8> <ESC><cmd>lcd %:h<CR>
+--
+-- " Switch to previous buffer, then open the file that was showing in a new tab
+-- " and cd into the head of the file
+-- map  <F8>      <cmd>call myal#ConvertBufferToNewTab()<CR>
+-- map! <F8> <ESC><cmd>call myal#ConvertBufferToNewTab()<CR>
+--
+--
+-- Highlight Test
+-- map  <F12> :source $VIMRUNTIME/syntax/hitest.vim<CR>
 
 -- NORMAL MODE ----------------------------------------------------------------
 
@@ -214,51 +249,6 @@ vim.keymap.set("", "<M-J>", ":t-1<CR>j", {noremap = true})
 
 -- map <expr> <M-c> myal#SetupAlignToColumn(v:count)
 
-
--- <F2> Reload vim config
-vim.keymap.set({"", "!"}, "<F2>", "<ESC>:source $MYVIMRC<CR>", {noremap = true})
-
--- <F3> Open VIM RC file and change local pwd to it
-vim.keymap.set({"", "!"}, "<F3>", "<ESC><cmd>e $MYVIMRC<CR> :lcd %:p:h<CR>", {noremap = true})
-
--- <F4> Close Buffer Keep window
--- Close the current buffer, but keep the window open
-vim.keymap.set({"", "!"}, "<F4>", utils.close_buffer_keep_window, { noremap = true})
-
--- <S-F4> Close all buffer
--- Close all safe buffers, then just work through not safe to close buffers
-vim.keymap.set({"", "!"}, "<S-F4>", utils.close_all_buffers, { noremap = true})
-
-
--- Run the current buffer with a sensible app, e.g. python or Chrome etc
--- Mnemonic use F5 in webpage a lot, use F5 to launch current file in chrome
--- map  <F5>      :call myal#Run()<CR>
--- map! <F5> <ESC>:call myal#Run()<CR>
-
--- Run some other feature related to the file type
--- map  <F7>      :call myal#Other()<CR>
--- map! <F7> <ESC>:call myal#Other()<CR>
---
--- Change PWD for the current window to that of the current buffer head.
--- https://dmerej.info/blog/post/vim-cwd-and-neovim/
--- map  <F8>      <cmd>lcd %:h<CR>
--- map! <F8> <ESC><cmd>lcd %:h<CR>
---
--- " Switch to previous buffer, then open the file that was showing in a new tab
--- " and cd into the head of the file
--- map  <F8>      <cmd>call myal#ConvertBufferToNewTab()<CR>
--- map! <F8> <ESC><cmd>call myal#ConvertBufferToNewTab()<CR>
---
--- <F9> to <F12> QUICK INSERTS -------------------------------------------------
--- To paste the current filename, use "%p
---
--- DATETIME - Echo it in normal mode, insert it in insert mode.
--- map  <F9> :echo 'Current date/time is ' . strftime('%Y-%m-%d %T')<CR>
--- map! <F9> <C-R>=strftime('%Y-%m-%d %T')<CR>
---
--- Highlight Test
--- map  <F12> :source $VIMRUNTIME/syntax/hitest.vim<CR>
---
 -- {{{2 Visual mode
 -- v = select and visual mode, x = visual, s = select (mouse)
 -- s mode = allows one to select with the mouse, then type any printable
