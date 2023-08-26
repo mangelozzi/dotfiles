@@ -11,6 +11,10 @@ end
 local function get_filename()
     if vim.bo.filetype == "NvimTree" then
         return '[TREE]'
+    elseif vim.bo.buftype == 'quickfix' then
+        -- "%{exists('w:quickfix_title')? ' '.w:quickfix_title : ''}"
+        local qftitle = vim.fn.getqflist({title = 0})['title']
+        return '[QUICKFIX] ' .. qftitle
     elseif vim.bo.buftype ~= '' then
         return '['..string.upper(vim.bo.buftype)..']'
     end
@@ -155,13 +159,11 @@ vim.g.get_status_line = function(current_window)
         groups['col_fade3'], "▐",
         groups['col_fade2'], "▐",
         groups['col_fade1'], "▐",
-        -- "%{exists('w:quickfix_title')? ' '.w:quickfix_title : ''}",
         groups['col_line'],
     }
     -- "%#_StatusModified#%{&modified?' +++ ':''}"
     -- col_fade3."%{!&modified?'▐':''}".col_fade2."%{!&modified?'▐':''}".col_fade1."%{!&modified?'▐':''}"
     -- col_line
-    -- "%{exists('w:quickfix_title')? ' '.w:quickfix_title : ''}"
     local s3 = table.concat{
         "%=",                                     -- Left/Right separator
         groups['col_line'],
