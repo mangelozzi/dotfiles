@@ -9,15 +9,48 @@ let mapleader = " "
 " {{{1 VSC Commands
 "==============================================================================
 
+" Reload visual studio RC file
+nnoremap <leader>v <ESC>:so ~/.vsvimrc<CR>:echo "~/.vsvimrc ... sourced."<cr>
+
 nmap <M-j> :vsc Edit.LineDown<CR>
 nmap <M-k> :vsc Edit.LineUp<CR>
 nmap vA :vsc Edit.SelectAll<CR>
+" Visual studio select all jumps to the end of file as well
+nnoremap <C-a> :vsc Edit.SelectAll<CR>
+
+" Goto
+nmap <leader><space> :vsc Edit.GotoFile<CR>
+nmap <leader>f :vsc Edit.GotoFile<CR>
+nmap <leader>zh :vsc Edit.GotoRecentFile<CR>
+" This goto line is Goto line number
+" nmap <leader>zl :vsc Edit.GotoLine<CR>
+
 nmap <leader>rg :vsc Edit.FindInFiles<CR>
 nmap <leader>jl :vsc Edit.ToggleLineComment<CR>
 vmap <leader>j :vsc Edit.CommentSelection<CR>
 vmap <leader>J :vsc Edit.UncommentSelection<CR>
-nmap <leader>i :vsc Team.Git.Commit<CR>
+nmap <leader>i :vsc Team.Git.CommitOrStash<CR>
 nmap <leader>I :vsc Team.Git.CompareWithUnmodified<CR>
+nmap gr :vsc Edit.FindAllReferences<CR>
+nmap <leader>lr :vsc Refactor.Rename<CR>
+
+nmap [d :vsc Edit.GoToPreviousIssueinFile<CR>
+nmap ]d :vsc Edit.GoToNextIssueinFile<CR>
+
+" Next output pane error
+nmap [q :vsc View.PreviousError<CR>
+nmap ]q :vsc View.NextError<CR>
+nmap <leader>q :vsc View.ErrorList<CR>
+
+" imap <C-p> <cmd>vsc OtherContextMenus.SuggestionList.Edit.IntelliCode.Previous<cr>
+" imap <C-n> <cmd>vsc OtherContextMenus.SuggestionList.Edit.IntelliCode.Next<cr>
+" imap <C-p> <up>
+" imap <C-n> <down>
+" imap <C-p> :vsc Edit.PreviousSuggestion<CR>
+" imap <C-n> :vsc Edit.NextSuggestion<CR>
+" imap <C-p> <esc>:vsc Edit.LineUp<CR>i
+" imap <C-n> <esc>:vsc Edit.LineDown<CR>i
+" nmap <enter> :vsc OtherContextMenus.SuggestionList.Edit.IntelliCode.Apply<CR>
 
 nmap <leader>h :noh<CR>
 nmap <M-J> "zyy"zp
@@ -31,6 +64,12 @@ nnoremap <M-S-j> "zyy"zp
 " nnoremap <M-k> "zddk"zP
 " nnoremap <M-j> "zdd"zp
 
+" Line above
+nnoremap [<leader> O<esc>
+nnoremap ]<leader> o<esc>
+
+
+nmap <leader>k "_c
 
 " {{{1 LEADER
 "==============================================================================
@@ -83,8 +122,8 @@ set autoindent              " When opening a new line keep indentation
 
 " Broken current neovim implementation always copies selection to "* and "+
 " Note Linux clipboard for pasting into gedit uses +
-" set clipboard=unnamed      " Use "* for all yank, delete, change and put operations which would normally go to the unnamed register.
-set clipboard=unnamedplus " Use "+ for all yank, delete, change and put operations which would normally go to the unnamed register.
+set clipboard=unnamed      " Use "* for all yank, delete, change and put operations which would normally go to the unnamed register.
+" set clipboard=unnamedplus " Use "+ for all yank, delete, change and put operations which would normally go to the unnamed register.
 
 " Left click yank selection to *, then re-select selection, then move left one char. Use middle click to paste, see mousemodel. The neovim default only copies the selection if middle click is pressed (this is required to select text then paste in another OS app).
 " noremap <LeftRelease> "*ygv
@@ -95,6 +134,13 @@ set clipboard=unnamedplus " Use "+ for all yank, delete, change and put operatio
 "" CTRL+INS should paste, in neoqt it pastes "<S-Insert>" instead
 inoremap <S-Insert> <C-r>+
 cnoremap <S-Insert> <C-r>+
+
+inoremap <C-S-C> y
+cnoremap <C-S-C> y
+inoremap <C-S-V> p
+cnoremap <C-S-V> p
+
+
 " {{{1 KEY MAPPINGS
 "==============================================================================
 " Can show a list of mappings with :map
