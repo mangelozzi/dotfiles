@@ -71,6 +71,9 @@ vim.keymap.set("n", "<leader><DEL>", utils.breakpoint, {})
 
 -- FUNCTION KEYS ---
 
+-- <F1> Vim help on cword
+vim.keymap.set({"", "!"}, "<F1>", "<ESC>:h <C-R><C-W><CR>", { noremap = true})
+
 -- <F2> Reload vim config
 vim.keymap.set({"", "!"}, "<F2>", utils.reload_config, { noremap = true})
 

@@ -159,11 +159,6 @@ _G.packer_plugins = {
     path = "/home/michael/.local/share/nvim/site/pack/packer/start/nvim-lspconfig",
     url = "https://github.com/neovim/nvim-lspconfig"
   },
-  ["nvim-rgflow.lua"] = {
-    loaded = true,
-    path = "/home/michael/.local/share/nvim/site/pack/packer/start/nvim-rgflow.lua",
-    url = "/home/michael/.config/nvim/tmp/nvim-rgflow.lua"
-  },
   ["nvim-toggler"] = {
     loaded = true,
     path = "/home/michael/.local/share/nvim/site/pack/packer/start/nvim-toggler",
@@ -207,6 +202,11 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/michael/.local/share/nvim/site/pack/packer/start/plenary.nvim",
     url = "https://github.com/nvim-lua/plenary.nvim"
+  },
+  ["rgflow.nvim"] = {
+    loaded = true,
+    path = "/home/michael/.local/share/nvim/site/pack/packer/start/rgflow.nvim",
+    url = "/home/michael/.config/nvim/tmp/rgflow.nvim"
   },
   ["targets.vim"] = {
     loaded = true,

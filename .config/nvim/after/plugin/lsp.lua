@@ -50,11 +50,17 @@ require('mason-lspconfig').setup_handlers({
         lspconfig[server_name].setup({
             on_attach = lsp_attach,
             capabilities = lsp_capabilities,
-            -- https://neovim.discourse.group/t/how-to-suppress-warning-undefined-global-vim/1882/5
             settings = {
                 Lua = {
-                    diagnostics = { globals = {'vim'} }
-                }
+                    diagnostics = {
+                        -- https://neovim.discourse.group/t/how-to-suppress-warning-undefined-global-vim/1882/5
+                        globals = {'vim'}
+                    },
+                    runtime = {
+                        -- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
+                        version = 'LuaJIT'
+                    }
+                },
             }
         })
     end,

@@ -18,7 +18,6 @@ vim.opt.softtabstop = 4
 vim.opt.expandtab = true
 
 -- GENERAL
-vim.opt.complete = ".,w,b,u,t"  -- Default auto complete
 vim.opt.colorcolumn = "80"      -- Colour a certain column, helps to see when one goes over 80 chars.
 vim.opt.history = 10000         -- NeoVim 10000. Number of previous commands remembered.
 vim.opt.inccommand = "split"    -- Neovim - See a live preview of :substitute as you type.
@@ -98,6 +97,7 @@ vim.opt.wildignore:append {"**/spike/**", "**/ignore/**", "**/temp/static/**"}
 vim.opt.wildignore:append {"**/venv/**", "**/node_modules/**", "**/.git/**"}
 vim.opt.pumblend = 10           -- Transparency of Pop Up Menu, 0=solid, 100=Fully Transparent
 
+vim.opt.complete = ".,w,b,]"  -- Default auto complete, but exclude unloaded buffers
 -- vim.opt.completeopt:remove { "preview" } -- Turn off annoying vsplit top preview window
 -- Can vim.opt.'completeopt' to have a better completion experience
 -- Refer to init file, and waiting for https://github.com/nvim-lua/completion-nvim/issues/235

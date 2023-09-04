@@ -41,7 +41,7 @@ local namespace_plugins = function(use)
     use("wbthomason/packer.nvim")
 
     -- Own plugin Rgflow
-    use(vim.g.nvim_path .. "/tmp/nvim-rgflow.lua")
+    use(vim.g.nvim_path .. "/tmp/rgflow.nvim")
 
     -- Own plugin Capesky
     use(vim.g.nvim_path .. "/tmp/vim-capesky")

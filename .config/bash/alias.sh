@@ -112,9 +112,11 @@ alias gdsass="git diff --diff-filter=M --ws-error-highlight=all '*.sass' '*.scss
 # Setting this environment variable is required to make the appearance panel appear in the options
 # XDG_CURRENT_DESKTOP=ubuntu:GNOME
 alias settings="gnome-control-center &"
+alias update="update-manager"
 
 # IOEC
 alias cdG="cd ~/ioec/gateway/Gateway/Gateway.Client"
+alias cdgc="cd ~/ioec/gateway/Gateway/Gateway.Client"
 alias cdg="cd ~/ioec/gateway/Gateway"
 alias cdi="cd ~/ioec/"
 alias cda="cd ~/ioec/admin"
