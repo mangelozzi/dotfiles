@@ -1,11 +1,11 @@
 -- rg --vimgrep --smart-case -g '*.{*,py}' -g '!*.{min.js,pyc}' --fixed-strings --no-fixed-strings --no-ignore -M 500 -g '!**/static/*/jsapp/' -g '!**/static/*/wcapp/' function ~/linkcube/src
-require('rgflow').setup({
-    cmd_flags = ("--smart-case -g *.{*,py} -g !*.{min.js,pyc} --fixed-strings --no-fixed-strings --no-ignore -M 500"
-        -- distros/cfm/app/meetings/static/meetings/jsapp/fetcher.js
-                    .. " -g !**/static/*/jsapp/"
-                    .. " -g !**/static/*/wcapp/"
-)});
-
+require("rgflow").setup(
+    {
+        cmd_flags = ("--smart-case -g *.{*,py} -g !*.{min.js,pyc} --fixed-strings --no-fixed-strings --no-ignore -M 500" ..
+            -- distros/cfm/app/meetings/static/meetings/jsapp/fetcher.js
+            " -g !**/static/*/jsapp/" .. " -g !**/static/*/wcapp/")
+    }
+)
 
 -- My old colors
 -- local default_colors = {

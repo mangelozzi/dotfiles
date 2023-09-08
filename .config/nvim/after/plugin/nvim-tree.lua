@@ -40,9 +40,13 @@ local function copy_file_to(node)
     local file_out = vim.fn.input("COPY TO: ", file_src, "file")
     -- Create any parent dirs as required
     local dir = vim.fn.fnamemodify(file_out, ":h")
-    vim.fn.system { 'mkdir', '-p', dir }
+    -- Make parent dir as required
+    local is_windows = vim.fn.has("win32") == 1
+    local mkdir_cmd = is_windows and {'mkdir', dir} or {'mkdir', '-p', dir}
+    vim.fn.system(mkdir_cmd)
     -- Copy the file
-    vim.fn.system { 'cp', '-R', file_src, file_out }
+    local cp_cmd = is_windows and { 'cp', file_src, file_out } or { 'cp', '-R', file_src, file_out }
+    vim.fn.system(cp_cmd)
 end
 
 -- Use `o` to open a file

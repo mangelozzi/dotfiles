@@ -20,8 +20,9 @@ require('mason-lspconfig').setup({
 })
 
 local lsp_capabilities = require('cmp_nvim_lsp').default_capabilities()
+
 local lsp_attach = function(client, bufnr)
-    -- Create your keybindings here...
+    local opts = {buffer = bufnr, remap = false}
     vim.keymap.set('n', '<leader>ld', function() vim.lsp.buf.declaration() end, opts)
     vim.keymap.set('n', '<c-]>', function() vim.lsp.buf.definition() end, opts)
     vim.keymap.set('n', 'K', function() vim.lsp.buf.hover() end, opts)
@@ -71,7 +72,7 @@ require('mason-lspconfig').setup_handlers({
 lspconfig.pyright.setup({
   on_attach = lsp_attach,
   flags = {
-    debounce_text_changes = 300
+    debounce_text_changes = 500, -- was 300
   },
   settings = {
     python = {
@@ -80,7 +81,7 @@ lspconfig.pyright.setup({
         diagnosticMode = "openFilesOnly",
         useLibraryCodeForTypes = true,
         typeCheckingMode = "basic",
-        maxNumberOfProblems = 50
+        maxNumberOfProblems = 20, -- was 50
       },
     }
   }
