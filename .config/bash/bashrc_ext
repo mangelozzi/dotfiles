@@ -158,6 +158,10 @@ copy() {
     echo -n $(fd -H | fzf) | xclip -selection c
     echo "Copied to clipboard: $(xclip -o -selection c)"
 }
+# Fuzzy ll
+fll() {
+    ll -a "$(get)"
+}
 # Fuzzy get
 # e.g. if relying on word splitting: ls $(get)
 # or ls "$(get)"

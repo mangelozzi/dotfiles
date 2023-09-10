@@ -27,6 +27,9 @@ sudo apt install -y ncal
 # Peek - Screen recorder tool
 sudo apt install peek
 
+# Bluelight blocker at night
+redshift-gtk
+
 # Ripgrep
 # if ! command -v rg &> /dev/null
 # then

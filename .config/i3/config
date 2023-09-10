@@ -725,3 +725,4 @@ exec --no-startup-id dropbox start
 
 # Set the initial workspace
 exec --no-startup-id i3-msg workspace $ws1
+exec redshift-gtk
