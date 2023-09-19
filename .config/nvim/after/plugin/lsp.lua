@@ -15,6 +15,7 @@ require('mason-lspconfig').setup({
         'jsonls',
         'marksman',
         'omnisharp',  -- C Sharp
+        'angularls',
         --'rust_analyzer',
     }
 })
@@ -81,7 +82,7 @@ lspconfig.pyright.setup({
         diagnosticMode = "openFilesOnly",
         useLibraryCodeForTypes = true,
         typeCheckingMode = "basic",
-        maxNumberOfProblems = 20, -- was 50
+        maxNumberOfProblems = 10, -- was 50
       },
     }
   }
