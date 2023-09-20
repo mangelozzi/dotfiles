@@ -35,7 +35,10 @@ local function copy_or_move_file_to(node, copy)
             move = { 'mv', file_src, file_out },
         }
     }
-    local cmd = cmds[vim.fn.has("win32") == 1 and 'win' or 'linux'][copy and 'copy' or 'move']
+    -- gitbash.exe has win32 but no move. A better check is if the system has the `mv` command
+    -- Note: In windows copy is also `cp`
+    local is_win = vim.fn.executable('mv') == 0
+    local cmd = cmds[is_win and 'win' or 'linux'][copy and 'copy' or 'move']
     vim.fn.system(cmd)
     if not copy then
         -- If a move, then associate any open buffers with the moved file with the new file path
