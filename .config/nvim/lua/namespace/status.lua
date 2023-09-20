@@ -1,3 +1,5 @@
+local slash = vim.fn.has('win32') == 1 and '\\' or '/'
+
 local function get_rel_dir()
     -- Normal buffers buftype == "", special buffers it is something else, e.g. "nofile"
     if vim.bo.filetype == "NvimTree" then
@@ -22,18 +24,18 @@ local function get_filename()
 end
 
 local function contract_home(file)
-    -- Contract "/home/michael" to "~"
+    -- Contract "/home/name" to "~"
     return string.gsub(file, "/home/[^/]+/", "~/")
 end
 local function ensure_no_slash_prefix(file)
-    if string.sub(file, 1, 1) == "/" then
+    if string.sub(file, 1, 1) == slash then
         file = string.sub(file, 2)
     end
     return file
 end
 local function ensure_slash_suffix(file)
-    if file ~= "" and string.sub(file, -1) ~= "/" then
-        return file .. "/"
+    if file ~= "" and string.sub(file, -1) ~= slash then
+        return file .. slash
     end
     return file
 end
