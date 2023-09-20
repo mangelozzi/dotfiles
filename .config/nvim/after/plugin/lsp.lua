@@ -9,6 +9,7 @@ require('mason-lspconfig').setup({
         'bashls',
         'cssls',
         'html',
+        -- 'emmet_ls', -- emmet html completion support, prefer emmet-vim plugin
         'pyright',
         'tsserver',
         'lua_ls',

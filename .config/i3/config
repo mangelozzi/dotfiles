@@ -385,7 +385,8 @@ exec_always --no-startup-id ~/.config/i3/scripts/app-on-ws-init.py --workspace $
 set $wsC "22-Cwork"
 bindsym $mod+c workspace number $wsC
 bindsym $mod+Shift+c move container to workspace number $wsC
-exec_always --no-startup-id ~/.config/i3/scripts/app-on-ws-init.py --workspace $wsC --command 'google-chrome --password-store=gnome --profile-directory="Profile 1" https://mail.google.com/mail/u/0/#inbox https://outlook.office.com/mail/'
+# exec_always --no-startup-id ~/.config/i3/scripts/app-on-ws-init.py --workspace $wsC --command 'google-chrome --password-store=gnome --profile-directory="Profile 1" https://mail.google.com/mail/u/0/#inbox https://outlook.office.com/mail/'
+exec_always --no-startup-id ~/.config/i3/scripts/app-on-ws-init.py --workspace $wsC --command 'google-chrome --password-store=gnome --profile-directory="Profile 1" https://mail.google.com/mail/u/0/#inbox'
 
 set $wsX "23-Xmom"
 bindsym $mod+x workspace number $wsX

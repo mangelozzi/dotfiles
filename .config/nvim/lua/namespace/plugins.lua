@@ -66,6 +66,7 @@ local namespace_plugins = function(use)
     use("AndrewRadev/bufferize.vim")
     use("osyo-manga/vim-brightest")
     use('nguyenvukhang/nvim-toggler') -- Toggle text, e.g. true -> false
+    use("mattn/emmet-vim")
 
     -- maybe messes up quickfix colors
     -- Allows one to easily align text
