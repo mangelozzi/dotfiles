@@ -13,26 +13,6 @@ local function change_root_to_global_cwd()
      api.tree.change_root(global_cwd)
 end
 
--- require("nvim-tree").setup({
---      sort_by = "case_sensitive",
---      view = {
---           width = 30,
---           mappings = {
---                list = {
---                     -- Refer to :help nvim-tree-default-mappings
---                     { key = "?", action = "toggle_help" },
---                     { key = "<CR>", action = "edit_no_picker" },
---                },
---           },
---      },
---      renderer = {
---           group_empty = true,
---           highlight_opened_files = 3,
---      },
---      filters = {
---           dotfiles = false,
---      },
--- })
 local function copy_file_to(node)
     local file_src = node['absolute_path']
     -- The args of input are {prompt}, {default}, {completion}
@@ -82,6 +62,7 @@ local function on_attach(bufnr)
   end, opts('edit_and_close'))
 
   vim.keymap.set('n', 'o', api.node.open.edit, opts('Open'))
+  vim.keymap.set('n', '<LeftRelease>', api.node.open.edit, opts('Open'))
   vim.keymap.set('n', '<C-]>', api.tree.change_root_to_node, opts('CD'))
   vim.keymap.set('n', '<', api.node.navigate.sibling.prev, opts('Previous Sibling'))
   vim.keymap.set('n', '>', api.node.navigate.sibling.next, opts('Next Sibling'))
@@ -108,7 +89,6 @@ local function on_attach(bufnr)
   vim.keymap.set('n', '?', api.tree.toggle_help, opts('Help'))
   vim.keymap.set('n', 's', api.marks.toggle, opts('Toggle Bookmark'))
   vim.keymap.set('n', 'bmv', api.marks.bulk.move, opts('Move Bookmarked'))
-
 end
 
 -- Refer :help nvim-tree-setup
@@ -117,67 +97,6 @@ require('nvim-tree').setup { -- BEGIN_DEFAULT_OPTS
      view = {
           width = 30,
           signcolumn = "yes",
-          --[[
-          mappings = {
-               custom_only = true,  -- Disable default bindings, so can use <C-e> for say extra lines
-               list = {
-                    -- Namespace mappings
-                    { key = "c", action = "copy_file_to", action_cb = copy_file_to },
-                    { key = "<C-c>", action = "global_cwd", action_cb = change_root_to_global_cwd },
-                    { key = "<CR>", action = "edit_and_close", action_cb=edit_and_close },
-                    -- user mappings go here
-                    { key = "o", action = "edit" },
-                    -- { key = "<C-e>",                          action = "edit_in_place" },
-                    -- { key = "O",                              action = "edit_no_picker" },
-                    { key = "<C-]>",        action = "cd" }, -- cd in the directory under the cursor
-                    -- { key = "<C-v>",        action = "vsplit" },
-                    -- { key = "<C-x>",        action = "split" },
-                    -- { key = "<C-t>",        action = "tabnew" },
-                    { key = "<",            action = "prev_sibling" }, -- navigate to the previous sibling of current file/directory
-                    { key = ">",            action = "next_sibling" }, -- navigate to the next sibling of current file/directory
-                    { key = "p",            action = "parent_node" }, -- move cursor to the parent directory
-                    -- { key = "<BS>",         action = "close_node" }, -- close current opened directory or parent
-                    { key = "<Tab>",        action = "preview" }, -- open the file as a preview (keeps the cursor in the tree)
-                    { key = "K",            action = "first_sibling" }, -- navigate to the first sibling of current file/directory
-                    { key = "J",            action = "last_sibling" }, -- navigate to the last sibling of current file/directory
-                    -- { key = "C",            action = "toggle_git_clean" }, -- toggle visibility of git clean via |filters.git_clean| option
-                    -- { key = "I",            action = "toggle_git_ignored" }, -- toggle visibility of files/folders hidden via |git.ignore| option
-                    -- { key = "H",            action = "toggle_dotfiles" }, -- toggle visibility of dotfiles via |filters.dotfiles| option
-                    -- { key = "B",            action = "toggle_no_buffer" }, -- toggle visibility of files/folders hidden via |filters.no_buffer| option
-                    -- { key = "U",            action = "toggle_custom" }, -- toggle visibility of files/folders hidden via |filters.custom| option
-                    { key = "r",            action = "refresh" },
-                    { key = "a",            action = "create" }, -- add a file; leaving a trailing `/` will add a directory
-                    { key = "d",            action = "remove" }, -- delete a file (will prompt for confirmation)
-                    -- { key = "D",            action = "trash" }, -- trash a file via |trash| option
-                    -- { key = "r",            action = "rename" },
-                    { key = "m",               action = "full_rename" }, -- rename a file and omit the filename on input
-                    { key = "b",            action = "rename_basename" }, -- rename a file with filename-modifiers ':t:r' without changing extension
-                    -- { key = "x",            action = "cut" },
-                    -- { key = "c",            action = "copy" },
-                    -- { key = "p",            action = "paste" },
-                    -- { key = "y",            action = "copy_name" },
-                    -- { key = "Y",            action = "copy_path" },
-                    -- { key = "gy",           action = "copy_absolute_path" },
-                    { key = "[d",           action = "prev_diag_item" }, -- go to prev diagnostic item
-                    { key = "]d",           action = "next_diag_item" }, -- go to next diagnostic item
-                    -- { key = "[c",           action = "prev_git_item" }, -- go to next git item
-                    -- { key = "]c",           action = "next_git_item" }, -- go to next git item
-                    { key = "u",            action = "dir_up" }, -- default: "-", navigate up to the parent directory of the current file/directory
-                    { key = "x",            action = "system_open" }, -- menomic: eXecute, open a file with default system application or a folder with default file manager, using |system_open| option
-                    { key = "f",            action = "live_filter" }, -- live filter nodes dynamically based on regex matching.
-                    { key = "F",            action = "clear_live_filter" }, -- clear live filter
-                    -- { key = "<ESC>",            action = "close" }, -- close tree window, default: q
-                    { key = "q",            action = "close" }, -- close tree window, default: q
-                    { key = "C",            action = "collapse_all" }, -- collapse the whole tree
-                    { key = "E",            action = "expand_all" }, -- expand the whole tree, stopping after expanding |actions.expand_all.max_folder_discovery| folders; this might hang neovim for a while if running on a big folder
-                    { key = "S",            action = "search_node" }, -- prompt the user to enter a path and then expands the tree to match the path
-                    -- { key = ".",            action = "run_file_command" },
-                    { key = "i",            action = "toggle_file_info" }, -- Mnemonic: Info, <C-k> used to switch windows toggle a popup with file infos about the file under the cursor
-                    { key = "?",            action = "toggle_help" },
-                    { key = "s",            action = "toggle_mark" }, -- Mnemonic: Star - Toggle node in bookmarks
-                    { key = "bmv",          action = "bulk_move" }, -- Move all bookmarked nodes into specified location
-               },
-          },]]
      },
      renderer = {
           group_empty = true, -- default: true. Compact folders that only contain a single folder into one node in the file tree.
