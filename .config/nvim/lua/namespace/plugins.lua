@@ -32,7 +32,7 @@ local minimal_plugins = function(use)
     use {
         "ibhagwan/fzf-lua",
         -- optional for icon support
-        requires = "nvim-tree/nvim-web-devicons"
+        requires = "nvim-tree/nvim-web-devicons",
     }
 end
 
@@ -104,7 +104,7 @@ local namespace_plugins = function(use)
     use {
         "ibhagwan/fzf-lua",
         -- optional for icon support
-        requires = "nvim-tree/nvim-web-devicons"
+        requires = "nvim-tree/nvim-web-devicons",
     }
 
     -- TREE BROWSER

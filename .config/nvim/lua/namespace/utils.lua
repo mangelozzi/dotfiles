@@ -216,7 +216,14 @@ end
 function M.get_git_branch()
     -- :lua local parentDir = vim.fn.expand("%:p:h"); local command = "git -C " .. parentDir .. " branch --show-current 2>/dev/null"; local result = vim.fn.systemlist(command); vim.print(result)
     local parentDir = vim.fn.expand("%:p:h");
-    local command = "git -C " .. parentDir .. " branch --show-current 2>/dev/null";
+    local command
+    if vim.fn.has('win32') == 1 then
+        -- On Windows
+        command = "git -C " .. parentDir .. " branch --show-current 2>NUL"
+    else
+        -- On Linux and other Unix-like systems
+        command = "git -C " .. parentDir .. " branch --show-current 2>/dev/null"
+    end
     local result = vim.fn.systemlist(command);
     local branch = #result > 0 and result[1] or "No Branch";
     return branch
