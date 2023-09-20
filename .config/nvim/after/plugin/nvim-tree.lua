@@ -21,9 +21,13 @@ local function copy_or_move_file_to(node, copy)
     local file_out = vim.fn.input(cmd_str .." TO: ", file_src, "file")
     -- Create any parent dirs as required
     local dir = vim.fn.fnamemodify(file_out, ":h")
+
+    -- gitbash.exe has win32 but no move. A better check is if the system has the `mv` command
+    -- Note: In windows copy is also `cp`
+    local is_win = vim.fn.executable('mv') == 0
+
     -- Make parent dir as required
-    local is_windows = vim.fn.has("win32") == 1
-    local mkdir_cmd = is_windows and {'mkdir', dir} or {'mkdir', '-p', dir}
+    local mkdir_cmd = is_win and {'mkdir', dir} or {'mkdir', '-p', dir}
     vim.fn.system(mkdir_cmd)
     local cmds = {
         win = {
@@ -35,9 +39,6 @@ local function copy_or_move_file_to(node, copy)
             move = { 'mv', file_src, file_out },
         }
     }
-    -- gitbash.exe has win32 but no move. A better check is if the system has the `mv` command
-    -- Note: In windows copy is also `cp`
-    local is_win = vim.fn.executable('mv') == 0
     local cmd = cmds[is_win and 'win' or 'linux'][copy and 'copy' or 'move']
     vim.fn.system(cmd)
     if not copy then
