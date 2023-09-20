@@ -13,20 +13,42 @@ local function change_root_to_global_cwd()
      api.tree.change_root(global_cwd)
 end
 
-local function copy_file_to(node)
-    local file_src = node['absolute_path']
+local function copy_or_move_file_to(node, copy)
+    local file_src = node.absolute_path
     -- The args of input are {prompt}, {default}, {completion}
     -- Read in the new file path using the existing file's path as the baseline.
-    local file_out = vim.fn.input("COPY TO: ", file_src, "file")
+    local cmd_str = copy and "COPY" or "MOVE"
+    local file_out = vim.fn.input(cmd_str .." TO: ", file_src, "file")
     -- Create any parent dirs as required
     local dir = vim.fn.fnamemodify(file_out, ":h")
     -- Make parent dir as required
     local is_windows = vim.fn.has("win32") == 1
     local mkdir_cmd = is_windows and {'mkdir', dir} or {'mkdir', '-p', dir}
     vim.fn.system(mkdir_cmd)
-    -- Copy the file
-    local cp_cmd = is_windows and { 'cp', file_src, file_out } or { 'cp', '-R', file_src, file_out }
-    vim.fn.system(cp_cmd)
+    local cmds = {
+        win = {
+            copy = { 'cp', file_src, file_out },
+            move = { 'move', file_src, file_out },
+        },
+        linux = {
+            copy = { 'cp', '-R', file_src, file_out },
+            move = { 'mv', file_src, file_out },
+        }
+    }
+    local cmd = cmds[vim.fn.has("win32") == 1 and 'win' or 'linux'][copy and 'copy' or 'move']
+    vim.fn.system(cmd)
+    if not copy then
+        -- If a move, then associate any open buffers with the moved file with the new file path
+        for _, buf in ipairs(vim.fn.getbufinfo()) do
+            if buf.name == file_src then
+                -- Set the buffer's name to the new destination path
+                print(buf.name, '\n', file_src, '\n', file_out)
+                vim.api.nvim_buf_set_name(buf.bufnr, file_out)
+            end
+        end
+        vim.cmd('redraw!')
+        vim.cmd('redrawstatus!') -- Doesn't work with my status line
+    end
 end
 
 -- Use `o` to open a file
@@ -48,12 +70,20 @@ local function on_attach(bufnr)
   -- You will need to insert "your code goes here" for any mappings with a custom action_cb
   vim.keymap.set('n', 'c', function()
     local node = api.tree.get_node_under_cursor()
-    copy_file_to(node)
+    copy_or_move_file_to(node, true)
   end, opts('copy_file_to'))
+
+  vim.keymap.set('n', 'm', function()
+    local node = api.tree.get_node_under_cursor()
+    -- If the buffer is open, move the buffer path too
+    local source_path = node.absolute_path
+    -- Iterate through all open buffers
+    copy_or_move_file_to(node, false)
+  end, opts('move_file_to'))
 
   vim.keymap.set('n', '<C-c>', function()
     local node = api.tree.get_node_under_cursor()
-    change_root_to_global_cwd()    
+    change_root_to_global_cwd()
   end, opts('global_cwd'))
 
   vim.keymap.set('n', '<CR>', function()
@@ -73,7 +103,7 @@ local function on_attach(bufnr)
   vim.keymap.set('n', 'r', api.tree.reload, opts('Refresh'))
   vim.keymap.set('n', 'a', api.fs.create, opts('Create'))
   vim.keymap.set('n', 'd', api.fs.remove, opts('Delete'))
-  vim.keymap.set('n', 'm', api.fs.rename_sub, opts('Rename: Omit Filename'))
+  -- vim.keymap.set('n', 'm', api.fs.rename_sub, opts('Rename: Omit Filename'))
   vim.keymap.set('n', 'b', api.fs.rename_basename, opts('Rename: Basename'))
   vim.keymap.set('n', '[d', api.node.navigate.diagnostics.prev, opts('Prev Diagnostic'))
   vim.keymap.set('n', ']d', api.node.navigate.diagnostics.next, opts('Next Diagnostic'))
@@ -88,7 +118,7 @@ local function on_attach(bufnr)
   vim.keymap.set('n', 'i', api.node.show_info_popup, opts('Info'))
   vim.keymap.set('n', '?', api.tree.toggle_help, opts('Help'))
   vim.keymap.set('n', 's', api.marks.toggle, opts('Toggle Bookmark'))
-  vim.keymap.set('n', 'bmv', api.marks.bulk.move, opts('Move Bookmarked'))
+  vim.keymap.set('n', 'M', api.marks.bulk.move, opts('Move Bookmarked'))
 end
 
 -- Refer :help nvim-tree-setup
