@@ -74,8 +74,7 @@ local namespace_plugins = function(use)
 
     -- COLOR RELATED
     use("norcalli/nvim-colorizer.lua")  -- Color Hex codes with the color
-    -- use("pangloss/vim-javascript")  -- Improves JS indentation and syntax highlighting, hopefully treesitter replaces this
-    use("mrjones2014/nvim-ts-rainbow")  -- Rainbow bracket pairs
+    -- use({"HiPhish/rainbow-delimiters.nvim", branch = "use-children"})  -- Rainbow bracket pairs
 
     -- COLOR SCHEME
     -- use "rafamadriz/neon"

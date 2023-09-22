@@ -60,7 +60,8 @@ margin: 16px;
   imap   <C-y>c   <plug>(emmet-code-pretty)
 
 ]]
-vim.keymap.set({"n", "i", "v"}, '<C-k>', "<plug>(emmet-expand-abbr)", { noremap = true })
+-- C-hjkl for changing windows
+vim.keymap.set({"n", "i", "v"}, '<M-o>', "<plug>(emmet-expand-abbr)", { noremap = true })
 
 -- vim.g.user_emmet_expandabbr_key = '<C-y>y'
 
