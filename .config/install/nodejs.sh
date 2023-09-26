@@ -1,34 +1,12 @@
-# NPM
+# Refer to https://github.com/nodesource/distributions#debian-versions
 
-echo "Setting script to exit on first error"
-set -e
+sudo apt-get update
+sudo apt-get install -y ca-certificates curl gnupg
+sudo mkdir -p /etc/apt/keyrings
+curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | sudo gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg
 
-# Ubuntu 22.04 only has version 12 in ppa, require at least 18
-# If require a certain version of node (refer to https://github.com/nodesource/distributions):
-sudo apt install -y curl
-echo "Adding [arch=amd64] so dont get i386 not supported error..."
-echo "deb [arch=amd64] http://debian.sur5r.net/i3/ jammy universe" | sudo tee /etc/apt/sources.list.d/sur5r-i3.list
-curl -sL https://deb.nodesource.com/setup_18.x | sudo -E bash -
-echo "Now nodejs 18 is available to install with apt..."
-echo "If installation fails try: 'sudo apt remove libnode72'"
-sudo apt-get install -y nodejs
+NODE_MAJOR=20
+echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_$NODE_MAJOR.x nodistro main" | sudo tee /etc/apt/sources.list.d/nodesource.list
 
-# sudo apt install -y nodejs
-echo -e "\n\nTesting Node installation version"
-node -v
-npm -v
-echo -e "\n\n"
-# LSP: python
-sudo npm install -g pyright
-# LSP: JSON, CSS, HTML
-sudo npm install -g vscode-langservers-extracted
-# LSP: Javascript
-sudo npm install -g typescript typescript-language-server
-# LSP: Bash
-sudo npm install -g bash-language-server
-# LSP: Vvim
-sudo npm install -g vim-language-server
-# NPM: Packages
-sudo npm install -g jshint prettier-miscellaneous
-# For formatting lua code
-sudo npm install -g lua-fmt
+sudo apt-get update
+sudo apt-get install nodejs -y

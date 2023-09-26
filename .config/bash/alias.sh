@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# Critical
+# --------
+alias ll="ls -la"
+
 # PROJECTS
 # --------
 alias lc="source ~/linkcube/script/console.sh"
@@ -115,11 +119,17 @@ alias settings="gnome-control-center &"
 alias update="update-manager"
 
 # IOEC
-alias cdG="cd ~/ioec/gateway/Gateway/Gateway.Client"
-alias cdgc="cd ~/ioec/gateway/Gateway/Gateway.Client"
-alias cdg="cd ~/ioec/gateway/Gateway"
-alias cdi="cd ~/ioec/"
-alias cda="cd ~/ioec/admin"
-alias fe="cd ~/ioec/gateway/Gateway/Gateway.Client; npm start"
+# IOEC=~/ioec/admin
+IOEC=/mnt/c/Users/Michaela/ioec
+alias cdi="cd $IOEC"
+alias cda="cd $IOEC/admin"
+
+alias cdg="cd $IOEC/gateway/Gateway"
+alias cdG="cd $IOEC/gateway/Gateway/Gateway.Client"
+alias cdgc="cd $IOEC/gateway/Gateway/Gateway.Client"
+alias cdgn="cd $IOEC/gateway/Gateway/Gateway.NextClient"
+
+alias fe="cd $IOEC/gateway/Gateway/Gateway.Client; npm start"
+alias fen="cd $IOEC/gateway/Gateway/Gateway.NextClient; npm start"
 alias fortistart="sudo systemctl start forticlient.service"
 alias fortistop="sudo systemctl stop forticlient.service"

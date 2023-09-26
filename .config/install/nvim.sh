@@ -16,22 +16,17 @@ set -x
 
 NVIM_FILE=nvim.appimage;
 NVIM_PATH=~/appimages/;
-mkdir -p NVIM_PATH
+mkdir -p $NVIM_PATH
 sudo curl -L https://github.com/neovim/neovim/releases/download/nightly/nvim.appimage -o $NVIM_PATH$NVIM_FILE
 sudo chmod +x $NVIM_PATH$NVIM_FILE
 sudo ln -s $NVIM_PATH$NVIM_FILE /usr/bin/nvim
 
-# Get config dir
-cd ~
-git clone https://github.com/mangelozzi/.config.git ~/.config
-
 # Get my plugins
 mkdir -p ~/.config/nvim/tmp/
 cd ~/.config/nvim/tmp/
-git clone https://github.com/mangelozzi/vim-capesky.git
-git clone https://github.com/mangelozzi/nvim-rgflow.lua.git
+git clone https://github.com/mangelozzi/vim-capesky.git $HOME/.config/nvim/tmp/vim-capesky
+git clone https://github.com/mangelozzi/rgflow.nvim.git $HOME/.config/nvim/tmp/rgflow.nvim
 
-echo "alias vim=nvim" >> ~/.bashrc
 sudo apt install xclip
 
 # Install python support
@@ -40,19 +35,19 @@ pip3 install pynvim
 
 
 echo -e "\nInstalling Plugins:"
-# nvim --headless +PlugInstall +qall
-# nvim --headless +TSInstall +qpython +qjsonc +qtsx +qbash +qjavascript
 nvim --headless -c 'autocmd User PackerComplete quitall' -c 'PackerSync'
+# Mason handles LSP providers
+# nvim --headless +TSInstall +qpython +qjsonc +qtsx +qbash +qjavascript
 
-echo ".NET fixes for Ubuntu 22.04 See (https://github.com/dotnet/sdk/issues/24759)"
-wget http://archive.ubuntu.com/ubuntu/pool/main/o/openssl/libssl1.1_1.1.1-1ubuntu2.1~18.04.20_amd64.deb
-sudo dpkg -i libssl1.1_1.1.1-1ubuntu2.1~18.04.20_amd64.deb
+# echo ".NET fixes for Ubuntu 22.04 See (https://github.com/dotnet/sdk/issues/24759)"
+# wget http://archive.ubuntu.com/ubuntu/pool/main/o/openssl/libssl1.1_1.1.1-1ubuntu2.1~18.04.20_amd64.deb
+# sudo dpkg -i libssl1.1_1.1.1-1ubuntu2.1~18.04.20_amd64.deb
 
-echo "Get .NET framework"
-wget https://packages.microsoft.com/config/ubuntu/20.04/packages-microsoft-prod.deb -O ~/packages-microsoft-prod.deb
-sudo dpkg -i ~/packages-microsoft-prod.deb
-sudo apt-get install -y apt-transport-https
-sudo apt-get install -y aspnetcore-runtime-3.1
+# echo "Get .NET framework"
+# wget https://packages.microsoft.com/config/ubuntu/20.04/packages-microsoft-prod.deb -O ~/packages-microsoft-prod.deb
+# sudo dpkg -i ~/packages-microsoft-prod.deb
+# sudo apt-get install -y apt-transport-https
+# sudo apt-get install -y aspnetcore-runtime-3.1
 
 set +x
 echo
