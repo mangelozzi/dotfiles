@@ -1,28 +1,15 @@
 if not require("namespace.utils").get_is_installed("diffview.nvim") then return end
 
--- Refer to :h diffview-config-view.x.layout
-local actions = require("diffview.actions")
 require('diffview').setup({
-    enhanced_diff_hl = false, -- See |diffview-config-enhanced_diff_hl|
-    use_icons = true,         -- Requires nvim-web-devicons
-    show_help_hints = true,   -- Show hints for how to open the help panel
-    watch_index = true,       -- Update views and index buffers when the git index changes.
-    icons = {                 -- Only applies when use_icons is true.
-        folder_closed = "",
-        folder_open = "",
-    },
-    hooks = { -- See ':h diffview-config-hooks'
-        view_opened = function()
-            -- Hide the files panel
-            actions.toggle_files()
-        end,
-    },
     keymaps = {
         view = {
             -- The `view` bindings are active in the diff buffers, only when the current
             -- tabpage is a Diffview.
             -- { "n", "<ESC>",      actions.close,                      { desc = "Open the diff for the next file" } },
-            { "n", "<ESC>", function() vim.cmd('tabclose') end,                      { desc = "Open the diff for the next file" } },
+            { "n", "<ESC>", function() vim.cmd('DiffviewClose') end,                      { desc = "Close it" } },
+        },
+        file_history_panel = {
+            { "n", "<ESC>", function() vim.cmd('DiffviewClose') end,                      { desc = "Close it" } },
         },
     },
 })
@@ -40,6 +27,10 @@ local function custom_open_diffview()
             -- local git_file_path = utils.get_return_value('git ls-files ' .. file)
             print("DIFF:", file)
             vim.cmd('DiffviewOpen -- ' .. file)
+            -- Refer to :h diffview-config-view.x.layout
+            -- local actions = require("diffview.actions")
+            local actions = require("diffview.actions")
+            actions.toggle_files()
         else
             print("NO CHANGES:", file)
         end
@@ -47,4 +38,13 @@ local function custom_open_diffview()
         print("NOT IN GIT:", file)
     end
 end
+-- Dont show edited files on left
 vim.keymap.set({'n', 'x'}, '<leader>I', custom_open_diffview, { noremap = true} )
+-- This is the standard open
+-- vim.keymap.set({'n', 'x'}, '<leader>I', function() vim.cmd('DiffviewOpen') end, { noremap = true} )
+
+
+-- Show a history of current file
+vim.keymap.set({'n', 'x'}, '<leader>g', function() vim.cmd('DiffviewFileHistory %') end, { noremap = true} )
+-- Show a history of changed files
+vim.keymap.set({'n', 'x'}, '<leader>G', function() vim.cmd('DiffviewFileHistory') end, { noremap = true} )

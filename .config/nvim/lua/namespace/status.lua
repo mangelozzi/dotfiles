@@ -11,16 +11,24 @@ local function get_rel_dir()
 end
 
 local function get_filename()
-    if vim.bo.filetype == "NvimTree" then
-        return '[TREE]'
+    -- help buftype
+    -- help nofile nowrite quickfix terminal prompt etc
+    if vim.bo.buftype == '' or vim.bo.buftype == 'nofile' or vim.bo.buftype == 'nowrite' then
+        -- A normal buffer
+        if vim.bo.filetype == "NvimTree" then
+            -- return require('nvim-tree').init_root
+            return '[TREE]'
+        else
+            return vim.fn.fnamemodify(vim.fn.expand "%", ":t")
+        end
     elseif vim.bo.buftype == 'quickfix' then
         -- "%{exists('w:quickfix_title')? ' '.w:quickfix_title : ''}"
         local qftitle = vim.fn.getqflist({title = 0})['title']
         return '[QUICKFIX] ' .. qftitle
-    elseif vim.bo.buftype ~= '' then
-        return '['..string.upper(vim.bo.buftype)..']'
+    else
+        -- terminal, prompt, help, etc
+        return '[' .. string.upper(vim.bo.buftype) .. ']'
     end
-    return vim.fn.fnamemodify(vim.fn.expand "%", ":t")
 end
 
 local function contract_home(file)
