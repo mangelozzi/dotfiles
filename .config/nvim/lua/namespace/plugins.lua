@@ -30,9 +30,8 @@ local packer_bootstrap = ensure_packer()
 -- For debugging rc setup
 local minimal_plugins = function(use)
     use {
-        "ibhagwan/fzf-lua",
-        -- optional for icon support
-        requires = "nvim-tree/nvim-web-devicons",
+        "NeogitOrg/neogit",
+        requires = "nvim-lua/plenary.nvim",
     }
 end
 
@@ -157,5 +156,5 @@ local namespace_plugins = function(use)
 
 end
 
-local plugins =  vim.g.use_minimal_config and namespace_plugins or minimal_plugins
+local plugins = vim.g.use_minimal_config and minimal_plugins or namespace_plugins
 return require("packer").startup(plugins)

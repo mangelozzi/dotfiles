@@ -2,9 +2,11 @@
 vim.g.nvim_path = vim.fn.fnamemodify(vim.env.MYVIMRC, ":p:h")
 
 -- Global flag for changing to minimal config for testing
-vim.g.use_minimal_config = true
+vim.g.use_minimal_config = false
 
 if vim.g.use_minimal_config then
+    require("namespace/plugins")  -- Enable plugins - AFTER: keymap so correct leader used
+else
     require("namespace/globals")  -- Globals variables/settings
     require("namespace/opt")      -- Set various vim options and related commands
     require("namespace/cmd")      -- Run various vim commands
@@ -12,8 +14,8 @@ if vim.g.use_minimal_config then
     require("namespace/autocmds") -- Auto commands
     require("namespace/colors")   -- Color theme, must be after 'opt', changes settings
     require("namespace/status")   -- Color theme, must be after 'opt', changes settings
+    require("namespace/plugins")  -- Enable plugins - AFTER: keymap so correct leader used
 end
-require("namespace/plugins")  -- Enable plugins - AFTER: keymap so correct leader used
 
 -- -- require caches result, then have to restart
 -- dofile(vim.g.nvim_path .. "/lua/namespace/globals.lua")  -- Globals variables/settings
