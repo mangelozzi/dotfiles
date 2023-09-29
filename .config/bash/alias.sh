@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# Critical
+# --------
+alias ll="ls -la"
+
 # PROJECTS
 # --------
 alias lc="source ~/linkcube/script/console.sh"
@@ -59,6 +63,9 @@ gitdev() {
 alias gitdot='export GIT_DIR=~/.dotfiles GIT_WORK_TREE=~'
 alias gitlc='export GIT_DIR=~/linkcube/.git GIT_WORK_TREE=~/linkcube'
 alias gitterm='export GIT_DIR=~/terminal/.git GIT_WORK_TREE=~/terminal'
+# git remote set-url origin https://github.com/mangelozzi/mangelozzi.github.io.git
+# git remote set-url origin git@github.com:mangelozzi/mangelozzi.github.io.git
+alias grso="git remote set-url origin"
 
 # Git Dot files
 dot="git --git-dir=$HOME/.dotfiles --work-tree=$HOME"
@@ -115,11 +122,17 @@ alias settings="gnome-control-center &"
 alias update="update-manager"
 
 # IOEC
-alias cdG="cd ~/ioec/gateway/Gateway/Gateway.Client"
-alias cdgc="cd ~/ioec/gateway/Gateway/Gateway.Client"
-alias cdg="cd ~/ioec/gateway/Gateway"
-alias cdi="cd ~/ioec/"
-alias cda="cd ~/ioec/admin"
-alias fe="cd ~/ioec/gateway/Gateway/Gateway.Client; npm start"
+# IOEC=~/ioec/admin
+IOEC=/mnt/c/Users/Michaela/ioec
+alias cdi="cd $IOEC"
+alias cda="cd $IOEC/admin"
+
+alias cdg="cd $IOEC/gateway/Gateway"
+alias cdG="cd $IOEC/gateway/Gateway/Gateway.Client"
+alias cdgc="cd $IOEC/gateway/Gateway/Gateway.Client"
+alias cdgn="cd $IOEC/gateway/Gateway/Gateway.NextClient"
+
+alias fe="cd $IOEC/gateway/Gateway/Gateway.Client; npm start"
+alias fen="cd $IOEC/gateway/Gateway/Gateway.NextClient; npm start"
 alias fortistart="sudo systemctl start forticlient.service"
 alias fortistop="sudo systemctl stop forticlient.service"

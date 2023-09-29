@@ -80,20 +80,22 @@ require("fzf-lua").setup {
     },
     files = {
         prompt = 'Files >>> ',
-        fd_opts =   "--type file --no-ignore" ..
+        fd_opts =   "--type file --no-ignore"
                     -- Dirs
-                    " -E '**/__pycache__'" ..
-                    " -E '**/temp' " ..
-                    " -E '**/spike' " ..
-                    " -E '**/htmlcov'" ..
-                    " -E '**/static/**/jsapp'" ..
-                    " -E '**/static/**/wcapp'" ..
+                    .. " -E '**/__pycache__'"
+                    .. " -E '**/temp' "
+                    .. " -E '**/spike' "
+                    .. " -E '**/htmlcov'"
+                    .. " -E '**/static/**/jsapp'"
+                    .. " -E '**/static/**/wcapp'"
+                    .. " -E '**/.angular"
                     -- File types
-                    " -E '*.jpg'" ..
-                    " -E '*.png'" ..
-                    " -E '*.zip'" ..
-                    " -E '*.git'" ..
-                    " -E '*.min.css'"
+                    .. " -E '*.jpg'"
+                    .. " -E '*.png'"
+                    .. " -E '*.zip'"
+                    .. " -E '*.git'"
+                    .. " -E '*.min.css'"
+                    .. " -E '*.min.js'"
     },
     buffers = { prompt = 'Buffers >>> '}, -- Buffers❯
     oldfiles = { prompt = 'History >>> '},

@@ -1,4 +1,5 @@
 -- rg --vimgrep --smart-case -g '*.{*,py}' -g '!*.{min.js,pyc}' --fixed-strings --no-fixed-strings --no-ignore -M 500 -g '!**/static/*/jsapp/' -g '!**/static/*/wcapp/' function ~/linkcube/src
+
 require("rgflow").setup(
     {
         default_trigger_mappings = true,
@@ -7,7 +8,9 @@ require("rgflow").setup(
 
         -- WARNING !!! Glob for '-g *{*}' will not use .gitignore file: https://github.com/BurntSushi/ripgrep/issues/2252
         cmd_flags = ("--smart-case -g *.{*,py} -g !*.{min.js,pyc} --fixed-strings --no-fixed-strings --no-ignore -M 500"
-            -- distros/cfm/app/meetings/static/meetings/jsapp/fetcher.js
+            -- WARNING when testing changes, dont use "previous search", which will not include these changes, typing in the search term again
+            -- Exclude globs
+            .. " -g !**/.angular/"
             .. " -g !**/node_modules/"
             .. " -g !**/static/*/jsapp/"
             .. " -g !**/static/*/wcapp/"

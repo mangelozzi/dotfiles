@@ -39,8 +39,8 @@ local function copy_or_move_file_to(node, copy)
             move = { 'mv', file_src, file_out },
         }
     }
-    local cmd = cmds[is_win and 'win' or 'linux'][copy and 'copy' or 'move']
-    vim.fn.system(cmd)
+    local cmd_arr = cmds[is_win and 'win' or 'linux'][copy and 'copy' or 'move']
+    vim.fn.system(cmd_arr)
     if not copy then
         -- If a move, then associate any open buffers with the moved file with the new file path
         for _, buf in ipairs(vim.fn.getbufinfo()) do
