@@ -118,6 +118,7 @@ local function get_hi_groups(is_current_window)
         col_fade1  = change_color(prefix .. "StatusFade1"),
         col_fade2  = change_color(prefix .. "StatusFade2"),
         col_fade3  = change_color(prefix .. "StatusFade3"),
+        col_impact = change_color(prefix .. "StatusImpact"),
     }
 end
 
@@ -176,8 +177,9 @@ vim.g.get_status_line = function(current_window)
     -- col_line
     local s3 = table.concat{
         "%=",                                     -- Left/Right separator
-        groups['col_line'],
+        groups['col_impact'],
         vim.b.current_git_branch or "",
+        groups['col_line'],
         get_file_type(),
         "│%-3c",                                    -- Current column number, left aligned 3 characters wide
         "▏%P ",                                     -- Percentage through the file
