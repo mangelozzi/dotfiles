@@ -89,6 +89,7 @@ require("fzf-lua").setup {
                     .. " -E '**/static/**/jsapp'"
                     .. " -E '**/static/**/wcapp'"
                     .. " -E '**/.angular'"
+                    .. " -E '**/node_modules'"
                     -- File types
                     .. " -E '*.jpg'"
                     .. " -E '*.png'"
