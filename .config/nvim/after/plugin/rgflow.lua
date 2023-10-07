@@ -12,6 +12,7 @@ require("rgflow").setup(
             -- Exclude globs
             .. " -g !**/.angular/"
             .. " -g !**/node_modules/"
+            .. " -g !**/htmlcov/"
             .. " -g !**/static/*/jsapp/"
             .. " -g !**/static/*/wcapp/"
             .. " -g !**/scraper/tests/templates/"
