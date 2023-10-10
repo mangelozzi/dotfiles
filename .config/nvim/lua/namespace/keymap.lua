@@ -1,7 +1,8 @@
 --[[
 
 Currently leader in nmap:
-    a, b, c, d, e, g, m, o, p, q, u, v
+    ! = Dont recommend using c/d, cause easy to start deleting things by mistake fast
+    a, b, !c, !d, e, m, o, p, q, u, v, x
     A, B, C, E, F, G, H, L, M, N, O, P, R, S, T, U, V, W, X, Y, Z
     0
     !@#$%^&*()_+
@@ -50,8 +51,11 @@ Map! - Insert & command mode
 --]]
 -- INIT -----------------------------------------------------------------------
 
+
 -- When debugging just place the function in this file, then move it into utils.lua once debugged
 local utils = require("namespace.utils")
+
+utils.map_leader_char_to_nop()
 
 -- ALL MODES ------------------------------------------------------------------
 
@@ -414,6 +418,15 @@ vim.keymap.set({"n", "x"}, "<leader>s", utils.sort_lines, {silent = true})
 -- Rename tag - csst - from: https://stackoverflow.com/questions/16340037/change-html-tag-in-vim-but-keeping-the-attributes-surround
 -- Mneomonic - W for Web tag
 vim.keymap.set({"n", "x"}, "<leader>w", function() vim.fn.feedkeys("cstt") end, {noremap = true})
+
+-- Web Component Dev switching between files
+vim.keymap.set("n", "<leader>cj", function() utils.gotoComponentFile('javascript') end, {noremap = true})
+vim.keymap.set("n", "<leader>ch", function() utils.gotoComponentFile('html') end, {noremap = true})
+vim.keymap.set("n", "<leader>cc", function() utils.gotoComponentFile('css') end, {noremap = true})
+vim.keymap.set("n", "<leader>cd", function() utils.gotoComponentFile('def') end, {noremap = true})
+vim.keymap.set("n", "<leader>cs", function() utils.gotoComponentFile('story') end, {noremap = true})
+vim.keymap.set("n", "<leader>co", function() utils.gotoComponentFile('other') end, {noremap = true})
+vim.keymap.set("n", "<leader>ct", function() utils.gotoComponentFile('type') end, {noremap = true})
 
 
 -- " {{{2 Insert
