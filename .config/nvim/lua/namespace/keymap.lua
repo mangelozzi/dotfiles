@@ -1,7 +1,8 @@
 --[[
 
 Currently leader in nmap:
-    a, b, c, d, e, g, m, o, p, q, u, v
+    ! = Dont recommend using c/d, cause easy to start deleting things by mistake fast
+    a, b, !c, !d, e, m, o, p, q, u, v, x
     A, B, C, E, F, G, H, L, M, N, O, P, R, S, T, U, V, W, X, Y, Z
     0
     !@#$%^&*()_+
@@ -50,8 +51,11 @@ Map! - Insert & command mode
 --]]
 -- INIT -----------------------------------------------------------------------
 
+
 -- When debugging just place the function in this file, then move it into utils.lua once debugged
 local utils = require("namespace.utils")
+
+utils.map_leader_char_to_nop()
 
 -- ALL MODES ------------------------------------------------------------------
 

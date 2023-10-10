@@ -1,5 +1,16 @@
 local M = {}
 
+function M.map_leader_char_to_nop()
+    -- If one pressed <leader>cl and its not mapped to anything, then it performs a `cl`, .. not greate
+    -- So before mapping any leader keys, disable all maps, then add them in
+    for char = 97, 122 do
+        local lowercase = string.char(char)
+        local uppercase = string.char(char - 32) -- ASCII difference between lowercase and uppercase letters is 32
+        vim.keymap.set("n", "<leader>" .. lowercase, "<ESC>", {noremap = true})
+        vim.keymap.set("n", "<leader>" .. uppercase, "<ESC>", {noremap = true})
+    end
+end
+
 function M.get_is_installed(plugin_name)
     return packer_plugins and packer_plugins[plugin_name] and packer_plugins[plugin_name].loaded
 end
