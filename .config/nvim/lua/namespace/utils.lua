@@ -99,6 +99,7 @@ end
 -- Insert the appropriate debugger statement
 local javascript_debugger_fts = {
     ["javascript"] = true,
+    ["typescript"] = true,
     ["html"] = true,
     ["htmldjango"] = true,
 }
@@ -227,6 +228,80 @@ function M.get_git_branch()
     local result = vim.fn.systemlist(command);
     local branch = #result > 0 and result[1] or "No Branch";
     return branch
+end
+
+local function split_dir_name_ext(path)
+    local directory, name, ext = path:match("(.-)([^\\/]-%.?([^%.\\/]*))$")
+    if directory and name and ext then
+        return directory, name, ext
+    else
+        return path, "", "" -- Return the original path and empty strings if no match is found
+    end
+end
+local function split_base_dir(path)
+    local base, dir_name = path:match("(.+)[/\\]([^/\\]+)/[^/\\]+$")
+    return base, dir_name
+end
+function M.gotoComponentFile(gotoType)
+    local currentFile = vim.fn.expand("%:p")
+    local gotoFile
+    if string.find(string.lower(currentFile), 'linkcube') then
+        -- LINKCUBE
+        local dir, name, ext = split_dir_name_ext(currentFile)
+        if gotoType == 'javascript' then
+            gotoFile = dir .. '/component.js'
+        elseif gotoType == 'html' then
+            gotoFile = dir .. '/template.html'
+        elseif gotoType == 'css' then
+            gotoFile = dir .. '/shadow.css'
+        elseif gotoType == 'def' then
+            gotoFile = dir .. '/__init__.py'
+        elseif gotoType == 'story' then
+            gotoFile = dir .. '/story.html'
+        elseif gotoType == 'other' then
+            gotoFile = dir .. '/dom.css'
+        end
+    elseif string.find(string.lower(currentFile), 'gateway') then
+        -- GATEWAY
+        local base, component_name = split_base_dir(currentFile)
+        local dir = base .. '/' .. component_name .. '/'
+        if gotoType == 'javascript' then
+            gotoFile = dir .. component_name .. '.component.ts'
+        elseif gotoType == 'html' then
+            gotoFile = dir .. component_name .. '.component.html'
+        elseif gotoType == 'css' then
+            local f = dir .. component_name .. '.component.css'
+            if vim.fn.filereadable(f) then
+                gotoFile = f
+            else
+                f = dir .. component_name .. '.component.less'
+                if vim.fn.filereadable(f) then
+                    gotoFile = f
+                end
+            end
+        elseif gotoType == 'def' then
+            gotoFile = dir .. component_name .. '.component.css'
+        elseif gotoType == 'type' then
+            gotoFile = dir .. 'types.ts'
+        elseif gotoType == 'other' then
+            gotoFile = dir .. 'sample.ts'
+        elseif gotoType == 'story' then
+            gotoFile = dir .. component_name .. '.stories.ts'
+        end
+    else
+        print('Unknown project')
+        return
+    end
+    if not gotoFile then
+        print('Unknown goto type:', gotoType)
+        return
+    end
+    if vim.fn.filereadable(gotoFile) then
+        print('open ->>> ', gotoFile)
+        vim.cmd("edit " .. gotoFile)
+    else
+        print('File does not exist:', gotoFile)
+    end
 end
 
 return M

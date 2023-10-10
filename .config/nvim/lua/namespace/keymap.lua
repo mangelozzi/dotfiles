@@ -415,6 +415,15 @@ vim.keymap.set({"n", "x"}, "<leader>s", utils.sort_lines, {silent = true})
 -- Mneomonic - W for Web tag
 vim.keymap.set({"n", "x"}, "<leader>w", function() vim.fn.feedkeys("cstt") end, {noremap = true})
 
+-- Web Component Dev switching between files
+vim.keymap.set("n", "<leader>cj", function() utils.gotoComponentFile('javascript') end, {noremap = true})
+vim.keymap.set("n", "<leader>ch", function() utils.gotoComponentFile('html') end, {noremap = true})
+vim.keymap.set("n", "<leader>cc", function() utils.gotoComponentFile('css') end, {noremap = true})
+vim.keymap.set("n", "<leader>cd", function() utils.gotoComponentFile('def') end, {noremap = true})
+vim.keymap.set("n", "<leader>cs", function() utils.gotoComponentFile('story') end, {noremap = true})
+vim.keymap.set("n", "<leader>co", function() utils.gotoComponentFile('other') end, {noremap = true})
+vim.keymap.set("n", "<leader>ct", function() utils.gotoComponentFile('type') end, {noremap = true})
+
 
 -- " {{{2 Insert
 --
