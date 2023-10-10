@@ -78,3 +78,20 @@ vim.api.nvim_create_autocmd(
         end
     }
 )
+
+vim.api.nvim_create_autocmd(
+    "BufWritePost",
+    {
+        desc = "Prettify Gateway Files",
+        group = NamespaceGroup,
+        pattern = {"*.js", "*.ts", "*.css", "*.less", "*.html", "*.json"},
+        callback = function()
+            local file = vim.fn.expand("%:p")
+            if string.find(string.lower(file), "gateway") then
+                vim.cmd("!prettier --write " .. file)
+                vim.api.nvim_feedkeys("\\<CR>", "n", false)
+                print("Prettied dat Gateway file")
+            end
+        end
+    }
+)
