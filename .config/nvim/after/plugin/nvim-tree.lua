@@ -129,7 +129,7 @@ end
 require('nvim-tree').setup { -- BEGIN_DEFAULT_OPTS
     on_attach = on_attach,
      view = {
-          width = 30,
+          width = 32,
           signcolumn = "yes",
      },
      renderer = {
@@ -241,11 +241,12 @@ local function smart_find_file()
     -- If the file does not exist on the file system, then just show the tree
     if vim.fn.expand('%') ~= '' then
         vim.cmd('NvimTreeFindFile')
-        vim.fn.feedkeys("$10zh")  -- Move to the end of the line, then 4 times scroll left
+        -- vim.fn.feedkeys("$10zh")  -- Move to the end of the line, then 4 times scroll left
     else
         vim.cmd('NvimTreeToggle')
     end
 end
+
 -- vim.api.nvim_set_keymap("n", "<leader>nf", ":NvimTreeFindFile<CR>", { noremap = true })
 vim.keymap.set("n", "<leader>nf", smart_find_file, { noremap = true })
 
