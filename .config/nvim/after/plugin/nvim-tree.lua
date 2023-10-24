@@ -125,11 +125,21 @@ local function on_attach(bufnr)
   vim.keymap.set('n', 'M', api.marks.bulk.move, opts('Move Bookmarked'))
 end
 
+local function getTreeColWidth()
+    local current_path = vim.fn.expand('%:p:h'):lower() -- Get current file's path in lowercase
+    local is_gateway = string.find(current_path, 'gateway') ~= nil or string.find(current_path, 'ioec') ~= nil
+    if is_gateway then
+        return 48
+    else
+        return 32
+    end
+end
+
 -- Refer :help nvim-tree-setup
 require('nvim-tree').setup { -- BEGIN_DEFAULT_OPTS
     on_attach = on_attach,
      view = {
-          width = 32,
+          width = getTreeColWidth(),
           signcolumn = "yes",
      },
      renderer = {

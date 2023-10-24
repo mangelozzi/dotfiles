@@ -426,7 +426,16 @@ vim.keymap.set("n", "<leader>cc", function() utils.gotoComponentFile('css') end,
 vim.keymap.set("n", "<leader>cd", function() utils.gotoComponentFile('def') end, {noremap = true})
 vim.keymap.set("n", "<leader>cs", function() utils.gotoComponentFile('story') end, {noremap = true})
 vim.keymap.set("n", "<leader>co", function() utils.gotoComponentFile('other') end, {noremap = true})
+vim.keymap.set("n", "<leader>cm", function() utils.gotoComponentFile('sample') end, {noremap = true})
 vim.keymap.set("n", "<leader>ct", function() utils.gotoComponentFile('type') end, {noremap = true})
+vim.keymap.set("n", "<leader>cu", function() utils.gotoComponentFile('utils') end, {noremap = true})
+vim.keymap.set("n", "<leader>lm", function() utils.gotoLinkedFile('models') end, {noremap = true})
+vim.keymap.set("n", "<leader>lv", function() utils.gotoLinkedFile('views') end, {noremap = true})
+vim.keymap.set("n", "<leader>lr", function() utils.gotoLinkedFile('rest') end, {noremap = true})
+vim.keymap.set("n", "<leader>lu", function() utils.gotoLinkedFile('urls') end, {noremap = true})
+vim.keymap.set("n", "<leader>ls", function() utils.gotoLinkedFile('serializers') end, {noremap = true})
+vim.keymap.set("n", "<leader>lt", function() utils.gotoLinkedFile('tests') end, {noremap = true})
+vim.keymap.set("n", "<leader>lo", function() utils.gotoLinkedFile('other') end, {noremap = true})
 
 
 -- " {{{2 Insert

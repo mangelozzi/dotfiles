@@ -281,23 +281,64 @@ function M.gotoComponentFile(gotoType)
         elseif gotoType == 'html' then
             gotoFile = dir .. component_name .. '.component.html'
         elseif gotoType == 'css' then
-            local f = dir .. component_name .. '.component.css'
-            if vim.fn.filereadable(f) then
-                gotoFile = f
-            else
-                f = dir .. component_name .. '.component.less'
+            local extensions = {".scss", ".css", ".less"}
+            for _, ext in ipairs(extensions) do
+                local f = dir .. component_name .. '.component' .. ext
                 if vim.fn.filereadable(f) then
                     gotoFile = f
+                    break -- Exit the loop if a readable file is found
                 end
             end
         elseif gotoType == 'def' then
             gotoFile = dir .. component_name .. '.component.css'
         elseif gotoType == 'type' then
-            gotoFile = dir .. 'types.ts'
+            gotoFile = dir .. component_name .. '.types.ts'
         elseif gotoType == 'other' then
-            gotoFile = dir .. 'sample.ts'
+            gotoFile = dir .. component_name .. '.sample.ts'
+        elseif gotoType == 'sample' then
+            gotoFile = dir .. component_name .. '.sample.ts'
         elseif gotoType == 'story' then
             gotoFile = dir .. component_name .. '.stories.ts'
+        elseif gotoType == 'utils' then
+            gotoFile = dir .. component_name .. '.utils.ts'
+        end
+    else
+        print('Unknown project')
+        return
+    end
+    if not gotoFile then
+        print('Unknown goto type:', gotoType)
+        return
+    end
+    if vim.fn.filereadable(gotoFile) then
+        print('open ->>> ', gotoFile)
+        vim.cmd("edit " .. gotoFile)
+    else
+        print('File does not exist:', gotoFile)
+    end
+end
+
+function M.gotoLinkedFile(gotoType)
+    local currentFile = vim.fn.expand("%:p")
+    local gotoFile
+    if string.find(string.lower(currentFile), 'linkcube') then
+        -- LINKCUBE
+        -- TODO GET THE APP PATH from which ever sub dir
+        local dir, name, ext = split_dir_name_ext(currentFile)
+        if gotoType == 'models' then
+            gotoFile = dir .. '/models.py'
+        elseif gotoType == 'views' then
+            gotoFile = dir .. '/views.py'
+        elseif gotoType == 'rest' then
+            gotoFile = dir .. '/rest.py'
+        elseif gotoType == 'urls' then
+            gotoFile = dir .. 'urls.py'
+        elseif gotoType == 'serializers' then
+            gotoFile = dir .. '/serializers.py'
+        elseif gotoType == 'tests' then
+            gotoFile = dir .. '/tests.py'
+        elseif gotoType == 'other' then
+            gotoFile = dir .. '/utils.py'
         end
     else
         print('Unknown project')
