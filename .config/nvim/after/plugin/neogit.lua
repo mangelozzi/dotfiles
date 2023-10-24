@@ -16,7 +16,7 @@ require('neogit').setup {
       hidden = false,
     },
     untracked = {
-      folded = false,
+      folded = true, -- By default fold untracked
       hidden = false,
     },
     unstaged = {
@@ -73,7 +73,7 @@ require('neogit').setup {
     status = {
       ["q"] = "Close",
       ["<ESC>"] = "Close", -- Michael
-      ["I"] = "InitRepo",
+      ["I"] = false, -- "InitRepo",
       ["1"] = "Depth1",
       ["2"] = "Depth2",
       ["3"] = "Depth3",
@@ -93,7 +93,7 @@ require('neogit').setup {
       ["o"] = "GoToFile", -- Michael
       ["<c-v>"] = "VSplitOpen",
       ["<c-x>"] = "SplitOpen",
-      ["<c-t>"] = "TabOpen",
+      ["<c-t>"] = false, -- "TabOpen",
       ["?"] = "HelpPopup",
       ["D"] = false, -- "DiffPopup",
       ["p"] = false, -- "PullPopup",
@@ -109,8 +109,10 @@ require('neogit').setup {
       ["f"] = false, -- "FetchPopup",
       ["X"] = false, -- "ResetPopup",
       ["M"] = false, -- "RemotePopup",
-      ["{"] = "GoToPreviousHunkHeader",
-      ["}"] = "GoToNextHunkHeader",
+      ["{"] = false, -- "GoToPreviousHunkHeader",
+      ["}"] = false, -- "GoToNextHunkHeader",
+      ["<c-p>"] = "GoToPreviousHunkHeader",
+      ["<c-n>"] = "GoToNextHunkHeader",
     }
   }
 }
