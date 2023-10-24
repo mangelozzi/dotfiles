@@ -86,11 +86,15 @@ vim.keymap.set({"", "!"}, "<F2>", utils.reload_config, { noremap = true})
 
 -- <F4> Close Buffer Keep window
 -- Close the current buffer, but keep the window open
-vim.keymap.set({"", "!"}, "<F4>", utils.close_buffer_keep_window, { noremap = true})
+-- vim.keymap.set({"", "!"}, "<F4>", utils.close_buffer_keep_window, { noremap = true})
 
 -- <S-F4> Close all buffer
 -- Close all safe buffers, then just work through not safe to close buffers
-vim.keymap.set({"", "!"}, "<S-F4>", utils.close_all_buffers, { noremap = true})
+-- vim.keymap.set({"", "!"}, "<S-F4>", utils.close_all_buffers, { noremap = true})
+
+-- ALT + <F4> force quit (NOT WORKING)
+-- vim.keymap.set({"", "!"}, "<M-F4>", '<ESC>:qa!<CR>', { noremap = true})
+vim.keymap.set({"", "!"}, "<F4>", '<ESC><ESC><ESC>:qa!<CR>', { noremap = true})
 
 -- Run the file
 vim.keymap.set({"", "!"}, "<F5>", utils.run, {})

@@ -89,6 +89,7 @@ alias gu='git add -u'
 # alias guhtml='git add -u "*.html"'
 # alias guscss='git add -u "*.scss" "*.sass"'
 # alias gujs='git add -u "*.js"'
+alias gamin='git add -u *.min.css *.min.js'
 alias gc='git commit -m'
 # ---
 # Create a new branch with any of the current changes, and change the HEAD to start tracking it.

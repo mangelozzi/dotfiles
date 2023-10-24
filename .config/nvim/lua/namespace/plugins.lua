@@ -41,6 +41,7 @@ local namespace_plugins = function(use)
 
     -- Own plugin Rgflow
     use(vim.g.nvim_path .. "/tmp/rgflow.nvim")
+    -- use("mangelozzi/rgflow.nvim")
 
     -- Own plugin Capesky
     use(vim.g.nvim_path .. "/tmp/vim-capesky")
