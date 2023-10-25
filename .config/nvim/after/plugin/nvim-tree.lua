@@ -13,6 +13,13 @@ local function change_root_to_global_cwd()
      api.tree.change_root(global_cwd)
 end
 
+local function calculate_file_type(buf_nr)
+    -- Recalculate the file type, if renaming a file, the file type should change to match.
+    vim.api.nvim_buf_call(buf_nr, function()
+        vim.cmd('e')
+    end)
+end
+
 local function copy_or_move_file_to(node, copy)
     local file_src = node.absolute_path
     -- The args of input are {prompt}, {default}, {completion}
@@ -48,6 +55,7 @@ local function copy_or_move_file_to(node, copy)
                 -- Set the buffer's name to the new destination path
                 print(buf.name, '\n', file_src, '\n', file_out)
                 vim.api.nvim_buf_set_name(buf.bufnr, file_out)
+                calculate_file_type(buf.bufnr)
             end
         end
         vim.cmd('redraw!')

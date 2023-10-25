@@ -128,10 +128,10 @@ IOEC=/mnt/c/Users/Michaela/ioec
 alias cdi="cd $IOEC"
 alias cda="cd $IOEC/admin"
 
-alias cdg="cd $IOEC/gateway/Gateway"
-alias cdG="cd $IOEC/gateway/Gateway/Gateway.Client"
-alias cdgc="cd $IOEC/gateway/Gateway/Gateway.Client"
-alias cdgn="cd $IOEC/gateway/Gateway/Gateway.NextClient"
+alias cdg="cd ~/Ggateway/Gateway"
+alias cdG="cd ~/Ggateway/Gateway/Gateway.NextClient"
+alias cdgc="cd ~/Ggateway/Gateway/Gateway.Client"
+alias cdgn="cd ~/Ggateway/Gateway/Gateway.NextClient"
 
 alias fe="cd $IOEC/gateway/Gateway/Gateway.Client; npm start"
 alias fen="cd $IOEC/gateway/Gateway/Gateway.NextClient; npm start"
