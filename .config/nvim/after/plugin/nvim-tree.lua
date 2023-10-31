@@ -150,6 +150,11 @@ require('nvim-tree').setup { -- BEGIN_DEFAULT_OPTS
           width = getTreeColWidth(),
           signcolumn = "yes",
      },
+     actions = {
+        open_file = {
+            resize_window = false, -- Resizes the tree when opening a file.
+        },
+    },
      renderer = {
           group_empty = true, -- default: true. Compact folders that only contain a single folder into one node in the file tree.
           highlight_git = false,
