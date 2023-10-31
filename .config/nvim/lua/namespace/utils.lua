@@ -241,6 +241,133 @@ function M.get_git_branch()
     return branch
 end
 
+local function split_dir_name_ext(path)
+    local directory, name, ext = path:match("(.-)([^\\/]-%.?([^%.\\/]*))$")
+    if directory and name and ext then
+        return directory, name, ext
+    else
+        return path, "", "" -- Return the original path and empty strings if no match is found
+    end
+end
+local function split_base_dir(path)
+    local base, dir_name = path:match("(.+)[/\\]([^/\\]+)/[^/\\]+$")
+    return base, dir_name
+end
+function M.gotoComponentFile(goto_type)
+    local current_file = vim.fn.expand("%:p")
+    local goto_file
+    if string.find(string.lower(current_file), 'linkcube') then
+        -- LINKCUBE
+        local dir, name, ext = split_dir_name_ext(current_file)
+        if goto_type == 'javascript' then
+            goto_file = dir .. '/component.js'
+        elseif goto_type == 'html' then
+            goto_file = dir .. '/template.html'
+        elseif goto_type == 'css' then
+            goto_file = dir .. '/shadow.css'
+        elseif goto_type == 'def' then
+            goto_file = dir .. '/__init__.py'
+        elseif goto_type == 'story' then
+            goto_file = dir .. '/story.html'
+        elseif goto_type == 'other' then
+            goto_file = dir .. '/dom.css'
+        end
+    elseif string.find(string.lower(current_file), 'gateway') then
+        -- GATEWAY
+        local base, component_name = split_base_dir(current_file)
+        local dir = base .. '/' .. component_name .. '/'
+        if goto_type == 'javascript' then
+            goto_file = dir .. component_name .. '.component.ts'
+        elseif goto_type == 'html' then
+            goto_file = dir .. component_name .. '.component.html'
+        elseif goto_type == 'css' then
+            local extensions = {".scss", ".css", ".less"}
+            for _, ext in ipairs(extensions) do
+                local f = dir .. component_name .. '.component' .. ext
+                if vim.fn.filereadable(f) then
+                    goto_file = f
+                    break -- Exit the loop if a readable file is found
+                end
+            end
+        elseif goto_type == 'def' then
+            goto_file = dir .. component_name .. '.component.css'
+        elseif goto_type == 'type' then
+            goto_file = dir .. component_name .. '.types.ts'
+        elseif goto_type == 'other' then
+            goto_file = dir .. component_name .. '.sample.ts'
+        elseif goto_type == 'sample' then
+            goto_file = dir .. component_name .. '.sample.ts'
+        elseif goto_type == 'story' then
+            goto_file = dir .. component_name .. '.stories.ts'
+        elseif goto_type == 'utils' then
+            goto_file = dir .. component_name .. '.utils.ts'
+        end
+    else
+        print('Unknown project')
+        return
+    end
+    if not goto_file then
+        print('Unknown goto type:', goto_type)
+        return
+    end
+    if vim.fn.filereadable(goto_file) then
+        print('open ->>> ', goto_file)
+        vim.cmd("edit " .. goto_file)
+    else
+        print('File does not exist:', goto_file)
+    end
+end
+
+
+-- Function to extract the path up to '/app/' and one more directory
+local function get_app_dir(path)
+    local _, start_index = string.find(path, "/app/")
+    if start_index then
+        local end_index = string.find(path, "/", start_index + 5)  -- Find the next '/' after '/app/'
+        if end_index then
+            return string.sub(path, 1, end_index)
+        end
+    end
+end
+
+function M.gotoLinkedFile(goto_type)
+    local current_file = vim.fn.expand("%:p")
+    local goto_file
+    if string.find(string.lower(current_file), 'linkcube') then
+        -- linkcube
+        -- todo get the app path from which ever sub dir
+        local dir = get_app_dir(current_file)
+        if goto_type == 'models' then
+            goto_file = dir .. '/models.py'
+        elseif goto_type == 'views' then
+            goto_file = dir .. '/views.py'
+        elseif goto_type == 'rest' then
+            goto_file = dir .. '/rest.py'
+        elseif goto_type == 'urls' then
+            goto_file = dir .. 'urls.py'
+        elseif goto_type == 'serializers' then
+            goto_file = dir .. '/serializers.py'
+        elseif goto_type == 'tests' then
+            goto_file = dir .. '/tests.py'
+        elseif goto_type == 'other' then
+            goto_file = dir .. '/utils.py'
+        end
+    else
+        print('Unknown project')
+        return
+    end
+    if not goto_file then
+        print('Unknown goto type:', goto_type)
+        return
+    end
+    if vim.fn.filereadable(goto_file) then
+        print('open ->>> ', goto_file)
+        vim.cmd("edit " .. goto_file)
+    else
+        print('File does not exist:', goto_file)
+    end
+end
+
 return M
 
 -- " This function sets up the opfunc so it can be repeated with a dot.

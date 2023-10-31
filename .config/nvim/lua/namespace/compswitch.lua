@@ -8,7 +8,7 @@ Currently Supported:
 local M = {}
 
 -- Function to check if the current directory contains Angular files
-local function isAngularProject()
+local function is_angular_project()
     local dir = vim.fn.getcwd()
 
     -- Make common fast
@@ -24,7 +24,7 @@ local function isAngularProject()
 end
 
 -- Function to check if the current directory contains Django files
-local function isDjangoProject()
+local function is_django_project()
     local dir = vim.fn.getcwd()
 
     -- Make common fast
@@ -55,107 +55,117 @@ local function split_base_dir(path)
     return base, dir_name
 end
 
-
-function M.gotoComponentFile(gotoType)
-    local currentFile = vim.fn.expand("%:p")
-    local gotoFile
-    if isDjangoProject() then
-        -- LINKCUBE
-        local dir, name, ext = split_dir_name_ext(currentFile)
-        if gotoType == 'javascript' then
-            gotoFile = dir .. '/component.js'
-        elseif gotoType == 'html' then
-            gotoFile = dir .. '/template.html'
-        elseif gotoType == 'css' then
-            gotoFile = dir .. '/shadow.css'
-        elseif gotoType == 'def' then
-            gotoFile = dir .. '/__init__.py'
-        elseif gotoType == 'story' then
-            gotoFile = dir .. '/story.html'
-        elseif gotoType == 'other' then
-            gotoFile = dir .. '/dom.css'
+-- Function to extract the path up to '/app/' and one more directory
+local function get_app_dir(path)
+    local _, start_index = string.find(path, "/app/")
+    if start_index then
+        local end_index = string.find(path, "/", start_index + 5)  -- Find the next '/' after '/app/'
+        if end_index then
+            return string.sub(path, 1, end_index)
         end
-    elseif isAngularProject() then
+    end
+end
+
+function M.goto_component_file(goto_type)
+    local current_file = vim.fn.expand("%:p")
+    local goto_file
+    if is_django_project() then
+        -- LINKCUBE
+        local dir, name, ext = split_dir_name_ext(current_file)
+        if goto_type == 'javascript' then
+            goto_file = dir .. '/component.js'
+        elseif goto_type == 'html' then
+            goto_file = dir .. '/template.html'
+        elseif goto_type == 'css' then
+            goto_file = dir .. '/shadow.css'
+        elseif goto_type == 'def' then
+            goto_file = dir .. '/__init__.py'
+        elseif goto_type == 'story' then
+            goto_file = dir .. '/story.html'
+        elseif goto_type == 'other' then
+            goto_file = dir .. '/dom.css'
+        end
+    elseif is_angular_project() then
         -- GATEWAY
-        local base, component_name = split_base_dir(currentFile)
+        local base, component_name = split_base_dir(current_file)
         local dir = base .. '/' .. component_name .. '/'
-        if gotoType == 'javascript' then
-            gotoFile = dir .. component_name .. '.component.ts'
-        elseif gotoType == 'html' then
-            gotoFile = dir .. component_name .. '.component.html'
-        elseif gotoType == 'css' then
+        if goto_type == 'javascript' then
+            goto_file = dir .. component_name .. '.component.ts'
+        elseif goto_type == 'html' then
+            goto_file = dir .. component_name .. '.component.html'
+        elseif goto_type == 'css' then
             local extensions = {".scss", ".css", ".less"}
             for _, ext in ipairs(extensions) do
                 local f = dir .. component_name .. '.component' .. ext
                 if vim.fn.filereadable(f) then
-                    gotoFile = f
+                    goto_file = f
                     break -- Exit the loop if a readable file is found
                 end
             end
-        elseif gotoType == 'def' then
-            gotoFile = dir .. component_name .. '.component.css'
-        elseif gotoType == 'type' then
-            gotoFile = dir .. component_name .. '.types.ts'
-        elseif gotoType == 'other' then
-            gotoFile = dir .. component_name .. '.sample.ts'
-        elseif gotoType == 'sample' then
-            gotoFile = dir .. component_name .. '.sample.ts'
-        elseif gotoType == 'story' then
-            gotoFile = dir .. component_name .. '.stories.ts'
-        elseif gotoType == 'utils' then
-            gotoFile = dir .. component_name .. '.utils.ts'
+        elseif goto_type == 'def' then
+            goto_file = dir .. component_name .. '.component.css'
+        elseif goto_type == 'type' then
+            goto_file = dir .. component_name .. '.types.ts'
+        elseif goto_type == 'other' then
+            goto_file = dir .. component_name .. '.sample.ts'
+        elseif goto_type == 'sample' then
+            goto_file = dir .. component_name .. '.sample.ts'
+        elseif goto_type == 'story' then
+            goto_file = dir .. component_name .. '.stories.ts'
+        elseif goto_type == 'utils' then
+            goto_file = dir .. component_name .. '.utils.ts'
         end
     else
         print('Unknown project')
         return
     end
-    if not gotoFile then
-        print('Unknown goto type:', gotoType)
+    if not goto_file then
+        print('Unknown goto type:', goto_type)
         return
     end
-    if vim.fn.filereadable(gotoFile) then
-        print('open ->>> ', gotoFile)
-        vim.cmd("edit " .. gotoFile)
+    if vim.fn.filereadable(goto_file) then
+        print('open ->>> ', goto_file)
+        vim.cmd("edit " .. goto_file)
     else
-        print('File does not exist:', gotoFile)
+        print('File does not exist:', goto_file)
     end
 end
 
-function M.gotoLinkedFile(gotoType)
-    local currentFile = vim.fn.expand("%:p")
-    local gotoFile
-    if isDjangoProject() then
+function M.goto_app_file(goto_type)
+    local current_file = vim.fn.expand("%:p")
+    local goto_file
+    if is_django_project() then
         -- LINKCUBE
         -- TODO GET THE APP PATH from which ever sub dir
-        local dir, name, ext = split_dir_name_ext(currentFile)
-        if gotoType == 'models' then
-            gotoFile = dir .. '/models.py'
-        elseif gotoType == 'views' then
-            gotoFile = dir .. '/views.py'
-        elseif gotoType == 'rest' then
-            gotoFile = dir .. '/rest.py'
-        elseif gotoType == 'urls' then
-            gotoFile = dir .. 'urls.py'
-        elseif gotoType == 'serializers' then
-            gotoFile = dir .. '/serializers.py'
-        elseif gotoType == 'tests' then
-            gotoFile = dir .. '/tests.py'
-        elseif gotoType == 'other' then
-            gotoFile = dir .. '/utils.py'
+        local dir = get_app_dir(current_file)
+        if goto_type == 'models' then
+            goto_file = dir .. '/models.py'
+        elseif goto_type == 'views' then
+            goto_file = dir .. '/views.py'
+        elseif goto_type == 'rest' then
+            goto_file = dir .. '/rest.py'
+        elseif goto_type == 'urls' then
+            goto_file = dir .. 'urls.py'
+        elseif goto_type == 'serializers' then
+            goto_file = dir .. '/serializers.py'
+        elseif goto_type == 'tests' then
+            goto_file = dir .. '/tests.py'
+        elseif goto_type == 'other' then
+            goto_file = dir .. '/utils.py'
         end
     else
         print('Unknown project')
         return
     end
-    if not gotoFile then
-        print('Unknown goto type:', gotoType)
+    if not goto_file then
+        print('Unknown goto type:', goto_type)
         return
     end
-    if vim.fn.filereadable(gotoFile) then
-        print('open ->>> ', gotoFile)
-        vim.cmd("edit " .. gotoFile)
+    if vim.fn.filereadable(goto_file) then
+        print('open ->>> ', goto_file)
+        vim.cmd("edit " .. goto_file)
     else
-        print('File does not exist:', gotoFile)
+        print('File does not exist:', goto_file)
     end
 end
 
