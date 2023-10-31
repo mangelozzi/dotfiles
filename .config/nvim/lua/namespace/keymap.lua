@@ -54,6 +54,7 @@ Map! - Insert & command mode
 
 -- When debugging just place the function in this file, then move it into utils.lua once debugged
 local utils = require("namespace.utils")
+local compswitch = require("namespace.compswitch")
 
 utils.map_leader_char_to_nop()
 
@@ -424,22 +425,22 @@ vim.keymap.set({"n", "x"}, "<leader>s", utils.sort_lines, {silent = true})
 vim.keymap.set({"n", "x"}, "<leader>w", function() vim.fn.feedkeys("cstt") end, {noremap = true})
 
 -- Web Component Dev switching between files
-vim.keymap.set("n", "<leader>cj", function() utils.gotoComponentFile('javascript') end, {noremap = true})
-vim.keymap.set("n", "<leader>ch", function() utils.gotoComponentFile('html') end, {noremap = true})
-vim.keymap.set("n", "<leader>cc", function() utils.gotoComponentFile('css') end, {noremap = true})
-vim.keymap.set("n", "<leader>cd", function() utils.gotoComponentFile('def') end, {noremap = true})
-vim.keymap.set("n", "<leader>cs", function() utils.gotoComponentFile('story') end, {noremap = true})
-vim.keymap.set("n", "<leader>co", function() utils.gotoComponentFile('other') end, {noremap = true})
-vim.keymap.set("n", "<leader>cm", function() utils.gotoComponentFile('sample') end, {noremap = true})
-vim.keymap.set("n", "<leader>ct", function() utils.gotoComponentFile('type') end, {noremap = true})
-vim.keymap.set("n", "<leader>cu", function() utils.gotoComponentFile('utils') end, {noremap = true})
-vim.keymap.set("n", "<leader>lm", function() utils.gotoLinkedFile('models') end, {noremap = true})
-vim.keymap.set("n", "<leader>lv", function() utils.gotoLinkedFile('views') end, {noremap = true})
-vim.keymap.set("n", "<leader>lr", function() utils.gotoLinkedFile('rest') end, {noremap = true})
-vim.keymap.set("n", "<leader>lu", function() utils.gotoLinkedFile('urls') end, {noremap = true})
-vim.keymap.set("n", "<leader>ls", function() utils.gotoLinkedFile('serializers') end, {noremap = true})
-vim.keymap.set("n", "<leader>lt", function() utils.gotoLinkedFile('tests') end, {noremap = true})
-vim.keymap.set("n", "<leader>lo", function() utils.gotoLinkedFile('other') end, {noremap = true})
+vim.keymap.set("n", "<leader>cj", function() compswitch.gotoComponentFile('javascript') end, {noremap = true})
+vim.keymap.set("n", "<leader>ch", function() compswitch.gotoComponentFile('html') end, {noremap = true})
+vim.keymap.set("n", "<leader>cc", function() compswitch.gotoComponentFile('css') end, {noremap = true})
+vim.keymap.set("n", "<leader>cd", function() compswitch.gotoComponentFile('def') end, {noremap = true})
+vim.keymap.set("n", "<leader>cs", function() compswitch.gotoComponentFile('story') end, {noremap = true})
+vim.keymap.set("n", "<leader>co", function() compswitch.gotoComponentFile('other') end, {noremap = true})
+vim.keymap.set("n", "<leader>cm", function() compswitch.gotoComponentFile('sample') end, {noremap = true})
+vim.keymap.set("n", "<leader>ct", function() compswitch.gotoComponentFile('type') end, {noremap = true})
+vim.keymap.set("n", "<leader>cu", function() compswitch.gotoComponentFile('utils') end, {noremap = true})
+vim.keymap.set("n", "<leader>lm", function() compswitch.gotoLinkedFile('models') end, {noremap = true})
+vim.keymap.set("n", "<leader>lv", function() compswitch.gotoLinkedFile('views') end, {noremap = true})
+vim.keymap.set("n", "<leader>lr", function() compswitch.gotoLinkedFile('rest') end, {noremap = true})
+vim.keymap.set("n", "<leader>lu", function() compswitch.gotoLinkedFile('urls') end, {noremap = true})
+vim.keymap.set("n", "<leader>ls", function() compswitch.gotoLinkedFile('serializers') end, {noremap = true})
+vim.keymap.set("n", "<leader>lt", function() compswitch.gotoLinkedFile('tests') end, {noremap = true})
+vim.keymap.set("n", "<leader>lo", function() compswitch.gotoLinkedFile('other') end, {noremap = true})
 
 
 -- " {{{2 Insert
