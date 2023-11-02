@@ -284,7 +284,7 @@ function M.gotoComponentFile(goto_type)
             local extensions = {".scss", ".css", ".less"}
             for _, ext in ipairs(extensions) do
                 local f = dir .. component_name .. '.component' .. ext
-                if vim.fn.filereadable(f) then
+                if vim.fn.filereadable(f) == 1 then
                     goto_file = f
                     break -- Exit the loop if a readable file is found
                 end
@@ -310,57 +310,7 @@ function M.gotoComponentFile(goto_type)
         print('Unknown goto type:', goto_type)
         return
     end
-    if vim.fn.filereadable(goto_file) then
-        print('open ->>> ', goto_file)
-        vim.cmd("edit " .. goto_file)
-    else
-        print('File does not exist:', goto_file)
-    end
-end
-
-
--- Function to extract the path up to '/app/' and one more directory
-local function get_app_dir(path)
-    local _, start_index = string.find(path, "/app/")
-    if start_index then
-        local end_index = string.find(path, "/", start_index + 5)  -- Find the next '/' after '/app/'
-        if end_index then
-            return string.sub(path, 1, end_index)
-        end
-    end
-end
-
-function M.gotoLinkedFile(goto_type)
-    local current_file = vim.fn.expand("%:p")
-    local goto_file
-    if string.find(string.lower(current_file), 'linkcube') then
-        -- linkcube
-        -- todo get the app path from which ever sub dir
-        local dir = get_app_dir(current_file)
-        if goto_type == 'models' then
-            goto_file = dir .. '/models.py'
-        elseif goto_type == 'views' then
-            goto_file = dir .. '/views.py'
-        elseif goto_type == 'rest' then
-            goto_file = dir .. '/rest.py'
-        elseif goto_type == 'urls' then
-            goto_file = dir .. 'urls.py'
-        elseif goto_type == 'serializers' then
-            goto_file = dir .. '/serializers.py'
-        elseif goto_type == 'tests' then
-            goto_file = dir .. '/tests.py'
-        elseif goto_type == 'other' then
-            goto_file = dir .. '/utils.py'
-        end
-    else
-        print('Unknown project')
-        return
-    end
-    if not goto_file then
-        print('Unknown goto type:', goto_type)
-        return
-    end
-    if vim.fn.filereadable(goto_file) then
+    if vim.fn.filereadable(goto_file) == 1 then
         print('open ->>> ', goto_file)
         vim.cmd("edit " .. goto_file)
     else

@@ -66,6 +66,34 @@ local function get_app_dir(path)
     end
 end
 
+local function get_second_to_last_extension(path)
+    local extensions = {}
+    for ext in string.gmatch(path, "%.[^%.\\/]+") do
+        table.insert(extensions, ext:sub(2)) -- exclude the last dot
+    end
+    if #extensions >= 2 then
+        return extensions[#extensions - 1]
+    end
+end
+
+local function guess_angular_file_name(dir, component_name, component_type, ext)
+    local type_guesses = {'component', 'dialog', 'directive', ''}
+    if component_type then
+        -- If given the guess try it first
+        table.insert(type_guesses, 1, component_type)
+    end
+    for _, try_type in ipairs(type_guesses) do
+        local guess = dir .. component_name
+        if #try_type > 1 then
+            guess = guess .. '.' .. try_type
+        end
+        guess = guess .. '.' .. ext
+        if vim.fn.filereadable(guess) == 1 then
+            return guess
+        end
+    end
+end
+
 function M.goto_component_file(goto_type)
     local current_file = vim.fn.expand("%:p")
     local goto_file
@@ -88,32 +116,33 @@ function M.goto_component_file(goto_type)
     elseif is_angular_project() then
         -- GATEWAY
         local base, component_name = split_base_dir(current_file)
+        local component_type = get_second_to_last_extension(current_file) or 'component'
         local dir = base .. '/' .. component_name .. '/'
         if goto_type == 'javascript' then
-            goto_file = dir .. component_name .. '.component.ts'
+            goto_file = guess_angular_file_name(dir, component_name, nil, 'ts')
         elseif goto_type == 'html' then
-            goto_file = dir .. component_name .. '.component.html'
+            goto_file = guess_angular_file_name(dir, component_name, nil, 'html')
         elseif goto_type == 'css' then
-            local extensions = {".scss", ".css", ".less"}
+            local extensions = {"scss", "css", "less"}
             for _, ext in ipairs(extensions) do
-                local f = dir .. component_name .. '.component' .. ext
-                if vim.fn.filereadable(f) then
+                local f = guess_angular_file_name(dir, component_name, nil, ext)
+                if vim.fn.filereadable(f) == 1 then
                     goto_file = f
                     break -- Exit the loop if a readable file is found
                 end
             end
         elseif goto_type == 'def' then
-            goto_file = dir .. component_name .. '.component.css'
+            goto_file = guess_angular_file_name(dir, component_name, component_type, 'css')
         elseif goto_type == 'type' then
-            goto_file = dir .. component_name .. '.types.ts'
+            goto_file = guess_angular_file_name(dir, component_name, 'types', 'ts')
         elseif goto_type == 'other' then
-            goto_file = dir .. component_name .. '.sample.ts'
+            goto_file = guess_angular_file_name(dir, component_name, 'sample', 'ts')
         elseif goto_type == 'sample' then
-            goto_file = dir .. component_name .. '.sample.ts'
+            goto_file = guess_angular_file_name(dir, component_name, 'sample', 'ts')
         elseif goto_type == 'story' then
-            goto_file = dir .. component_name .. '.stories.ts'
+            goto_file = guess_angular_file_name(dir, component_name, 'stories', 'ts')
         elseif goto_type == 'utils' then
-            goto_file = dir .. component_name .. '.utils.ts'
+            goto_file = guess_angular_file_name(dir, component_name, 'utils', 'ts')
         end
     else
         print('Unknown project')
@@ -123,7 +152,7 @@ function M.goto_component_file(goto_type)
         print('Unknown goto type:', goto_type)
         return
     end
-    if vim.fn.filereadable(goto_file) then
+    if vim.fn.filereadable(goto_file) == 1 then
         print('open ->>> ', goto_file)
         vim.cmd("edit " .. goto_file)
     else
@@ -161,7 +190,7 @@ function M.goto_app_file(goto_type)
         print('Unknown goto type:', goto_type)
         return
     end
-    if vim.fn.filereadable(goto_file) then
+    if vim.fn.filereadable(goto_file) == 1 then
         print('open ->>> ', goto_file)
         vim.cmd("edit " .. goto_file)
     else
