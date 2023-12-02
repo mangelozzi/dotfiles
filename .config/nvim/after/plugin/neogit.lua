@@ -73,20 +73,20 @@ require("neogit").setup {
         -- Setting any of these to `false` will disable the mapping.
         popup = {
             ["?"] = "HelpPopup",
-            ["A"] = "CherryPickPopup",
-            ["D"] = "DiffPopup",
-            ["M"] = "RemotePopup",
-            ["P"] = "PushPopup",
-            ["X"] = "ResetPopup",
-            ["Z"] = "StashPopup",
-            ["b"] = "BranchPopup",
-            ["c"] = "CommitPopup",
-            ["f"] = "FetchPopup",
-            ["l"] = "LogPopup",
-            ["m"] = "MergePopup",
-            ["p"] = "PullPopup",
-            ["r"] = "RebasePopup",
-            ["v"] = "RevertPopup"
+            ["A"] = false, -- "CherryPickPopup",
+            ["D"] = false, -- "DiffPopup",
+            ["M"] = false, -- "RemotePopup",
+            ["P"] = false, -- "PushPopup",
+            ["X"] = false, -- "ResetPopup",
+            ["Z"] = false, -- "StashPopup",
+            ["b"] = false, -- "BranchPopup",
+            ["c"] = false, -- "CommitPopup",
+            ["f"] = false, -- "FetchPopup",
+            ["l"] = false, -- "LogPopup",
+            ["m"] = false, -- "MergePopup",
+            ["p"] = false, -- "PullPopup",
+            ["r"] = false, -- "RebasePopup",
+            ["v"] = false, -- "RevertPopup"
         },
         status = {
             ["q"] = "Close",
@@ -112,8 +112,8 @@ require("neogit").setup {
             ["<c-v>"] = "VSplitOpen",
             ["<c-x>"] = "SplitOpen",
             ["<c-t>"] = false, -- "TabOpen",
-            -- ["{"] = "GoToPreviousHunkHeader",
-            -- ["}"] = "GoToNextHunkHeader",
+            ["{"] = false, -- "GoToPreviousHunkHeader",
+            ["}"] = false, -- "GoToNextHunkHeader",
             ["<c-p>"] = "GoToPreviousHunkHeader",
             ["<c-n>"] = "GoToNextHunkHeader"
         }
