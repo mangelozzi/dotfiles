@@ -68,6 +68,7 @@ utils.map_leader_char_to_nop()
 -- Save
 vim.keymap.set({"", "!"}, "<C-s>", "<ESC>:w!<CR>", {noremap = true})
 
+-- Insert a debugger breakpoint statement
 vim.keymap.set("n", "<leader><DEL>", utils.breakpoint, {})
 
 -- Keyboard volume up and down and down to no operation
@@ -103,11 +104,11 @@ vim.keymap.set({"", "!"}, "<F5>", utils.run, {})
 -- Autoformat the file
 vim.keymap.set({"", "!"}, "<F6>", utils.format_code, {})
 
--- Insert a debugger breakpoint statement
-vim.keymap.set({"", "!"}, "<F7>", utils.breakpoint, {})
+-- Copy the current filepath into the system clipboard
+vim.keymap.set({"", "!"}, "<F7>", [[<ESC>:let @+=expand('%:p')<CR>:echo 'F7 - Copied ABSOLUTE file path'<CR>]], {})
 
 -- Copy the current filepath into the system clipboard
-vim.keymap.set({"", "!"}, "<F8>", "<ESC>:let@+=@%<CR>", {})
+vim.keymap.set({"", "!"}, "<F8>", "<ESC>:let@+=@%<CR>:echo 'F8 - Copied RELATIVE file path'<CR>", {})
 
 -- Run some other feature related to the file type
 -- map  <F7>      :call myal#Other()<CR>
