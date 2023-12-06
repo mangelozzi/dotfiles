@@ -1,0 +1,59 @@
+# Using Meld: https://stackoverflow.com/a/34119867/5506400
+
+# This file corresponds to the --global option
+
+# -----------------------------------------------------------------------------
+# COLOURS
+[color "status"]
+    ; added = green
+    changed = yellow bold
+    untracked = cyan bold
+
+[color "diff"]
+    meta = black ul white
+    frag = yellow
+    old = red bold
+    new = green bold
+    whitespace = cyan reverse
+
+; [color "branch"]
+;   remote = yellow
+
+# -----------------------------------------------------------------------------
+# CORE
+[core]
+    preloadindex = true
+    fscache = true
+    editor = nvim
+
+# -----------------------------------------------------------------------------
+# DIFF TOOL
+#[diff]
+#    tool = meld
+#[difftool]
+#    prompt = false
+#[difftool "meld"]
+#    cmd = meld "$LOCAL" "$REMOTE"
+#[gc]
+#    auto = 256
+
+[diff]
+    tool = nvim
+    # When showing a diff, by reducing the context to 1 line above/below, it makes chunks smaller
+    context = 1
+[difftool]
+    keepBackup = false
+    # Ask whether to modify each file
+    prompt = true
+[difftool "nvim"]
+    # Note the "&" at the end to launch the diff then continue (i.e. not wait) ... doesnt work, $LOCAL seems to be blank
+    cmd = nvim-qt -- -d $LOCAL $REMOTE
+
+# -----------------------------------------------------------------------------
+# MERGE TOOL
+[mergetool]
+    keepBackup = false
+[merge]
+    tool = nvim
+[mergetool "nvim"]
+    cmd = nvim -d $LOCAL $REMOTE $MERGED -c '$wincmd w' -c 'wincmd J'

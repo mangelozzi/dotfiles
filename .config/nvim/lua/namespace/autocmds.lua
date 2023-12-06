@@ -84,7 +84,7 @@ vim.api.nvim_create_autocmd(
     {
         desc = "Prettify Gateway Files",
         group = NamespaceGroup,
-        pattern = {"*.js", "*.ts", "*.css", "*.less", "*.html", "*.json"},
+        pattern = {"*.js", "*.ts", "*.css", "*.less", "*.scss", "*.html", "*.json"},
         callback = function()
             local file = vim.fn.expand("%:p")
             if string.find(string.lower(file), "gateway") then
