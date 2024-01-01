@@ -311,9 +311,9 @@ set $ws7 "7-?"
 # exec_always --no-startup-id ~/.config/i3/scripts/app-on-ws-init.py --workspace $ws7 --command gimp
 
 # 8 Telegram
-set $ws8 "8_Tel"
-assign [class="TelegramDesktop"] $ws8
-exec_always --no-startup-id ~/.config/i3/scripts/app-on-ws-init.py --workspace $ws8 --command telegram-desktop
+# set $ws8 "8_Tel"
+# assign [class="TelegramDesktop"] $ws8
+# exec_always --no-startup-id ~/.config/i3/scripts/app-on-ws-init.py --workspace $ws8 --command telegram-desktop
 
 # 9 DB
 set $ws9 "9_DB"
@@ -560,7 +560,7 @@ mode "$mode-system" {
     bindsym Return mode "default"
     bindsym Escape mode "default"
     bindsym Pause mode "default"
-    bindsym spack mode "default"
+    bindsym space mode "default"
 }
 # bindsym $mod+Delete mode "$mode-system"
 bindsym Pause mode "$mode-system"
