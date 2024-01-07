@@ -54,7 +54,7 @@ Map! - Insert & command mode
 
 -- When debugging just place the function in this file, then move it into utils.lua once debugged
 local utils = require("namespace.utils")
-local compswitch = require("namespace.compswitch")
+local switcher = require("namespace.switcher")
 
 utils.map_leader_char_to_nop()
 
@@ -426,22 +426,23 @@ vim.keymap.set({"n", "x"}, "<leader>s", utils.sort_lines, {silent = true})
 vim.keymap.set({"n", "x"}, "<leader>w", function() vim.fn.feedkeys("cstt") end, {noremap = true})
 
 -- Web Component Dev switching between files
-vim.keymap.set("n", "<leader>cj", function() compswitch.goto_component_file('javascript') end, {noremap = true})
-vim.keymap.set("n", "<leader>ch", function() compswitch.goto_component_file('html') end, {noremap = true})
-vim.keymap.set("n", "<leader>cc", function() compswitch.goto_component_file('css') end, {noremap = true})
-vim.keymap.set("n", "<leader>cd", function() compswitch.goto_component_file('def') end, {noremap = true})
-vim.keymap.set("n", "<leader>cs", function() compswitch.goto_component_file('story') end, {noremap = true})
-vim.keymap.set("n", "<leader>co", function() compswitch.goto_component_file('other') end, {noremap = true})
-vim.keymap.set("n", "<leader>cm", function() compswitch.goto_component_file('sample') end, {noremap = true})
-vim.keymap.set("n", "<leader>ct", function() compswitch.goto_component_file('type') end, {noremap = true})
-vim.keymap.set("n", "<leader>cu", function() compswitch.goto_component_file('utils') end, {noremap = true})
-vim.keymap.set("n", "<leader>am", function() compswitch.goto_app_file('models') end, {noremap = true})
-vim.keymap.set("n", "<leader>av", function() compswitch.goto_app_file('views') end, {noremap = true})
-vim.keymap.set("n", "<leader>ar", function() compswitch.goto_app_file('rest') end, {noremap = true})
-vim.keymap.set("n", "<leader>au", function() compswitch.goto_app_file('urls') end, {noremap = true})
-vim.keymap.set("n", "<leader>as", function() compswitch.goto_app_file('serializers') end, {noremap = true})
-vim.keymap.set("n", "<leader>at", function() compswitch.goto_app_file('tests') end, {noremap = true})
-vim.keymap.set("n", "<leader>ao", function() compswitch.goto_app_file('other') end, {noremap = true})
+vim.keymap.set("n", "<leader>cj", function() switcher.goto_component_file('javascript') end, {noremap = true})
+vim.keymap.set("n", "<leader>ch", function() switcher.goto_component_file('html') end, {noremap = true})
+vim.keymap.set("n", "<leader>cc", function() switcher.goto_component_file('css') end, {noremap = true})
+vim.keymap.set("n", "<leader>cd", function() switcher.goto_component_file('def') end, {noremap = true})
+vim.keymap.set("n", "<leader>cs", function() switcher.goto_component_file('story') end, {noremap = true})
+vim.keymap.set("n", "<leader>co", function() switcher.goto_component_file('other') end, {noremap = true})
+vim.keymap.set("n", "<leader>cm", function() switcher.goto_component_file('sample') end, {noremap = true})
+vim.keymap.set("n", "<leader>ct", function() switcher.goto_component_file('type') end, {noremap = true})
+vim.keymap.set("n", "<leader>cu", function() switcher.goto_component_file('utils') end, {noremap = true})
+vim.keymap.set("n", "<leader>am", function() switcher.goto_app_file('models') end, {noremap = true})
+vim.keymap.set("n", "<leader>av", function() switcher.goto_app_file('views') end, {noremap = true})
+vim.keymap.set("n", "<leader>ar", function() switcher.goto_app_file('rest') end, {noremap = true})
+vim.keymap.set("n", "<leader>au", function() switcher.goto_app_file('urls') end, {noremap = true})
+vim.keymap.set("n", "<leader>as", function() switcher.goto_app_file('serializers') end, {noremap = true})
+vim.keymap.set("n", "<leader>at", function() switcher.goto_app_file('tests') end, {noremap = true})
+vim.keymap.set("n", "<leader>af", function() switcher.goto_app_file('fetcher') end, {noremap = true})
+vim.keymap.set("n", "<leader>ao", function() switcher.goto_app_file('other') end, {noremap = true})
 
 
 -- " {{{2 Insert
