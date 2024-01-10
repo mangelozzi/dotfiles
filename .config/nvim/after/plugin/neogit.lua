@@ -74,7 +74,7 @@ require("neogit").setup {
         popup = {
             ["?"] = "HelpPopup",
             ["A"] = false, -- "CherryPickPopup",
-            ["D"] = false, -- "DiffPopup",
+            ["d"] = "DiffPopup",
             ["M"] = false, -- "RemotePopup",
             ["P"] = false, -- "PushPopup",
             ["X"] = false, -- "ResetPopup",
@@ -103,7 +103,6 @@ require("neogit").setup {
             ["<c-s>"] = false, -- "StageAll",
             ["u"] = "Unstage",
             ["U"] = false, -- "UnstageStaged",
-            ["d"] = "DiffAtFile",
             ["$"] = "CommandHistory",
             ["#"] = "Console",
             ["<c-r>"] = "RefreshBuffer",
