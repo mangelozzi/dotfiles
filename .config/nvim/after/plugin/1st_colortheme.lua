@@ -8,3 +8,9 @@ vim.cmd('highlight EndOfBuffer guibg=#646400')
 vim.cmd('highlight SignColumn guibg=#707070')
 vim.cmd('highlight LineNr guifg=#a0a000 guibg=#686800')
 vim.cmd('highlight Visual guibg=#404040')
+
+
+-- vim.cmd("colorscheme kanagawa-wave")
+-- vim.cmd("colorscheme onedark")
+-- vim.cmd("colorscheme morning")
+-- vim.cmd("colorscheme desert")
