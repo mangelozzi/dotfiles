@@ -1,5 +1,7 @@
 -- rg --vimgrep --smart-case -g '*.{*,py}' -g '!*.{min.js,pyc}' --fixed-strings --no-fixed-strings --no-ignore -M 500 -g '!**/static/*/jsapp/' -g '!**/static/*/wcapp/' function ~/linkcube/src
 
+vim.cmd("highlight RgFlowInputPattern guifg=green gui=bold")
+
 require("rgflow").setup(
     {
         default_trigger_mappings = true,

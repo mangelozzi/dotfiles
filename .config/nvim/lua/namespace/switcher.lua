@@ -171,7 +171,9 @@ function M.goto_app_file(goto_type)
         -- LINKCUBE
         -- TODO GET THE APP PATH from which ever sub dir
         local dir, app_name = get_app_dir_and_name(current_file)
-        if goto_type == "models" then
+        if goto_type == "dint" then
+            goto_file = dir .. "/dint.py"
+        elseif goto_type == "models" then
             goto_file = dir .. "/models.py"
         elseif goto_type == "views" then
             goto_file = dir .. "/views.py"
