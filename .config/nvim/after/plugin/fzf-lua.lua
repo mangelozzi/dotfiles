@@ -163,7 +163,12 @@ vim.keymap.set("n", "<leader>/", function() require("fzf-lua").files({ cwd = "..
 -- (L)ines
 vim.keymap.set("n", "<leader>zl", require("fzf-lua").lines, {noremap = true, silent = true})
 -- Breakpoints
-vim.keymap.set("n", "<leader><S-DEL>", function() require("fzf-lua").lines({query="breakpoint"}) end, {noremap = true, silent = true})
+vim.keymap.set("n", "<leader><S-DEL>", 
+    function() 
+        require("fzf-lua").lines({query="debugger | breakpoint", no_esc=true}) 
+    end, 
+    {noremap = true, silent = true}
+)
 
 -- (H)istory
 vim.keymap.set("n", "<leader>zh", require("fzf-lua").oldfiles, {noremap = true, silent = true})

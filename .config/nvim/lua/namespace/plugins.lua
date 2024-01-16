@@ -151,9 +151,9 @@ local namespace_plugins = function(use)
     end
 
     -- Github Copilot
-    -- use {
-    --     "zbirenbaum/copilot.lua",
-    -- }
+    use {
+        "zbirenbaum/copilot.lua",
+    }
 
 end
 
