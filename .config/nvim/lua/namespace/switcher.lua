@@ -110,6 +110,9 @@ function M.goto_component_file(goto_type)
             goto_file = dir .. "/template.html"
         elseif goto_type == "css" then
             goto_file = dir .. "/shadow.css"
+            if vim.fn.filereadable(goto_file) ~= 1 then
+                goto_file = dir .. "/main.css"
+            end
         elseif goto_type == "def" then
             goto_file = dir .. "/__init__.py"
         elseif goto_type == "story" then
