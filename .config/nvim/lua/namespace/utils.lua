@@ -1,3 +1,5 @@
+local wsl = require("namespace.wsl")
+
 local M = {}
 
 function M.map_leader_char_to_nop()
@@ -18,6 +20,13 @@ end
 function M.trim(s)
     -- Strip leading/trailing whitespace
     return s:gsub("^%s*(.-)%s*$", "%1")
+end
+
+function M.escape_spaces(path)
+    -- Make the function idempotent
+    local unescaped_path = path:gsub("\\ ", " ") -- Replace '\ ' with ' '
+    local escaped_path = unescaped_path:gsub(" ", "\\ ") -- Escape all spaces
+    return escaped_path
 end
 
 -- Run a bash command and return the result
@@ -62,7 +71,6 @@ function M.format_code()
         -- The json module is included in Python's Standard Library
         -- Set filein/fileout both to be the same (replace)
         vim.cmd("!prettier --write " .. file)
-
     elseif vim.bo.filetype == "lua" then
         -- https://github.com/trixnz/lua-fmt
         vim.cmd("!luafmt --write-mode replace " .. file)
@@ -98,8 +106,16 @@ function M.run()
         vim.cmd("source " .. file)
     elseif vim.bo.filetype == "html" or vim.bo.filetype == "markdown" then
         -- Escape spaces
-        local clean_file = file:gsub(' ', '\\ ')
-        vim.cmd("!google-chrome " .. clean_file)
+        if wsl.linux_to_win_path(file) then
+            local win_path = wsl.linux_to_win_path(file)
+            local win_cmd = "!/mnt/c/Program\\ Files/Google/Chrome/Application/chrome.exe " .. win_path
+            vim.cmd(win_cmd)
+            print("Opening in Windows Chrome: " .. win_path)
+        else
+            local clean_file = M.escape_spaces(file)
+            vim.cmd("!google-chrome " .. clean_file)
+            print("Opening in Chrome: " .. clean_file)
+        end
     else
         print("No run command linked for this filetype, using system app...")
         vim.cmd("!/usr/bin/xdg-open " .. file)
