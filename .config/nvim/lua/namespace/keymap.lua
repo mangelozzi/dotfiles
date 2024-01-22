@@ -445,6 +445,9 @@ vim.keymap.set("n", "<leader>at", function() switcher.goto_app_file('tests') end
 vim.keymap.set("n", "<leader>au", function() switcher.goto_app_file('urls') end, {noremap = true})
 vim.keymap.set("n", "<leader>av", function() switcher.goto_app_file('views') end, {noremap = true})
 
+-- GIT ------------------------------------------------------------------------
+-- Open the current file in GITk and dettach from the process
+vim.keymap.set("n", "<leader>G", function() vim.cmd('!git log --follow -- % &') end, {noremap = true})
 
 -- " {{{2 Insert
 --

@@ -74,7 +74,7 @@ require('mason-lspconfig').setup_handlers({
 lspconfig.pyright.setup({
   on_attach = lsp_attach,
   flags = {
-    debounce_text_changes = 500, -- was 300
+    debounce_text_changes = 300, -- was 300
   },
   settings = {
     python = {
@@ -83,7 +83,7 @@ lspconfig.pyright.setup({
         diagnosticMode = "openFilesOnly",
         useLibraryCodeForTypes = true,
         typeCheckingMode = "basic",
-        maxNumberOfProblems = 10, -- was 50
+        maxNumberOfProblems = 20, -- was 50
       },
     }
   }

@@ -154,6 +154,8 @@ local namespace_plugins = function(use)
     use {
         "zbirenbaum/copilot.lua",
     }
+    -- use "navarasu/onedark.nvim"
+    -- use "rebelot/kanagawa.nvim"
 
 end
 

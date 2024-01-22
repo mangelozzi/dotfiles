@@ -108,9 +108,9 @@ require("neogit").setup {
             ["<c-r>"] = "RefreshBuffer",
             ["<enter>"] = "GoToFile",
             ["o"] = "GoToFile", -- Michael
-            ["<c-v>"] = "VSplitOpen",
-            ["<c-x>"] = "SplitOpen",
-            ["<c-t>"] = false, -- "TabOpen",
+            ["<c-v>"] = "VSplitOpen", -- <--- USE THIS
+            ["<c-x>"] = "SplitOpen", -- <--- USE THIS
+            ["<c-t>"] = "TabOpen", -- "TabOpen",
             ["{"] = false, -- "GoToPreviousHunkHeader",
             ["}"] = false, -- "GoToNextHunkHeader",
             ["<c-p>"] = "GoToPreviousHunkHeader",
