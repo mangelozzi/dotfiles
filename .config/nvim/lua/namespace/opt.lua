@@ -31,7 +31,8 @@ vim.opt.wrap = false            -- Disable word wrapping
 vim.opt.showcmd = true          -- Show partial commands in the last line of the screen
 vim.opt.showmatch = true        -- = true bracket is inserted, briefly jump to the matching one.
 vim.opt.matchtime = 3           -- 1/10ths of a second for which showmatch applies to matching a bracket
-vim.opt.foldlevelstart = 99     --How many level to show before folding. 99=zR, 0=zM
+vim.opt.foldlevelstart = 99     -- How many level to show before folding. 99=zR, 0=zM
+vim.opt.iskeyword:append('-')   -- Add '-' as a keyword for all filetypes
 
 -- NOT GENERAL (i.e. for Servers)
 vim.opt.list = false            -- Dont show spaces/tabs/newlines etc
