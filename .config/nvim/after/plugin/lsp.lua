@@ -43,8 +43,8 @@ local lsp_attach = function(client, bufnr)
     vim.keymap.set('n', '[d', function() vim.diagnostic.goto_prev() end, opts)
     vim.keymap.set('n', ']d', function() vim.diagnostic.goto_next() end, opts)
     -- vim.keymap.set('n', '<space>???', function() vim.diagnostic.set_loclist() end, opts)
-    vim.keymap.set("n", "<space><F6>", function() vim.lsp.buf.formatting() end, opts)
-    vim.keymap.set("n", "<space>ll", function() vim.api.nvim_command('LspRestart') end, opts)
+    vim.keymap.set("n", "<leader><F6>", function() vim.lsp.buf.formatting() end, opts)
+    vim.keymap.set("n", "<leader>ll", function() vim.api.nvim_command('LspRestart'); print('...LSP Restarted') end, opts)
 end
 
 local lspconfig = require('lspconfig')
