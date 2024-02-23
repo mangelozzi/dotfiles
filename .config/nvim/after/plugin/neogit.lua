@@ -86,7 +86,8 @@ require("neogit").setup {
             ["m"] = false, -- "MergePopup",
             ["p"] = false, -- "PullPopup",
             ["r"] = false, -- "RebasePopup",
-            ["v"] = false, -- "RevertPopup"
+            ["v"] = false, -- "RevertPopup",
+            ["w"] = false, -- "WorktreePopup",
         },
         status = {
             ["q"] = "Close",
