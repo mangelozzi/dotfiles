@@ -114,7 +114,8 @@ require("fzf-lua").setup {
 
 -- Line
 -- Sets the colors of FZF (not the colors of FZF-Lua interface
-local bg = "#404040"
+-- local bg = vim.api.nvim_get_hl_by_name('Normal', true).background
+local bg = "#484800"
 vim.api.nvim_set_hl(0, "FzfLine",                   { fg="#d0d0d0", bg=bg}) -- Matched part of currently selected line
 vim.api.nvim_set_hl(0, "FzfLineMatchedFg",          { fg="#00e000"}) -- Matched part of currently selected line
 -- Selected Line
@@ -129,23 +130,27 @@ vim.api.nvim_set_hl(0, "FzfSpinnerFg",              { fg="#ff0000"}) -- Like Fzf
 vim.api.nvim_set_hl(0, "FzfHeaderFg",               { fg="#ff0000"}) -- Matched part of currently selected line
 vim.api.nvim_set_hl(0, "FzfGutterBg",               { bg="#404040"}) -- Left sign column bG
 
+local function get_fg(group)
+    return vim.api.nvim_get_hl_by_name(group, true).foreground
+end
+
 -- Sets the colors of FZF-Lua (not the colors of Lua interface
 -- key is the highlight group name
 -- value[1] is the setup/call arg option name
 -- value[2] is the default link if value[1] is undefined
-vim.api.nvim_set_hl(0, "FzfLuaNormal",              { fg = "#e0e0e0", bg=bg        })  -- The float window background, the matches list, the uncoloured preview text
-vim.api.nvim_set_hl(0, "FzfLuaBorder",              { fg = "#606060", bg="#000000" })  -- Border around float window
-vim.api.nvim_set_hl(0, "FzfLuaCursor",              { fg = "#ff0000", bg="#00ff00" })  -- ?
-vim.api.nvim_set_hl(0, "FzfLuaCursorLine",          { fg = "#ffffff", bg="#505050" })  -- The selected line of the preview
-vim.api.nvim_set_hl(0, "FzfLuaCursorLineNr",        { fg = "#ff0000", bg="#00ff00" })  -- ?
-vim.api.nvim_set_hl(0, "FzfLuaSearch",              { fg = "#ff0000", bg="#00ff00" })  -- ?
-vim.api.nvim_set_hl(0, "FzfLuaTitle",               { fg = "#ffffff", bg=bg        })  -- Preview title bar
-vim.api.nvim_set_hl(0, "FzfLuaScrollBorderEmpty",   { fg = "#ff0000", bg="#00ff00" })  -- ?
-vim.api.nvim_set_hl(0, "FzfLuaScrollBorderFull",    { fg = "#ff0000", bg="#00ff00" })  -- ?
-vim.api.nvim_set_hl(0, "FzfLuaScrollFloatEmpty",    { fg = "#ff0000", bg="#00ff00" })  -- ?
-vim.api.nvim_set_hl(0, "FzfLuaScrollFloatFull",     { fg = "#ff0000", bg="#00ff00" })  -- ?
-vim.api.nvim_set_hl(0, "FzfLuaHelpNormal",          { fg = "#000000", bg="#505050" })  -- Press <F1> to show the help window
-vim.api.nvim_set_hl(0, "FzfLuaHelpBorder",          { fg = "#ffffff", bg="#505050" })  -- ?
+vim.api.nvim_set_hl(0, "FzfLuaNormal",              { fg=get_fg("Normal"), bg=bg}) -- The float window background, the matches list, the uncoloured preview text
+vim.api.nvim_set_hl(0, "FzfLuaBorder",              { fg=get_fg("FloatBorder"), bg=bg}) -- Border around float window
+vim.api.nvim_set_hl(0, "FzfLuaCursor",              { link="Cursor"}) -- ?
+vim.api.nvim_set_hl(0, "FzfLuaCursorLine",          { link="CursorLine"}) -- The selected line of the preview
+vim.api.nvim_set_hl(0, "FzfLuaCursorLineNr",        { link="CursorLineNr"}) -- Cursor line number
+vim.api.nvim_set_hl(0, "FzfLuaSearch",              { link="Search" }) -- The cursor in the right panel of the selected file
+vim.api.nvim_set_hl(0, "FzfLuaTitle",               { fg=get_fg("Title"), bg=bg}) -- Preview title bar
+vim.api.nvim_set_hl(0, "FzfLuaScrollBorderEmpty",   { fg=get_fg("FloatBorder"), bg=bg}) -- Panel on right, scroll bar - Especially when doing a lines search
+vim.api.nvim_set_hl(0, "FzfLuaScrollBorderFull",    { fg=get_fg("FloatBorder"), bg=bg}) -- Panel on right, scroll bar
+vim.api.nvim_set_hl(0, "FzfLuaScrollFloatEmpty",    { fg=get_fg("FloatBorder"), bg=bg}) -- Panel on right, scroll bar
+vim.api.nvim_set_hl(0, "FzfLuaScrollFloatFull",     { fg=get_fg("FloatBorder"), bg=bg}) -- Panel on right, scroll bar
+vim.api.nvim_set_hl(0, "FzfLuaHelpNormal",          { fg=get_fg("Normal"), bg=bg}) -- Press <F1> to show the help window
+vim.api.nvim_set_hl(0, "FzfLuaHelpBorder",          { fg=get_fg("FloatBorder"), bg=bg}) -- ?
 
 -- (B)uffers
 vim.keymap.set("n", "<leader><leader>", require("fzf-lua").buffers, {noremap = true, silent = true})
