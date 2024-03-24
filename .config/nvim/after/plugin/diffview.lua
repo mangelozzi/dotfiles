@@ -49,6 +49,7 @@ local function custom_open_diffview()
 end
 -- Dont show edited files on left
 vim.keymap.set({'n', 'x'}, '<leader>I', custom_open_diffview, { noremap = true} )
+
 -- This is the standard open
 -- vim.keymap.set({'n', 'x'}, '<leader>I', function() vim.cmd('DiffviewOpen') end, { noremap = true} )
 
@@ -56,4 +57,4 @@ vim.keymap.set({'n', 'x'}, '<leader>I', custom_open_diffview, { noremap = true} 
 -- Show a history of current file
 vim.keymap.set({'n', 'x'}, '<leader>gf', function() vim.cmd('DiffviewFileHistory %') end, { noremap = true} )
 -- Show a history of changed files
-vim.keymap.set({'n', 'x'}, '<leader>gg', function() vim.cmd('DiffviewFileHistory') end, { noremap = true} )
+vim.keymap.set({'n', 'x'}, '<leader>gh', function() vim.cmd('DiffviewFileHistory') end, { noremap = true} )

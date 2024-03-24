@@ -16,6 +16,7 @@ require("rgflow").setup(
             .. " -g !**/htmlcov/"
             .. " -g !**/static/*/jsapp/"
             .. " -g !**/static/*/wcapp/"
+            .. " -g !**/coverage/"
             .. " -g !**/scraper/tests/templates/"
         )
     }

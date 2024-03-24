@@ -12,11 +12,12 @@ require('mason-lspconfig').setup({
         -- 'emmet_ls', -- emmet html completion support, prefer emmet-vim plugin
         'pyright',
         'tsserver',
+        'eslint',  -- For JSDoc
         'lua_ls',
         'jsonls',
         'marksman',
         -- 'omnisharp',  -- C Sharp
-        'angularls',
+        -- 'angularls',
         --'rust_analyzer',
     }
 })

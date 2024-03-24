@@ -720,6 +720,10 @@ bindsym $mod+Shift+Tab move position center
 # ------------------
 exec --no-startup-id dropbox start
 
+# Sometimes the OS needs to ask to for password to perform an action, e.g. raspi-imager write drive
+# Without this polkit agent it just fails
+exec --no-startup-id /usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1
+
 # _____________________________________________________________________________
 # INIT
 # ------------------

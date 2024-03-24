@@ -449,6 +449,14 @@ vim.keymap.set("n", "<leader>av", function() switcher.goto_app_file('views') end
 -- Open the current file in GITk and dettach from the process
 vim.keymap.set("n", "<leader>G", function() vim.cmd('!git log --follow -- % &') end, {noremap = true})
 
+-- Open the current file differents
+local function viewGitDiffCurrentFile()
+    local filePath = vim.fn.expand('%')
+    vim.cmd('vsplit | terminal git diff ' .. filePath)
+end
+vim.keymap.set('n', '<leader>gg', viewGitDiffCurrentFile, { noremap = true, silent = true })
+
+
 -- " {{{2 Insert
 --
 -- " Set paste then nopaste automatically when working with system registers

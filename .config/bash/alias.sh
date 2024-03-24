@@ -11,6 +11,10 @@ alias term="source ~/terminal/script/console.sh"
 alias djangodev="source ~/.venv/djangodev/bin/activate"
 alias ml="source ~/.venv/ml/bin/activate"
 
+# APPS
+# --------
+alias chrome="sudo apt-get update; sudo apt-get --only-upgrade install google-chrome-stable"
+
 # TOOLS
 alias rpiboot="sudo ~/tools/rpiboot/rpiboot"
 alias rpiboot2="sudo ~/tools/usbboot-msg/rpiboot"
@@ -23,7 +27,10 @@ inkscape() { ~/appimages/Inkscape-b0a8486-x86_64.AppImage >/dev/null 2>&1 & }
 
 # SSH
 
-# Don't SSH into github, just used for authentication
+# Not to SSH into github, just used for authentication for terminals
+# 1. Copy key from NanoCube_Secure/terminal/login/terminal_login to ~/.ssh
+# 2. Add the key with: `sshterm`
+# 3. Connect to the terminal with: `ssh terminal`
 alias sshterm="ssh-add ~/.ssh/terminal_login"
 
 # Test this has been sourced
@@ -33,11 +40,6 @@ alias fix='stty sane'
 
 # `fd` already taken, create a convenient alias for the search tool:
 alias fd=fdfind
-
-# Windows user
-alias cdu='cd /mnt/c/Users/Michael/'
-# Windows work
-alias cdw='cd /mnt/c/work/'
 
 # Commons dirs
 
@@ -121,6 +123,11 @@ alias gdsass="git diff --diff-filter=M --ws-error-highlight=all '*.sass' '*.scss
 # XDG_CURRENT_DESKTOP=ubuntu:GNOME
 alias settings="gnome-control-center &"
 alias update="update-manager"
+
+# Windows user
+alias cdu='cd /mnt/c/Users/Michael/'
+# Windows work
+alias cdw='cd /mnt/c/work/'
 
 # IOEC
 # IOEC=~/ioec/admin

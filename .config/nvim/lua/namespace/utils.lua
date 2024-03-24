@@ -38,17 +38,33 @@ function M.get_return_value(cmd)
         handle:close()
         return M.trim(result)
     else
-        return 'ERROR running command ' .. cmd
+        return "ERROR running command " .. cmd
     end
+end
+
+function M.formatNewBufferAsJsonNoSave()
+    local lines = vim.api.nvim_buf_get_lines(0, 0, -1, false)
+    local input = table.concat(lines, "\n")
+    local cmd = "prettier --parser json"
+    local handle = io.popen(cmd, "w")
+    handle:write(input)
+    handle:close()
+    local output = vim.fn.system(cmd, input)
+    vim.api.nvim_buf_set_lines(0, 0, -1, false, vim.split(output, "\n"))
+    vim.cmd('redraw')
 end
 
 -- Auto format code
 function M.format_code()
+    local file = vim.fn.expand("%:p")
+    if file == "" then
+        M.formatNewBufferAsJsonNoSave()
+        return
+    end
     -- Note: os.execute messes up the terminal
     -- 1. Exit insert mode (if necessart), and save file changes
     vim.cmd("stopinsert")
     vim.cmd("write")
-    local file = vim.fn.expand("%:p")
     -- 2. Format the file differently depending on the file type
     if vim.bo.filetype == "python" then
         -- https://github.com/psf/black
@@ -91,7 +107,6 @@ function M.format_code()
     end
 end
 
-
 -- Handle how one runs various file types differently
 function M.run()
     -- 1. Exit insert mode (if necessart), and save file changes
@@ -122,37 +137,39 @@ function M.run()
     end
 end
 
-
 -- Insert the appropriate debugger statement
 local javascript_debugger_fts = {
     ["javascript"] = true,
     ["typescript"] = true,
     ["html"] = true,
-    ["htmldjango"] = true,
+    ["htmldjango"] = true
 }
 function M.breakpoint()
     vim.cmd("stopinsert")
     if vim.bo.filetype == "python" then
-        vim.cmd('normal Obreakpoint()')
+        vim.cmd("normal Obreakpoint()")
     elseif javascript_debugger_fts[vim.bo.filetype] then
-        vim.cmd('normal Odebugger;')
+        vim.cmd("normal Odebugger;")
     else
         print("No run breakpoint defined for this file type")
     end
 end
 
-
 -- Text object to select the whole buffer, used in normal/visual modes
 function M.text_object_all()
     vim.g.cursor_position = vim.fn.winsaveview()
-    vim.cmd('normal! ggVG')
-    local pattern = "[cd]"  -- 'c' or 'd'
+    vim.cmd("normal! ggVG")
+    local pattern = "[cd]" -- 'c' or 'd'
     if not string.find(vim.v.operator, pattern) then
         -- Running the command straight does not work, have to pass it through feedkeys or defer it
-        vim.defer_fn(function() vim.fn.winrestview(vim.g.cursor_position) end, 0)
+        vim.defer_fn(
+            function()
+                vim.fn.winrestview(vim.g.cursor_position)
+            end,
+            0
+        )
     end
 end
-
 
 -- Used by command mode mapping to make delete only delete to the right
 function M.delete_to_right_only()
@@ -163,16 +180,14 @@ function M.delete_to_right_only()
     end
 end
 
-
 -- Sort operator
 function M.sort_lines()
-    if vim.api.nvim_get_mode().mode == 'v' then
+    if vim.api.nvim_get_mode().mode == "v" then
         vim.api.nvim_command("'<,'>sort")
     else
         vim.api.nvim_command("sort")
     end
 end
-
 
 function M.strip_whitespace()
     -- vim.g.cursor_position = vim.fn.winsaveview()
@@ -189,14 +204,16 @@ function M.quit_if_last_buffer()
     for _, buf_id in pairs(buf_list) do
         if vim.api.nvim_buf_is_loaded(buf_id) then
             local empty = vim.api.nvim_buf_line_count(buf_id)
-            local safe = vim.api.nvim_buf_get_option(buf_id, 'modifiable') and not vim.api.nvim_buf_get_option(buf_id, 'modified')
-            local buftype = vim.api.nvim_buf_get_option(buf_id, 'buftype')
-            if not safe and buftype == '' then
+            local safe =
+                vim.api.nvim_buf_get_option(buf_id, "modifiable") and
+                not vim.api.nvim_buf_get_option(buf_id, "modified")
+            local buftype = vim.api.nvim_buf_get_option(buf_id, "buftype")
+            if not safe and buftype == "" then
                 return
             end
         end
     end
-    vim.cmd('quit')
+    vim.cmd("quit")
 end
 function M.close_all_buffers()
     local buf_list = vim.api.nvim_list_bufs()
@@ -204,29 +221,29 @@ function M.close_all_buffers()
     for _, buf_id in pairs(buf_list) do
         if vim.api.nvim_buf_is_loaded(buf_id) then
             local empty = vim.api.nvim_buf_line_count(buf_id)
-            local safe = vim.api.nvim_buf_get_option(buf_id, 'modifiable') and not vim.api.nvim_buf_get_option(buf_id, 'modified')
-            local buftype = vim.api.nvim_buf_get_option(buf_id, 'buftype')
-            if safe or empty  or buftype ~= '' then
-                vim.api.nvim_buf_delete(buf_id, { force = false, unload = false})
+            local safe =
+                vim.api.nvim_buf_get_option(buf_id, "modifiable") and
+                not vim.api.nvim_buf_get_option(buf_id, "modified")
+            local buftype = vim.api.nvim_buf_get_option(buf_id, "buftype")
+            if safe or empty or buftype ~= "" then
+                vim.api.nvim_buf_delete(buf_id, {force = false, unload = false})
             end
         end
     end
     M.quit_if_last_buffer()
 end
 
-
 function M.close_buffer_keep_window()
     local file = vim.api.nvim_buf_get_name(0)
-    vim.cmd('edit #')  -- switch to alternate file, like <C-^>
+    vim.cmd("edit #") -- switch to alternate file, like <C-^>
     local other_file = vim.api.nvim_buf_get_name(0)
     if file == other_file then
         -- If switch to alternate file results in the same file name we create a new file to switch to
-        vim.cmd('enew')
+        vim.cmd("enew")
     end
     -- Now delete the original buffer
-    vim.cmd('bdelete #')
+    vim.cmd("bdelete #")
 end
-
 
 function M.reload_config()
     local loadThese = {}
@@ -237,23 +254,22 @@ function M.reload_config()
         end
     end
     dofile(vim.env.MYVIMRC)
-    print('Reload config, but need to press it twice ... '.. os.time())
+    print("Reload config, but need to press it twice ... " .. os.time())
 end
-
 
 function M.get_git_branch()
     -- :lua local parentDir = vim.fn.expand("%:p:h"); local command = "git -C " .. parentDir .. " branch --show-current 2>/dev/null"; local result = vim.fn.systemlist(command); vim.print(result)
-    local parentDir = vim.fn.expand("%:p:h");
+    local parentDir = vim.fn.expand("%:p:h")
     local command
-    if vim.fn.has('win32') == 1 then
+    if vim.fn.has("win32") == 1 then
         -- On Windows
         command = "git -C " .. parentDir .. " branch --show-current 2>NUL"
     else
         -- On Linux and other Unix-like systems
         command = "git -C " .. parentDir .. " branch --show-current 2>/dev/null"
     end
-    local result = vim.fn.systemlist(command);
-    local branch = #result > 0 and result[1] or "No Branch";
+    local result = vim.fn.systemlist(command)
+    local branch = #result > 0 and result[1] or "No Branch"
     return branch
 end
 
@@ -272,65 +288,65 @@ end
 function M.gotoComponentFile(goto_type)
     local current_file = vim.fn.expand("%:p")
     local goto_file
-    if string.find(string.lower(current_file), 'linkcube') then
+    if string.find(string.lower(current_file), "linkcube") then
         -- LINKCUBE
         local dir, name, ext = split_dir_name_ext(current_file)
-        if goto_type == 'javascript' then
-            goto_file = dir .. '/component.js'
-        elseif goto_type == 'html' then
-            goto_file = dir .. '/template.html'
-        elseif goto_type == 'css' then
-            goto_file = dir .. '/shadow.css'
-        elseif goto_type == 'def' then
-            goto_file = dir .. '/__init__.py'
-        elseif goto_type == 'story' then
-            goto_file = dir .. '/story.html'
-        elseif goto_type == 'other' then
-            goto_file = dir .. '/dom.css'
+        if goto_type == "javascript" then
+            goto_file = dir .. "/component.js"
+        elseif goto_type == "html" then
+            goto_file = dir .. "/template.html"
+        elseif goto_type == "css" then
+            goto_file = dir .. "/shadow.css"
+        elseif goto_type == "def" then
+            goto_file = dir .. "/__init__.py"
+        elseif goto_type == "story" then
+            goto_file = dir .. "/story.html"
+        elseif goto_type == "other" then
+            goto_file = dir .. "/dom.css"
         end
-    elseif string.find(string.lower(current_file), 'gateway') then
+    elseif string.find(string.lower(current_file), "gateway") then
         -- GATEWAY
         local base, component_name = split_base_dir(current_file)
-        local dir = base .. '/' .. component_name .. '/'
-        if goto_type == 'javascript' then
-            goto_file = dir .. component_name .. '.component.ts'
-        elseif goto_type == 'html' then
-            goto_file = dir .. component_name .. '.component.html'
-        elseif goto_type == 'css' then
+        local dir = base .. "/" .. component_name .. "/"
+        if goto_type == "javascript" then
+            goto_file = dir .. component_name .. ".component.ts"
+        elseif goto_type == "html" then
+            goto_file = dir .. component_name .. ".component.html"
+        elseif goto_type == "css" then
             local extensions = {".scss", ".css", ".less"}
             for _, ext in ipairs(extensions) do
-                local f = dir .. component_name .. '.component' .. ext
+                local f = dir .. component_name .. ".component" .. ext
                 if vim.fn.filereadable(f) == 1 then
                     goto_file = f
                     break -- Exit the loop if a readable file is found
                 end
             end
-        elseif goto_type == 'def' then
-            goto_file = dir .. component_name .. '.component.css'
-        elseif goto_type == 'type' then
-            goto_file = dir .. component_name .. '.types.ts'
-        elseif goto_type == 'other' then
-            goto_file = dir .. component_name .. '.sample.ts'
-        elseif goto_type == 'sample' then
-            goto_file = dir .. component_name .. '.sample.ts'
-        elseif goto_type == 'story' then
-            goto_file = dir .. component_name .. '.stories.ts'
-        elseif goto_type == 'utils' then
-            goto_file = dir .. component_name .. '.utils.ts'
+        elseif goto_type == "def" then
+            goto_file = dir .. component_name .. ".component.css"
+        elseif goto_type == "type" then
+            goto_file = dir .. component_name .. ".types.ts"
+        elseif goto_type == "other" then
+            goto_file = dir .. component_name .. ".sample.ts"
+        elseif goto_type == "sample" then
+            goto_file = dir .. component_name .. ".sample.ts"
+        elseif goto_type == "story" then
+            goto_file = dir .. component_name .. ".stories.ts"
+        elseif goto_type == "utils" then
+            goto_file = dir .. component_name .. ".utils.ts"
         end
     else
-        print('Unknown project')
+        print("Unknown project")
         return
     end
     if not goto_file then
-        print('Unknown goto type:', goto_type)
+        print("Unknown goto type:", goto_type)
         return
     end
     if vim.fn.filereadable(goto_file) == 1 then
-        print('open ->>> ', goto_file)
+        print("open ->>> ", goto_file)
         vim.cmd("edit " .. goto_file)
     else
-        print('File does not exist:', goto_file)
+        print("File does not exist:", goto_file)
     end
 end
 
