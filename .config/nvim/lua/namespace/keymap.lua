@@ -144,9 +144,10 @@ vim.keymap.set({"n", "x"}, ";", ":", {noremap = true})
 -- Note: Use d/D to change the register
 vim.keymap.set({"n", "x"}, "x", '"_x', {noremap = true})
 
--- Disable annoying ex mode (Type "visual" to exit)
+-- Change record macro to "Q", so it runs "q" (so can use q for line start)
+vim.keymap.set({"n", "x"}, "Q", "q", {noremap = true})
 -- Change it to the hard to reach ^
-vim.keymap.set({"n", "x"}, "Q", "^", {noremap = true})
+vim.keymap.set({"n", "x"}, "q", "^", {noremap = true})
 
 -- :h yy = If you like "Y" to work from the cursor to the end of line (which is
 -- more logical, but not Vi-compatible) use ":map Y y$".
