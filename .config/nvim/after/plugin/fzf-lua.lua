@@ -170,7 +170,7 @@ vim.keymap.set("n", "<leader>zl", require("fzf-lua").lines, {noremap = true, sil
 -- Breakpoints
 vim.keymap.set("n", "<leader><S-DEL>", 
     function() 
-        require("fzf-lua").lines({query="debugger | breakpoint", no_esc=true}) 
+        require("fzf-lua").lines({query="debugger | breakpoint()", no_esc=true}) 
     end, 
     {noremap = true, silent = true}
 )

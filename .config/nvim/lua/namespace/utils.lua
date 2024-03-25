@@ -42,7 +42,7 @@ function M.get_return_value(cmd)
     end
 end
 
-function M.formatNewBufferAsJsonNoSave()
+function M.format_new_buffer_as_json_no_save()
     local lines = vim.api.nvim_buf_get_lines(0, 0, -1, false)
     local input = table.concat(lines, "\n")
     local cmd = "prettier --parser json"
@@ -58,7 +58,7 @@ end
 function M.format_code()
     local file = vim.fn.expand("%:p")
     if file == "" then
-        M.formatNewBufferAsJsonNoSave()
+        M.format_new_buffer_as_json_no_save()
         return
     end
     -- Note: os.execute messes up the terminal
@@ -273,81 +273,28 @@ function M.get_git_branch()
     return branch
 end
 
-local function split_dir_name_ext(path)
-    local directory, name, ext = path:match("(.-)([^\\/]-%.?([^%.\\/]*))$")
-    if directory and name and ext then
-        return directory, name, ext
-    else
-        return path, "", "" -- Return the original path and empty strings if no match is found
+function M.fd_files_populate_qf(pattern, dir)
+    pattern = pattern or vim.fn.input('Enter search pattern: ')
+    -- dir = dir or vim.fn.getcwd()
+    local fd_command = string.format("fdfind '.*%s.*'", pattern) -- fd is an alias for fdfind
+    if dir then
+        fd_command = fd_command .. ' ' .. dir
     end
-end
-local function split_base_dir(path)
-    local base, dir_name = path:match("(.+)[/\\]([^/\\]+)/[^/\\]+$")
-    return base, dir_name
-end
-function M.gotoComponentFile(goto_type)
-    local current_file = vim.fn.expand("%:p")
-    local goto_file
-    if string.find(string.lower(current_file), "linkcube") then
-        -- LINKCUBE
-        local dir, name, ext = split_dir_name_ext(current_file)
-        if goto_type == "javascript" then
-            goto_file = dir .. "/component.js"
-        elseif goto_type == "html" then
-            goto_file = dir .. "/template.html"
-        elseif goto_type == "css" then
-            goto_file = dir .. "/shadow.css"
-        elseif goto_type == "def" then
-            goto_file = dir .. "/__init__.py"
-        elseif goto_type == "story" then
-            goto_file = dir .. "/story.html"
-        elseif goto_type == "other" then
-            goto_file = dir .. "/dom.css"
-        end
-    elseif string.find(string.lower(current_file), "gateway") then
-        -- GATEWAY
-        local base, component_name = split_base_dir(current_file)
-        local dir = base .. "/" .. component_name .. "/"
-        if goto_type == "javascript" then
-            goto_file = dir .. component_name .. ".component.ts"
-        elseif goto_type == "html" then
-            goto_file = dir .. component_name .. ".component.html"
-        elseif goto_type == "css" then
-            local extensions = {".scss", ".css", ".less"}
-            for _, ext in ipairs(extensions) do
-                local f = dir .. component_name .. ".component" .. ext
-                if vim.fn.filereadable(f) == 1 then
-                    goto_file = f
-                    break -- Exit the loop if a readable file is found
-                end
-            end
-        elseif goto_type == "def" then
-            goto_file = dir .. component_name .. ".component.css"
-        elseif goto_type == "type" then
-            goto_file = dir .. component_name .. ".types.ts"
-        elseif goto_type == "other" then
-            goto_file = dir .. component_name .. ".sample.ts"
-        elseif goto_type == "sample" then
-            goto_file = dir .. component_name .. ".sample.ts"
-        elseif goto_type == "story" then
-            goto_file = dir .. component_name .. ".stories.ts"
-        elseif goto_type == "utils" then
-            goto_file = dir .. component_name .. ".utils.ts"
-        end
-    else
-        print("Unknown project")
+
+    local matching_files = vim.fn.systemlist(fd_command)
+    if vim.v.shell_error > 0 then
+        print("Error executing fd or no files found, error code: " .. vim.v.shell_error)
         return
     end
-    if not goto_file then
-        print("Unknown goto type:", goto_type)
-        return
+
+    local items = {}
+    for _, file in ipairs(matching_files) do
+        table.insert(items, {filename = file, lnum = 1, text = " "})
     end
-    if vim.fn.filereadable(goto_file) == 1 then
-        print("open ->>> ", goto_file)
-        vim.cmd("edit " .. goto_file)
-    else
-        print("File does not exist:", goto_file)
-    end
+
+    local title = pattern .. " ("..#items.." matches)"
+    vim.fn.setqflist({}, "r", {title = title, items = items})
+    vim.cmd('copen') -- Open the quickfix window
 end
 
 return M
