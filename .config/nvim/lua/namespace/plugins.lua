@@ -113,7 +113,9 @@ local namespace_plugins = function(use)
         after = "nvim-web-devicons",
         requires = "nvim-tree/nvim-web-devicons",
     }
-
+    use {
+        "stevearc/oil.nvim",
+    }
     -- LSP
     -- Setup with Mason, from: https://github.com/VonHeikemen/lsp-zero.nvim/blob/v1.x/doc/md/lsp.md#you-might-not-need-lsp-zero
     use {
