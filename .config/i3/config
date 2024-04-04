@@ -311,8 +311,8 @@ set $ws7 "7-?"
 # exec_always --no-startup-id ~/.config/i3/scripts/app-on-ws-init.py --workspace $ws7 --command gimp
 
 # 8 Telegram
-# set $ws8 "8_Tel"
-# assign [class="TelegramDesktop"] $ws8
+set $ws8 "8_Tel"
+assign [class="TelegramDesktop"] $ws8
 # exec_always --no-startup-id ~/.config/i3/scripts/app-on-ws-init.py --workspace $ws8 --command telegram-desktop
 
 # 9 DB

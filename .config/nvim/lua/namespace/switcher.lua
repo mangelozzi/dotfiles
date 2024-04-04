@@ -156,7 +156,7 @@ function M.goto_component_file(goto_type)
         return
     end
     if not goto_file then
-        print("Unknown goto type:", goto_type)
+        print("Unknown goto component type:", goto_type)
         return
     end
     if vim.fn.filereadable(goto_file) == 1 then
@@ -198,7 +198,7 @@ function M.goto_app_file(goto_type)
         return
     end
     if not goto_file then
-        print("Unknown goto type:", goto_type)
+        print("Unknown goto app type:", goto_type)
         return
     end
     if vim.fn.filereadable(goto_file) == 1 then

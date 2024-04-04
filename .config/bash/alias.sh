@@ -25,6 +25,10 @@ alias mycal12="ncal -b -A12 -B0"
 # alias inkscape="~/appimages/Inkscape-b0a8486-x86_64.AppImage"
 inkscape() { ~/appimages/Inkscape-b0a8486-x86_64.AppImage >/dev/null 2>&1 & }
 
+# MUST supply name of dir to unmount
+# E.g. ~/.local/share/Cryptomator/mnt; fusermount3 -u Mighty_Secure
+alias cryptofix="~/.local/share/Cryptomator/mnt; fusermount3 -u "
+
 # SSH
 
 # Not to SSH into github, just used for authentication for terminals
