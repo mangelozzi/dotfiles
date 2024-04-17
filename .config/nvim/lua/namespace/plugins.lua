@@ -159,6 +159,13 @@ local namespace_plugins = function(use)
     -- use "navarasu/onedark.nvim"
     -- use "rebelot/kanagawa.nvim"
 
+    use {
+        "pmizio/typescript-tools.nvim",
+        requires = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
+        config = function()
+            require("typescript-tools").setup {}
+        end,
+    }
 end
 
 local plugins = vim.g.use_minimal_config and minimal_plugins or namespace_plugins

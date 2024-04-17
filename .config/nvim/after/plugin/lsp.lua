@@ -11,7 +11,7 @@ require('mason-lspconfig').setup({
         'html',
         -- 'emmet_ls', -- emmet html completion support, prefer emmet-vim plugin
         'pyright',
-        'tsserver',
+        -- 'tsserver', <-- using 'typescript-tools' instead, see config below
         'eslint',  -- For JSDoc
         'lua_ls',
         'jsonls',
@@ -89,3 +89,8 @@ lspconfig.pyright.setup({
     }
   }
 })
+
+require("typescript-tools").setup {
+    on_attach = lsp_attach,
+    capabilities = lsp_capabilities,
+}
