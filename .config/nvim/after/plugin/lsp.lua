@@ -90,7 +90,9 @@ lspconfig.pyright.setup({
   }
 })
 
-require("typescript-tools").setup {
-    on_attach = lsp_attach,
-    capabilities = lsp_capabilities,
-}
+if require("namespace.utils").get_is_installed("typescript-tools") then
+    require("typescript-tools").setup {
+        on_attach = lsp_attach,
+        capabilities = lsp_capabilities,
+    }
+end
