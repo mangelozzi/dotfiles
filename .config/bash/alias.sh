@@ -14,6 +14,7 @@ alias ml="source ~/.venv/ml/bin/activate"
 # APPS
 # --------
 alias chrome="sudo apt-get update; sudo apt-get --only-upgrade install google-chrome-stable"
+alias freecad="QT_FONT_DPI=96 ~/appimages/freecad-0.21.1.AppImage &"
 
 # TOOLS
 alias rpiboot="sudo ~/tools/rpiboot/rpiboot"
