@@ -105,7 +105,6 @@ require("neogit").setup {
             ["u"] = "Unstage",
             ["U"] = false, -- "UnstageStaged",
             ["$"] = "CommandHistory",
-            ["#"] = "Console",
             ["<c-r>"] = "RefreshBuffer",
             ["<enter>"] = "GoToFile",
             ["o"] = "GoToFile", -- Michael

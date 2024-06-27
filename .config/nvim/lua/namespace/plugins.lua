@@ -30,6 +30,7 @@ local packer_bootstrap = ensure_packer()
 -- For debugging rc setup
 local minimal_plugins = function(use)
     use {
+        -- THIS IS MINIMAL AREA NO THE ACTUALY PLUGIN USAGE
         "NeogitOrg/neogit",
         requires = "nvim-lua/plenary.nvim",
     }
@@ -92,6 +93,7 @@ local namespace_plugins = function(use)
     use {
         "NeogitOrg/neogit",
         requires = "nvim-lua/plenary.nvim",
+        commit = 'c5e09bfcc18fa9ff',
         -- commit = "1b6edb5",
     }
     use {
@@ -103,6 +105,7 @@ local namespace_plugins = function(use)
     use {
         "ibhagwan/fzf-lua",
         -- optional for icon support
+        commit = 'b442569ab827',
         requires = "nvim-tree/nvim-web-devicons",
     }
 
