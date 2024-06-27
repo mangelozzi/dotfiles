@@ -2,9 +2,9 @@
 
 local M = {}
 
-function M.add_to_palette(p)
+function M.get_palette(p)
     return {
-        status_line_bg = "#00A000",
+        status_line_bg = p.aqua, -- "#00A000",
         _status_subtle_nc_fg = "#707070",
         _status_subtle_nc_bg = "#a0a0a0",
         _qf_status_subtle_bg = "#c0c000",
@@ -45,7 +45,8 @@ function M.get_groups(p)
         _helpStatusFile = {fg = "#000000", bg = "#ff00ff", bold = true},
         _helpStatusLineNC = {fg = "#ff00ff", bg = "#770077"},
         _helpStatusSubtle = {fg = p._help_status_subtle_fg, bg = p._help_status_subtle_bg},
-        _helpStatusImpact = {fg = p._help_status_subtle_fg, bg = p._help_status_subtle_bg}
+        _helpStatusImpact = {fg = p._help_status_subtle_fg, bg = p._help_status_subtle_bg},
+        _StatusModified = {fg = p.fg0, bg = p.bg_red },
     }
 end
 

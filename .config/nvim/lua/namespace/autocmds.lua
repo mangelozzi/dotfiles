@@ -45,7 +45,7 @@ vim.api.nvim_create_autocmd(
     {
         desc = "Run packer sync/compile after editing plugins.lua file",
         group = NamespaceGroup,
-        pattern = "plugins.lua",
+        pattern = "*/namespace/plugins.lua",
         callback = function()
             vim.cmd("PackerCompile")
             vim.cmd("PackerSync")

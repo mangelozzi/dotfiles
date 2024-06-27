@@ -3,7 +3,7 @@
 
 local M = {}
 
-function M.add_to_palette(p)
+function M.get_palette(p)
     return {
         orange = "#e78a4e",
         yellow = "#d8a657",
@@ -23,7 +23,7 @@ function M.add_to_palette(p)
     }
 end
 
-function M.add_to_palette_hard(p)
+function M.get_palette_hard(p)
     return {
         bg_dim = "#141617",
         bg0 = "#1d2021",
@@ -46,7 +46,7 @@ function M.add_to_palette_hard(p)
     }
 end
 
-function M.add_to_palette_medium(p)
+function M.get_palette_medium(p)
     return {
         bg_dim = "#1b1b1b",
         bg0 = "#282828",
@@ -69,7 +69,7 @@ function M.add_to_palette_medium(p)
     }
 end
 
-function M.add_to_palette_soft(p)
+function M.get_palette_soft(p)
     return {
         bg_dim = "#252423",
         bg0 = "#32302f",

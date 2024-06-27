@@ -9,16 +9,16 @@ local M = {}
 -- style can be 'hard', 'medium', 'soft'
 local function build_palette(style)
     local p = {}
-    utils.update_palette(p, gruvbox.add_to_palette())
+    utils.update_palette(p, gruvbox.get_palette(p))
     if style == "hard" then
-        utils.update_palette(p, gruvbox.add_to_palette_hard())
+        utils.update_palette(p, gruvbox.get_palette_hard(p))
     elseif style == "medium" then
-        utils.update_palette(p, gruvbox.add_to_palette_medium())
+        utils.update_palette(p, gruvbox.get_palette_medium(p))
     elseif style == "soft" then
-        utils.update_palette(p, gruvbox.add_to_palette_soft())
+        utils.update_palette(p, gruvbox.get_palette_soft(p))
     end
-    utils.update_palette(p, symbols.add_to_palette())
-    utils.update_palette(p, status.add_to_palette())
+    utils.update_palette(p, symbols.get_palette(p))
+    utils.update_palette(p, status.get_palette(p))
     return p
 end
 

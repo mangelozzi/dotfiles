@@ -3,7 +3,7 @@
 
 local M = {}
 
-function M.add_to_palette(p)
+function M.get_palette(p)
     return {
         main1            = '#ff4434',
         main2            = '#ff8300',
