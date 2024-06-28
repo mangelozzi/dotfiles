@@ -151,7 +151,10 @@ fcd() {
 }
 # Fuzzy neovim edit
 fn() {
-    nvim $(fd -H -t l -t f | fzf)
+    local file=$(fd -H -t l -t f | fzf)
+    if [[ -n $file ]]; then
+        nvim "$file"
+    fi
 }
 # Fuzzy find file/dir and copy to the clipboard
 copy() {
@@ -173,13 +176,23 @@ get() {
     fd -0 -H | fzf --read0
 }
 # Fuzzy find app and open with system
+# -H = hidden
 open() {
-    xdg-open "$(fd --type file --type symlink | fzf)"
+    file=$(fd -H --type file --type symlink | fzf)
+    if [[ -n $file ]]; then
+        xdg-open "$file" &
+    fi
 }
+alias fo=open
+
 # Fuzzy find executable and run it
 run() {
-    $(fd --type executable | fzf)
+    local cmd=$(fd --type executable | fzf)
+    if [[ -n $cmd ]]; then
+        "$cmd" &
+    fi
 }
+alias fr=run
 
 # --- GNOME SETTINGS (Default ubuntu panel ---
 # Setting this environment variable is required to make the appearance panel appear in the options

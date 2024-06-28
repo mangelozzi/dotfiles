@@ -1,1 +1,1 @@
-require('theme.colors').apply_theme("soft");
+require('theme.init').apply_theme("soft");

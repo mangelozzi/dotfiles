@@ -1,1 +1,1 @@
-require('theme.colors').apply_theme("medium");
+require('theme.init').apply_theme("medium");

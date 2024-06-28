@@ -305,41 +305,6 @@ vim.keymap.set("n", "<leader>nc", ":NvimTreeCollapseKeepBuffers<CR>", { noremap 
 
 
 
-local directory = '#ffff00'
-local directory_open = directory
-local directory_closed = '#d0ca50'
-local directory_empty = '#c0c0c0'
-local directory_root = '#00ff00'
-
-vim.api.nvim_set_hl(0, "Directory", { fg = directory })
-vim.api.nvim_set_hl(0, "NvimTreeFolderIcon", { fg = directory_closed })
-vim.api.nvim_set_hl(0, "NvimTreeOpenedFolderIcon", { fg = directory_open })
-vim.api.nvim_set_hl(0, "NvimTreeClosedFolderIcon", { fg = directory_closed })
-
-vim.api.nvim_set_hl(0, "NvimTreeFolderName", { fg = directory_closed })
-vim.api.nvim_set_hl(0, "NvimTreeEmptyFolderName", { fg = directory_empty })
-vim.api.nvim_set_hl(0, "NvimTreeOpenedFolderName", { fg = directory_open })
-vim.api.nvim_set_hl(0, "NvimTreeClosedFolderName", { fg = directory_closed })
-
-vim.api.nvim_set_hl(0, "NvimTreeRootFolder", { fg = "#00e000", bg="#004000" })  -- Top dir path
-
--- Highlight color if buffer modified
-vim.api.nvim_set_hl(0, "NvimTreeModifiedFile", {fg="#ff0000", bg="#500000" })
-vim.api.nvim_set_hl(0, "NvimTreeOpenedFile", {fg="#00e000" })
-vim.api.nvim_set_hl(0, "NvimTreeFileIcon", {fg="#ffffff"})  -- If the file icon does not have an associated color, use this default color
-vim.api.nvim_set_hl(0, "NvimTreeNormal", {link="Normal" })  -- Normal lines
-
-vim.api.nvim_set_hl(0, "NvimTreeLiveFilterPrefix", {fg="#ffa000", bg="#303030" })  -- The filter prefix
-vim.api.nvim_set_hl(0, "NvimTreeLiveFilterValue", {fg="#ff0000", bg="#300000" })  -- The filter inputted value
-
-vim.api.nvim_set_hl(0, "NvimTreeSpecialFile", {fg="#e0ffe0", bg="#103010" })  -- README.md etc, brighly very light green
-vim.api.nvim_set_hl(0, "NvimTreeIndentMarker", {fg="#c0c0c0" })  -- Sign before the dirs
-vim.api.nvim_set_hl(0, "NvimTreeBookmark", {fg="#00ff00" })  -- Marking icon when selecting multiple files
-
--- Don't know what these do, but when one sees the ugly colors, will know
-vim.api.nvim_set_hl(0, "NvimTreeSymlink", {fg="#ff0000", bg="#00ff00" })  -- ?
-vim.api.nvim_set_hl(0, "NvimTreeFileIgnored", {fg="#00ff00", bg="#0000ff" })  -- ? - default: links to NvimTreeGitIgnored
-vim.api.nvim_set_hl(0, "NvimTreePopup", {fg="#0000ff", bg="#ff0000" })  -- ? - default: links to Default
 
 -- Open at startup
 -- https://github.com/nvim-tree/nvim-tree.lua/wiki/Open-At-Startup
@@ -379,39 +344,3 @@ vim.api.nvim_create_autocmd(
         end
     }
 )
-
--- Not used due to slow down
--- NvimTreeGitDirty xxx guifg=#8cbe17
--- NvimTreeGitDeleted xxx guifg=#8cbe17
--- NvimTreeGitStaged xxx guifg=#4fe62d
--- NvimTreeGitMerge xxx guifg=#17be49
--- NvimTreeGitRenamed xxx guifg=#d096ae
--- NvimTreeGitNew xxx guifg=#ea87b0
--- NvimTreeGitIgnored xxx links to Comment
--- Not used due to clutter
--- NvimTreeLspDiagnosticsError xxx links to DiagnosticError
--- NvimTreeLspDiagnosticsWarning xxx links to DiagnosticWarn
--- NvimTreeLspDiagnosticsInformation xxx links to DiagnosticInfo
--- NvimTreeLspDiagnosticsHint xxx links to DiagnosticHint
-
--- NvimTreeImageFile xxx gui=bold guifg=#d096ae
--- NvimTreeWindowPicker xxx gui=bold guifg=#ededed guibg=#4493c8
--- NvimTreeBookmark xxx guifg=#4fe62d
--- NvimTreeExecFile xxx gui=bold guifg=#4fe62d
--- NvimTreeNormal xxx links to Normal
--- NvimTreeStatusLineNC xxx links to StatusLineNC
--- NvimTreeCursorLineNr xxx links to CursorLineNr
--- NvimTreeCursorLine xxx links to CursorLine
--- NvimTreeWinSeparator xxx links to WinSeparator
--- NvimTreeSignColumn xxx links to NvimTreeNormal
--- NvimTreeEndOfBuffer xxx links to EndOfBuffer
--- NvimTreeStatusLine xxx links to StatusLine
--- NvimTreeNormalNC xxx links to NvimTreeNormal
--- NvimTreeLineNr xxx links to LineNr
--- NvimTreeCursorColumn xxx links to CursorColumn
--- NvimTreeFileDirty xxx links to NvimTreeGitDirty
--- NvimTreeFileNew xxx links to NvimTreeGitNew
--- NvimTreeFileRenamed xxx links to NvimTreeGitRenamed
--- NvimTreeFileMerge xxx links to NvimTreeGitMerge
--- NvimTreeFileStaged xxx links to NvimTreeGitStaged
--- NvimTreeFileDeleted xxx links to NvimTreeGitDeleted

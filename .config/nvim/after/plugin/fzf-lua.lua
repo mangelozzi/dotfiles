@@ -111,47 +111,6 @@ require("fzf-lua").setup {
     },
 }
 
-
--- Line
--- Sets the colors of FZF (not the colors of FZF-Lua interface
--- local bg = vim.api.nvim_get_hl_by_name('Normal', true).background
-local bg = "#484800"
-vim.api.nvim_set_hl(0, "FzfLine",                   { fg="#d0d0d0", bg=bg}) -- Matched part of currently selected line
-vim.api.nvim_set_hl(0, "FzfLineMatchedFg",          { fg="#00e000"}) -- Matched part of currently selected line
--- Selected Line
-vim.api.nvim_set_hl(0, "FzfSelectedLine",           { fg="#ffffff", bg="#006000"}) -- Matched part of currently selected line
-vim.api.nvim_set_hl(0, "FzfSelectedLineMatchedFg",  { fg="#00ff00" }) -- Matched part of currently selected line
--- Misc
-vim.api.nvim_set_hl(0, "FzfPromptFg",               { fg="#ffff00"}) -- The surround angle brackets of > pattern < (fg only)
-vim.api.nvim_set_hl(0, "FzfPointerFg",              { fg="#00ff00"}) -- > to select which file
-vim.api.nvim_set_hl(0, "FzfInfoFg",                 { fg="#808080"}) -- Number of matchs to right of search
-vim.api.nvim_set_hl(0, "FzfMarkerFg",               { bg="#404040"}) -- Column to right
-vim.api.nvim_set_hl(0, "FzfSpinnerFg",              { fg="#ff0000"}) -- Like FzfPromptFg, but the "<" which it is pulling in searches, once found all matches will no longer apply
-vim.api.nvim_set_hl(0, "FzfHeaderFg",               { fg="#ff0000"}) -- Matched part of currently selected line
-vim.api.nvim_set_hl(0, "FzfGutterBg",               { bg="#404040"}) -- Left sign column bG
-
-local function get_fg(group)
-    return vim.api.nvim_get_hl_by_name(group, true).foreground
-end
-
--- Sets the colors of FZF-Lua (not the colors of Lua interface
--- key is the highlight group name
--- value[1] is the setup/call arg option name
--- value[2] is the default link if value[1] is undefined
-vim.api.nvim_set_hl(0, "FzfLuaNormal",              { fg=get_fg("Normal"), bg=bg}) -- The float window background, the matches list, the uncoloured preview text
-vim.api.nvim_set_hl(0, "FzfLuaBorder",              { fg=get_fg("FloatBorder"), bg=bg}) -- Border around float window
-vim.api.nvim_set_hl(0, "FzfLuaCursor",              { link="Cursor"}) -- ?
-vim.api.nvim_set_hl(0, "FzfLuaCursorLine",          { link="CursorLine"}) -- The selected line of the preview
-vim.api.nvim_set_hl(0, "FzfLuaCursorLineNr",        { link="CursorLineNr"}) -- Cursor line number
-vim.api.nvim_set_hl(0, "FzfLuaSearch",              { link="Search" }) -- The cursor in the right panel of the selected file
-vim.api.nvim_set_hl(0, "FzfLuaTitle",               { fg=get_fg("Title"), bg=bg}) -- Preview title bar
-vim.api.nvim_set_hl(0, "FzfLuaScrollBorderEmpty",   { fg=get_fg("FloatBorder"), bg=bg}) -- Panel on right, scroll bar - Especially when doing a lines search
-vim.api.nvim_set_hl(0, "FzfLuaScrollBorderFull",    { fg=get_fg("FloatBorder"), bg=bg}) -- Panel on right, scroll bar
-vim.api.nvim_set_hl(0, "FzfLuaScrollFloatEmpty",    { fg=get_fg("FloatBorder"), bg=bg}) -- Panel on right, scroll bar
-vim.api.nvim_set_hl(0, "FzfLuaScrollFloatFull",     { fg=get_fg("FloatBorder"), bg=bg}) -- Panel on right, scroll bar
-vim.api.nvim_set_hl(0, "FzfLuaHelpNormal",          { fg=get_fg("Normal"), bg=bg}) -- Press <F1> to show the help window
-vim.api.nvim_set_hl(0, "FzfLuaHelpBorder",          { fg=get_fg("FloatBorder"), bg=bg}) -- ?
-
 -- (B)uffers
 vim.keymap.set("n", "<leader><leader>", require("fzf-lua").buffers, {noremap = true, silent = true})
 

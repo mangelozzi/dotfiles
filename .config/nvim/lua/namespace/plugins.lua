@@ -169,6 +169,12 @@ local namespace_plugins = function(use)
             require("typescript-tools").setup {}
         end,
     }
+
+    -- COLORSCHEMES / THEMES
+    use {
+        "sainnhe/gruvbox-material",
+    }
+
 end
 
 local plugins = vim.g.use_minimal_config and minimal_plugins or namespace_plugins

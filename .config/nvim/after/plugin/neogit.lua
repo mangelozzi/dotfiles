@@ -119,22 +119,6 @@ require("neogit").setup {
     }
 }
 
--- COLORS
-
-vim.api.nvim_set_hl(0, "NeogitNotificationInfo", {fg = "#80ff80"})
-vim.api.nvim_set_hl(0, "NeogitNotificationWarning", {fg = "#ffff00"})
-vim.api.nvim_set_hl(0, "NeogitNotificationError", {fg = "#ff00ff"})
-
--- vim.api.nvim_set_hl(0, 'NeogitDiffAddHighlight', { link = "DiffAdd"})
--- vim.api.nvim_set_hl(0, 'NeogitDiffDeleteHighlight', { link = "DiffChange"})
-
-vim.api.nvim_set_hl(0, "NeogitDiffAddHighlight", {fg = "#80ff80", bg = "#404040"})
-vim.api.nvim_set_hl(0, "NeogitDiffDeleteHighlight", {fg = "#ff0000", bg = "#404040"})
-vim.api.nvim_set_hl(0, "NeogitDiffContextHighlight", {fg = "#ffffff", bg = "#404040"})
-
-vim.api.nvim_set_hl(0, "NeogitHunkHeader", {fg = "#202020", bg = "#b0b0b0"})
-vim.api.nvim_set_hl(0, "NeogitHunkHeaderHighlight", {fg = "#202020", bg = "#ffffff"})
-
 -- KEY MAPS TO START NEOGIT
 -- Prefer '<leader>i' to '<leader>g' cause can open git review with one hand while drinking water with other
 -- Map <leader>g to opening neogit

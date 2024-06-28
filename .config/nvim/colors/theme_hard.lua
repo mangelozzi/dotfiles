@@ -1,1 +1,1 @@
-require('theme.colors').apply_theme("hard");
+require('theme.init').apply_theme("hard");

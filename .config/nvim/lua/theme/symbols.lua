@@ -71,6 +71,8 @@ end
 
 function M.get_groups(p)
     return {
+        Comment     = {fg=p.comment}, -- any comment
+
         Constant	= {fg=p.constant}, -- any constant
         String		= {fg=p.string}, -- a string constant: "this is a string"
         Character	= {fg=p.character}, -- a character constant: 'c', '\n'
