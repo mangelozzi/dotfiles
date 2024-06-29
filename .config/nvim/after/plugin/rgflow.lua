@@ -24,8 +24,6 @@ require("rgflow").setup(
 
 vim.keymap.set("n", "<leader>RG", function()
     require('rgflow').open(nil, nil, nil, {
-        custom_start = function(pattern, flags, path)
-            print('Pattern:'..pattern..' Flags:'..flags..' Path:'..path)
-        end
+        callback = function() print('Call ran... have a nice day!') end
     })
 end, {noremap = true})

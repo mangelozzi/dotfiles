@@ -57,6 +57,7 @@ alias cdn='cd ~/.config/nvim'
 # Neovim Tmp/ or Plugin dir
 alias cdt='cd ~/.config/nvim/tmp'
 alias cdp='cd ~/.config/nvim/tmp'
+alias cdr='cd ~/.config/nvim/tmp/rgflow.nvim/'
 
 # GIT development add key
 # Hostname/IP varies, so can only add key

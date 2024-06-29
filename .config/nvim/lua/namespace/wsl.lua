@@ -7,7 +7,7 @@ function M.escape_spaces(path)
     return escaped_path
 end
 
-function M.is_wsl()
+function M.get_is_wsl()
     local proc_version_file = io.open("/proc/version", "r")
     if proc_version_file then
         local proc_version = proc_version_file:read("*all")

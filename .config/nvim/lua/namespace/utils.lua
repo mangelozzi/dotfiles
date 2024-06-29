@@ -121,7 +121,7 @@ function M.run()
         vim.cmd("source " .. file)
     elseif vim.bo.filetype == "html" or vim.bo.filetype == "markdown" then
         -- Escape spaces
-        if wsl.linux_to_win_path(file) then
+        if wsl.get_is_wsl() then
             local win_path = wsl.linux_to_win_path(file)
             local win_cmd = "!/mnt/c/Program\\ Files/Google/Chrome/Application/chrome.exe " .. win_path
             vim.cmd(win_cmd)
