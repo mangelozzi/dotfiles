@@ -51,10 +51,10 @@ end
 
 -- style can be 'hard', 'medium', 'soft'
 function M.apply_theme(style)
-    -- Baseline
-    vim.cmd.colorscheme("default") -- baseline
+    -- Baseline - disabled due to slow down
+    -- vim.cmd.colorscheme("default") -- baseline
+    -- vim.cmd.colorscheme("gruvbox-material") -- further baseline2
     vim.g.gruvbox_material_background = style -- 'hard', 'medium', 'soft'
-    vim.cmd.colorscheme("gruvbox-material") -- further baseline2
     -- Custom
     local p = build_palette(style)
     local groups = build_groups(p)

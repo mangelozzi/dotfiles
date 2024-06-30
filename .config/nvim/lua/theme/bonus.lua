@@ -2,7 +2,10 @@ local M = {}
 
 function M.get_groups(p)
     return {
-        RootFolder = { fg=p.directory_root },
+        HighlightOnYank = { fg = p.bg0, bg = p.yellow, nocombine = true },
+        VertSplit = { fg=p.vertsplit_fg, bg=p.vertsplit_bg,  nocombine = true },
+        CursorIM = {link = "Cursor" },    -- Like Cursor, but used when in IME mode. *CursorIM*
+        RootFolder = { fg=p.fg1, bold = true },
 
         -- Refer to QuickFixLine in builtin.lua for the current select QF line
         qfFileName = { fg = p.red, bold = true },
@@ -14,10 +17,6 @@ function M.get_groups(p)
         _qfLineNr       = { fg = '#ffff00', bg='#444400' },  -- Line number colour
         _qfCursorLineNr = { fg = '#000000', bg='#cccc00' },  -- Cursor line number colour
 
-        Cursor = { reverse = true },
-        HighlightOnYank = { fg = "#00ff00", bg="#008000"},
-        VertSplit = { fg=p.vertsplit_fg, bg=p.vertsplit_bg,  nocombine = true },
-        CursorIM = {link = "Cursor" },    -- Like Cursor, but used when in IME mode. *CursorIM*
 
         Noise = { fg=p.noise }, -- Unoffical common group
 

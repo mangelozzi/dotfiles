@@ -7,16 +7,20 @@ function M.get_groups(p)
         ColorColumn = {fg = nil, bg = p.bg2}, -- Used for the columns set with 'colorcolumn'.
         Conceal = {fg = p.bg5, bg = nil}, -- Placeholder characters substituted for concealed
         CurSearch = {link = "IncSearch"}, -- Current match for the last search pattern (see 'hlsearch').
-        -- Cursor    	-- Character under the cursor.
+
+        -- Does seem to do be applying
+        Cursor = { fg = "#ffffff", bg = "#00ff00", nocombine = true}, -- Character under the cursor.
+        -- Cursor = { reverse = true }, -- Character under the cursor.
+
         lCursor = {link = "Cursor" },    	-- Character under the cursor when |language-mapping| is used (see 'guicursor').
         CursorColumn = {fg = nil, bg = p.bg1}, -- Screen-column at the cursor, when 'cursorcolumn' is set.
-        CursorLine = {fg = nil, bg = p.bg1}, -- Screen-line at the cursor, when 'cursorline' is set. Low-priority if foreground (ctermfg OR guifg) is not set.
+        CursorLine = {fg = nil, bg = p.bg3}, -- Screen-line at the cursor, when 'cursorline' is set. Low-priority if foreground (ctermfg OR guifg) is not set.
         Directory = {fg = p.fg1, bg = nil}, -- Directory names (and other special names in listings).
         DiffAdd = {fg = nil, bg = p.bg_diff_green}, -- Diff mode: Added line. |diff.txt|
         DiffChange = {fg = nil, bg = p.bg_diff_blue}, -- Diff mode: Changed line. |diff.txt|
         DiffDelete = {fg = nil, bg = p.bg_diff_red}, -- Diff mode: Deleted line. |diff.txt|
         DiffText = {fg = p.bg0, bg = p.blue}, -- Diff mode: Changed text within a changed line. |diff.txt|
-        EndOfBuffer = {fg = nil, bg = p.bg_dim}, -- Filler lines (~) after the end of the buffer. By default, this is highlighted like |hl-NonText|.
+        EndOfBuffer = {fg = p.bg0, bg = p.bg_dim}, -- Filler lines (~) after the end of the buffer. By default, this is highlighted like |hl-NonText|.
         -- TermCursor = { fg=nil, bg=nil },   -- Cursor in a focused terminal.
         -- TermCursorNC = { fg=nil, bg=nil },   -- Cursor in an unfocused terminal.
         ErrorMsg = {fg = p.red, bg = nil}, -- Error messages on the command line.
