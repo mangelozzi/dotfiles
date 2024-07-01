@@ -11,7 +11,8 @@ require('mason-lspconfig').setup({
         'html',
         -- 'emmet_ls', -- emmet html completion support, prefer emmet-vim plugin
         'pyright',
-        -- 'tsserver', <-- using 'typescript-tools' instead, see config below
+        'tsserver',
+        -- Tried 'typescript-tools', with config below, but did not seem faster
         'eslint',  -- For JSDoc
         'lua_ls',
         'jsonls',
@@ -90,9 +91,9 @@ lspconfig.pyright.setup({
   }
 })
 
-if require("namespace.utils").get_is_installed("typescript-tools") then
-    require("typescript-tools").setup {
-        on_attach = lsp_attach,
-        capabilities = lsp_capabilities,
-    }
-end
+-- if require("namespace.utils").get_is_installed("typescript-tools") then
+--     require("typescript-tools").setup {
+--         on_attach = lsp_attach,
+--         capabilities = lsp_capabilities,
+--     }
+-- end
