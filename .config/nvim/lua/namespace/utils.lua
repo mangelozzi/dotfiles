@@ -297,6 +297,107 @@ function M.fd_files_populate_qf(pattern, dir)
     vim.cmd('copen') -- Open the quickfix window
 end
 
+-- Function to escape HTML characters
+function M.escape_html_lines(lines)
+    local html_entities = {
+        ["&"] = "&amp;",
+        ["<"] = "&lt;",
+        [">"] = "&gt;",
+        ['"'] = "&quot;",
+        ["'"] = "&#39;",
+        ['{'] = "&#123;",
+        ["}"] = "&#125;"
+    }
+    local escaped_lines = {}
+    print('escape lines is')
+    vim.print(lines)
+
+    for _, line in ipairs(lines) do
+        for char, entity in pairs(html_entities) do
+            line = line:gsub(char, entity)
+        end
+        table.insert(escaped_lines, line)
+    end
+    return escaped_lines
+end
+
+--- Retrieves the visually seleceted text
+-- Example mapping: vnoremap <leader>zz :<C-U>call rgflow#GetVisualSelection(visualmode())<Cr>
+-- @mode - The result of `vim.fn.mode()`
+-- @return - An array of lines
+function M.get_selection_info(mode)
+    local _, l1, c1 = unpack(vim.fn.getpos("v"))
+    local _, l2, c2 = unpack(vim.fn.getpos("."))
+    local line_start, line_end, start_col, end_col = l1, l2, c1, c2
+    if l1 > l2 or l1 == l2 and c2 < c1 then
+        line_start, line_end, start_col, end_col = l2, l1, c2, c1
+    end
+    line_start = line_start - 1
+    end_col = end_col + 2
+    -- nvim_buf_get_lines({buffer}, {start}, {end}, {strict_indexing})
+    local lines = vim.api.nvim_buf_get_lines(0, line_start, line_end, true)
+    local offset = 1
+    if vim.api.nvim_get_option("selection") ~= "inclusive" then
+        offset = 2
+    end
+    if mode == "v" then
+        -- Must trim the end before the start, the beginning will shift left.
+        lines[#lines] = string.sub(lines[#lines], 1, end_col - offset)
+        lines[1] = string.sub(lines[1], start_col, -1)
+    elseif mode == "V" then
+        -- Line mode no need to trim start or end
+    elseif mode == "\22" then
+        -- <C-V> = ASCII char 22
+        -- Block mode, trim every line
+        for i, line in ipairs(lines) do
+            lines[i] = string.sub(line, start_col, end_col - offset)
+        end
+    else
+        error("Unknown visual mode: " .. mode)
+    end
+    -- vim.print('lines is', table.concat(lines, "\n"))
+    -- return table.concat(lines, "\n")
+    -- Names to match: nvim_buf_set_text({buffer}, {start_row}, {start_col}, {end_row}, {end_col}, {replacement})
+    return {
+        lines = lines,
+        start_row = line_start,
+        end_row = line_end,
+        start_col = start_col,
+        end_col = end_col
+    }
+end
+
+function M.replace_selection(mode, info)
+    -- nvim_buf_set_text({buffer}, {start_row}, {start_col}, {end_row}, {end_col}, {replacement})
+    if mode == "v" then
+        vim.api.nvim_buf_set_text(0, info.start_row, info.start_col - 1, info.end_row - 1, info.end_col, info.lines)
+    elseif mode == "V" then
+        vim.api.nvim_buf_set_text(0, info.start_row, 0, info.end_row - 1, -1, info.lines)
+    elseif mode == "\22" then
+        -- <C-V> = ASCII char 22
+        -- Block mode, trim every line
+        for i, line in ipairs(info.lines) do
+            vim.api.nvim_buf_set_text(0, info.start_row + i - 1, info.start_col - 1, info.start_row + i - 1, info.end_col - 1, { line })
+        end
+    else
+        error("Unknown visual mode: " .. mode)
+    end
+end
+
+-- Transform a visual selection range of text
+-- param `func` is a function that takes an array of lines and returns an array of lines
+function M.alter_visual_range(func)
+    local mode = vim.fn.mode()
+    local info = M.get_selection_info(mode)
+    local altered_lines = func(info.lines)
+    info.lines = altered_lines
+    M.replace_selection(mode, info)
+end
+
+function M.escape_html_visual_selection()
+    M.alter_visual_range(M.escape_html_lines)
+end
+
 return M
 
 -- " This function sets up the opfunc so it can be repeated with a dot.

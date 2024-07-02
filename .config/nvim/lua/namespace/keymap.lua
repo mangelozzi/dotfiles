@@ -472,3 +472,8 @@ vim.keymap.set('n', '<leader>gg', viewGitDiffCurrentFile, { noremap = true, sile
 --     echo synIDattr(l:s, 'name') . ' -> ' . synIDattr(synIDtrans(l:s), 'name')
 -- endfun
 -- command! SynGroup call SynGroup()
+
+-- UTILITIES ------------------------------------------------------------------
+-- Escape html entities <>'"{} to &lt;&gt;&quot;&lbrace;&rbrace;
+vim.keymap.set("v", "<leader><", function() require("namespace/utils").escape_html_visual_selection() end, {noremap = true})
+vim.keymap.set("v", "<leader>>", function() require("namespace/utils").escape_html_visual_selection() end, {noremap = true})
