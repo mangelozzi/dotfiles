@@ -143,56 +143,9 @@ function copy_temp_file()   {
 mkdir -p ~/.ssh
 # copy_temp_file ~/.ssh/config ~/.config/ssh/config
 
-# FUNCTIONS
+# FUZZY FUNCTIONS
 #----------------
-# Fuzzy CD
-fcd() {
-    cd $(fd --type directory --hidden |fzf)
-}
-# Fuzzy neovim edit
-fn() {
-    local file=$(fd -H -t l -t f | fzf)
-    if [[ -n $file ]]; then
-        nvim "$file"
-    fi
-}
-# Fuzzy find file/dir and copy to the clipboard
-copy() {
-    echo -n $(fd -H | fzf) | xclip -selection c
-    echo "Copied to clipboard: $(xclip -o -selection c)"
-}
-# Fuzzy ll
-fll() {
-    ll -a "$(get)"
-}
-# Fuzzy get
-# e.g. if relying on word splitting: ls $(get)
-# or ls "$(get)"
-get() {
-    # fd -H | fzf
-    # since filenames can contain newline
-    # fd -0 terminates with null instead of newline
-    # fzf --read0 = Read input delimited by ASCII NUL characters instead of newline characters
-    fd -0 -H | fzf --read0
-}
-# Fuzzy find app and open with system
-# -H = hidden
-open() {
-    file=$(fd -H --type file --type symlink | fzf)
-    if [[ -n $file ]]; then
-        xdg-open "$file" &
-    fi
-}
-alias fo=open
-
-# Fuzzy find executable and run it
-run() {
-    local cmd=$(fd --type executable | fzf)
-    if [[ -n $cmd ]]; then
-        "$cmd" &
-    fi
-}
-alias fr=run
+source ~/.config/bash/fuzzy.sh
 
 # --- GNOME SETTINGS (Default ubuntu panel ---
 # Setting this environment variable is required to make the appearance panel appear in the options
@@ -204,4 +157,3 @@ XDG_CURRENT_DESKTOP=ubuntu:GNOME
 # report sensors temp
 # /etc/init.d/kmod start; sensors
 # sensors
-
