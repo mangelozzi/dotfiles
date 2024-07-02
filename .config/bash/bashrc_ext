@@ -157,3 +157,7 @@ XDG_CURRENT_DESKTOP=ubuntu:GNOME
 # report sensors temp
 # /etc/init.d/kmod start; sensors
 # sensors
+
+# CLIENTS
+#----------------
+source ~/.config/bash/ioec.sh

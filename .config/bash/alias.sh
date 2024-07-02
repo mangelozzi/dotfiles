@@ -129,25 +129,3 @@ alias gdsass="git diff --diff-filter=M --ws-error-highlight=all '*.sass' '*.scss
 # XDG_CURRENT_DESKTOP=ubuntu:GNOME
 alias settings="gnome-control-center &"
 alias update="update-manager"
-
-# Windows user
-alias cdu='cd /mnt/c/Users/Michael/'
-# Windows work
-alias cdw='cd /mnt/c/work/'
-
-# IOEC
-# IOEC=~/ioec/admin
-IOEC=/mnt/c/Users/Michaela/ioec
-alias cdi="cd $IOEC"
-alias cda="cd $IOEC/admin"
-
-alias cdg="cd ~/Ggateway/Gateway"
-alias cdG="cd ~/Ggateway/Gateway/Gateway.NextClient"
-alias cdgc="cd ~/Ggateway/Gateway/Gateway.Client"
-alias cdgn="cd ~/Ggateway/Gateway/Gateway.NextClient"
-
-alias fe="cd $IOEC/gateway/Gateway/Gateway.Client; npm start"
-alias fen="cd $IOEC/gateway/Gateway/Gateway.NextClient; npm start"
-alias fortistart="sudo systemctl start forticlient.service"
-alias fortistop="sudo systemctl stop forticlient.service"
-alias story="npm run storybook"
