@@ -3,7 +3,7 @@
 
 local M = {}
 
-function M.get_palette(p)
+function M.get_palette(p, style)
     return {
         main1            = '#ff4434',
         main2            = '#ff8300',
@@ -48,18 +48,6 @@ function M.get_palette(p)
         -- purple           = '#ffa5e6', -- In gruvbox already
         purplel          = '#e392cc',
         purple_bg        = '#634059',
-        oldlime          = '#8aba21',
-        oldneonlime      = '#888888',
-        oldmustard       = '#888888',
-        oldstone         = '#888888',
-        oldskygray       = '#888888',
-        oldskybright     = '#888888',
-        oldskypale       = '#888888',
-        oldgray          = '#888888',
-        oldindigo        = '#888888',
-        oldbluegray      = '#888888',
-        oldpurple        = '#888888',
-        oldpeach         = '#888888',
         isoerrorred      = '#ff4434',
         isowarningorange = '#ff8300',
         isocautionyellow = '#ffed00',

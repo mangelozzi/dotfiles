@@ -4,6 +4,10 @@
                  • bg (or background): color name or "#RRGGBB", see note.
                  • sp (or special): color name or "#RRGGBB"
                  • blend: integer between 0 and 100
+                        :help highlight-blend
+                        Override the blend level for a highlight group within the popupmenu
+                        or floating windows. Only takes effect if 'pumblend' or 'winblend'
+                        is set for the menu or window. See the help at the respective option.
                  • bold: boolean
                  • standout: boolean
                  • underline: boolean
@@ -25,15 +29,31 @@
                    map documented above.
 --]]
 
+local calc = require("theme.calc")
+
 local M = {}
 
+local desat_map = {
+    hard = 1,
+    medium = 0.8,
+    soft = 0.7
+}
+local darken_map = {
+    hard = 1,
+    medium = 0.95,
+    soft = 0.9
+}
+
 -- Function to merge tables and show only changes
-function M.update_palette(base_palette, new_palette)
+function M.update_palette(base_palette, new_palette, style)
+    local desat = desat_map[style]
+    local darken = darken_map[style]
     for k, v in pairs(new_palette) do
         if base_palette[k] then
             error("Duplicate Palette Key: " .. k .. " was " .. base_palette[k] .. " -> " .. new_palette[k])
         end
-        base_palette[k] = v
+        local adj_color = calc.adjust_color(v, desat, darken)
+        base_palette[k] = adj_color
     end
 end
 
@@ -48,5 +68,8 @@ function M.apply_highlights(groups)
         vim.api.nvim_set_hl(0, group_name, props)
     end
 end
+
+-- To reload the colors to check changes in real time
+vim.keymap.set("n", "<leader>@", function() require("theme").reload_colors() end, {noremap = true})
 
 return M
