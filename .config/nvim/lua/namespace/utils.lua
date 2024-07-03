@@ -303,8 +303,8 @@ function M.escape_html_lines(lines)
         ["&"] = "&amp;",
         ["<"] = "&lt;",
         [">"] = "&gt;",
-        ['"'] = "&quot;",
-        ["'"] = "&#39;",
+        -- ['"'] = "&quot;",
+        -- ["'"] = "&#39;",
         ['{'] = "&#123;",
         ["}"] = "&#125;"
     }
@@ -313,8 +313,13 @@ function M.escape_html_lines(lines)
     vim.print(lines)
 
     for _, line in ipairs(lines) do
+        -- Replace & first to avoid double escaping, e.g. `{` -> `&#123;` -> `&amp;#123;`
+        line = line:gsub("&", html_entities["&"])
+
         for char, entity in pairs(html_entities) do
-            line = line:gsub(char, entity)
+            if char ~= "&" then
+                line = line:gsub(char, entity)
+            end
         end
         table.insert(escaped_lines, line)
     end
