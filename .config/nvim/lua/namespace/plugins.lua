@@ -53,11 +53,7 @@ local namespace_plugins = function(use)
     use("tpope/vim-repeat")
     use("saaguero/vim-textobj-pastedtext")  -- Last pasted text object (gb)
     use("vim-scripts/ReplaceWithRegister")  -- <leader>k
-    use {
-        -- xml attributes with x
-        "whatyouhide/vim-textobj-xmlattr",
-        requires = "kana/vim-textobj-user",
-    }
+    use ("chrisgrieser/nvim-various-textobjs")
     -- Require to set it before plug loads
     vim.g.titlecase_map_keys = 0
     use("christoomey/vim-titlecase")
