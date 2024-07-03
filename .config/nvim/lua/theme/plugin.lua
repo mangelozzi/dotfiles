@@ -3,7 +3,7 @@ local M = {}
 
 local directory = '#ffff00'
 
-function M.get_palette(p)
+function M.get_palette(p, style)
     return {
         directory = '#ffff00',
         directory_open = '#ffff00',
@@ -18,7 +18,7 @@ function M.get_groups(p)
         _VimBrightest = { bg="#500050" },
 
         -- Rainbow Delimiters
-        rainbowcol1 = { fg = "#ffffff", bold = false }, -- bold white
+        rainbowcol1 = { fg = "#fefefe", bold = false }, -- bold white
         rainbowcol2 = { fg = "#a0ffff", bold = false }, -- blueish
         rainbowcol3 = { fg = "#80ff80", bold = false }, -- greenish
         rainbowcol4 = { fg = "#ffc0c0", bold = false }, -- redish
@@ -40,7 +40,7 @@ function M.get_groups(p)
         -- Highlight color if buffer modified
         NvimTreeModifiedFile = {fg="#ff0000", bg="#500000" },
         NvimTreeOpenedFile = {fg="#00e000" },
-        NvimTreeFileIcon = {fg="#ffffff"},  -- If the file icon does not have an associated color, use this default color
+        NvimTreeFileIcon = {fg="#fefefe"},  -- If the file icon does not have an associated color, use this default color
         NvimTreeNormal = {link="Normal" },  -- Normal lines
 
         NvimTreeLiveFilterPrefix = {fg="#ffa000", bg="#303030" },  -- The filter prefix

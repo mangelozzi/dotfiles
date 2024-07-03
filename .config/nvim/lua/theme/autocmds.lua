@@ -33,3 +33,16 @@ vim.api.nvim_create_autocmd("InsertLeave", {
         vim.api.nvim_set_hl(0, "CursorLine", { link = "cursorline_insert" })
     end,
 })
+
+-- vim.api.nvim_create_autocmd(
+--     "BufWritePost",
+--     {
+--         desc = "Update the color theme after saving, for tweaking colors in realtime",
+--         group = ThemeGroup,
+--         pattern = {"*.lua"},
+--         callback = function()
+--             require("theme/init").reload_colors()
+--             print("Colours reloaded")
+--         end
+--     }
+-- )

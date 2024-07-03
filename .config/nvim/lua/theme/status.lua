@@ -11,7 +11,7 @@
 
 local M = {}
 
-function M.get_palette(p)
+function M.get_palette(p, style)
     return {
         status_line_bg = "#00A000",
         _status_subtle_nc_fg = "#707070",

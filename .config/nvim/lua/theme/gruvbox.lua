@@ -3,8 +3,8 @@
 
 local M = {}
 
-function M.get_palette(p)
-    return {
+local palette = {
+    base = {
         orange = "#e78a4e",
         yellow = "#d8a657",
         green = "#a9b665",
@@ -20,12 +20,10 @@ function M.get_palette(p)
         fg1 = "#ddc7a1",
         red = "#ea6962",
         bg_red = "#ea6962"
-    }
-end
-
-function M.get_palette_hard(p)
-    return {
+    },
+    hard = {
         bg_dim = "#141617",
+        bg0d = "#1d2021", -- michael
         bg0 = "#1d2021",
         bg1 = "#282828",
         bg2 = "#282828",
@@ -43,12 +41,10 @@ function M.get_palette_hard(p)
         bg_visual_green = "#333e34",
         bg_diff_red = "#3c1f1e",
         bg_visual_red = "#442e2d",
-    }
-end
-
-function M.get_palette_medium(p)
-    return {
+    },
+    medium = {
         bg_dim = "#1b1b1b",
+        bg0d = "#282828", -- michael
         bg0 = "#282828",
         bg1 = "#32302f",
         bg2 = "#32302f",
@@ -66,18 +62,16 @@ function M.get_palette_medium(p)
         bg_visual_green = "#3b4439",
         bg_diff_red = "#402120",
         bg_visual_red = "#4c3432",
-    }
-end
-
-function M.get_palette_soft(p)
-    return {
-        bg_dim = "#252423",
-        bg0 = "#32302f",
-        bg1 = "#3c3836",
-        bg2 = "#3c3836",
-        bg3 = "#504945",
-        bg4 = "#504945",
-        bg5 = "#665c54",
+    },
+    soft = {
+        bg_dim = "#2e2c2a",
+        bg0d = "#363631", -- michael for eof
+        bg0 = "#3d3a37",
+        bg1 = "#48433f",
+        bg2 = "#48433f",
+        bg3 = "#60524f",
+        bg4 = "#60524f",
+        bg5 = "#7f7164",
         bg_statusline1 = "#3c3836",
         bg_statusline2 = "#46413e",
         bg_statusline3 = "#5b534d",
@@ -90,6 +84,15 @@ function M.get_palette_soft(p)
         bg_diff_red = "#472322",
         bg_visual_red = "#543937",
     }
+}
+
+function M.get_palette(p, style)
+    local base = palette.base
+    local ext = palette[style]
+    for k, v in pairs(ext) do
+        base[k] = v
+    end
+    return base
 end
 
 return M
