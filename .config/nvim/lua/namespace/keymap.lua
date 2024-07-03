@@ -402,6 +402,16 @@ vim.keymap.set("c", "<DEL>", utils.delete_to_right_only, { expr = true})
 
 -- VIM TALK (text objects and motions) ----------------------------------------
 
+-- Commenting - Built in Neovim comments, by default is gc - see :help commenting
+-- gc comment/uncomment
+-- gcc comment/uncomment line
+-- gcgc uncoment a continous block of lines
+-- gcO comment above
+-- gcO comment below
+-- gcA comment append
+
+-- vim.keymap.set({"n"}, "<leader>jK", "O<esc>gcli", {remap = true})
+
 -- All, or whole buffer
 vim.keymap.set("o", "A", utils.text_object_all, {})
 

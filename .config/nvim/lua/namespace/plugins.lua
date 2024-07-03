@@ -47,12 +47,12 @@ local namespace_plugins = function(use)
     -- Own plugin Capesky
     use(vim.g.nvim_path .. "/tmp/vim-capesky")
 
-    -- OPERATOR + MOTION + TEXT-OBJECT = AWESOME
+    -- OPERATOR + MOTION + TEXT-OBJECT = AWESOME (VIM SPEAK LANGUAGE)
     use("wellle/targets.vim")
     use("tpope/vim-surround")
-    use("numToStr/Comment.nvim")
     use("tpope/vim-repeat")
-    use("vim-scripts/ReplaceWithRegister")
+    use("saaguero/vim-textobj-pastedtext")  -- Last pasted text object (gb)
+    use("vim-scripts/ReplaceWithRegister")  -- <leader>k
     use {
         -- xml attributes with x
         "whatyouhide/vim-textobj-xmlattr",
