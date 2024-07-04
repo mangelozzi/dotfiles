@@ -17,7 +17,7 @@ function M.get_groups(p)
         -- Vim-Brightest
         _VimBrightest = { bg="#500050" },
 
-        -- Rainbow Delimiters
+        -- Rainbow Delimiters - Lowercase cause my own highilight group
         rainbowcol1 = { fg = "#fefefe", bold = false }, -- bold white
         rainbowcol2 = { fg = "#a0ffff", bold = false }, -- blueish
         rainbowcol3 = { fg = "#80ff80", bold = false }, -- greenish

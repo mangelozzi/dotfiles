@@ -7,6 +7,9 @@ function M.get_groups(p)
         CursorIM = {link = "Cursor" },    -- Like Cursor, but used when in IME mode. *CursorIM*
         RootFolder = { fg=p.fg1, bold = true },
 
+        -- Not sure from where
+        DiagnosticUnderlineError = { bg = p.bg_diff_red, sp=p.red, underline = true },
+
         -- Refer to QuickFixLine in builtin.lua for the current select QF line
         qfFileName = { fg = p.red, bold = true },
         qfLineNr = { fg = p.yellow },

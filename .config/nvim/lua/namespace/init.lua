@@ -15,7 +15,7 @@ else
     require("namespace/autocmds") -- Auto commands
     require("namespace/colors")   -- Color theme, must be after 'opt', changes settings
     require("namespace/status")   -- Color theme, must be after 'opt', changes settings
-    require("namespace/plugins")  -- Enable plugins - AFTER: keymap so correct leader used
+    require("namespace/lazy")  -- Enable plugins - AFTER: keymap so correct leader used
 end
 
 -- -- require caches result, then have to restart
