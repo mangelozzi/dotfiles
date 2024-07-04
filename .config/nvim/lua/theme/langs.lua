@@ -259,177 +259,25 @@ function M.get_groups(p)
 
         -- CSS
 
-        -- Chars
-        -- cssAttrComma',               'brightsky },
-        -- cssFunctionComma',           'brightsky },
-        -- cssSelectorOp',              'brightsky },
-        -- cssFunction',                'brightsky },
-        -- cssSelectorOp2',             'green },
-        -- cssUnicodeEscape',           'yellow },
+        ['@type.css']         = { fg = p.purple, bg = p.purple_bg },    -- `hide` { - I.e. a class name
+        ['@attribute.css']    = { fg = p.nb1, bg = "none", nocombine = true },     -- :`active` 
+        ['@property.css']     = { fg = p.yellow },  -- `align-items`
+        ['@string.css']       = { fg = p.aqua },    -- 16`px`
+        ['@number.css']       = { fg = p.green },   -- `16`px
+        ['@number.float.css'] = { fg = p.green },   -- `1.125`
+        ['@function.css']     = { fg = p.aqua },    -- `var`()
+        ['@punctuation.delimiter.css'] = { fg = '#f0f0f0', bold=true },    -- `var`()
 
-        -- Main
-        -- cssAttr',                    'yellow },
-        -- cssAttrRegion',              'mustard },
-        -- cssDefinition',              'red }, " Doesnt seem to work
-        -- cssPseudoClass',             'peach },
-        -- cssPseudoClassId',           'peach },
-        -- cssPseudoClassFn',           'peach },
-        -- cssStringQ',                 'grassgreen },
-        -- cssStringQQ',                'grassgreen },
-        -- cssImportant',               'red },
-        -- cssFunctionName',            'purple },
-        -- cssAtRule',                  'skybright },
-
-        -- Selectors
-
-        -- Values
-        -- cssValueInteger',            'brightsky },
-        -- cssValueNumber',             'brightsky },
-        -- cssValueLength',             'brightsky },
-        -- cssValueAngle',              'brightsky },
-        -- cssValueTime',               'brightsky },
-        -- cssComment',                 'gray },
-        -- cssAtKeyword',               'skybright },
-        -- cssAtRuleLogical',           'skypale },
-        -- cssMediaType',               'skypale },
-        -- scssComment',                'gray },
-
-        -- cssTagName     xxx links to Statement
         cssTagName = { fg = p.main1, bg = p.main1_bg },
-        -- cssSelectorOp  xxx links to Special
-        -- cssSelectorOp2 xxx links to Special
-        -- cssUnicodeEscape xxx links to Special
-        -- cssStringQ     xxx links to String
-        -- cssStringQQ    xxx links to String
-        -- cssAttributeSelector xxx links to String
         cssAttributeSelector = { fg = p.speciall, bg = p.special_bg },
-        -- cssClassName   xxx links to Function
         cssClassName = { fg = p.purple, bg = p.purple_bg },
-        -- cssClassNameDot xxx links to Function
         cssClassNameDot = { link = 'cssClassName' },
-        -- cssIdentifier  xxx links to Function
         cssIdentifier = { fg = p.main2, bg = p.main2_bg },
-        -- cssUnitDecorators xxx links to Number
         cssUnitDecorators = { fg = p.numberl },
-        -- cssValueInteger xxx links to Number
-        -- cssValueNumber xxx links to Number
-        -- cssValueLength xxx links to Number
-        -- cssValueAngle  xxx links to Number
-        -- cssValueTime   xxx links to Number
-        -- cssValueFrequency xxx links to Number
-        -- cssColor       xxx links to Constant
         cssColor = { fg = p.constanth },
-        -- cssImportant   xxx links to Special
-        -- cssCustomProp  xxx links to Special
-        -- cssFunctionName xxx links to Function
-        -- cssURL         xxx links to String
-        -- cssFunction    xxx links to Constant
-        -- cssFunctionComma xxx links to Function
-        -- cssGradientAttr xxx links to cssAttr
-        -- cssCommonAttr  xxx links to cssAttr
-        -- cssAnimationProp xxx links to cssProp
-        -- cssAnimationAttr xxx links to cssAttr
-        -- cssBackgroundProp xxx links to cssProp
-        -- cssBackgroundAttr xxx links to cssAttr
-        -- cssBorderProp  xxx links to cssProp
-        -- cssBorderAttr  xxx links to cssAttr
-        -- cssBoxProp     xxx links to cssProp
-        -- cssBoxAttr     xxx links to cssAttr
-        -- cssCascadeProp xxx links to cssProp
-        -- cssCascadeAttr xxx links to cssAttr
-        -- cssColorProp   xxx links to cssProp
-        -- cssDimensionProp xxx links to cssProp
-        -- cssFlexibleBoxProp xxx links to cssProp
-        -- cssFlexibleBoxAttr xxx links to cssAttr
-        -- cssFontProp    xxx links to cssProp
-        -- cssFontAttr    xxx links to cssAttr
-        -- cssMultiColumnProp xxx links to cssProp
-        -- cssMultiColumnAttr xxx links to cssAttr
-        -- cssInteractProp xxx links to cssProp
-        -- cssInteractAttr xxx links to cssAttr
-        -- cssGeneratedContentProp xxx links to cssProp
-        -- cssGeneratedContentAttr xxx links to cssAttr
-        -- cssGridProp    xxx links to cssProp
-        -- cssHyerlinkProp xxx links to cssProp
-        -- cssListProp    xxx links to cssProp
-        -- cssListAttr    xxx links to cssAttr
-        -- cssPositioningProp xxx links to cssProp
-        -- cssPositioningAttr xxx links to cssAttr
-        -- cssPrintAttr   xxx links to cssAttr
-        -- cssTableProp   xxx links to cssProp
-        -- cssTableAttr   xxx links to cssAttr
-        -- cssTextProp    xxx links to cssProp
-        -- cssTextAttr    xxx links to cssAttr
-        -- cssTransformProp xxx links to cssProp
-        -- cssTransitionProp xxx links to cssProp
-        -- cssTransitionAttr xxx links to cssAttr
-        -- cssUIProp      xxx links to cssProp
-        -- cssUIAttr      xxx links to cssAttr
-        -- cssIEUIAttr    xxx links to cssAttr
-        -- cssIEUIProp    xxx links to cssProp
-        -- cssAuralProp   xxx links to cssProp
-        -- cssAuralAttr   xxx links to cssAttr
-        -- cssMobileTextProp xxx links to cssProp
-        -- cssMediaProp   xxx links to cssProp
-        -- cssMediaAttr   xxx links to cssAttr
-        -- cssDefinition  xxx cleared
-        -- cssKeyFrameProp xxx links to Constant
-        -- cssPageMarginProp xxx links to cssAtKeyword
-        -- cssPageProp    xxx links to cssProp
-        -- cssFontDescriptorProp xxx links to cssProp
-        -- cssFontDescriptorAttr xxx links to cssAttr
-        -- cssBraces      xxx links to Function
         cssBraces = { fg = p.alth },
-        -- cssError       xxx links to Error
-        -- cssAtRule      xxx links to Include
-        -- cssAttrRegion  xxx cleared
-        -- cssComment     xxx links to Comment
-        -- cssVendor      xxx links to Comment
         cssVendor = { fg = p.main3 },
-        -- cssHacks       xxx links to Comment
-        -- cssNoise       xxx links to Noise
-        -- cssNoise = { fg = p.alt },
-        -- cssBraceError  xxx links to Error
-        -- cssAttrComma   xxx links to Special
-        -- cssPseudoClassId xxx links to PreProc
-        -- cssPseudoClassFn xxx cleared
-        -- cssPseudoClass xxx cleared
-        -- cssSpecialCharQQ xxx cleared
-        -- cssSpecialCharQ xxx cleared
-        -- cssAtKeyword   xxx links to PreProc
-        -- cssAtRuleLogical xxx links to Statement
-        -- cssMediaType   xxx links to Special
-        -- cssPagePseudo  xxx links to PreProc
-        -- cssDeprecated  xxx links to Error
-        -- cssProp        xxx links to StorageClass
         cssProp = { fg = p.nb2 },
-        -- cssContentForPagedMediaProp xxx links to cssProp
-        -- cssLineboxProp xxx links to cssProp
-        -- cssMarqueeProp xxx links to cssProp
-        -- cssPagedMediaProp xxx links to cssProp
-        -- cssPrintProp   xxx links to cssProp
-        -- cssRubyProp    xxx links to cssProp
-        -- cssSpeechProp  xxx links to cssProp
-        -- cssRenderProp  xxx links to cssProp
-        -- cssAttr        xxx links to Constant
-        -- cssContentForPagedMediaAttr xxx links to cssAttr
-        -- cssDimensionAttr xxx links to cssAttr
-        -- cssGridAttr    xxx links to cssAttr
-        -- cssHyerlinkAttr xxx links to cssAttr
-        -- cssLineboxAttr xxx links to cssAttr
-        -- cssMarginAttr  xxx links to cssAttr
-        -- cssMarqueeAttr xxx links to cssAttr
-        -- cssPaddingAttr xxx links to cssAttr
-        -- cssPagedMediaAttr xxx links to cssAttr
-        -- cssRubyAttr    xxx links to cssAttr
-        -- cssSpeechAttr  xxx links to cssAttr
-        -- cssTransformAttr xxx links to cssAttr
-        -- cssRenderAttr  xxx links to cssAttr
-        -- cssPseudoClassLang xxx links to Constant
-        -- cssMediaComma  xxx links to Normal
-        -- cssFontDescriptor xxx links to Special
-        -- cssUnicodeRange xxx links to Constant
-        -- cssPagingProp  xxx cleared
 
         -- PYTHON
 
