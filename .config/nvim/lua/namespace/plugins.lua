@@ -51,7 +51,6 @@ local namespace_plugins = function(use)
     use("wellle/targets.vim")
     use("tpope/vim-surround")
     use("tpope/vim-repeat")
-    use("saaguero/vim-textobj-pastedtext")  -- Last pasted text object (gb)
     use("vim-scripts/ReplaceWithRegister")  -- <leader>k
     use ("chrisgrieser/nvim-various-textobjs")
     -- Require to set it before plug loads

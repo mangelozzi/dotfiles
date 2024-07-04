@@ -28,7 +28,8 @@ vim.api.nvim_create_autocmd(
     {
         desc = "Source the lua/vim file after saving.",
         group = NamespaceGroup,
-        pattern = {"*.lua", "*.vim"},
+        -- pattern = {"*.lua", "*.vim"},
+        pattern = {"*.vim"},
         callback = function()
             vim.cmd("messages clear")
             vim.cmd("source")

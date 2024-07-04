@@ -240,73 +240,22 @@ function M.get_groups(p)
 
         -- HTML
 
-        -- htmlError      xxx links to Error
-        -- htmlSpecialChar xxx links to Special
-        -- htmlString     xxx links to String
-        -- htmlValue      xxx links to String
-        htmlValue = { fg = p.number },
-        -- htmlTagN       xxx cleared
-        -- htmlTagError   xxx links to htmlError
-        -- htmlEndTag     xxx links to Identifier
-        htmlEndTag = { fg = p.noisell },
-        -- htmlArg        xxx links to Type
-        htmlArg = { fg = p.nb1 },
-        -- htmlEvent      xxx links to javaScript
-        htmlEvent = { fg = p.alt },
-        -- htmlCssDefinition xxx links to Special
-        -- htmlTag        xxx links to Function
-        htmlTag = { fg = p.noise },
-        -- htmlTagName    xxx links to htmlStatement
-        htmlTagName = { fg = p.main2 },
-        -- htmlSpecialTagName xxx links to Exception
-        htmlSpecialTagName = { fg = p.main1 },
-        -- htmlCommentPart xxx links to Comment
-        -- htmlCommentError xxx links to htmlError
-        -- htmlComment    xxx links to Comment
-        htmlComment = { fg = p.commentl },
-        -- htmlPreStmt    xxx links to PreProc
-        -- htmlPreError   xxx links to Error
-        -- htmlPreAttr    xxx links to String
-        -- htmlPreProc    xxx links to PreProc
-        -- htmlPreProcAttrError xxx links to Error
-        -- htmlPreProcAttrName xxx links to PreProc
-        -- htmlLink       xxx links to Underlined
-        -- htmlStrike     xxx cterm=strikethrough gui=strikethrough
-        -- htmlBoldUnderline xxx cterm=bold,underline gui=bold,underline
-        -- htmlBoldItalic xxx cterm=bold,italic gui=bold,italic
-        -- htmlBold       xxx cterm=bold gui=bold
-        -- htmlBoldUnderlineItalic xxx cterm=bold,underline,italic gui=bold,underline,italic
-        -- htmlBoldItalicUnderline xxx links to htmlBoldUnderlineItalic
-        -- htmlUnderlineBold xxx links to htmlBoldUnderline
-        -- htmlUnderlineItalic xxx cterm=underline,italic gui=underline,italic
-        -- htmlUnderline  xxx cterm=underline gui=underline
-        -- htmlUnderlineBoldItalic xxx links to htmlBoldUnderlineItalic
-        -- htmlUnderlineItalicBold xxx links to htmlBoldUnderlineItalic
-        -- htmlItalicBold xxx links to htmlBoldItalic
-        -- htmlItalicUnderline xxx links to htmlUnderlineItalic
-        -- htmlItalic     xxx cterm=italic gui=italic
-        -- htmlItalicBoldUnderline xxx links to htmlBoldUnderlineItalic
-        -- htmlItalicUnderlineBold xxx links to htmlBoldUnderlineItalic
-        -- htmlLeadingSpace xxx links to None
-        -- htmlH1         xxx links to Title
-        -- htmlH2         xxx links to htmlH1
-        -- htmlH3         xxx links to htmlH2
-        -- htmlH4         xxx links to htmlH3
-        -- htmlH5         xxx links to htmlH4
-        -- htmlH6         xxx links to htmlH5
-        -- htmlTitle      xxx links to Title
-        -- htmlHead       xxx links to PreProc
-        -- htmlCssStyleComment xxx links to Comment
-        -- htmlScriptTag  xxx links to htmlTag
-        -- htmlEventSQ    xxx links to htmlEvent
-        -- htmlEventDQ    xxx links to htmlEvent
-        htmlEventDQ = { fg = p.alth },
-        -- htmlStyleArg   xxx links to htmlString
-        htmlStyleArg = { fg = p.fuchsia },
-        -- htmlHighlight  xxx cleared
-        -- htmlHighlightSkip xxx cleared
-        -- htmlStatement  xxx links to Statement
-        -- htmlSpecial    xxx links to Special
+        ['@tag.html'] = { fg = p.main2 },
+        ['@tag.delimiter.html'] = { fg = p.main1 },
+        ['@tag.attribute.html'] = { fg = p.nb1 },
+        ['@character.special.html'] = { fg = p.purple },
+        ['@string.html'] = { fg = p.constant },
+
+        -- htmlValue = { fg = p.number },
+        -- htmlEndTag = { fg = p.noisell },
+        -- htmlArg = { fg = p.nb1 },
+        -- htmlEvent = { fg = p.alt },
+        -- htmlTag = { fg = p.main2 },
+        -- htmlTagName = { fg = p.main2 },
+        -- htmlSpecialTagName = { fg = p.main1 },
+        -- htmlComment = { fg = p.commentl },
+        -- htmlEventDQ = { fg = p.alth },
+        -- htmlStyleArg = { fg = p.fuchsia },
 
         -- CSS
 

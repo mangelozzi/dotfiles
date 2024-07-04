@@ -413,9 +413,11 @@ vim.keymap.set("c", "<DEL>", utils.delete_to_right_only, { expr = true})
 -- vim.keymap.set({"n"}, "<leader>jK", "O<esc>gcli", {remap = true})
 
 -- All, or whole buffer
+-- Using nvim-various-textobjs.lua does not maintain the cursor position on copy all
 vim.keymap.set("o", "A", utils.text_object_all, {})
 
 -- Line Wise text objects (excludes the ending line char)
+-- Using nvim-various-textobjs.lua instead
 -- g_ means move to the last printable char of the line
 vim.keymap.set({"x", "o"}, "il", ":<C-U>normal! ^vg_<CR>", {noremap = true})
 vim.keymap.set({"x", "o"}, "al", ":<C-U>normal! 0vg_<CR>", {noremap = true})
@@ -429,7 +431,22 @@ vim.keymap.set("n", "[T", "vat<ESC>`<", {noremap = true})
 vim.keymap.set("n", "]T", "vat<ESC>`>", {noremap = true})
 
 -- Sort operator
-vim.keymap.set({"n", "x"}, "<leader>s", utils.sort_lines, {silent = true})
+-- TODO DOESNT WORK
+-- vim.keymap.set({"n", "x"}, "gs", utils.sort_lines, {noremap = true, silent = true}) -- Replace builtin sleep operator
+
+--[[
+
+aa
+dsafds
+gf
+cvc
+vd
+adf
+sdf
+
+
+--]]
+
 
 -- TODO NO WORKING SO WELL
 -- Rename tag - csst - from: https://stackoverflow.com/questions/16340037/change-html-tag-in-vim-but-keeping-the-attributes-surround
