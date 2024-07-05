@@ -39,7 +39,7 @@ Plugin.config = function()
     })
 
     print('set oil commands')
-    vim.keymap.set("n", "<leader>O", function() require("oil").toggle_float() end, {noremap = true})
+    vim.keymap.set("n", "<leader>O", function() require("oil").toggle_float() end, {noremap = true, desc = "Oil"})
     -- vim.keymap.set("n", "-", "<CMD>Oil<CR>", { desc = "Open parent directory" })
 end
 

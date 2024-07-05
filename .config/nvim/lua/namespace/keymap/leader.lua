@@ -1,10 +1,11 @@
 local switcher = require("namespace.switcher")
 
 -- If dont execute leader command, perform no operation instead of move one char to the right
-vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true, desc = "<nop>" })
+-- Let whichkey grab this instead
+-- vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true, desc = "<Nop>" })
 
 -- Disable highlighting
-vim.keymap.set({"n", "x"}, "<leader>h", ":noh<CR>", {noremap = true, desc = "disable highlighting"})
+vim.keymap.set({"n", "x"}, "<leader>h", ":noh<CR>", {noremap = true, desc = "Disable highlighting"})
 
 
 -- GIT ------------------------------------------------------------------------

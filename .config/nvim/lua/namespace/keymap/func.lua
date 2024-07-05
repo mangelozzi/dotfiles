@@ -19,7 +19,7 @@ vim.keymap.set({"", "!"}, "<F2>", require("namespace.utils").reload_config, { no
 vim.keymap.set({"", "!"}, "<F4>", '<ESC><ESC>q<ESC><ESC>:qa!<CR>', { noremap = true, desc = "Force quit"})
 
 -- OS xdg-open the current file
-vim.keymap.set({"", "!"}, "<F5>", require("namespace.utils").run, {noremap = true, desc = "xdg-open the file"})
+vim.keymap.set({"", "!"}, "<F5>", require("namespace.utils").run, {noremap = true, desc = "XDG-Open file"})
 
 -- Autoformat the file
 vim.keymap.set({"", "!"}, "<F6>", require("namespace.utils").format_code, {noremap = true, desc = "Autoformat the file"})

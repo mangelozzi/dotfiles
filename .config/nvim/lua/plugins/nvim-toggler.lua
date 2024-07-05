@@ -46,7 +46,7 @@ Plugin.config = function()
             remove_default_keybinds = true
         }
     )
-    vim.keymap.set({"n", "x"}, "<leader>t", require("nvim-toggler").toggle, {noremap = true})
+    vim.keymap.set({"n", "x"}, "<leader>t", require("nvim-toggler").toggle, {noremap = true, desc = "Toggle text"})
 end
 
 return Plugin

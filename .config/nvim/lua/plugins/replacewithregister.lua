@@ -17,10 +17,10 @@ local Plugin = {
 }
 
 Plugin.config = function()
-    vim.keymap.set("n", "<leader>k", "<Plug>ReplaceWithRegisterOperator", {})
-    vim.keymap.set("n", "<leader>kk", "Plug>ReplaceWithRegisterLine", {})
-    vim.keymap.set("x", "<leader>k", "<Plug>ReplaceWithRegisterVisual", {})
-    vim.keymap.set("n", "<leader>K", "<leader>k$", {})
+    vim.keymap.set("n", "<leader>k", "<Plug>ReplaceWithRegisterOperator", { desc = "Replace with register"})
+    vim.keymap.set("n", "<leader>kk", "Plug>ReplaceWithRegisterLine", { desc = "Replace line with register"})
+    vim.keymap.set("x", "<leader>k", "<Plug>ReplaceWithRegisterVisual", { desc = "Replace visual with register"})
+    vim.keymap.set("n", "<leader>K", "<leader>k$", { desc = "Replace to $ with register"})
 end
 
 return Plugin

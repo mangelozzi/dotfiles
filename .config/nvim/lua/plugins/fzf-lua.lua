@@ -121,45 +121,45 @@ Plugin.config = function()
     }
 
     -- (B)uffers
-    vim.keymap.set("n", "<leader><leader>", require("fzf-lua").buffers, {noremap = true, silent = true})
+    vim.keymap.set("n", "<leader><leader>", require("fzf-lua").buffers, {noremap = true, silent = true, desc = "FZF buffers"})
 
     -- (F)iles
     -- cwd
-    vim.keymap.set("n", "<leader>f", require("fzf-lua").files, {noremap = true, silent = true})
+    vim.keymap.set("n", "<leader>f", require("fzf-lua").files, {noremap = true, silent = true, desc = "FZF (f)iles - pwd"})
     -- home dir
-    vim.keymap.set("n", "<leader>~", function() require("fzf-lua").files({cwd = "~"}) end, {noremap = true, silent = true})
+    vim.keymap.set("n", "<leader>~", function() require("fzf-lua").files({cwd = "~"}) end, {noremap = true, silent = true, desc = "FZF files - home"})
     -- .config
-    vim.keymap.set("n", "<leader>.", function() require("fzf-lua").files({cwd = "~/.config"}) end, {noremap = true, silent = true})
+    vim.keymap.set("n", "<leader>.", function() require("fzf-lua").files({cwd = "~/.config"}) end, {noremap = true, silent = true, desc = "FZF files - config (.)" })
     -- One dir up
-    vim.keymap.set("n", "<leader>/", function() require("fzf-lua").files({cwd = ".."}) end, {noremap = true, silent = true})
+    vim.keymap.set("n", "<leader>/", function() require("fzf-lua").files({cwd = ".."}) end, {noremap = true, silent = true, desc = "FZF files - parent dir (../)"})
 
     -- (L)ines
-    vim.keymap.set("n", "<leader>zl", require("fzf-lua").lines, {noremap = true, silent = true})
+    vim.keymap.set("n", "<leader>zl", require("fzf-lua").lines, {noremap = true, silent = true, desc = "FZF (l)ines"})
     -- Breakpoints
     vim.keymap.set("n", "<leader><S-DEL>", function()
             require("fzf-lua").lines({query = "debugger | breakpoint()", no_esc = true})
         end,
-        {noremap = true, silent = true}
+        {noremap = true, silent = true, desc = "FZF breakpoints"}
     )
 
     -- (H)istory
-    vim.keymap.set("n", "<leader>zh", require("fzf-lua").oldfiles, {noremap = true, silent = true})
+    vim.keymap.set("n", "<leader>zh", require("fzf-lua").oldfiles, {noremap = true, silent = true, desc = "FZF (h)istory"})
 
     -- Help
-    vim.keymap.set("n", "<leader>z?", require("fzf-lua").help_tags, {noremap = true, silent = true})
+    vim.keymap.set("n", "<leader>z?", require("fzf-lua").help_tags, {noremap = true, silent = true, desc = "FZF help"})
 
     -- (G)rep for search results
-    vim.keymap.set("n", "<leader>zg", require("fzf-lua").live_grep, {noremap = true, silent = true})
+    vim.keymap.set("n", "<leader>zg", require("fzf-lua").live_grep, {noremap = true, silent = true, desc = "FZF (g)rep"})
     -- live grep (C)ontinue last search
-    vim.keymap.set("n", "<leader>zc", require("fzf-lua").live_grep_resume, {noremap = true, silent = true})
+    vim.keymap.set("n", "<leader>zc", require("fzf-lua").live_grep_resume, {noremap = true, silent = true, desc = "FZF (c)ontinue grep"})
 
     -- (R)g Grep first - then can search the grep result
-    vim.keymap.set("n", "<leader>zr", require("fzf-lua").grep, {noremap = true, silent = true})
+    vim.keymap.set("n", "<leader>zr", require("fzf-lua").grep, {noremap = true, silent = true, desc = "FZF (r)g search"})
 
     -- cword grep
-    vim.keymap.set("n", "<leader>zz", require("fzf-lua").grep_cword, {noremap = true, silent = true})
+    vim.keymap.set("n", "<leader>zz", require("fzf-lua").grep_cword, {noremap = true, silent = true, desc = "FZF cword grep"})
     -- cWORD
-    vim.keymap.set("n", "<leader>zZ", require("fzf-lua").grep_cWORD, {noremap = true, silent = true})
+    vim.keymap.set("n", "<leader>zZ", require("fzf-lua").grep_cWORD, {noremap = true, silent = true, desc = "FZF cWORD grep"})
 end
 
 return Plugin

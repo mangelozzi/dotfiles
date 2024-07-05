@@ -272,10 +272,10 @@ Plugin.config = function ()
 
     -- :NvimTreeToggle Open or close the tree. Takes an optional path argument.
     -- Toggle open tree at CWD
-    vim.api.nvim_set_keymap("n", "<leader>nn", ":NvimTreeToggle<CR>", { noremap = true })
+    vim.api.nvim_set_keymap("n", "<leader>nn", ":NvimTreeToggle<CR>", { noremap = true, desc ="NvimTree toggle pane"})
 
     -- :NvimTreeFocus Open the tree if it is closed, and then focus on the tree.
-    -- vim.api.nvim_set_keymap("n", "<leader>no", ":NvimTreeFocus<CR>", { noremap = true })
+    -- vim.api.nvim_set_keymap("n", "<leader>no", ":NvimTreeFocus<CR>", { noremap = true, desc = "NvimTree focus"})
 
     -- :NvimTreeFindFile Move the cursor in the tree for the current buffer, opening folders if needed.
     -- Find file and show within CWD
@@ -290,14 +290,14 @@ Plugin.config = function ()
     end
 
     -- vim.api.nvim_set_keymap("n", "<leader>nf", ":NvimTreeFindFile<CR>", { noremap = true })
-    vim.keymap.set("n", "<leader>nf", smart_find_file, { noremap = true })
+    vim.keymap.set("n", "<leader>nf", smart_find_file, { noremap = true, desc = "NvimTree find file" })
 
     -- Open to current buffer dir
     -- vim.api.nvim_set_keymap("n", "<leader>no", ":NvimTreeFocus<CR>", { noremap = true })
-    vim.keymap.set("n", "<leader>nd", ":NvimTreeOpen " .. vim.fn.expand('%:p:h') .. "<CR>", { noremap = true })
+    vim.keymap.set("n", "<leader>nd", ":NvimTreeOpen " .. vim.fn.expand('%:p:h') .. "<CR>", { noremap = true, desc = "NvimTree open buffer's dir"})
 
     -- Collapses the nvim-tree recursively, but keep the directories open, which are used in an open buffer.
-    vim.keymap.set("n", "<leader>nc", ":NvimTreeCollapseKeepBuffers<CR>", { noremap = true })
+    vim.keymap.set("n", "<leader>nc", ":NvimTreeCollapseKeepBuffers<CR>", { noremap = true, desc = "NvimTree collapse except open"})
 
     -- Collapses the nvim-tree recursively.
     -- Use the 'W' command in Nvim-Tree

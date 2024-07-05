@@ -20,8 +20,8 @@ local Plugin = {
 }
 
 Plugin.config = function()
-    vim.keymap.set({"n", "x"}, "gh", "<Plug>Titlecase", {noremap = true})
-    vim.keymap.set({"n", "x"}, "gH", "<Plug>TitlecaseLine", {noremap = true})
+    vim.keymap.set({"n", "x"}, "gh", "<Plug>Titlecase", {noremap = true, desc = "Titlecase operator"})
+    vim.keymap.set({"n", "x"}, "gH", "<Plug>TitlecaseLine", {noremap = true, desc = "Titlecase operator"})
 end
 
 return Plugin

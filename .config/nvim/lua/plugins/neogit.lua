@@ -129,10 +129,10 @@ Plugin.config = function()
     -- Prefer '<leader>i' to '<leader>g' cause can open git review with one hand while drinking water with other
 
     -- Map <leader>g to opening neogit
-    vim.keymap.set("n", "<leader>i", function() require('neogit').open({ kind = 'tab' }) end, {noremap = true})
+    vim.keymap.set("n", "<leader>i", function() require('neogit').open({ kind = 'tab' }) end, {noremap = true, desc = "Neogit"})
 
     -- This does not work, using for DiffView instead
-    -- vim.api.nvim_set_keymap('n', '<leader>I', ":lua require('neogit').open({ cwd='/home/michael/.config/' })<CR>", {noremap = true})
+    -- vim.api.nvim_set_keymap('n', '<leader>I', ":lua require('neogit').open({ cwd='/home/michael/.config/' })<CR>", {noremap = true, desc = ""})
 end
 
 return Plugin

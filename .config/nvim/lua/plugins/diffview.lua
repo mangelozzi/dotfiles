@@ -53,15 +53,15 @@ Plugin.config = function()
     end
 
     -- Dont show edited files on left
-    vim.keymap.set({"n", "x"}, "<leader>I", custom_open_diffview, {noremap = true})
+    vim.keymap.set({"n", "x"}, "<leader>I", custom_open_diffview, {noremap = true, desc = "Diffview open"})
 
     -- This is the standard open
     -- vim.keymap.set({'n', 'x'}, '<leader>I', function() vim.cmd('DiffviewOpen') end, { noremap = true} )
 
     -- Show a history of current file
-    vim.keymap.set( {"n", "x"}, "<leader>gf", function() vim.cmd("DiffviewFileHistory %") end, {noremap = true})
+    vim.keymap.set( {"n", "x"}, "<leader>gf", function() vim.cmd("DiffviewFileHistory %") end, {noremap = true, desc = "Diffview (f)ile history"})
     -- Show a history of changed files
-    vim.keymap.set( {"n", "x"}, "<leader>gh", function() vim.cmd("DiffviewFileHistory") end, {noremap = true})
+    vim.keymap.set( {"n", "x"}, "<leader>gh", function() vim.cmd("DiffviewFileHistory") end, {noremap = true, desc = "Diffview (h)istory"})
 end
 
 return Plugin

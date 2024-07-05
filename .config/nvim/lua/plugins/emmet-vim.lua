@@ -70,7 +70,7 @@ Plugin.config = function()
     -- vim.g.user_emmet_expandabbr_key = '<C-y>y'
 
     -- C-hjkl for changing windows, so we need something else:
-    vim.keymap.set({"n", "i", "v"}, '<M-o>', "<plug>(emmet-expand-abbr)", { noremap = true })
+    vim.keymap.set({"n", "i", "v"}, '<M-o>', "<plug>(emmet-expand-abbr)", { noremap = true, desc = "Emmet expand abbr" })
 
     -- -- Expand an abbr, e.g. 'div>p#foo$*3>a' and type '<C-y>,'.
     -- -- vim.keymap.set({"n", "i", "v"}, '<C-y>y', "<plug>(emmet-expand-abbr)", { noremap = true })
