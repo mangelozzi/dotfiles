@@ -1,3 +1,8 @@
+--[[
+Can see the highlight group under the cursor with `:Inspect`
+--]]
+
+
 local bonus = require("theme.bonus")
 local builtin = require("theme.builtin")
 local diffs = require("theme.diffs")

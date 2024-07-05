@@ -3,7 +3,7 @@ local wsl = require("namespace.wsl")
 local M = {}
 
 function M.map_leader_char_to_nop()
-    -- If one pressed <leader>cl and its not mapped to anything, then it performs a `cl`, .. not greate
+    -- If one pressed <leader>cl and its not mapped to anything, then it performs a `cl`, .. not great
     -- So before mapping any leader keys, disable all maps, then add them in
     for char = 97, 122 do
         local lowercase = string.char(char)
@@ -248,7 +248,7 @@ end
 function M.reload_config()
     local loadThese = {}
     for moduleName in pairs(package.loaded) do
-        if moduleName:match("^namespace") then
+        if moduleName:match("^namespace") or moduleName:match("^theme") then
             loadThese[moduleName] = package.loaded[moduleName]
             package.loaded[moduleName] = nil
         end
