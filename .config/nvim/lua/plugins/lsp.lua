@@ -1,7 +1,7 @@
 local Plugin = {
     "neovim/nvim-lspconfig",
-    cmd = {'LspInfo', 'LspInstall', 'LspUnInstall'},
-    event = {'BufReadPre', 'BufNewFile'},
+    -- cmd = {'LspInfo', 'LspInstall', 'LspUnInstall'},
+    -- event = {'BufReadPre', 'BufNewFile'},
     dependencies = {
         "hrsh7th/nvim-cmp",
         "williamboman/mason.nvim",

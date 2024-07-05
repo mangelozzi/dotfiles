@@ -10,7 +10,6 @@ local Plugin = {
     auto_install = true,
     dependencies = {'nvim-treesitter/nvim-treesitter-textobjects'},
     build = ":TSUpdate", -- TODO UNCOMMENT
-    lazy = false,
 }
 
 Plugin.config = function()

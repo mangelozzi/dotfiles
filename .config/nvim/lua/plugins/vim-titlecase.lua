@@ -10,9 +10,9 @@
 
 local Plugin = {
     "christoomey/vim-titlecase",
-    keys = {
-        {"<leader>gh", "<leader>gH"}
-    },
+    -- keys = {
+    --     {"<leader>gh", "<leader>gH"}
+    -- },
     init = function()
         -- Require to set it before plug loads
         vim.g.titlecase_map_keys = 0

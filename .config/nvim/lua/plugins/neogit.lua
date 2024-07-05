@@ -4,7 +4,7 @@ local Plugin = {
     "NeogitOrg/neogit",
     dependencies = {"nvim-lua/plenary.nvim"},
     commit = 'c5e09bfcc18fa9ff',
-    keys = {'<leader>i'},
+    -- keys = {'<leader>i'},
 }
 
 Plugin.config = function()

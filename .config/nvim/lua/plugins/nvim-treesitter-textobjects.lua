@@ -24,7 +24,6 @@
 
 local Plugin = {
     "nvim-treesitter-textobjects",
-    lazy = true,
 }
 
 Plugin.config = function()

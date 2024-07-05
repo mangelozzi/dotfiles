@@ -13,7 +13,7 @@
 
 local Plugin = {
     "vim-scripts/ReplaceWithRegister",
-    keys = {"<leader>k", "<leader>kk", "<leader>K"},
+    -- keys = {"<leader>k", "<leader>kk", "<leader>K"}, -- So which key shows keymaps before its used
 }
 
 Plugin.config = function()

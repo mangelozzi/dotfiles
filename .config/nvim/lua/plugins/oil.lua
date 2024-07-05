@@ -1,8 +1,8 @@
 local Plugin = {
     "stevearc/oil.nvim",
     dependencies = { "nvim-tree/nvim-web-devicons" },
-    cmd = "Oil",
-    keys = {"<leader>O"},
+    -- cmd = "Oil",
+    -- keys = {"<leader>O"},
 }
 
 Plugin.config = function()

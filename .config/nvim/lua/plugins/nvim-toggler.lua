@@ -3,7 +3,7 @@
 
 local Plugin = {
     "nguyenvukhang/nvim-toggler",
-    keys = {"<leader>t"}
+    -- keys = {"<leader>t"}
 }
 
 Plugin.config = function()

@@ -1,3 +1,9 @@
+--[[
+Don't use `keys` to lazy load plugins, then which key doesnt show them.
+So keep it simple and lazy load nothing
+Lazy loading = 110ms startup, vs 140ms to load everything immediately, not significant.
+--]]
+
 -- Bootstrap lazy.nvim
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not (vim.uv or vim.loop).fs_stat(lazypath) then

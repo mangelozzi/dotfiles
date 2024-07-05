@@ -3,9 +3,9 @@
 
 local Plugin = {
     dir = vim.g.nvim_path .. "/tmp/rgflow.nvim",
-    keys = {
-        {"<leader>rg", "<leader>RG"}
-    }
+    -- keys = {
+    --     {"<leader>rg", "<leader>RG"}
+    -- }
 }
 
 Plugin.config = function()

@@ -5,12 +5,15 @@ local M = {}
 function M.map_leader_char_to_nop()
     -- If one pressed <leader>cl and its not mapped to anything, then it performs a `cl`, .. not great
     -- So before mapping any leader keys, disable all maps, then add them in
-    for char = 97, 122 do -- loop through the alphabet
-        local lowercase = string.char(char)
-        local uppercase = string.char(char - 32) -- ASCII difference between lowercase and uppercase letters is 32
+    -- for char = 97, 122 do -- loop through the alphabet
+    -- Only iterate the descructive operators, so which key can grab the rest
+    for _, char in ipairs({'c', 'd', 's'}) do
+        local lowercase = char
+        local uppercase = string.upper(char) -- Convert to uppercase directly
         vim.keymap.set("n", "<leader>" .. lowercase, "<ESC>", {noremap = true, desc = "-"})
         vim.keymap.set("n", "<leader>" .. uppercase, "<ESC>", {noremap = true, desc = "-"})
     end
+
 end
 
 function M.get_is_installed(plugin_name)
