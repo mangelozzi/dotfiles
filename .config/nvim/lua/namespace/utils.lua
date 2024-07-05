@@ -10,8 +10,8 @@ function M.map_leader_char_to_nop()
     for _, char in ipairs({'c', 'd', 's'}) do
         local lowercase = char
         local uppercase = string.upper(char) -- Convert to uppercase directly
-        vim.keymap.set("n", "<leader>" .. lowercase, "<ESC>", {noremap = true, desc = "-"})
-        vim.keymap.set("n", "<leader>" .. uppercase, "<ESC>", {noremap = true, desc = "-"})
+        vim.keymap.set("n", "<leader>" .. lowercase, "<ESC>", {noremap = true, desc = "<nop>"})
+        vim.keymap.set("n", "<leader>" .. uppercase, "<ESC>", {noremap = true, desc = "<nop>"})
     end
 
 end

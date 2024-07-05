@@ -70,6 +70,6 @@ function M.apply_highlights(groups)
 end
 
 -- To reload the colors to check changes in real time
-vim.keymap.set("n", "<leader>@", function() require("theme").reload_colors() end, {noremap = true})
+vim.keymap.set("n", "<leader>@", function() require("theme").reload_colors() end, {noremap = true, desc = "Reload theme"})
 
 return M
