@@ -28,6 +28,7 @@ git clone https://github.com/mangelozzi/vim-capesky.git $HOME/.config/nvim/tmp/v
 git clone https://github.com/mangelozzi/rgflow.nvim.git $HOME/.config/nvim/tmp/rgflow.nvim
 
 sudo apt install xclip
+sudo apt install chafa # Terminal image viewer for FZF-lua
 
 # Install python support
 sudo apt install -y python3-pip
