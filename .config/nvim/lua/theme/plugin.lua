@@ -17,6 +17,11 @@ function M.get_groups(p)
         -- Vim-Brightest
         _VimBrightest = { bg="#500050" },
 
+        -- Indent-blankline (| marks for indentation)
+        IblIndent = { fg = "#2a2a2a" }, -- Not active bars
+        -- IblWhitespace = { fg = "#00ff00" }, -- Whitespace between bars? Usefull if coloring BG color
+        IblScope = { fg = "#404040" }, -- Active bars
+
         -- Rainbow Delimiters - Lowercase cause my own highilight group
         rainbowcol1 = { fg = "#fefefe", bold = false }, -- bold white
         rainbowcol2 = { fg = "#a0ffff", bold = false }, -- blueish
