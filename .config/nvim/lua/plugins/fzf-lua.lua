@@ -8,14 +8,35 @@
 --[[
 
 Fzf-Lua's Grep + Fuzzy search combo is a superpower
-https://www.reddit.com/r/neovim/comments/1dlfu4o/fzfluas_grep_fuzzy_search_combo_is_a_superpower/#:~:text=Being%20able%20to%20grep%20across,by%20simply%20pressing%20ctrl%2Dg.
+https://www.reddit.com/r/neovim/comments/1dlfu4o/fzfluas_grep_fuzzy_search_combo_is_a_superpower
 
-Being able to grep across an entire project is one thing, but then being able to fuzzy find over the results feels like a superpower. Fzf-Lua let's you fuzzy find the results of a grep by simply pressing ctrl-g. This is even more powerful when you consider the fact that the fuzzy search: a) includes file paths, allowing you to filter the results to a specific directory and b) lets you exclude some results by using the ! opator, which also works on the file paths and can be used to prune out multiple directories.
-This combo, specifically grep + fzf, and being able to seamlessly switch between them just by pressing ctrl-g, has saved me so much time and energy. Even working in a very large codebase, I can still get a list of exactly what I need in a matter of seconds, and in such a satisfying way.
-It feels like an essential searching mechanism that every editor should have. I know a lot of editors have a grep search, and they usually have a fuzzy finder for file searching too, but none that I know of facilitate the combination of both. Particularly in such an elegant way, within a single, unified, easily accessible view.
-I really appreciate this plugin and u/iBhagwan for the great work.
+Being able to grep across an entire project is one thing, but then being able
+to fuzzy find over the results feels like a superpower. Fzf-Lua let's you fuzzy
+find the results of a grep by simply pressing ctrl-g. This is even more
+powerful when you consider the fact that the fuzzy search: a) includes file
+paths, allowing you to filter the results to a specific directory and b) lets
+you exclude some results by using the ! opator, which also works on the file
+paths and can be used to prune out multiple directories. This combo,
+specifically grep + fzf, and being able to seamlessly switch between them just
+by pressing ctrl-g, has saved me so much time and energy. Even working in a
+very large codebase, I can still get a list of exactly what I need in a matter
+of seconds, and in such a satisfying way. It feels like an essential searching
+mechanism that every editor should have. I know a lot of editors have a grep
+search, and they usually have a fuzzy finder for file searching too, but none
+that I know of facilitate the combination of both. Particularly in such an
+elegant way, within a single, unified, easily accessible view. I really
+appreciate this plugin and u/iBhagwan for the great work.
 
-The feature you’re talking about is one of my favorites and most used, it’s even turbo charged when you use live_grep_glob (or set rg_glob=true) and then search for a regex limited to specific files, I.e foo.*bar -- *.lua !*spec* which means search for a line that has both foo AND bar inside lua files excluding spec files (tests), then I ctrl-g to fuzzy for the fine tuning.
+The feature you’re talking about is one of my favorites and most used, it’s
+even turbo charged when you use live_grep_glob (or set rg_glob=true) and then
+search for a regex limited to specific files, I.e foo.*bar -- *.lua !*spec*
+which means search for a line that has both foo AND bar inside lua files
+excluding spec files (tests), then I ctrl-g to fuzzy for the fine tuning.
+
+Q: How do you select files put them in the quick list? A: With the default
+mappings: tab selects/deselects items, alt-a toggles selection of all, alt-q
+sends selected to quick fix list but it’s not even required the default action
+sends selection to quick fix if you selected multiple files.
 
 --]]
 

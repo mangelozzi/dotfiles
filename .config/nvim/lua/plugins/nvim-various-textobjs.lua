@@ -42,7 +42,11 @@ Plugin.config = function()
         useDefaultKeymaps = true,
 
         -- disable only some default keymaps, e.g. { "ai", "ii" }
-        disabledKeymaps = {"il", "al"}, -- markdown link titles - rather use for inner line
+        disabledKeymaps = {
+            "il", -- markdown link titles - rather use for inner line
+            "al", -- markdown link titles - rather use for inner line
+            "gw", -- visibleInWindow - smashes the built v_gw command for wrapping text
+        }, 
 
         -- display notifications if a text object is not found
         notifyNotFound = true,
