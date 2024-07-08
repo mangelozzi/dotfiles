@@ -1,5 +1,7 @@
 --[[
 
+NOTE: still have <CR> to use as a second leader
+
 Hotkeys related to plugins are placed within those plugins configuration files.
 
 Currently leader in nmap:

@@ -5,6 +5,7 @@ local Plugin = {
     dependencies = {"nvim-lua/plenary.nvim"},
     commit = 'c5e09bfcc18fa9ff',
     -- keys = {'<leader>i'},
+    event = "VeryLazy",
 }
 
 Plugin.config = function()

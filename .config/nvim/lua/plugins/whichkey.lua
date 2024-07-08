@@ -15,7 +15,8 @@ local Plugin = {
 }
 
 Plugin.config = function()
-    require("which-key").setup {
+    local wk = require("which-key")
+    wk.setup {
         layout = {
             height = {min = 4, max = 42} -- min and max height of the columns
         },
@@ -32,9 +33,15 @@ Plugin.config = function()
             "z="
         },
         operators = {
-            -- gw = "Wrap lines2",
-            -- gf = "Format text2",
-        }
+            -- Doesnt work, see: https://github.com/folke/which-key.nvim/issues/623
+        },
+        key_labels = {
+            -- override the label used to display some keys. It doesn't effect WK in any other way.
+            -- For example:
+            -- ["<space>"] = "SPC",
+            -- ["<cr>"] = "RET",
+            -- ["<tab>"] = "TAB",
+        },
     }
     vim.keymap.set(
         "n",
@@ -44,6 +51,11 @@ Plugin.config = function()
         end,
         {noremap = true, desc = "Show which-key mappings"}
     )
+    -- Register own mappings
+    wk.register({
+        -- Wrap text (built in) - default is gq, but requires textwidth to be none zero, built in, but does not show up in which key by default
+        gw = "Wrap text", 
+    })
 end
 
 return Plugin

@@ -78,7 +78,3 @@ vim.keymap.set("n", "<M-Up>", ":resize -2<CR>", { noremap = true, desc = "Decrea
 vim.keymap.set("n", "<M-Down>", ":resize +2<CR>", { noremap = true, desc = "Increase buffer size" })
 vim.keymap.set("n", "<M-Left>", ":vertical resize -2<CR>", { noremap = true, desc = "Decrease buffer size" })
 vim.keymap.set("n", "<M-Right>", ":vertical resize +2<CR>", { noremap = true, desc = "Increase buffer size" })
-
--- Wrap text - default is gq, but requires textwidth to be none zero
--- Map gw to gw so can add a description for whichkey, see: https://github.com/folke/which-key.nvim/issues/623
-vim.keymap.set({"", "!"}, "gw", "gw", { noremap = true, desc = "Wrap lines" })

@@ -6,10 +6,8 @@ lua can use . or / for import heirarchy.
 
 return {
     -- OPERATOR + MOTION + TEXT-OBJECT = AWESOME (VIM SPEAK LANGUAGE)
-    {"wellle/targets.vim", lazy = false},
-    {"tpope/vim-surround", lazy = false},
-    {"tpope/vim-repeat", event = "InsertEnter"},
-
+    {"wellle/targets.vim"},
+    {"tpope/vim-repeat"},
     {"tpope/vim-unimpaired"},
     {"AndrewRadev/bufferize.vim"},
     {

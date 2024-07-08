@@ -1,5 +1,6 @@
 local Plugin = {
-    "zbirenbaum/copilot.lua"
+    "zbirenbaum/copilot.lua",
+    event = "VeryLazy",
 }
 
 Plugin.config = function()
