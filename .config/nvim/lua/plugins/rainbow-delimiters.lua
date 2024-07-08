@@ -6,6 +6,7 @@ local testlevel1 =
                 { testlevel6 =
                     { testlevel7 =
                         { foo = 1,
+
                         }
                     }
                 }
@@ -41,13 +42,13 @@ Plugin.config = function()
             lua = 210,
         },
         highlight = {
-            'rainbowcol1',
-            'rainbowcol2',
-            'rainbowcol3',
-            'rainbowcol4',
-            'rainbowcol5',
-            'rainbowcol6',
-            'rainbowcol7',
+            'rainbowDelimiter1',
+            'rainbowDelimiter2',
+            'rainbowDelimiter3',
+            'rainbowDelimiter4',
+            'rainbowDelimiter5',
+            'rainbowDelimiter6',
+            'rainbowDelimiter7',
         },
     }
 end

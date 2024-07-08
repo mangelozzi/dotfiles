@@ -1,4 +1,6 @@
 -- Own status line theme colors
+local calc = require("theme.calc")
+
 local M = {}
 
 local directory = '#ffff00'
@@ -12,6 +14,14 @@ function M.get_palette(p, style)
     }
 end
 
+local rainbow1 = "#fefefe" -- bold white
+local rainbow2 = "#ffc0c0" -- redish
+local rainbow3 = "#ffff40" -- yellowish
+local rainbow4 = "#80ff80" -- greenish
+local rainbow5 = "#c0c0c0" -- gray
+local rainbow6 = "#e0c000" -- brown
+local rainbow7 = "#808fff" -- blueish
+
 function M.get_groups(p)
     return {
         -- Vim-Brightest
@@ -23,13 +33,23 @@ function M.get_groups(p)
         IblScope = { fg = "#404040" }, -- Active bars
 
         -- Rainbow Delimiters - Lowercase cause my own highilight group
-        rainbowcol1 = { fg = "#fefefe", bold = false }, -- bold white
-        rainbowcol2 = { fg = "#a0ffff", bold = false }, -- blueish
-        rainbowcol3 = { fg = "#80ff80", bold = false }, -- greenish
-        rainbowcol4 = { fg = "#ffc0c0", bold = false }, -- redish
-        rainbowcol5 = { fg = "#ffff40", bold = false }, -- yellowish
-        rainbowcol6 = { fg = "#c0c0c0", bold = false }, -- gray
-        rainbowcol7 = { fg = "#c0c000", bold = false }, -- brown
+        rainbowDelimiter1 = { fg = rainbow1, bold = false },
+        rainbowDelimiter2 = { fg = rainbow2, bold = false },
+        rainbowDelimiter3 = { fg = rainbow3, bold = false },
+        rainbowDelimiter4 = { fg = rainbow4, bold = false },
+        rainbowDelimiter5 = { fg = rainbow5, bold = false },
+        rainbowDelimiter6 = { fg = rainbow6, bold = false },
+        rainbowDelimiter7 = { fg = rainbow7, bold = false },
+
+        -- Indent blankline
+        -- Rainbow Delimiters - Lowercase cause my own highilight group
+        rainbowIndent1 = { fg = calc.adjust_color(rainbow1, 0.15, 0.3), bold = false },
+        rainbowIndent2 = { fg = calc.adjust_color(rainbow2, 0.15, 0.3), bold = false },
+        rainbowIndent3 = { fg = calc.adjust_color(rainbow3, 0.15, 0.4), bold = false },
+        rainbowIndent4 = { fg = calc.adjust_color(rainbow4, 0.15, 0.35), bold = false },
+        rainbowIndent5 = { fg = calc.adjust_color(rainbow5, 0.15, 0.4), bold = false },
+        rainbowIndent6 = { fg = calc.adjust_color(rainbow6, 0.15, 0.6), bold = false },
+        rainbowIndent7 = { fg = calc.adjust_color(rainbow7, 0.15, 0.6), bold = false },
 
         -- Nvim Tree
         NvimTreeRootFolder = { link="RootFolder" },

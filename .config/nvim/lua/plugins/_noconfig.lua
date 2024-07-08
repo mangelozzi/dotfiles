@@ -1,3 +1,9 @@
+--[[
+Drop the trailing `.nvim` from plugin names because the . messes up the imports,
+lua can use . or / for import heirarchy.
+--]]
+
+
 return {
     -- OPERATOR + MOTION + TEXT-OBJECT = AWESOME (VIM SPEAK LANGUAGE)
     {"wellle/targets.vim", lazy = false},

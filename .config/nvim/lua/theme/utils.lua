@@ -36,12 +36,12 @@ local M = {}
 local desat_map = {
     hard = 1,
     medium = 0.8,
-    soft = 0.7
+    soft = 0.6
 }
 local darken_map = {
     hard = 1,
     medium = 0.95,
-    soft = 0.9
+    soft = 0.85
 }
 
 -- Function to merge tables and show only changes
