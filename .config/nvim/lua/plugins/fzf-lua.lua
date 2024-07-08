@@ -49,7 +49,10 @@ local Plugin = {
 }
 
 Plugin.config = function()
-    require("fzf-lua").setup {
+    local fzf = require('fzf-lua')
+    local actions = fzf.actions
+
+    fzf.setup {
         -- options are sent as `<left>=<right>`
         -- set to `false` to remove a flag
         -- set to '' for a non-value flag
@@ -153,7 +156,31 @@ Plugin.config = function()
         file_icon_colors = {
             -- Does not seem to work for me
             ["sh"] = "green"
-        }
+        },
+        actions = {
+            buffers = { 
+                -- Preserve existing
+                ["default"] = actions.file_edit_or_qf,
+                ["ctrl-s"]  = actions.file_split,
+                ["ctrl-v"]  = actions.file_vsplit,
+                ["ctrl-t"]  = actions.file_tabedit,
+                ["alt-q"]   = actions.file_sel_to_qf,
+                ["alt-l"]   = actions.file_sel_to_ll,
+                -- When on :buffers, pressing <Ctrl-Space> will resume with files
+                ["Ctrl-Space"] = function(_, opts) fzf.files({ query=opts.last_query, cwd=opts.cwd }) end, -- _ = sel
+            },
+            files = { 
+                -- Preserve existing
+                ["default"] = actions.file_edit_or_qf,
+                ["ctrl-s"]  = actions.file_split,
+                ["ctrl-v"]  = actions.file_vsplit,
+                ["ctrl-t"]  = actions.file_tabedit,
+                ["alt-q"]   = actions.file_sel_to_qf,
+                ["alt-l"]   = actions.file_sel_to_ll,
+                -- When on :files, pressing <Ctrl-Space> will resume with buffers
+                ["Ctrl-Space"] = function(_, opts) fzf.buffers({ query=opts.last_query, cwd=opts.cwd }) end, -- _ = sel
+            }
+        },
     }
 
     -- Own
