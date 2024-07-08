@@ -9,6 +9,9 @@ vim.keymap.set({"n", "x"}, "<BS>", "<C-^>", { noremap = true, desc = "Jump to al
 -- Map ; to : for speed
 vim.keymap.set({"n", "x"}, ";", ":", {noremap = true, desc = "Command mode"})
 
+-- Map s to S so we can use s for leap.nvim trigger
+vim.keymap.set({""}, "S", "s", {noremap = true, desc = "Substitute char"})
+
 -- Make x/X not change the registers, i.e. uses the black hole register
 -- Note: Use d/D to change the register
 vim.keymap.set({"n", "x"}, "x", '"_x', {noremap = true, desc = "Delete char"})
