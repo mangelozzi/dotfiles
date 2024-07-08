@@ -10,3 +10,4 @@ require("namespace/autocmds") -- Auto commands
 require("namespace/colors")   -- Color theme, must be after 'opt', changes settings
 require("namespace/status")   -- Status line
 require("namespace/lazy")     -- Enable plugins - AFTER: keymap so correct leader used
+require("namespace/startup")  -- Run this at start up

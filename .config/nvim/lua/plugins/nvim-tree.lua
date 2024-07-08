@@ -321,18 +321,20 @@ Plugin.config = function ()
     -- Open at startup
     -- https://github.com/nvim-tree/nvim-tree.lua/wiki/Open-At-Startup
     local PluginNvimTreeGroup = vim.api.nvim_create_augroup("PluginNvimTreeGroup", {clear = true})
-    vim.api.nvim_create_autocmd(
-        "VimEnter" , {
-            group = PluginNvimTreeGroup,
-            callback = function (data)
-                local is_actual_file = vim.fn.filereadable(data.file) == 1
-                if not is_actual_file then
-                    -- Only if not a real file auto show tree
-                    require("nvim-tree.api").tree.toggle({focus = false })
-                end
-            end,
-        }
-    )
+
+    -- Moved this to startup.lua
+    -- vim.api.nvim_create_autocmd(
+    --     "VimEnter" , {
+    --         group = PluginNvimTreeGroup,
+    --         callback = function (data)
+    --             local is_actual_file = vim.fn.filereadable(data.file) == 1
+    --             if not is_actual_file then
+    --                 -- Only if not a real file auto show tree
+    --                 require("nvim-tree.api").tree.toggle({focus = false })
+    --             end
+    --         end,
+    --     }
+    -- )
 
     -- Go to last used hidden buffer when deleting a buffer
     -- https://github.com/nvim-tree/nvim-tree.lua/wiki/Recipes#go-to-last-used-hidden-buffer-when-deleting-a-buffer

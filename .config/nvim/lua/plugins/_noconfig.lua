@@ -1,6 +1,9 @@
 --[[
 Drop the trailing `.nvim` from plugin names because the . messes up the imports,
 lua can use . or / for import heirarchy.
+
+Plugin.cond = false, -- like enabled but does not uninstall the plugin
+
 --]]
 
 

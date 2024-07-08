@@ -43,6 +43,7 @@ sends selection to quick fix if you selected multiple files.
 local Plugin = {
     "ibhagwan/fzf-lua",
     commit = "b442569ab827",
+    -- not lazy loaded so we can show oldfiles picker at startup
     -- optional for icon support
     dependencies = {"nvim-tree/nvim-web-devicons"},
     build = "./install --bin",
