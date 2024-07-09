@@ -90,9 +90,12 @@ alias gco='git checkout'
 alias gb='git branch'
 # List branches on remote
 alias gbr='git branch -r'
-alias gcmp='gitdev && git checkout master && git pull'
-alias ga='git add -A'
-alias gu='git add -u'
+
+# Git - add
+alias ga='git add -A' # -A = Stages modifications, new files, deletions
+# alias ga='git add'    #    = Stages modifications, new files
+# alias gu='git add -u' # -u = Stages modifications, deletions
+
 # alias gupy='git add -u "*.py"'
 # alias guhtml='git add -u "*.html"'
 # alias guscss='git add -u "*.scss" "*.sass"'
@@ -103,9 +106,11 @@ alias gc='git commit -m'
 # Create a new branch with any of the current changes, and change the HEAD to start tracking it.
 alias gcb='git checkout -b '
 # After creating a branch, make it track origin
-alias gpuo='git push -u origin'
+# alias gpuo='git push -u origin'
 # Git new branch...
 alias gnb='git checkout -b $1; git push -u origin $1;'
+# ---
+alias gpom='gitdev && git pull origin master:master'
 # ---
 alias gp='gitdev && git push'
 alias gm='git commit --amend --no-edit'
