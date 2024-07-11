@@ -309,7 +309,8 @@ function M.escape_html_lines(lines)
         -- ['"'] = "&quot;",
         -- ["'"] = "&#39;",
         ['{'] = "&#123;",
-        ["}"] = "&#125;"
+        ["}"] = "&#125;",
+        ["@"] = "&#64;"
     }
     local escaped_lines = {}
     print('escape lines is')

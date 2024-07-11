@@ -159,28 +159,40 @@ Plugin.config = function()
             ["sh"] = "green"
         },
         actions = {
-            buffers = { 
+            buffers = {
+                -- providers that inherit these actions: buffers, tabs, lines, blines
                 -- Preserve existing
-                ["default"] = actions.file_edit_or_qf,
-                ["ctrl-s"]  = actions.file_split,
-                ["ctrl-v"]  = actions.file_vsplit,
-                ["ctrl-t"]  = actions.file_tabedit,
-                ["alt-q"]   = actions.file_sel_to_qf,
-                ["alt-l"]   = actions.file_sel_to_ll,
+                ["default"]     = actions.buf_edit,
+                ["ctrl-s"]      = actions.buf_split,
+                ["ctrl-v"]      = actions.buf_vsplit,
+                ["ctrl-t"]      = actions.buf_tabedit,
                 -- When on :buffers, pressing <Ctrl-Space> will resume with files
-                ["Ctrl-Space"] = function(_, opts) fzf.files({ query=opts.last_query, cwd=opts.cwd }) end, -- _ = sel
+                ["Ctrl-space"]  = function(_, opts) fzf.files({ query=opts.last_query, cwd=opts.cwd }) end, -- _ = sel
+                ["Ctrl-h"]      = function(_, opts) fzf.oldfiles({ query=opts.last_query, cwd=opts.cwd }) end, -- _ = sel
             },
-            files = { 
+            -- 
+            files = {
+                -- providers that inherit these actions: files, git_files, git_status, grep, lsp oldfiles, quickfix, loclist, tags, btags args
                 -- Preserve existing
-                ["default"] = actions.file_edit_or_qf,
-                ["ctrl-s"]  = actions.file_split,
-                ["ctrl-v"]  = actions.file_vsplit,
-                ["ctrl-t"]  = actions.file_tabedit,
-                ["alt-q"]   = actions.file_sel_to_qf,
-                ["alt-l"]   = actions.file_sel_to_ll,
+                ["default"]     = actions.file_edit_or_qf,
+                ["ctrl-s"]      = actions.file_split,
+                ["ctrl-v"]      = actions.file_vsplit,
+                ["ctrl-t"]      = actions.file_tabedit,
+                ["alt-q"]       = actions.file_sel_to_qf,
+                ["alt-l"]       = actions.file_sel_to_ll,
                 -- When on :files, pressing <Ctrl-Space> will resume with buffers
-                ["Ctrl-Space"] = function(_, opts) fzf.buffers({ query=opts.last_query, cwd=opts.cwd }) end, -- _ = sel
-            }
+                ["Ctrl-space"]  = function(_, opts) -- _ = sel
+                    local current_picker = opts.__INFO.fnc
+                    if current_picker == "oldfiles" then
+                        -- Change to files if was on old files
+                        fzf.files({ query=opts.last_query, cwd=opts.cwd })
+                    elseif current_picker == "files" then
+                        -- Change to buffers if was on old files
+                        fzf.buffers({ query=opts.last_query, cwd=opts.cwd })
+                    end
+                end,
+                ["Ctrl-h"]      = function(_, opts) fzf.oldfiles({ query=opts.last_query, cwd=opts.cwd }) end, -- _ = sel
+            },
         },
     }
 

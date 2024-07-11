@@ -1,5 +1,7 @@
 local Plugin = {
-    "ggandor/leap.nvim"
+    "ggandor/leap.nvim",
+    event = "VeryLazy",
+
 }
 
 Plugin.config = function()

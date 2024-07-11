@@ -1,5 +1,6 @@
 local Plugin = {
     "sindrets/diffview.nvim",
+    event = "VeryLazy",
 }
 Plugin.config = function()
     require('diffview').setup({

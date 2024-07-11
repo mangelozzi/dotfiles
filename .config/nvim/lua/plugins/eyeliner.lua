@@ -1,5 +1,6 @@
 local Plugin = {
-    "jinh0/eyeliner.nvim"
+    "jinh0/eyeliner.nvim",
+    event = "VeryLazy",
 }
 
 Plugin.config = function()

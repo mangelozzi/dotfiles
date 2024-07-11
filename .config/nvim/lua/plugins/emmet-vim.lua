@@ -64,6 +64,7 @@ margin: 16px;
 
 local Plugin = {
     "mattn/emmet-vim",
+    event = "VeryLazy",
 }
 
 Plugin.config = function()
