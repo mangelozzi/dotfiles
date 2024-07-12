@@ -1,4 +1,4 @@
--- Generally the expanded version of ~/.config/nvim
+-- The expanded version of ~/.config/nvim
 vim.g.nvim_path = vim.fn.fnamemodify(vim.env.MYVIMRC, ":p:h")
 
 require("namespace/globals")  -- Globals variables/settings

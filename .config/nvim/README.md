@@ -1,5 +1,20 @@
 # Neovim SETUP
 
+## SEARCHING HELP
+
+```
+Prefix  Example         Context
+-----------------------------------------------------------------------
+:       :h :r           ex command (command starting with a colon)
+none    :h r            normal mode
+v_      :h v_r          visual mode
+i_      :h i_CTRL-W     insert mode
+c_      :h c_CTRL-R     ex command line
+/       :h /\r          search pattern (in this case, :h \r also works)
+'       :h 'ro'         option
+-       :h -r           Vim argument (starting Vim)
+```
+
 ## INSTALLATION
 
 ### Installation Script

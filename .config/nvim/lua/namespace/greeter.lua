@@ -58,7 +58,7 @@ local function count_utf_chars(str)
 end
 
 local function set_options(buf)
-    vim.api.nvim_buf_set_option(buf, "modified", true)
+    vim.api.nvim_buf_set_option(buf, "modified", false)
     vim.api.nvim_buf_set_option(buf, "buflisted", false)
     vim.api.nvim_buf_set_option(buf, "bufhidden", "wipe")
     vim.api.nvim_buf_set_option(buf, "buftype", "nofile")
@@ -131,7 +131,6 @@ function M.draw(buf)
 end
 
 function M.create_new_buffer_for_insert(greeter_buf)
-
     -- Create a new buffer that is empty and listed
     local new_buf = vim.api.nvim_create_buf(true, false)
 
@@ -161,11 +160,12 @@ function M.display()
         callback = function() M.draw(buf) end,
     })
 
-    vim.api.nvim_create_autocmd({"InsertEnter", "WinEnter"}, {
+    vim.api.nvim_create_autocmd({"InsertEnter"}, {
         buffer = buf,
         desc = "If entering insert mode, change greeter to a normal buffer",
         callback = function() M.create_new_buffer_for_insert(buf) end,
     })
+
 end
 
 function M.display_conditionally()
