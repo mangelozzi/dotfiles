@@ -19,15 +19,15 @@ local GAP_LINES = 2         -- Number of empty lines between ASCII art and versi
 local VERTICAL_OFFSET = 2   -- Number of lines to push the art up by (centered looks a little too low)
 vim.api.nvim_set_hl(0, "GreeterAsciiArt", {fg = "#004000"}) -- The ascii art color
 vim.api.nvim_set_hl(0, "GreeterNvimVer", {fg = "#707070"})  -- The Neovim version color
-local ascii = {
-    " ░▒▓██████▓▒░  ░▒▓██████▓▒░ ░▒▓█▓▒░             ░▒▓███████▓▒░         ░▒▓███████▓▒░ ░▒▓███████▓▒░ ",
-    "░▒▓█▓▒░░▒▓█▓▒░░▒▓█▓▒░░▒▓█▓▒░░▒▓█▓▒░                    ░▒▓█▓▒░░▒▓██▓▒░       ░▒▓█▓▒░       ░▒▓█▓▒░",
-    "░▒▓█▓▒░       ░▒▓█▓▒░░▒▓█▓▒░░▒▓█▓▒░                    ░▒▓█▓▒░░▒▓██▓▒░       ░▒▓█▓▒░       ░▒▓█▓▒░",
-    "░▒▓█▓▒░       ░▒▓█▓▒░░▒▓█▓▒░░▒▓█▓▒░             ░▒▓███████▓▒░          ░▒▓██████▓▒░ ░▒▓███████▓▒░ ",
-    "░▒▓█▓▒░       ░▒▓█▓▒░░▒▓█▓▒░░▒▓█▓▒░                    ░▒▓█▓▒░░▒▓██▓▒░░▒▓█▓▒░              ░▒▓█▓▒░",
-    "░▒▓█▓▒░░▒▓█▓▒░░▒▓█▓▒░░▒▓█▓▒░░▒▓█▓▒░                    ░▒▓█▓▒░░▒▓██▓▒░░▒▓█▓▒░              ░▒▓█▓▒░",
-    " ░▒▓██████▓▒░  ░▒▓██████▓▒░ ░▒▓████████▓▒░      ░▒▓███████▓▒░         ░▒▓████████▓▒░░▒▓███████▓▒░ "
-}
+local ascii_str = [[
+ ░▒▓██████▓▒░  ░▒▓██████▓▒░ ░▒▓█▓▒░             ░▒▓███████▓▒░         ░▒▓███████▓▒░ ░▒▓███████▓▒░
+░▒▓█▓▒░░▒▓█▓▒░░▒▓█▓▒░░▒▓█▓▒░░▒▓█▓▒░                    ░▒▓█▓▒░░▒▓██▓▒░       ░▒▓█▓▒░       ░▒▓█▓▒░
+░▒▓█▓▒░       ░▒▓█▓▒░░▒▓█▓▒░░▒▓█▓▒░                    ░▒▓█▓▒░░▒▓██▓▒░       ░▒▓█▓▒░       ░▒▓█▓▒░
+░▒▓█▓▒░       ░▒▓█▓▒░░▒▓█▓▒░░▒▓█▓▒░             ░▒▓███████▓▒░          ░▒▓██████▓▒░ ░▒▓███████▓▒░
+░▒▓█▓▒░       ░▒▓█▓▒░░▒▓█▓▒░░▒▓█▓▒░                    ░▒▓█▓▒░░▒▓██▓▒░░▒▓█▓▒░              ░▒▓█▓▒░
+░▒▓█▓▒░░▒▓█▓▒░░▒▓█▓▒░░▒▓█▓▒░░▒▓█▓▒░                    ░▒▓█▓▒░░▒▓██▓▒░░▒▓█▓▒░              ░▒▓█▓▒░
+ ░▒▓██████▓▒░  ░▒▓██████▓▒░ ░▒▓████████▓▒░      ░▒▓███████▓▒░         ░▒▓████████▓▒░░▒▓███████▓▒░
+]]
 
 -- Colossians 3:23 Whatever you do, work at it with all your heart, as working
 -- for the Lord, not for human masters, 24since you know that you will receive
@@ -37,6 +37,7 @@ local ascii = {
 -- Module
 local M = {}
 
+local ascii = vim.split(ascii_str, "\n")
 local vers = vim.version()
 local nvim_version =
     "NVIM v" .. vers.major .. "." .. vers.minor .. "." .. vers.patch .. "-" .. vers.prerelease .. "+" .. vers.build
