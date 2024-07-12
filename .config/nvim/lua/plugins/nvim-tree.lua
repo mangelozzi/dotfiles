@@ -32,12 +32,13 @@ Plugin.config = function ()
         end)
     end
 
-    local function copy_or_move_file_to(node, copy)
-        local file_src = node.absolute_path
+    local function get_path_from_user(action, default)
         -- The args of input are {prompt}, {default}, {completion}
         -- Read in the new file path using the existing file's path as the baseline.
-        local cmd_str = copy and "COPY" or "MOVE"
-        local file_out = vim.fn.input(cmd_str .." TO: ", file_src, "file")
+        return vim.fn.input(action .." TO: ", default, "file")
+    end
+
+    local function copy_or_move_file_to(file_src, file_out, copy)
         -- Create any parent dirs as required
         local dir = vim.fn.fnamemodify(file_out, ":h")
 
@@ -74,6 +75,18 @@ Plugin.config = function ()
             vim.cmd('redrawstatus!') -- Doesn't work with my status line
         end
     end
+    local function copy_file_to(node)
+        local file_out = get_path_from_user("COPY", node.absolute_path)
+        copy_or_move_file_to(node.absolute_path, file_out, true)
+    end
+    local function move_file_to(node)
+        local file_out = get_path_from_user("MOVE", node.absolute_path)
+        copy_or_move_file_to(node.absolute_path, file_out, false)
+    end
+    local function bak_up_file(node)
+        local file_out = node.absolute_path..".bak"
+        copy_or_move_file_to(node.absolute_path, file_out, true)
+    end
 
     -- Use `o` to open a file
     -- Use `<CR>` to open a file and close the tree
@@ -92,18 +105,20 @@ Plugin.config = function ()
         -- Mappings migrated from view.mappings.list
         --
         -- You will need to insert "your code goes here" for any mappings with a custom action_cb
-        vim.keymap.set('n', 'c', function()
+        vim.keymap.set('n', '<leader>c', function()
             local node = api.tree.get_node_under_cursor()
-            copy_or_move_file_to(node, true)
+            copy_file_to(node)
         end, opts('copy_file_to'))
 
-        vim.keymap.set('n', 'm', function()
+        vim.keymap.set('n', '<leader>m', function()
             local node = api.tree.get_node_under_cursor()
-            -- If the buffer is open, move the buffer path too
-            local source_path = node.absolute_path
-            -- Iterate through all open buffers
-            copy_or_move_file_to(node, false)
+            move_file_to(node)
         end, opts('move_file_to'))
+
+        vim.keymap.set('n', '<leader>b', function()
+            local node = api.tree.get_node_under_cursor()
+            bak_up_file(node)
+        end, opts('back up file'))
 
         vim.keymap.set('n', '<C-c>', function()
             local node = api.tree.get_node_under_cursor()
