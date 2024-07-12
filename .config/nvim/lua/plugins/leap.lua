@@ -1,13 +1,12 @@
 local Plugin = {
     "ggandor/leap.nvim",
     event = "VeryLazy",
-
 }
 
 Plugin.config = function()
     vim.keymap.set(
         "n",
-        "s",
+        "<leader>s",
         function()
             require("leap").leap {
                 target_windows = require("leap.user").get_focusable_windows()

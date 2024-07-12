@@ -33,7 +33,6 @@ local vers = vim.version()
 local nvim_version =
     "NVIM v" .. vers.major .. "." .. vers.minor .. "." .. vers.patch .. "-" .. vers.prerelease .. "+" .. vers.build
 
-
 local function pad_str(padding, string)
     return string.rep(" ", padding) .. string
 end
@@ -59,7 +58,7 @@ local function count_utf_chars(str)
 end
 
 local function set_options(buf)
-    vim.api.nvim_buf_set_option(buf, "modified", false)
+    vim.api.nvim_buf_set_option(buf, "modified", true)
     vim.api.nvim_buf_set_option(buf, "buflisted", false)
     vim.api.nvim_buf_set_option(buf, "bufhidden", "wipe")
     vim.api.nvim_buf_set_option(buf, "buftype", "nofile")
@@ -134,7 +133,7 @@ end
 function M.create_new_buffer_for_insert(greeter_buf)
 
     -- Create a new buffer that is empty and listed
-    local new_buf = vim.api.nvim_create_buf(true, true)
+    local new_buf = vim.api.nvim_create_buf(true, false)
 
     -- Set the new buffer in the current window
     local win = vim.api.nvim_get_current_win()

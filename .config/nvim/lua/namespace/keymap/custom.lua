@@ -9,9 +9,6 @@ vim.keymap.set({"n", "x"}, "<BS>", "<C-^>", { noremap = true, desc = "Jump to al
 -- Map ; to : for speed
 vim.keymap.set({"n", "x"}, ";", ":", {noremap = true, desc = "Command mode"})
 
--- Map s to S so we can use s for leap.nvim trigger
-vim.keymap.set({""}, "S", "s", {noremap = true, desc = "Substitute char"})
-
 -- Make x/X not change the registers, i.e. uses the black hole register
 -- Note: Use d/D to change the register
 vim.keymap.set({"n", "x"}, "x", '"_x', {noremap = true, desc = "Delete char"})
@@ -73,7 +70,8 @@ vim.keymap.set("v", "<M-k>", ":m '<-2<CR>gv=gv", { noremap = true, desc = "Move 
 vim.keymap.set("", "<M-K>", ":t.<CR>k", { noremap = true, desc = "Duplicate line above" })
 vim.keymap.set("", "<M-J>", ":t-1<CR>j", { noremap = true, desc = "Duplicate line below" })
 
--- increase buffer size with alt-arrows
+-- Increase buffer size with alt-arrows
+-- Tend to use <count><C-w>| rather
 vim.keymap.set("n", "<M-Up>", ":resize -2<CR>", { noremap = true, desc = "Decrease buffer size" })
 vim.keymap.set("n", "<M-Down>", ":resize +2<CR>", { noremap = true, desc = "Increase buffer size" })
 vim.keymap.set("n", "<M-Left>", ":vertical resize -2<CR>", { noremap = true, desc = "Decrease buffer size" })

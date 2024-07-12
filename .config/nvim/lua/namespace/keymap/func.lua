@@ -6,16 +6,7 @@ vim.keymap.set({"", "!"}, "<F1>", "<ESC>:h <C-R><C-W><CR>", { noremap = true, de
 -- <F2> Reload vim config
 vim.keymap.set({"", "!"}, "<F2>", require("namespace.utils").reload_config, { noremap = true, desc = "Reload config"})
 
--- <F4> Close Buffer Keep window
--- Close the current buffer, but keep the window open
--- vim.keymap.set({"", "!"}, "<F4>", require("namespace.utils").close_buffer_keep_window, { noremap = true})
-
--- <S-F4> Close all buffer
--- Close all safe buffers, then just work through not safe to close buffers
--- vim.keymap.set({"", "!"}, "<S-F4>", require("namespace.utils").close_all_buffers, { noremap = true})
-
--- ALT + <F4> force quit (NOT WORKING)
--- vim.keymap.set({"", "!"}, "<M-F4>", '<ESC>:qa!<CR>', { noremap = true})
+-- <F4> Force quit (not save any changes)
 vim.keymap.set({"", "!"}, "<F4>", '<ESC><ESC>q<ESC><ESC>:qa!<CR>', { noremap = true, desc = "Force quit"})
 
 -- OS xdg-open the current file
