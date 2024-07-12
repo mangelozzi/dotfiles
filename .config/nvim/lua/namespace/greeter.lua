@@ -48,17 +48,17 @@ local function count_utf_chars(str)
     return count
 end
 
-local function set_options(win, buf)
+local function set_options(buf)
     vim.api.nvim_buf_set_option(buf, "modified", false)
     vim.api.nvim_buf_set_option(buf, "buflisted", false)
     vim.api.nvim_buf_set_option(buf, "bufhidden", "wipe")
     vim.api.nvim_buf_set_option(buf, "buftype", "nofile")
     vim.api.nvim_buf_set_option(buf, "swapfile", false)
-    vim.api.nvim_win_set_option(win, "colorcolumn", "")
-    vim.api.nvim_win_set_option(win, "relativenumber", false)
-    vim.api.nvim_win_set_option(win, "number", false)
-    vim.api.nvim_win_set_option(win, "list", false)
-    vim.api.nvim_win_set_option(win, "signcolumn", "no")
+    vim.api.nvim_buf_set_option(buf, "colorcolumn", "")
+    vim.api.nvim_buf_set_option(buf, "relativenumber", false)
+    vim.api.nvim_buf_set_option(buf, "number", false)
+    vim.api.nvim_buf_set_option(buf, "list", false)
+    vim.api.nvim_buf_set_option(buf, "signcolumn", "no")
     vim.api.nvim_set_current_buf(buf)
 end
 
@@ -99,11 +99,9 @@ local function calc_ascii(width, vertical_pad, pad_cols)
     return centered_ascii
 end
 
-function M.display()
-    vim.cmd("enew")
-    local win = vim.api.nvim_get_current_win()
-    local buf = vim.api.nvim_get_current_buf()
-    set_options(win, buf)
+
+function M.draw(buf)
+    set_options(buf)
     -- width
     local screen_width = vim.api.nvim_get_option("columns")
     local draw_width = math.max(count_utf_chars(ascii[1]), #NVIM_VERSION)
@@ -113,12 +111,52 @@ function M.display()
     local draw_height = #ascii + GAP_LINES + 1 -- Including version line
     local pad_height = math.floor((screen_height - draw_height) / 2) - VERTICAL_OFFSET
 
-    -- Only display if there is enough space
-    if screen_width >= draw_width + 2 and screen_height >= draw_height + 2 + VERTICAL_OFFSET then
-        local centered_ascii = calc_ascii(screen_width, pad_height, pad_width)
-        vim.api.nvim_buf_set_lines(buf, 0, -1, false, centered_ascii)
-        apply_highlights(buf, pad_height)
+    if not(screen_width >= draw_width + 2 and screen_height >= draw_height + 2 + VERTICAL_OFFSET) then
+        -- Only display if there is enough space
+        return
     end
+
+    local centered_ascii = calc_ascii(screen_width, pad_height, pad_width)
+    vim.api.nvim_buf_set_lines(buf, 0, -1, false, centered_ascii)
+    apply_highlights(buf, pad_height)
+end
+
+function M.create_new_buffer_for_insert(greeter_buf)
+
+    -- Create a new buffer that is empty and listed
+    local new_buf = vim.api.nvim_create_buf(true, true)
+
+    -- Set the new buffer in the current window
+    local win = vim.api.nvim_get_current_win()
+    vim.api.nvim_win_set_buf(win, new_buf)
+
+    -- Start insert mode in the new buffer
+    vim.api.nvim_command('startinsert')
+
+    if vim.api.nvim_buf_is_valid(greeter_buf) then
+        -- Delete the greeter buffer if it's no longer needed
+        vim.api.nvim_buf_delete(greeter_buf, {force = true})
+    end
+end
+
+function M.display()
+    vim.cmd("enew")
+    local buf = vim.api.nvim_get_current_buf()
+    M.draw(buf)
+
+    local NamespaceGroup = vim.api.nvim_create_augroup("Greeter", {clear = true})
+    vim.api.nvim_create_autocmd({"VimResized"}, {
+        buffer = buf,
+        desc = "Recalc and redraw greeter when window is resized",
+        group = NamespaceGroup,
+        callback = function() M.draw(buf) end,
+    })
+
+    vim.api.nvim_create_autocmd({"InsertEnter", "WinEnter"}, {
+        buffer = buf,
+        desc = "If entering insert mode, change greeter to a normal buffer",
+        callback = function() M.create_new_buffer_for_insert(buf) end,
+    })
 end
 
 function M.display_conditionally()
