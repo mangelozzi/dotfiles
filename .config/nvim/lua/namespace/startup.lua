@@ -6,10 +6,13 @@ vim.api.nvim_create_autocmd(
         callback = function (data)
             local is_actual_file = vim.fn.filereadable(data.file) == 1
             if not is_actual_file then
+
                 -- Only if not a real file auto show tree
-                require("nvim-tree.api").tree.toggle({focus = false })
+                -- require("nvim-tree.api").tree.toggle({focus = false })
+
                 -- Show old files FZF picker
-                require("fzf-lua").oldfiles()
+                -- require("fzf-lua").oldfiles()
+
             end
         end,
     }
