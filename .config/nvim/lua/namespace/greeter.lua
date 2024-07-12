@@ -1,23 +1,16 @@
--- Shows some ASCII art and the Neovim version below it
+-- Shows some ASCII art and the Neovim version below it, and auto centers it on the screen
+-- Redraws if the window is resized
+-- Allows one to enter insert mode directly (clears the buffer)
+-- Refer to the configuration variables below
+-- Create your own ASCII art using this tool: https://patorjk.com/software/taag/
+-- It has no version cause if I need to open old files etc, I have mappings for that.
 
-local M = {}
+-- Configuarion Variabales
 
--- Setting highlight groups using nvim_set_hl
-vim.api.nvim_set_hl(0, "GreeterAsciiArt", {fg = "#004000"})
-vim.api.nvim_set_hl(0, "GreeterNvimVer", {fg = "#707070"})
-
-local vers = vim.version()
-local NVIM_VERSION =
-    "NVIM v" .. vers.major .. "." .. vers.minor .. "." .. vers.patch .. "-" .. vers.prerelease .. "+" .. vers.build
-
-local GAP_LINES = 2 -- Number of empty lines between ASCII art and version line
-local VERTICAL_OFFSET = 2 -- Number of lines to push the art up by (centered looks a little too low)
-
-local function pad_str(padding, string)
-    return string.rep(" ", padding) .. string
-end
-
--- Create your own using this tool: https://patorjk.com/software/taag/
+local GAP_LINES = 2         -- Number of empty lines between ASCII art and version line
+local VERTICAL_OFFSET = 2   -- Number of lines to push the art up by (centered looks a little too low)
+vim.api.nvim_set_hl(0, "GreeterAsciiArt", {fg = "#004000"}) -- The ascii art color
+vim.api.nvim_set_hl(0, "GreeterNvimVer", {fg = "#707070"})  -- The Neovim version color
 local ascii = {
     " ░▒▓██████▓▒░  ░▒▓██████▓▒░ ░▒▓█▓▒░             ░▒▓███████▓▒░         ░▒▓███████▓▒░ ░▒▓███████▓▒░ ",
     "░▒▓█▓▒░░▒▓█▓▒░░▒▓█▓▒░░▒▓█▓▒░░▒▓█▓▒░                    ░▒▓█▓▒░░▒▓██▓▒░       ░▒▓█▓▒░       ░▒▓█▓▒░",
@@ -27,6 +20,23 @@ local ascii = {
     "░▒▓█▓▒░░▒▓█▓▒░░▒▓█▓▒░░▒▓█▓▒░░▒▓█▓▒░                    ░▒▓█▓▒░░▒▓██▓▒░░▒▓█▓▒░              ░▒▓█▓▒░",
     " ░▒▓██████▓▒░  ░▒▓██████▓▒░ ░▒▓████████▓▒░      ░▒▓███████▓▒░         ░▒▓████████▓▒░░▒▓███████▓▒░ "
 }
+
+-- Colossians 3:23 Whatever you do, work at it with all your heart, as working
+-- for the Lord, not for human masters, 24since you know that you will receive
+-- an inheritance from the Lord as a reward. It is the Lord Christ you are
+-- serving.
+
+-- Module
+local M = {}
+
+local vers = vim.version()
+local nvim_version =
+    "NVIM v" .. vers.major .. "." .. vers.minor .. "." .. vers.patch .. "-" .. vers.prerelease .. "+" .. vers.build
+
+
+local function pad_str(padding, string)
+    return string.rep(" ", padding) .. string
+end
 
 local function count_utf_chars(str)
     local count = 0
@@ -92,7 +102,7 @@ local function calc_ascii(width, vertical_pad, pad_cols)
     end
 
     -- Add version line centered
-    local version_line = NVIM_VERSION
+    local version_line = nvim_version
     local version_pad = math.floor((width - #version_line) / 2)
     table.insert(centered_ascii, pad_str(version_pad, version_line))
 
@@ -104,7 +114,7 @@ function M.draw(buf)
     set_options(buf)
     -- width
     local screen_width = vim.api.nvim_get_option("columns")
-    local draw_width = math.max(count_utf_chars(ascii[1]), #NVIM_VERSION)
+    local draw_width = math.max(count_utf_chars(ascii[1]), #nvim_version)
     local pad_width = math.floor((screen_width - draw_width) / 2)
     -- height
     local screen_height = vim.api.nvim_get_option("lines")
