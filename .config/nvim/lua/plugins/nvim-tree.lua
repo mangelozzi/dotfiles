@@ -110,7 +110,7 @@ Plugin.config = function ()
             copy_file_to(node)
         end, opts('copy_file_to'))
 
-        vim.keymap.set('n', '<leader>m', function()
+        vim.keymap.set('n', 'm', function()
             local node = api.tree.get_node_under_cursor()
             move_file_to(node)
         end, opts('move_file_to'))

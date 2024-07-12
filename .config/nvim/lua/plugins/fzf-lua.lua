@@ -49,6 +49,27 @@ local Plugin = {
     build = "./install --bin",
 }
 
+local fd_exclude = ""
+    .. " -E '**/__pycache__'"
+    .. " -E '**/temp' "
+    .. " -E '**/spike' "
+    .. " -E '**/htmlcov'"
+    .. " -E '**/static/**/jsapp'"
+    .. " -E '**/static/**/wcapp'"
+    .. " -E '**/.angular'"
+    .. " -E '**/node_modules'"
+    -- File types
+    .. " -E '*.jpg'"
+    .. " -E '*.png'"
+    .. " -E '*.zip'"
+    .. " -E '*.git'"
+    .. " -E '*.min.css'"
+    .. " -E '*.min.js'"
+-- --type file will not show symlinks
+-- --follow will follow symlinks
+local fd_dist_ignore= "--type file --type symlink --follow --no-ignore" .. fd_exclude .. " -E 'distros'"
+local fd_distros_ignore= "--type file --no-ignore" .. fd_exclude
+
 Plugin.config = function()
     local fzf = require('fzf-lua')
     local actions = fzf.actions
@@ -128,24 +149,7 @@ Plugin.config = function()
             }
         },
         files = {
-            prompt = "Files >>> ",
-            fd_opts =   "--type file --no-ignore"
-                            -- Dirs
-                            .. " -E '**/__pycache__'"
-                            .. " -E '**/temp' "
-                            .. " -E '**/spike' "
-                            .. " -E '**/htmlcov'"
-                            .. " -E '**/static/**/jsapp'"
-                            .. " -E '**/static/**/wcapp'"
-                            .. " -E '**/.angular'"
-                            .. " -E '**/node_modules'"
-                            -- File types
-                            .. " -E '*.jpg'"
-                            .. " -E '*.png'"
-                            .. " -E '*.zip'"
-                            .. " -E '*.git'"
-                            .. " -E '*.min.css'"
-                            .. " -E '*.min.js'"
+            fd_opts = fd_dist_ignore,
         },
         buffers = {prompt = "Buffers >>> "}, -- Buffers❯
         oldfiles = {prompt = "History >>> "},
@@ -208,6 +212,9 @@ Plugin.config = function()
     -- Buffers and Files
     vim.keymap.set("n", "<leader><leader>", require("fzf-lua").buffers, {noremap = true, silent = true, desc = "FZF (b)uffers"})
     vim.keymap.set("n", "<leader>f", require("fzf-lua").files, {noremap = true, silent = true, desc = "FZF (f)iles - cwd"})
+    vim.keymap.set("n", "<leader>F", function() require("fzf-lua").files({
+        fd_opts = fd_distros_ignore,
+    }) end, {noremap = true, silent = true, desc = "FZF (f)iles - cwd"})
     vim.keymap.set("n", "<leader>~", function() require("fzf-lua").files({cwd = "~"}) end, {noremap = true, silent = true, desc = "FZF files - home"})
     vim.keymap.set("n", "<leader>.", function() require("fzf-lua").files({cwd = "~/.config"}) end, {noremap = true, silent = true, desc = "FZF files - config (.)" })
     vim.keymap.set("n", "<leader>/", function() require("fzf-lua").files({cwd = ".."}) end, {noremap = true, silent = true, desc = "FZF files - parent dir (../)"})
