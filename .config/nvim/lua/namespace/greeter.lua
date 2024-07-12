@@ -1,9 +1,17 @@
--- Shows some ASCII art and the Neovim version below it, and auto centers it on the screen
--- Redraws if the window is resized
--- Allows one to enter insert mode directly (clears the buffer)
--- Refer to the configuration variables below
--- Create your own ASCII art using this tool: https://patorjk.com/software/taag/
--- It has no version cause if I need to open old files etc, I have mappings for that.
+--[[
+# GREETER
+
+- Shows some ASCII art and the Neovim version below it
+- It auto centers the ascii art and applies a highlight group.
+- Redraws if the window is resized
+- Allows one to enter insert mode directly (clears the buffer)
+- Refer to the `Configuration Variables` below
+- Create your own ASCII art using this tool: https://patorjk.com/software/taag/
+- It has no widgets/links because if I need to open old files etc, I have mappings for that.
+- At the end of the file it runs the greeter, if you wish to call it at some other point
+  after it has been required,  you can remove the `M.display_conditionally()`
+
+--]]
 
 -- Configuarion Variabales
 
@@ -163,6 +171,7 @@ function M.display()
     vim.api.nvim_create_autocmd({"InsertEnter"}, {
         buffer = buf,
         desc = "If entering insert mode, change greeter to a normal buffer",
+        group = NamespaceGroup,
         callback = function() M.create_new_buffer_for_insert(buf) end,
     })
 
