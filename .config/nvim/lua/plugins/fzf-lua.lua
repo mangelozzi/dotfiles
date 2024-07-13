@@ -198,8 +198,16 @@ Plugin.config = function()
                 ["Ctrl-h"]      = function(_, opts) fzf.oldfiles({ query=opts.last_query, cwd=opts.cwd }) end, -- _ = sel
             },
         },
+        previewers = {
+            builtin = {
+                extensions = {
+                    -- by default the filename is added as last argument
+                    -- if required, use `{file}` for argument positioning
+                    ["svg"]       = { "chafa", "{file}" },
+                },
+            }
+        }
     }
-
     -- Own
     -- Breakpoints
     vim.keymap.set("n", "<leader><S-DEL>", function()
