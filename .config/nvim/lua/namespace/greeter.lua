@@ -39,8 +39,9 @@ local M = {}
 
 local ascii = vim.split(ascii_str, "\n")
 local vers = vim.version()
+local commit =  vers.build ~= vim.NIL and ("+" .. vers.build) or ""
 local nvim_version =
-    "NVIM v" .. vers.major .. "." .. vers.minor .. "." .. vers.patch .. "-" .. vers.prerelease .. "+" .. vers.build
+    "NVIM v" .. vers.major .. "." .. vers.minor .. "." .. vers.patch .. "-" .. vers.prerelease .. commit
 
 local function pad_str(padding, string)
     return string.rep(" ", padding) .. string
