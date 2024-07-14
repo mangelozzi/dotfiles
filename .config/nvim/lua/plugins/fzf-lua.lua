@@ -1,11 +1,10 @@
--- Install FZF on path by using ~/.config/install/utils.sh
-
--- let $FZF_DEFAULT_OPTS=' --color fg:#D8DEE9,bg:#2E3440,hl:#40a000,fg+:#D8DEE9,bg+:#434C5E,hl+:#60d000,pointer:#fF616A,info:#4C566A,spinner:#4C566A,header:#4C566A,prompt:#81A1C1,marker:#EBCB8B'
-
--- Way more here: https://github.com/ibhagwan/fzf-lua#misc
--- See all config options here: https://github.com/ibhagwan/fzf-lua#default-options
-
 --[[
+- Install FZF on path by using ~/.config/install/utils.sh
+- let $FZF_DEFAULT_OPTS=' --color fg:#D8DEE9,bg:#2E3440,hl:#40a000,fg+:#D8DEE9,bg+:#434C5E,hl+:#60d000,pointer:#fF616A,info:#4C566A,spinner:#4C566A,header:#4C566A,prompt:#81A1C1,marker:#EBCB8B'
+- Way more here: https://github.com/ibhagwan/fzf-lua#misc
+- See all config options here: https://github.com/ibhagwan/fzf-lua#default-options
+- Fzf-lua plugin author ibhagwan's configuration: https://github.com/ibhagwan/nvim-lua/blob/64812566ae22fac5eca742a46ad92a813b746bb9/lua/plugins/fzf-lua/setup.lua#L138-L141
+
 
 Fzf-Lua's Grep + Fuzzy search combo is a superpower
 https://www.reddit.com/r/neovim/comments/1dlfu4o/fzfluas_grep_fuzzy_search_combo_is_a_superpower
@@ -32,6 +31,7 @@ even turbo charged when you use live_grep_glob (or set rg_glob=true) and then
 search for a regex limited to specific files, I.e foo.*bar -- *.lua !*spec*
 which means search for a line that has both foo AND bar inside lua files
 excluding spec files (tests), then I ctrl-g to fuzzy for the fine tuning.
+
 
 Q: How do you select files put them in the quick list? A: With the default
 mappings: tab selects/deselects items, alt-a toggles selection of all, alt-q
@@ -199,12 +199,19 @@ Plugin.config = function()
             },
         },
         previewers = {
+            bat = { args = "--color=always --style=default" },
             builtin = {
-                extensions = {
+                title_fnamemodify = function(s) return s end, -- Show the whole path not just the title
+                -- ueberzug_scaler   = "cover",
+                extensions        = {
                     -- by default the filename is added as last argument
                     -- if required, use `{file}` for argument positioning
-                    ["svg"]       = { "chafa", "{file}" },
-                },
+                    -- ["gif"]  = img_prev_bin,
+                    -- ["png"]  = img_prev_bin,
+                    -- ["jpg"]  = img_prev_bin,
+                    -- ["jpeg"] = img_prev_bin,
+                    ["svg"]  = { "chafa" },
+                }
             }
         }
     }

@@ -75,7 +75,7 @@ function M.get_groups(p)
         TabLineFill = {fg = p.fg1, bg = nil}, -- Tab pages line, where there are no labels.
         TabLineSel = {fg = p.bg0, bg = nil}, -- Tab pages line, active tab page label.
         Title = {fg = p.orange, bg = nil, bold = true}, -- Titles for output from ":set all", ":autocmd" etc.
-        Visual = {fg = nil, bg = p.bg3}, -- Visual mode selection.
+        Visual = {fg = nil, bg = p.bg5}, -- Visual mode selection.
         VisualNOS = { link = 'Visual'}, -- Visual mode selection when vim is "Not Owning the Selection".
         WarningMsg = {fg = p.yellow, bg = nil, bold = true}, -- Warning messages.
         Whitespace = {fg = p.bg5, bg = nil}, --   "nbsp", "space", "tab", "multispace", "lead" and "trail" in 'listchars'.

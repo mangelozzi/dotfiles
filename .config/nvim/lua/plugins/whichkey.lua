@@ -17,31 +17,33 @@ local Plugin = {
 Plugin.config = function()
     local wk = require("which-key")
     wk.setup {
-        layout = {
+        preset = "modern",
+        delay = vim.o.timeoutlen,
+        plugins = {
+            marks = false, -- cant set them on a delay
+            registers = false, -- cant set them on a delay
+        },
+        win = {
             height = {min = 4, max = 42} -- min and max height of the columns
         },
-        triggers_nowait = {
-            -- marks
-            -- "`",
-            -- "'",
-            -- "g`",
-            -- "g'",
-            -- registers
-            -- '"',
-            -- "<c-r>",
-            -- spelling
-            "z="
+        icons = {
+            rules = false,
         },
-        operators = {
-            -- Doesnt work, see: https://github.com/folke/which-key.nvim/issues/623
+        modes = {
+            x = false,
         },
-        key_labels = {
-            -- override the label used to display some keys. It doesn't effect WK in any other way.
-            -- For example:
-            -- ["<space>"] = "SPC",
-            -- ["<cr>"] = "RET",
-            -- ["<tab>"] = "TAB",
-        },
+        -- triggers_nowait = {
+        --     -- marks
+        --     -- "`",
+        --     -- "'",
+        --     -- "g`",
+        --     -- "g'",
+        --     -- registers
+        --     -- '"',
+        --     -- "<c-r>",
+        --     -- spelling
+        --     "z="
+        -- },
     }
     vim.keymap.set(
         "n",
@@ -52,9 +54,9 @@ Plugin.config = function()
         {noremap = true, desc = "Show which-key mappings"}
     )
     -- Register own mappings
-    wk.register({
+    wk.add({
         -- Wrap text (built in) - default is gq, but requires textwidth to be none zero, built in, but does not show up in which key by default
-        gw = "Wrap text", 
+        { "gw", desc = "Wrap text"},
     })
 end
 

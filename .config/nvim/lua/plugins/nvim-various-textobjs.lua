@@ -46,6 +46,7 @@ Plugin.config = function()
             "il", -- markdown link titles - rather use for inner line
             "al", -- markdown link titles - rather use for inner line
             "gw", -- visibleInWindow - smashes the built v_gw command for wrapping text
+            "L",  -- in visual mode use L to goto bottom
         }, 
 
         -- display notifications if a text object is not found
