@@ -1,3 +1,12 @@
+-- https://github.com/neovim/nvim-lspconfig/wiki/Understanding-setup-%7B%7D
+--[[
+
+:help lspconfig-quickstart
+
+See the config for each LSP
+:lua print(vim.inspect(vim.lsp.get_active_clients()))
+
+--]]
 local Plugin = {
     "neovim/nvim-lspconfig",
     -- cmd = {'LspInfo', 'LspInstall', 'LspUnInstall'},
@@ -9,32 +18,44 @@ local Plugin = {
     }
 }
 
+-- Map the LSP servers we want to install to whether default setup (true) or custom setup (false)
+local my_servers = {
+    -- Replace these with whatever servers you want to install
+    bashls = true,
+    cssls = true,
+    html = false,
+    -- emmet_ls, -- emmet html completion support, prefer emmet-vim plugin
+    pyright = false,
+    tsserver = false,
+    -- Tried typescript-tools, with config below, but did not seem faster
+    eslint = true,  -- For JSDoc
+    lua_ls = false,
+    jsonls = true,
+    marksman = true,
+    djlint = true, -- Django
+    curlylint = true, -- Django
+    -- omnisharp,  -- C Sharp
+    -- angularls = true,
+}
+
+local ensure_installed = {} -- The keys of my_servers
+for key, _ in pairs(my_servers) do
+    table.insert(ensure_installed, key)
+end
+
 Plugin.config = function ()
 
+    -- 1. Setup Mason which will allow us to get LSP executables
     -- Based on https://github.com/VonHeikemen/lsp-zero.nvim#you-might-not-need-lsp-zero
+    -- Mason installs LSP servers in a place neovim can see them, nothing more
     require('mason').setup()
 
-    require('mason-lspconfig').setup({
-        ensure_installed = {
-            -- Replace these with whatever servers you want to install
-            'bashls',
-            'cssls',
-            'html',
-            -- 'emmet_ls', -- emmet html completion support, prefer emmet-vim plugin
-            'pyright',
-            'tsserver',
-            -- Tried 'typescript-tools', with config below, but did not seem faster
-            'eslint',  -- For JSDoc
-            'lua_ls',
-            'jsonls',
-            'marksman',
-            -- 'omnisharp',  -- C Sharp
-            -- 'angularls',
-            --'rust_analyzer',
-        }
-    })
+    -- 2. Get LSP servers executables
+    -- :Mason ... select one and press i to install, add it to the `ensure_installed` below.
+    require('mason-lspconfig').setup { ensure_installed = my_servers }
 
-    local lsp_capabilities = require('cmp_nvim_lsp').default_capabilities()
+    -- 3. Default LSP settings
+    local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
     local lsp_attach = function(client, bufnr)
         local function get_opts(desc)
@@ -63,53 +84,65 @@ Plugin.config = function ()
         vim.keymap.set("n", "<leader>ll", function() vim.api.nvim_command('LspRestart'); print('...LSP Restarted') end, get_opts('Restart'))
     end
 
-    local lspconfig = require('lspconfig')
-    require('mason-lspconfig').setup_handlers({
-        function(server_name)
-            lspconfig[server_name].setup({
-                on_attach = lsp_attach,
-                capabilities = lsp_capabilities,
-                settings = {
-                    Lua = {
-                        diagnostics = {
-                            -- https://neovim.discourse.group/t/how-to-suppress-warning-undefined-global-vim/1882/5
-                            globals = {'vim'}
-                        },
-                        runtime = {
-                            -- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
-                            version = 'LuaJIT'
-                        }
-                    },
-                }
-            })
-        end,
-    })
 
-    -- Try make pyright not so CPU hungry
-    lspconfig.pyright.setup({
-    on_attach = lsp_attach,
-    flags = {
-        debounce_text_changes = 300, -- was 300
-    },
-    settings = {
-        python = {
-        analysis = {
-            autoSearchPaths = true,
-            diagnosticMode = "openFilesOnly",
-            useLibraryCodeForTypes = true,
-            typeCheckingMode = "basic",
-            maxNumberOfProblems = 20, -- was 50
+    -- 4. Setup LSP servers for the ones we wish to attach to buffers
+    -- :help lspconfig-quickstart recommends not using `require('mason-lspconfig').setup_handlers` but rather lspconfig
+    -- {filetypes}
+
+    -- First Default Setup
+    for server, default in pairs(my_servers) do
+        if default then
+            require('lspconfig')[server].setup {
+                on_attach = lsp_attach,
+                capabilities = capabilities,
+            }
+        end
+    end
+
+    require('lspconfig').lua_ls.setup {
+        on_attach = lsp_attach,
+        capabilities = capabilities,
+        settings = {
+            Lua = {
+                diagnostics = { globals = {'vim'} }
+            }
         },
+        runtime = {
+            -- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
+            version = 'LuaJIT'
+        },
+    }
+
+    require('lspconfig').tsserver.setup {
+        on_attach = lsp_attach,
+        capabilities = capabilities,
+    }
+
+    require('lspconfig').pyright.setup {
+        on_attach = lsp_attach,
+        capabilities = capabilities,
+        flags = {
+            debounce_text_changes = 300,
+        },
+        settings = {
+            python = {
+            analysis = {
+                autoSearchPaths = true,
+                diagnosticMode = "openFilesOnly",
+                useLibraryCodeForTypes = true,
+                typeCheckingMode = "basic",
+                maxNumberOfProblems = 20, -- was 50 - Try make pyright not so CPU hungry
+            },
+            }
         }
     }
-    })
 
-    -- if require("namespace.utils").get_is_installed("typescript-tools") then
-    --     require("typescript-tools").setup {
-    --         on_attach = lsp_attach,
-    --         capabilities = lsp_capabilities,
-    --     }
-    -- end
+    require('lspconfig').html.setup {
+        on_attach = lsp_attach,
+        capabilities = capabilities,
+        filetypes = {'html', 'htmldjango'}, -- Add htmldjango
+    }
+
 end
 
 return Plugin

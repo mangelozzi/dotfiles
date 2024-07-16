@@ -6,7 +6,8 @@ local Plugin = {
 Plugin.config = function()
     vim.keymap.set(
         "n",
-        "<leader>s",
+        -- "<leader>s",
+        "<cr>",
         function()
             require("leap").leap {
                 target_windows = require("leap.user").get_focusable_windows()

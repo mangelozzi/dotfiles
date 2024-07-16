@@ -8,6 +8,7 @@ Check any conflicting keymaps that will prevent triggering WhichKey:
 local Plugin = {
     "folke/which-key.nvim",
     event = "VeryLazy",
+    -- cond = false,
     init = function()
         vim.o.timeout = true
         -- vim.o.timeoutlen = 300 -- default is 1000

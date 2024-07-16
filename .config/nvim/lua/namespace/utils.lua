@@ -81,8 +81,11 @@ function M.format_code()
         -- https://prettier.io/
         -- Prettier edit in place (--write)
         vim.cmd("!prettier --write " .. file)
-    elseif vim.bo.filetype == "html" or vim.bo.filetype == "htmldjango" then
-        -- vim.cmd("!djlint --format-css --format-js " .. file)
+    elseif vim.bo.filetype == "htmldjango" then
+        -- vim.cmd("silent! !djlint --reformat --preserve-blank-lines " .. file)
+        vim.cmd("!djlint --reformat  --format-css  --format-js --preserve-blank-lines " .. file)
+        vim.api.nvim_feedkeys("\\<CR>", "n", false)  -- Need a lot of enters
+    elseif vim.bo.filetype == "html" then
         vim.cmd("!prettier --write " .. file)
     elseif vim.bo.filetype == "css" then
         vim.cmd("!prettier --write " .. file)
