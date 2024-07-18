@@ -3,7 +3,8 @@
 local Plugin = {
     "NeogitOrg/neogit",
     dependencies = {"nvim-lua/plenary.nvim"},
-    commit = 'c5e09bfcc18fa9ff',
+    commit = 'af1d8d8',
+    -- commit = 'c5e09bfcc18fa9ff', -- older faithful, when open repo in browser broke stuff
     -- keys = {'<leader>i'},
     event = "VeryLazy",
 }
@@ -109,15 +110,15 @@ Plugin.config = function()
                 ["x"] = "Discard",
                 ["s"] = "Stage",
                 ["S"] = false, -- "StageUnstaged",
-                ["<c-s>"] = false, -- "StageAll",
+                -- ["<c-s>"] = false, -- "StageAll",
                 ["u"] = "Unstage",
                 ["U"] = false, -- "UnstageStaged",
                 ["$"] = "CommandHistory",
                 ["<c-r>"] = "RefreshBuffer",
                 ["<enter>"] = "GoToFile",
                 ["o"] = "GoToFile", -- Michael
-                ["<c-v>"] = "VSplitOpen", -- <--- USE THIS
-                ["<c-x>"] = "SplitOpen", -- <--- USE THIS
+                ["<c-v>"] = "VSplitOpen", -- <--- Same as Fzf-lua
+                ["<c-s>"] = "SplitOpen", -- <--- Same as Fzf-lua
                 ["<c-t>"] = "TabOpen", -- "TabOpen",
                 ["{"] = false, -- "GoToPreviousHunkHeader",
                 ["}"] = false, -- "GoToNextHunkHeader",
@@ -126,14 +127,53 @@ Plugin.config = function()
             }
         }
     })
+
     -- KEY MAPS TO START NEOGIT
-    -- Prefer '<leader>i' to '<leader>g' cause can open git review with one hand while drinking water with other
 
-    -- Map <leader>g to opening neogit
-    vim.keymap.set("n", "<leader>i", function() require('neogit').open({ kind = 'tab' }) end, {noremap = true, desc = "Neogit"})
+    local function open_neogit_on_current_buffer()
+        local function cursor_to_line(pattern)
+            local lines = vim.api.nvim_buf_get_lines(0, 0, -1, false)
+            local esccaped_pattern = string.gsub(pattern, "[%p]", "%%%1")
+            for i, line in ipairs(lines) do
+                if line:match(esccaped_pattern) then
+                    vim.api.nvim_win_set_cursor(0, {i, 0}) -- If pattern is found, move the cursor to the matching line
+                    return
+                end
+            end
+        end
 
-    -- This does not work, using for DiffView instead
-    -- vim.api.nvim_set_keymap('n', '<leader>I', ":lua require('neogit').open({ cwd='/home/michael/.config/' })<CR>", {noremap = true, desc = ""})
+        local function open_callback(augroup_id, file_rel)
+            vim.api.nvim_del_augroup_by_id(augroup_id)
+            -- Send a tab to open the file
+            local keys = vim.api.nvim_replace_termcodes('<tab>',true,false,true)
+            vim.api.nvim_feedkeys(keys,'i',false) -- Is insert mode!!
+            cursor_to_line(file_rel)
+        end
+
+        local filename = vim.api.nvim_buf_get_name(0)
+        if (filename ~= "") then
+            local file_rel = vim.fn.fnamemodify(vim.fn.expand('%'), ':.')
+            -- local escaped_file = vim.fn.escape(file_rel, '\\/.*$^~[]')
+            local MyNeogitGroup = vim.api.nvim_create_augroup("MyNeogitGroup", {clear = true})
+            vim.api.nvim_create_autocmd(
+                "User",
+                {
+                    desc = "A temp autocmd to open neogit on current buffer",
+                    pattern = "NeogitStatusRefreshed",
+                    group = MyNeogitGroup,
+                    callback = function()
+                        open_callback(MyNeogitGroup, file_rel)
+                    end
+                }
+            )
+        end
+        require('neogit').open({kind = 'tab'})
+    end
+
+    -- Use <leader>g as a prefix for bunch of other git related commands, this keep fast
+    vim.keymap.set("n", "<leader>i", function() open_neogit_on_current_buffer() end, {noremap = true, desc = "Neogit buffer"})
+    vim.keymap.set("n", "<leader>I", function() require('neogit').open({ kind = 'tab' }) end, {noremap = true, desc = "Neogit"})
+
 end
 
 return Plugin

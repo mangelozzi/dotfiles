@@ -7,18 +7,23 @@ local switcher = require("namespace.switcher")
 -- Disable highlighting
 vim.keymap.set({"n", "x"}, "<leader>h", ":noh<CR>", {noremap = true, desc = "Disable highlighting"})
 
+-- Replace with first spelling suggestion
+vim.keymap.set("n", "<leader>s", "1z=", {noremap = true, desc = "1st (s)spelling suggestion"})
 
 -- GIT ------------------------------------------------------------------------
 
 -- Open the current file in GITk and dettach from the process
-vim.keymap.set("n", "<leader>G", function() vim.cmd('!git log --follow -- % &') end, {noremap = true, desc ="gitk current file"})
+vim.keymap.set("n", "<leader>gk", function() vim.cmd('!gitk --follow -- % &') end, {noremap = true, desc ="Git(k) buffer"})
 
--- Open the current file differents
+-- Open a Vsplit to left with the git diff of the current buffer
 local function viewGitDiffCurrentFile()
     local filePath = vim.fn.expand('%')
     vim.cmd('vsplit | terminal git diff ' .. filePath)
 end
-vim.keymap.set('n', '<leader>gg', viewGitDiffCurrentFile, { noremap = true, silent = true, desc = "git diff current file" })
+vim.keymap.set('n', '<leader>gv', viewGitDiffCurrentFile, { noremap = true, silent = true, desc = "Git (v)split diff buffer" })
+
+-- Diff two windows
+vim.keymap.set("n", "<leader>gw", function() vim.cmd("windo diffthis") end, { noremap = true, desc = "Git diff (w)indows" })
 
 -- SWAP -----------------------------------------------------------------------
 

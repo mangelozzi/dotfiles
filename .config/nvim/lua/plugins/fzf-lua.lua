@@ -38,6 +38,9 @@ mappings: tab selects/deselects items, alt-a toggles selection of all, alt-q
 sends selected to quick fix list but it’s not even required the default action
 sends selection to quick fix if you selected multiple files.
 
+https://github.com/ibhagwan/fzf-lua/discussions/1144
+That said, fzf has useful binds for line editing, for example ctrl-w to delete last word, ctrl-u to clear the line, etc, see man Fzf for the full list.
+
 --]]
 
 local Plugin = {
@@ -137,8 +140,8 @@ Plugin.config = function()
                 -- Only valid with fzf previewers (bat/cat/git/etc)
                 ["f3"] = "toggle-preview-wrap",
                 ["f4"] = "toggle-preview",
-                ["shift-down"] = "preview-page-down",
-                ["shift-up"] = "preview-page-up"
+                ["alt-f"] = "preview-page-down",
+                ["alt-b"] = "preview-page-up"
             }
         },
         winopts = {
@@ -240,6 +243,12 @@ Plugin.config = function()
     vim.keymap.set("n", "<leader>zb", require("fzf-lua").blines, {noremap = true, silent = true, desc = "FZF (b)uffer lines"})
 
     -- Search
+
+    -- (G)it - <leader>g...
+    vim.keymap.set("n", "<leader>gc", require("fzf-lua").git_commits, {noremap = true, silent = true, desc = "Git FZF (C)ommits"})
+    vim.keymap.set("n", "<leader>gb", require("fzf-lua").git_bcommits, {noremap = true, silent = true, desc = "Git FZF (B)commits"})
+    vim.keymap.set("n", "<leader>gs", require("fzf-lua").git_status, {noremap = true, silent = true, desc = "Git FZF (S)tatus"})
+     
 
     -- (G)rep for search results
     vim.keymap.set("n", "<leader>zg", require("fzf-lua").live_grep, {noremap = true, silent = true, desc = "FZF (g)rep"})

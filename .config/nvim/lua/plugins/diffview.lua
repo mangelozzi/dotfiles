@@ -54,7 +54,7 @@ Plugin.config = function()
     end
 
     -- Dont show edited files on left
-    vim.keymap.set({"n", "x"}, "<leader>I", custom_open_diffview, {noremap = true, desc = "Diffview open"})
+    vim.keymap.set({"n", "x"}, "<leader>gd", custom_open_diffview, {noremap = true, desc = "(D)iffview open"})
 
     -- This is the standard open
     -- vim.keymap.set({'n', 'x'}, '<leader>I', function() vim.cmd('DiffviewOpen') end, { noremap = true} )

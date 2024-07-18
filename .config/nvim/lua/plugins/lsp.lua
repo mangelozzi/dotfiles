@@ -1,5 +1,11 @@
--- https://github.com/neovim/nvim-lspconfig/wiki/Understanding-setup-%7B%7D
 --[[
+
+- List of LSP configurations:
+    :help mason-lspconfig-server-map
+
+- https://github.com/neovim/nvim-lspconfig/wiki/Understanding-setup-%7B%7D
+- Native LSP with no plugins:
+    - https://github.com/boltlessengineer/NativeVim/blob/main/lua/core/lsp.lua
 
 :help lspconfig-quickstart
 
@@ -15,6 +21,7 @@ local Plugin = {
         "hrsh7th/nvim-cmp",
         "williamboman/mason.nvim",
         "williamboman/mason-lspconfig.nvim",
+        "nvimtools/none-ls.nvim",
     }
 }
 
@@ -32,8 +39,8 @@ local my_servers = {
     lua_ls = false,
     jsonls = true,
     marksman = true,
-    djlint = true, -- Django
-    curlylint = true, -- Django
+    djlint = false, -- Handled by none_ls -- Django
+    curlylint = false, -- Handled by none_ls -- Django
     -- omnisharp,  -- C Sharp
     -- angularls = true,
 }
@@ -62,26 +69,37 @@ Plugin.config = function ()
             return {buffer = bufnr, noremap = true, desc = "LSP " .. desc}
         end
 
-        vim.keymap.set('n', '<leader>ld', function() vim.lsp.buf.declaration() end, get_opts('Declaration'))
-        vim.keymap.set('n', '<c-]>', function() vim.lsp.buf.definition() end, get_opts('Definition'))
-        vim.keymap.set('n', 'K', function() vim.lsp.buf.hover() end, get_opts('Hover'))
-        vim.keymap.set('n', 'gD', function() vim.lsp.buf.implementation() end, get_opts('Implementation'))
-        -- vim.keymap.set("i", "<C-h>",   function() vim.lsp.buf.signature_help() end, opts)
-        vim.keymap.set('n', '<leader>ls', function() vim.lsp.buf.signature_help() end, get_opts('Signature help'))
+        -- Declaration - Wher you first declare a symbol (variable, constant, function etc.), e.g. let foo;
+        vim.keymap.set('n', '<leader>ld', function() vim.lsp.buf.declaration() end, get_opts('(d)eclaration'))
+        -- Definition - Variable first assigned, of the signature of a func first defined, e.g. foo = 1;
+        vim.keymap.set('n', '<c-]>', function() vim.lsp.buf.definition() end, get_opts('definition'))
+        -- Implementation - The concrete implementation of a function
+        vim.keymap.set('n', 'gD', function() vim.lsp.buf.implementation() end, get_opts('implementation'))
+        --
+        -- references to a symbol (var/func) etc
+        vim.keymap.set('n', 'gr', function() vim.lsp.buf.references() end, get_opts('references'))
+        --
+        vim.keymap.set('n', 'K', function() vim.lsp.buf.hover() end, get_opts('hover'))
+        vim.keymap.set("i", "<C-h>",   function() vim.lsp.buf.signature_help() end, get_opts('help'))
+        --
+        vim.keymap.set('n', '<leader>ls', function() vim.lsp.buf.signature_help() end, get_opts('(s)ignature help'))
         vim.keymap.set("n", "<leader>lws", function() vim.lsp.buf.workspace_symbol() end, get_opts('Workspace symbol'))
         vim.keymap.set('n', '<leader>lwa', function() vim.lsp.buf.add_workspace_folder() end, get_opts('Add workspace folder'))
         vim.keymap.set('n', '<leader>lwr', function() vim.lsp.buf.remove_workspace_folder() end, get_opts('Remove workspace folder'))
         vim.keymap.set('n', '<leader>lwl', function() print(vim.inspect(vim.lsp.buf.list_workspace_folders())) end, get_opts('List workspace folders'))
-        vim.keymap.set('n', '<leader>ld', function() vim.lsp.buf.type_definition() end, get_opts('Type definition'))
-        vim.keymap.set('n', '<leader>lr', function() vim.lsp.buf.rename() end, get_opts('Rename'))
-        vim.keymap.set('n', '<leader>la', function() vim.lsp.buf.code_action() end, get_opts('Code action'))
-        vim.keymap.set('n', 'gr', function() vim.lsp.buf.references() end, get_opts('References'))
-        vim.keymap.set("n", "<leader>sd", function() vim.diagnostic.open_float() end, get_opts('Show diagnostic'))
-        vim.keymap.set('n', '[d', function() vim.diagnostic.goto_prev() end, get_opts('Previous diagnostic'))
-        vim.keymap.set('n', ']d', function() vim.diagnostic.goto_next() end, get_opts('Next diagnostic'))
+        vim.keymap.set('n', '<leader>lt', function() vim.lsp.buf.type_definition() end, get_opts('(t)ype definition'))
+        vim.keymap.set('n', '<leader>lr', function() vim.lsp.buf.rename() end, get_opts('(r)ename'))
+        vim.keymap.set('n', '<leader>la', function() vim.lsp.buf.code_action() end, get_opts('code (a)ction'))
+        vim.keymap.set("n", "<leader>l?", function() vim.diagnostic.open_float() end, get_opts('show diagnostic'))
+        vim.keymap.set("n", "<leader>l.", function() vim.diagnostic.open_float() end, get_opts('show diagnostic'))
+        vim.keymap.set('n', '[d', function() vim.diagnostic.goto_prev() end, get_opts('previous diagnostic'))
+        vim.keymap.set('n', ']d', function() vim.diagnostic.goto_next() end, get_opts('next diagnostic'))
         -- vim.keymap.set('n', '<space>???', function() vim.diagnostic.set_loclist() end, get_opts('Set loclist'))
-        vim.keymap.set("n", "<leader><F6>", function() vim.lsp.buf.formatting() end, get_opts('Formatting'))
-        vim.keymap.set("n", "<leader>ll", function() vim.api.nvim_command('LspRestart'); print('...LSP Restarted') end, get_opts('Restart'))
+        vim.keymap.set("n", "<leader>lf", function() vim.lsp.buf.formatting() end, get_opts('(f)ormatting'))
+        vim.keymap.set("n", "<leader>ll", function() vim.api.nvim_command('LspRestart'); print('...LSP Restarted') end, get_opts('server restart'))
+        vim.keymap.set("n", "<leader>li", function() vim.api.nvim_command('LspInfo'); end, get_opts('server (i)nfo'))
+        -- Note null-ls will always be shown as autostart: false in LspInfo, it is managed separately
+        vim.keymap.set("n", "<leader>lI", function() vim.api.nvim_command('NullLsInfo'); end, get_opts('server Null-ls (I)nfo'))
     end
 
 
@@ -142,7 +160,26 @@ Plugin.config = function ()
         capabilities = capabilities,
         filetypes = {'html', 'htmldjango'}, -- Add htmldjango
     }
+    
+    -- null-ls / none-ls
+    local null_ls = require("null-ls")  -- 'none-ls' keeps the original api name of 'null-ls'
 
+null_ls.setup {
+    -- on_attach = lsp_attach,
+    sources = {
+        -- null_ls.builtins.formatting.stylua,
+        null_ls.builtins.completion.spell,
+        -- djlint
+        null_ls.builtins.formatting.djlint.with(
+            {
+                extra_args = {"--reformat"}
+            }
+        ),
+        null_ls.builtins.diagnostics.djlint,
+        -- curlylint
+        null_ls.builtins.diagnostics.curlylint,
+    }
+}
 end
 
 return Plugin
