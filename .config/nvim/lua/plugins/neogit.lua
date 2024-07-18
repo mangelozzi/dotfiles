@@ -3,8 +3,7 @@
 local Plugin = {
     "NeogitOrg/neogit",
     dependencies = {"nvim-lua/plenary.nvim"},
-    commit = 'af1d8d8',
-    -- commit = 'c5e09bfcc18fa9ff', -- older faithful, when open repo in browser broke stuff
+    commit = 'c5e09bfcc18fa9ff', -- older faithful, when open repo in browser broke stuff
     -- keys = {'<leader>i'},
     event = "VeryLazy",
 }

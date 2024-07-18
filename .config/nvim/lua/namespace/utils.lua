@@ -60,16 +60,15 @@ end
 -- Auto format code
 function M.format_code()
     local file = vim.fn.expand("%:p")
-    if file == "" then
-        M.format_new_buffer_as_json_no_save()
-        return
-    end
     -- Note: os.execute messes up the terminal
     -- 1. Exit insert mode (if necessart), and save file changes
     vim.cmd("stopinsert")
     vim.cmd("write")
     -- 2. Format the file differently depending on the file type
-    if vim.bo.filetype == "python" then
+    if vim.bo.filetype == "lua" then
+        -- https://github.com/trixnz/lua-fmt
+        vim.cmd("!luafmt --write-mode replace " .. file)
+    elseif vim.bo.filetype == "python" then
         -- https://github.com/psf/black
         -- Black will edit the file and save it
         vim.cmd("!black -S --line-length 100 " .. file)
@@ -83,7 +82,7 @@ function M.format_code()
         vim.cmd("!prettier --write " .. file)
     elseif vim.bo.filetype == "htmldjango" then
         -- vim.cmd("silent! !djlint --reformat --preserve-blank-lines " .. file)
-        vim.cmd("!djlint --reformat  --format-css  --format-js --preserve-blank-lines " .. file)
+        vim.cmd("!djlint --profile=django --reformat --format-css --format-js --preserve-blank-lines " .. file)
         vim.api.nvim_feedkeys("\\<CR>", "n", false)  -- Need a lot of enters
     elseif vim.bo.filetype == "html" then
         vim.cmd("!prettier --write " .. file)
@@ -93,9 +92,8 @@ function M.format_code()
         -- The json module is included in Python's Standard Library
         -- Set filein/fileout both to be the same (replace)
         vim.cmd("!prettier --write " .. file)
-    elseif vim.bo.filetype == "lua" then
-        -- https://github.com/trixnz/lua-fmt
-        vim.cmd("!luafmt --write-mode replace " .. file)
+    else
+        vim.cmd("!prettier --write --parser json --tab-width 4 " .. file)
     end
     if vim.v.shell_error ~= 0 then
         -- If it failed to format, show the error message so can see the line/col number
