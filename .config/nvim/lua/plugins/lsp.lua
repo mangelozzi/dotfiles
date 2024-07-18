@@ -1,5 +1,8 @@
 --[[
 
+- List of Lsp Setup options:
+    - https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md
+
 - List of LSP configurations:
     :help mason-lspconfig-server-map
 
@@ -27,22 +30,23 @@ local Plugin = {
 
 -- Map the LSP servers we want to install to whether default setup (true) or custom setup (false)
 local my_servers = {
-    -- Replace these with whatever servers you want to install
-    bashls = true,
-    cssls = true,
+    ---- Manually setup
     html = false,
-    -- emmet_ls, -- emmet html completion support, prefer emmet-vim plugin
+    lua_ls = false,
     pyright = false,
     tsserver = false,
-    -- Tried typescript-tools, with config below, but did not seem faster
+    ---- Auto Setup
+    -- emmet_ls, -- emmet html completion support, prefer emmet-vim plugin
+    bashls = true,
+    cssls = true,
+    css_variables = true,
     eslint = true,  -- For JSDoc
-    lua_ls = false,
     jsonls = true,
     marksman = true,
-    djlint = false, -- Handled by none_ls -- Django
-    curlylint = false, -- Handled by none_ls -- Django
-    -- omnisharp,  -- C Sharp
     -- angularls = true,
+    ---- Null Ls
+    curlylint = false, -- Handled by none_ls -- Django
+    djlint = false, -- Handled by none_ls -- Django
 }
 
 local ensure_installed = {} -- The keys of my_servers
@@ -164,22 +168,22 @@ Plugin.config = function ()
     -- null-ls / none-ls
     local null_ls = require("null-ls")  -- 'none-ls' keeps the original api name of 'null-ls'
 
-null_ls.setup {
-    -- on_attach = lsp_attach,
-    sources = {
-        -- null_ls.builtins.formatting.stylua,
-        null_ls.builtins.completion.spell,
-        -- djlint
-        null_ls.builtins.formatting.djlint.with(
-            {
-                extra_args = {"--reformat"}
-            }
-        ),
-        null_ls.builtins.diagnostics.djlint,
-        -- curlylint
-        null_ls.builtins.diagnostics.curlylint,
+    null_ls.setup {
+        -- on_attach = lsp_attach,
+        sources = {
+            -- null_ls.builtins.formatting.stylua,
+            null_ls.builtins.completion.spell,
+            -- djlint
+            null_ls.builtins.formatting.djlint.with(
+                {
+                    extra_args = {"--reformat"}
+                }
+            ),
+            null_ls.builtins.diagnostics.djlint,
+            -- curlylint
+            -- null_ls.builtins.diagnostics.curlylint,
+        }
     }
-}
 end
 
 return Plugin

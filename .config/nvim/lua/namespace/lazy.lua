@@ -41,13 +41,21 @@ require("lazy").setup(
         -- Configure any other settings here. See the documentation for more details.
         -- colorscheme that will be used when installing plugins.
         install = {colorscheme = {"habamax"}},
-        
         -- Checker
         -- automatically check for plugin updates
-        checker = {enabled = false}
+        checker = {enabled = false},
         -- Disable the notifications, but not the checker
         -- checker = { enabled = true, notify = false },
         -- Reduce the frequency of checking. In this case I set it to 24h in seconds.
         -- checker = { enabled = true, frequency = 86400 },
+        rocks = {
+            enabled = false,
+        },
+        change_detection = {
+            -- automatically check for config file changes and reload the ui
+            enabled = true, -- Doesnt seem to work anyways
+            notify = false, -- get a notification when changes are found
+        },
     }
+
 )

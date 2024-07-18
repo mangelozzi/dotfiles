@@ -2,18 +2,27 @@ local wsl = require("namespace.wsl")
 
 local M = {}
 
+
+function M.is_mapping_exist(mode, lhs)
+  local mappings = vim.api.nvim_get_keymap(mode)
+  for _, map in ipairs(mappings) do
+    if map.lhs == lhs then
+      return true
+    end
+  end
+  return false
+end
+
 function M.map_leader_char_to_nop()
     -- If one pressed <leader>cl and its not mapped to anything, then it performs a `cl`, .. not great
     -- So before mapping any leader keys, disable all maps, then add them in
     -- for char = 97, 122 do -- loop through the alphabet
     -- Only iterate the descructive operators, so which key can grab the rest
-    for _, char in ipairs({'c', 'd', 's'}) do
-        local lowercase = char
-        local uppercase = string.upper(char) -- Convert to uppercase directly
-        vim.keymap.set("n", "<leader>" .. lowercase, "<ESC>", {noremap = true, desc = "<nop>"})
-        vim.keymap.set("n", "<leader>" .. uppercase, "<ESC>", {noremap = true, desc = "<nop>"})
+    for _, char in ipairs({'C', 'd', 'D', 's', 'S'}) do -- 'c' is used for component switcher prefix
+        if not M.is_mapping_exist("n", "<leader>" .. char) then
+            vim.keymap.set("n", "<leader>" .. char, "<ESC>", {noremap = true, desc = "<nop>"})
+        end
     end
-
 end
 
 function M.get_is_installed(plugin_name)

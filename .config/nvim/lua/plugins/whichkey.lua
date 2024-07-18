@@ -18,6 +18,8 @@ local Plugin = {
 Plugin.config = function()
     local wk = require("which-key")
     wk.setup {
+        -- show a warning when issues were detected with your mappings
+        notify = false,
         preset = "modern",
         delay = vim.o.timeoutlen,
         plugins = {
@@ -29,9 +31,6 @@ Plugin.config = function()
         },
         icons = {
             rules = false,
-        },
-        modes = {
-            x = false,
         },
         -- triggers_nowait = {
         --     -- marks
@@ -45,6 +44,18 @@ Plugin.config = function()
         --     -- spelling
         --     "z="
         -- },
+        -- Which-key automatically sets up triggers for your mappings.
+        -- But you can disable this and setup the triggers manually.
+        -- Check the docs for more info.
+        triggers = {
+            { "<auto>", mode = "nisotc" }, -- removed x buggy x mode
+        },
+        -- Start hidden and wait for a key to be pressed before showing the popup
+        -- Only used by enabled xo mapping modes.
+        ---@param ctx { mode: string, operator: string }
+        defer = function(ctx)
+            return ctx.mode == "V" or ctx.mode == "<C-V>"
+        end,
     }
     vim.keymap.set(
         "n",

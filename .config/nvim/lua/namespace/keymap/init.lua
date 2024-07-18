@@ -67,12 +67,12 @@ s mode = allows one to select with the mouse, then type any printable
 Comment code with built in 'gc'
 --]]
 
--- If one pressed <leader>dd and its not mapped to anything, then it performs a `dd`... yikes, map all <leader>?? to <nop>
-require("namespace.utils").map_leader_char_to_nop()
-
 require("namespace.keymap.code")
 require("namespace.keymap.command")
 require("namespace.keymap.custom")
 require("namespace.keymap.func")
 require("namespace.keymap.leader")
 require("namespace.keymap.talk")
+
+-- If one pressed <leader>dd and its not mapped to anything, then it performs a `dd`... yikes, map unused change/del/susbtitute to a nop's
+require("namespace.utils").map_leader_char_to_nop()

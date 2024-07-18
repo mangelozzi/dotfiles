@@ -141,12 +141,25 @@ Plugin.config = function()
             end
         end
 
+        local function line_after_cursor_starts_with_atat()
+            local cursor_pos = vim.api.nvim_win_get_cursor(0)
+            local next_line_nr = cursor_pos[1] + 1
+            local total_lines = vim.api.nvim_buf_line_count(0)
+            if next_line_nr > total_lines then
+                return false
+            end
+            local next_line = vim.api.nvim_buf_get_lines(0, next_line_nr - 1, next_line_nr, false)[1]
+            return vim.startswith(next_line, "@@")
+        end
+
         local function open_callback(augroup_id, file_rel)
             vim.api.nvim_del_augroup_by_id(augroup_id)
-            -- Send a tab to open the file
-            local keys = vim.api.nvim_replace_termcodes('<tab>',true,false,true)
-            vim.api.nvim_feedkeys(keys,'i',false) -- Is insert mode!!
-            cursor_to_line(file_rel)
+            if (not line_after_cursor_starts_with_atat()) then
+                -- Send a tab to open the file
+                local keys = vim.api.nvim_replace_termcodes('<tab>',true,false,true)
+                vim.api.nvim_feedkeys(keys,'i',false) -- Is insert mode!!
+                cursor_to_line(file_rel)
+            end
         end
 
         local filename = vim.api.nvim_buf_get_name(0)
@@ -161,7 +174,10 @@ Plugin.config = function()
                     pattern = "NeogitStatusRefreshed",
                     group = MyNeogitGroup,
                     callback = function()
-                        open_callback(MyNeogitGroup, file_rel)
+                        vim.defer_fn(function()
+                            -- Neogit needs time to settle, or else detecting next line is incorrect
+                            open_callback(MyNeogitGroup, file_rel)
+                        end, 10)
                     end
                 }
             )

@@ -19,9 +19,8 @@ local Plugin = {
 Plugin.init = function()
     -- Must configure before it's configured else it will map gr for you
     vim.keymap.set("n", "<leader>k", "<Plug>ReplaceWithRegisterOperator", { desc = "Replace with register"})
-    vim.keymap.set("n", "<leader>kk", "Plug>ReplaceWithRegisterLine", { desc = "Replace line with register"})
+    vim.keymap.set("n", "<leader>K", "Plug>ReplaceWithRegisterLine", { desc = "Replace line with register"})
     vim.keymap.set("x", "<leader>k", "<Plug>ReplaceWithRegisterVisual", { desc = "Replace visual with register"})
-    vim.keymap.set("n", "<leader>K", "<leader>k$", { desc = "Replace to $ with register"})
 end
 
 return Plugin
