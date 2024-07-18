@@ -17,8 +17,8 @@
 
 local GAP_LINES = 2         -- Number of empty lines between ASCII art and version line
 local VERTICAL_OFFSET = 2   -- Number of lines to push the art up by (centered looks a little too low)
-vim.api.nvim_set_hl(0, "GreeterAsciiArt", {fg = "#004000"}) -- The ascii art color
-vim.api.nvim_set_hl(0, "GreeterNvimVer", {fg = "#707070"})  -- The Neovim version color
+vim.api.nvim_set_hl(0, "GreeterAsciiArt", {fg = "#305020"}) -- The ascii art color
+vim.api.nvim_set_hl(0, "GreeterNvimVer", {fg = "#808080"})  -- The Neovim version color
 local ascii_str = [[
  ░▒▓██████▓▒░  ░▒▓██████▓▒░ ░▒▓█▓▒░             ░▒▓███████▓▒░         ░▒▓███████▓▒░ ░▒▓███████▓▒░
 ░▒▓█▓▒░░▒▓█▓▒░░▒▓█▓▒░░▒▓█▓▒░░▒▓█▓▒░                    ░▒▓█▓▒░░▒▓██▓▒░       ░▒▓█▓▒░       ░▒▓█▓▒░

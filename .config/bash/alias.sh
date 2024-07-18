@@ -113,6 +113,7 @@ alias gnb='git checkout -b $1; git push -u origin $1;'
 alias gpom='gitdev && git pull origin master:master'
 # ---
 alias gp='gitdev && git push'
+alias gP='gitdev && git pull'
 alias gm='git commit --amend --no-edit'
 alias gmp='gitdev && git commit --amend --no-edit && git push -f'
 # Show a list of patched changes in the file, e.g. gp foo.txt
