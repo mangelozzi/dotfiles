@@ -98,12 +98,44 @@ local function guess_angular_file_name(dir, component_name, component_type, ext)
     end
 end
 
-function M.goto_component_file(goto_type)
-    local current_file = vim.fn.expand("%:p")
+local function run_switch(goto_file)
+    -- If already open
+    local bufnr = vim.fn.bufnr(goto_file, true)
+    if bufnr ~= -1 and vim.fn.buflisted(bufnr) == 1 then
+        if vim.api.nvim_get_current_buf() == bufnr then
+            print("already on buffer ->>> ", goto_file)
+        else
+            print("switch ->>> ", goto_file)
+            vim.cmd("buffer " .. bufnr)
+        end
+        return true
+    end
+    -- If readable
+    if vim.fn.filereadable(goto_file) == 1 then
+        -- Otherwise, open the file
+        print("open ->>> ", goto_file)
+        vim.cmd("edit " .. goto_file)
+        return true
+    end
+    return false
+end
+
+local function get_attempts()
+    return {
+        vim.fn.expand("%:p"),     -- current buf
+        vim.fn.expand("%:p:h"),   -- current buf up 1
+        vim.fn.expand("%:p:h:h"), -- current buf up 2
+        vim.fn.expand("#:p"),     -- alt buf
+        vim.fn.expand("#:p:h"),   -- alt buf up 1
+        vim.fn.expand("#:p:h:h"), -- alt buf up 2
+    }
+end
+
+local function goto_attempt_component_file(file, goto_type)
     local goto_file
     if is_django_project() then
         -- LINKCUBE
-        local dir, name, ext = split_dir_name_ext(current_file)
+        local dir, name, ext = split_dir_name_ext(file)
         if goto_type == "javascript" then
             goto_file = dir .. "/component.js"
         elseif goto_type == "html" then
@@ -122,8 +154,8 @@ function M.goto_component_file(goto_type)
         end
     elseif is_angular_project() then
         -- GATEWAY
-        local base, component_name = split_base_dir(current_file)
-        local component_type = get_second_to_last_extension(current_file) or "component"
+        local base, component_name = split_base_dir(file)
+        local component_type = get_second_to_last_extension(file) or "component"
         local dir = base .. "/" .. component_name .. "/"
         if goto_type == "javascript" then
             goto_file = guess_angular_file_name(dir, component_name, nil, "ts")
@@ -159,21 +191,25 @@ function M.goto_component_file(goto_type)
         print("Unknown goto component type:", goto_type)
         return
     end
-    if vim.fn.filereadable(goto_file) == 1 then
-        print("open ->>> ", goto_file)
-        vim.cmd("edit " .. goto_file)
-    else
+    if not run_switch(goto_file) then
         print("File does not exist:", goto_file)
     end
+
 end
 
-function M.goto_app_file(goto_type)
-    local current_file = vim.fn.expand("%:p")
+function M.goto_component_file(goto_type)
+    local attempts = get_attempts()
+    for _, file in ipairs(attempts) do
+        if goto_attempt_component_file(file, goto_type) then return end
+    end
+    print("Could not find component file")
+end
+
+local function goto_attempt_app_file(file, goto_type)
     local goto_file
     if is_django_project() then
         -- LINKCUBE
-        -- TODO GET THE APP PATH from which ever sub dir
-        local dir, app_name = get_app_dir_and_name(current_file)
+        local dir, app_name = get_app_dir_and_name(file)
         if goto_type == "dint" then
             goto_file = dir .. "/dint.py"
         elseif goto_type == "models" then
@@ -201,12 +237,17 @@ function M.goto_app_file(goto_type)
         print("Unknown goto app type:", goto_type)
         return
     end
-    if vim.fn.filereadable(goto_file) == 1 then
-        print("open ->>> ", goto_file)
-        vim.cmd("edit " .. goto_file)
-    else
+    if not run_switch(goto_file) then
         print("File does not exist:", goto_file)
     end
+end
+
+function M.goto_app_file(goto_type)
+    local attempts = get_attempts()
+    for _, file in ipairs(attempts) do
+        if goto_attempt_app_file(file, goto_type) then return end
+    end
+    print("Could not find app file")
 end
 
 return M

@@ -48,13 +48,13 @@ Plugin.config = function()
         -- But you can disable this and setup the triggers manually.
         -- Check the docs for more info.
         triggers = {
-            { "<auto>", mode = "nisotc" }, -- removed x buggy x mode
+            { "<auto>", mode = "nixsotc" }, -- removed x buggy x mode
         },
         -- Start hidden and wait for a key to be pressed before showing the popup
         -- Only used by enabled xo mapping modes.
         ---@param ctx { mode: string, operator: string }
         defer = function(ctx)
-            return ctx.mode == "V" or ctx.mode == "<C-V>"
+            return ctx.mode == "v" or ctx.mode == "V" or ctx.mode == "<C-V>"
         end,
     }
     vim.keymap.set(
