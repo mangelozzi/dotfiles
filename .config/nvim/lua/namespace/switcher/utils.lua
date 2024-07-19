@@ -73,7 +73,8 @@ given: "NVIM"                           returns true
 given: "NVIM", case_sensitive: true     returns false
 given: "/nvim/"                         returns false
 given: "nvim/lua"                       returns "path"
-given: "/.config/nvim"                  returns nil
+given: ".config/nvim"                  returns true
+given: ".config/nvim/"                 returns false
 --]]
 function M.get_cwd_includes(pattern, case_sensitive)
     local dir = vim.fn.getcwd()
@@ -84,22 +85,61 @@ function M.get_cwd_includes(pattern, case_sensitive)
     return string.find(dir, pattern) ~= nil
 end
 
-
 --[[
-given: "some/path/app/foo/bar",   "app"   returns {bits = {"some", "path", "app", "foo", "bar"}, index = 3}
-given: "/some/path/app/foo/bar",  "app"   returns {bits = {"some", "path", "app", "foo", "bar"}, index = 3}
-given: "some/path/app/foo/bar/",  "app"   returns {bits = {"some", "path", "app", "foo", "bar"}, index = 3}
-given: "/some/path/app/foo/bar/", "app"   returns {bits = {"some", "path", "app", "foo", "bar"}, index = 3}
-given: "/some/path/app/foo/bar/", "zzz"   returns {bits = {"some", "path", "app", "foo", "bar"}, index = nil}
+given: "some/path/app"      returns {"some", "/", "path", "/", "app"}
+given: "/some/path/app"     returns {"/", "some", "/", "path", "/", "app"}
+given: "some/path/app/"     returns {"some", "/", "path", "/", "app", "/"}
+given: "/some/path/app/"    returns {"/", "some", "/", "path", "/", "app", "/"}
+given: "C:\\\\some\\path\\app"    returns {"c:", "\\", "\\", "some", "\\", "path", "\\", "app"}
 --]]
-function M.find_in_path(path, part)
-    local bits = M.split_path(path)
-    for i, bit in ipairs(bits) do
-        if bit == part then
-            return {bits = bits, index = i}
+-- Function to split a path into its components, including delimiters
+function M.split_path_with_delimiters(path)
+    local bits = {}
+    local pattern = "([/\\]*)([^/\\]*)"
+    for delim, part in path:gmatch(pattern) do
+        if delim ~= "" then
+            table.insert(bits, delim)
+        end
+        if part ~= "" then
+            table.insert(bits, part)
         end
     end
-    return {bits = bits, index = nil}
+    return bits
+end
+
+--[[
+given: "some/path/app/foo/bar",      returns {found = true,  before = "some/path",  after = "foo/bar"}
+given: "/some/path/app/foo/bar",     returns {found = true,  before = "/some/path", after = "foo/bar"}
+given: "some/path/app/foo/bar/",     returns {found = true,  before = "some/path",  after = "foo/bar/"}
+given: "/some/path/app/foo/bar/",    returns {found = true,  before = "/some/path", after = "foo/bar/"}
+given: "/some/path/app",             returns {found = true,  before = "/some/path", after = nil}
+given: "app/foo/bar",                returns {found = true,  before = nil,          after = "foo/bar"}
+given: "/some/path/app/foo/bar/",    returns {found = false, before = nil,          after = nil}
+--]]
+-- Function to find the first part in the path and return bits, index, before, and after
+function M.find_in_path(path, part)
+    local bits = M.split_path_with_delimiters(path)
+    local before_parts = {}
+    local after_parts = {}
+    local found = false
+
+    for _, bit in ipairs(bits) do
+        if not found and bit == part then
+            found = true
+        elseif found then
+            table.insert(after_parts, bit)
+        else
+            table.insert(before_parts, bit)
+        end
+    end
+    if not found then
+        return {found = false, before = nil, after = nil}
+    end
+    local before = table.concat(before_parts)
+    local after = table.concat(after_parts)
+    before = before:gsub("[/\\]+$", "") -- remove any trailing delimiters
+    after = after:gsub("^[/\\]+", "") -- remove any leading delimiters
+    return {found = found, before = before ~= "" and before or nil, after = after ~= "" and after or nil}-- make the nil props explicit
 end
 
 return M

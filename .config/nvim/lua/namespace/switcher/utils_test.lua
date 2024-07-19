@@ -1,79 +1,72 @@
 local utils = require('namespace.switcher.utils')
 
-local function test_get_file_path_info(file_path)
-    print('---')
-    print('file_path: '.. file_path)
-    vim.print(utils.get_file_path_info(file_path))
+Current_test_function = nil
+
+local function setup_test_set(func_name)
+    Current_test_function = func_name
+    print('TESTS - ' .. func_name)
 end
 
-print('TESTS - get_file_path_info')
-test_get_file_path_info("some/path/to/file.ext")
-test_get_file_path_info("some/path/to/file")
-test_get_file_path_info("some/path/to/.file")
-test_get_file_path_info("to/file.ext")
-test_get_file_path_info("file.ext")
-test_get_file_path_info(".file")
-
---------------------------------------------------------------------------------
-
-local function test_split_file(file_path)
-    print('---')
-    print('file_path: '.. file_path)
-    vim.print(utils.split_path(file_path))
+local function run_test(func, input, expected)
+    local status, result = pcall(func, unpack(input))
+    local test_info = debug.getinfo(2, "Sl") -- Capture the calling context
+    if not status or not vim.deep_equal(result, expected) then
+        local line_info = test_info.short_src .. ":" .. test_info.currentline
+        print("\n==================== TEST FAILED ====================")
+        print("Line:     " .. line_info .. " -> " ..Current_test_function .. "()")
+        print("Input:    " .. vim.inspect(input))
+        print("Expected: " .. vim.inspect(expected))
+        print("Actual:   " .. vim.inspect(result))
+        print("=====================================================\n")
+    else
+        vim.api.nvim_out_write(".")
+    end
 end
 
--- Test cases
-print('TESTS - split_path')
-test_split_file("some/path/to/file.ext")
-test_split_file("some/path/to/file")
-test_split_file("some\\path\\to\\file.ext")
+setup_test_set('get_file_path_info')
+run_test(utils.get_file_path_info, {"some/path/to/file.ext"}, {path = "some/path/to", up_dir = "path", dir = "to", name = "file.ext", base_name = "file", ext = "ext"})
+run_test(utils.get_file_path_info, {"some/path/to/file"}, {path = "some/path/to", up_dir = "path", dir = "to", name = "file", base_name = "file", ext = nil})
+run_test(utils.get_file_path_info, {"some/path/to/.file"}, {path = "some/path/to", up_dir = "path", dir = "to", name = ".file", base_name = ".file", ext = nil})
+run_test(utils.get_file_path_info, {"to/file.ext"}, {path = "to", up_dir = nil, dir = "to", name = "file.ext", base_name = "file", ext = "ext"})
+run_test(utils.get_file_path_info, {"file.ext"}, {path = nil, up_dir = nil, dir = nil, name = "file.ext", base_name = "file", ext = "ext"})
+run_test(utils.get_file_path_info, {".file"}, {path = nil, up_dir = nil, dir = nil, name = ".file", base_name = ".file", ext = nil})
 
---------------------------------------------------------------------------------
+setup_test_set('split_path')
+run_test(utils.split_path, {"some/path/to/file.ext"}, {"some", "path", "to", "file.ext"})
+run_test(utils.split_path, {"some/path/to/file"}, {"some", "path", "to", "file"})
+run_test(utils.split_path, {"some\\path\\to\\file.ext"}, {"some", "path", "to", "file.ext"})
 
-local function test_get_last_nth_bit(file_path, n)
-    print('---')
-    print('file_path: '.. file_path)
-    print('n: '.. n)
-    print(utils.get_last_nth_bit(file_path, n))
-end
+setup_test_set('get_last_nth_bit')
+run_test(utils.get_last_nth_bit, {"some/path/to/file.ext", 1}, "file.ext")
+run_test(utils.get_last_nth_bit, {"some/path/to/file.ext", 2}, "to")
+run_test(utils.get_last_nth_bit, {"some\\path\\to\\file.ext", 2}, "to")
+run_test(utils.get_last_nth_bit, {"some/path/to/file.ext", 3}, "path")
+run_test(utils.get_last_nth_bit, {"some/path/to/file.ext", 99}, nil)
 
-print('TESTS - get_last_nth_bit')
-test_get_last_nth_bit("some/path/to/file.ext", 1)
-test_get_last_nth_bit("some/path/to/file.ext", 2)
-test_get_last_nth_bit("some\\path\\to\\file.ext", 2)
-test_get_last_nth_bit("some/path/to/file.ext", 3)
-test_get_last_nth_bit("some/path/to/file.ext", 99)
-
---------------------------------------------------------------------------------
-
+setup_test_set('get_cwd_includes')
 print('TESTS - get_cwd_includes - CWD: ' .. vim.fn.getcwd())
-local function test_get_cwd_includes(pattern, case_sensitive)
-    print('---')
-    local result = utils.get_cwd_includes(pattern, case_sensitive)
-    print('pattern: '.. pattern .. ' case_sensitive: '.. tostring(case_sensitive) .. ' result: '.. tostring(result))
-end
+run_test(utils.get_cwd_includes, {"foo", false}, false)
+run_test(utils.get_cwd_includes, {"z/nvim", false}, false)
+run_test(utils.get_cwd_includes, {"nvim", true}, true)
+run_test(utils.get_cwd_includes, {"NVIM", true}, false)
+run_test(utils.get_cwd_includes, {"/nvim/", false}, false)
+run_test(utils.get_cwd_includes, {".config/nvim", false}, true)
+run_test(utils.get_cwd_includes, {".config/nvim/", false}, false)
 
-test_get_cwd_includes("foo")
-test_get_cwd_includes("z/nvim")
-test_get_cwd_includes("nvim")
-test_get_cwd_includes("NVIM")
-test_get_cwd_includes("NVIM", true)
-test_get_cwd_includes("/nvim/")
-test_get_cwd_includes(".config/nvim")
-test_get_cwd_includes("/.config/nvim")
+setup_test_set('split_path_with_delimiters')
+run_test(utils.split_path_with_delimiters, {"some/path/app"}, {"some", "/", "path", "/", "app"})
+run_test(utils.split_path_with_delimiters, {"/some/path/app"}, {"/", "some", "/", "path", "/", "app"})
+run_test(utils.split_path_with_delimiters, {"some/path/app/"}, {"some", "/", "path", "/", "app", "/"})
+run_test(utils.split_path_with_delimiters, {"/some/path/app/"}, {"/", "some", "/", "path", "/", "app", "/"})
+run_test(utils.split_path_with_delimiters, {"/some/path//app/"}, {"/", "some", "/", "path", "//", "app", "/"})
+run_test(utils.split_path_with_delimiters, {"C:\\\\some\\path\\app"}, {"C:", "\\\\", "some", "\\", "path", "\\", "app"})
 
-
---------------------------------------------------------------------------------
-
-print('TESTS - find_path')
-local function test_find_in_path(path, part)
-    print('---')
-    print('path: '.. path .. ' part: '.. tostring(part))
-    vim.print(utils.find_in_path(path, part))
-end
-
-test_find_in_path("some/path/app/foo/bar", "app")
-test_find_in_path("/some/path/app/foo/bar", "app")
-test_find_in_path("some/path/app/foo/bar/", "app")
-test_find_in_path("/some/path/app/foo/bar/", "app")
-test_find_in_path("/some/path/app/foo/bar/", "zzz")
+setup_test_set('find_in_path')
+run_test(utils.find_in_path, {"some/path/app/foo/bar", "app"}, {found = true, before = "some/path", after = "foo/bar"})
+run_test(utils.find_in_path, {"/some/path/app/foo/bar", "app"}, {found = true, before = "/some/path", after = "foo/bar"})
+run_test(utils.find_in_path, {"some/path/app/foo/bar/", "app"}, {found = true, before = "some/path", after = "foo/bar/"})
+run_test(utils.find_in_path, {"/some/path/app/foo/bar/", "app"}, {found = true, before = "/some/path", after = "foo/bar/"})
+run_test(utils.find_in_path, {"/some/path/app", "app"}, {found = true, before = "/some/path", after = nil})
+run_test(utils.find_in_path, {"app/foo/bar/", "app"}, {found = true, before = nil, after = "foo/bar/"})
+run_test(utils.find_in_path, {"C:\\some\\path\\app\\foo\\bar\\", "app"}, {found = true, before = "C:\\some\\path", after = "foo\\bar\\"})
+run_test(utils.find_in_path, {"/some/path/app/foo/bar/", "zzz"}, {found = false, before = nil, after = nil})
