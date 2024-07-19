@@ -21,10 +21,8 @@ local function is_django_project()
 end
 
 local function django_app_switcher(context, goto_type, file)
-    print('reunning dj app sw')
-
     -- LINKCUBE
-    local app_dir = utils.offset_path(file, "app", 1)
+    local app_dir = utils.offset_path(file, "app", 1).before_offset_w_pattern
     if goto_type == "dint" then
         return app_dir .. "/dint.py"
     elseif goto_type == "models" then
@@ -73,18 +71,13 @@ end
 
 -- File the user is on when calling the switcher
 Switcher.get_switch_fn = function(context, goto_type, original_file)
-    print('django switcher')
     if is_django_project() then
-        print('is django')
         if context == "app" then
-        print('is dj app')
             return django_app_switcher
         elseif context == "component" then
-        print('id djcompo')
             return django_component_switcher
         end
     end
-    print('not django')
 end
 
 return Switcher

@@ -10,7 +10,7 @@ local angular = require("namespace.switcher.angular")
 
 local M = {}
 
-local switchers = {django}
+local switchers = {django, angular}
 
 local function run_switch(goto_file)
     -- If already open
@@ -54,7 +54,6 @@ function M.switch(context, goto_type)
             for _, file in ipairs(attempts) do
                 if file ~= "" then
                     local goto_file = switch_fn(context, goto_type, file)
-                print('goto_file: ', goto_file)
                     if goto_file and run_switch(goto_file) then return end
                 end
             end

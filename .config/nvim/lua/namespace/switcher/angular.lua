@@ -40,7 +40,6 @@ end
 local function angular_component_switcher(context, goto_type, file)
     -- Angular Component
     -- GATEWAY
-    print('reunning ang comp sw')
     local info = utils.get_file_path_info(file)
     local base = info.dir
     local component_name = info.name
@@ -74,7 +73,6 @@ local function angular_component_switcher(context, goto_type, file)
 end
 
 Switcher.get_switch_fnzzz = function(context, goto_type, original_file)
-    print('angular switcher')
     if is_angular_project() then
         return angular_component_switcher
     end

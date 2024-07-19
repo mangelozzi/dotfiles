@@ -8,10 +8,13 @@ local function infer_sep(path)
 end
 
 local function blank_to_nil(str)
-    if str == "" then
-        return nil
+    if type(str) == "string" and str ~= "" then
+        return str
     end
-    return str
+end
+
+local function empty_to_nil(t)
+    return #t == 0 and nil or t
 end
 
 local function concat_strings(array, delimiter)
@@ -189,11 +192,17 @@ function M.find_in_path(path, pattern, nth_match)
     local after_w_pattern = table.concat(after_w_pattern_bits, sep)
 
     return {
-        found = true,
-        before = blank_to_nil(before),
-        before_w_pattern = blank_to_nil(before_w_pattern),
         after = blank_to_nil(after),
-        after_w_pattern = blank_to_nil(after_w_pattern)
+        after_bits = after_bits,
+        after_w_pattern = blank_to_nil(after_w_pattern),
+        after_w_pattern_bits = after_w_pattern_bits,
+        before = blank_to_nil(before),
+        before_bits = before_bits,
+        before_w_pattern = blank_to_nil(before_w_pattern),
+        before_w_pattern_bits = before_w_pattern_bits,
+        bits = bits,
+        found = true,
+        sep = sep,
     }
 end
 
@@ -210,45 +219,72 @@ given: "some/path/app/foo/bar", "app",  4   returns {found=false }
 --]]
 
 function M.offset_path(path, pattern, offset, nth_match)
-    print(path.." "..offset)
-    local info = M.find_in_path(path, pattern)
-    if not info.found then
+    local match = M.find_in_path(path, pattern, nth_match)
+    if not match.found then
         return {found = false}
     end
-    local sep = infer_sep(path)
-    local at = pattern
     if offset == 0 then
-        return {found = true, before_offset = info.before, at = pattern, after_offset = info.after}
-    elseif offset > 0 then
-        local after_bits = M.split_path(info.after)
-        if offset > #after_bits then
-            return {found = false}
-        end
-        at = after_bits[offset]
-        local before_offset_str = info.before_w_pattern .. sep .. table.concat(after_bits, sep, 1, offset - 1)
-        local after_str = table.concat(after_bits, sep, offset + 1)
-        return {found = true, before_offset = blank_to_nil(before_offset_str:gsub(sep .. "$", "")), at = at, after_offset = blank_to_nil(after_str)}
-    elseif offset < 0 then
-        local before_bits = M.split_path(info.before)
-        if -offset > #before_bits then
-            return {found = false}
-        end
-        at = before_bits[#before_bits + offset + 1]
-        local before_str = table.concat(before_bits, sep, 1, #before_bits + offset)
-
-        -- If offset = -1, pop off 0
-        -- If offset = -2, pop off 1
-        -- If offset = -3, pop off 2
-        local iterations = -offset - 1
-        local from_before_bits = {}
-        for _ = 1, iterations do
-            table.insert(from_before_bits, 1, table.remove(before_bits))
-        end
-        local from_before_str = table.concat(from_before_bits, sep);
-        local after_offset_str = concat_strings({from_before_str, info.after_w_pattern}, sep)
-        return {found = true, before_offset = blank_to_nil(before_str), at = at, after_offset = blank_to_nil(after_offset_str)}
+        return {
+            after_offset = match.after,
+            after_offset_bits = match.after_bits,
+            after_offset_w_pattern = match.after_w_pattern,
+            after_offset_w_pattern_bits = match.after_w_pattern_bits,
+            at = pattern,
+            before_offset = match.before,
+            before_offset_bits = match.before_bits,
+            before_offset_w_pattern = match.before_w_pattern,
+            before_offset_w_pattern_bits = match.before_w_pattern_bits,
+            bits = match.bits,
+            found = true,
+            sep = match.sep,
+        }
     end
-    return {found = false}
+    -- Check if the new position is within bounds
+    local pos = #match.before_bits+ 1
+    local new_pos = pos + offset
+    if new_pos < 1 or new_pos > #match.bits then
+        return { found = false }
+    end
+
+    local at = match.bits[new_pos]
+
+    -- Create the new arrays
+    local before_offset_bits = {}
+    local before_offset_w_pattern_bits = {}
+    local after_offset_bits = {}
+    local after_offset_w_pattern_bits = { }
+
+    -- Populate the new arrays
+    for i = 1, #match.bits do
+        local bit = match.bits[i]
+        if i < new_pos then
+            table.insert(before_offset_bits, bit)
+        end
+        if i <= new_pos then
+            table.insert(before_offset_w_pattern_bits, bit)
+        end
+        if i > new_pos then
+            table.insert(after_offset_bits, bit)
+        end
+        if i >= new_pos then
+            table.insert(after_offset_w_pattern_bits, bit)
+        end
+    end
+
+    return {
+        after_offset = blank_to_nil(table.concat(after_offset_bits, match.sep)),
+        after_offset_bits = after_offset_bits,
+        after_offset_w_pattern = table.concat(after_offset_w_pattern_bits, match.sep),
+        after_offset_w_pattern_bits = after_offset_w_pattern_bits,
+        at = match.bits[new_pos],
+        before_offset = blank_to_nil(table.concat(before_offset_bits, match.sep)),
+        before_offset_bits = before_offset_bits,
+        before_offset_w_pattern = table.concat(before_offset_w_pattern_bits, match.sep),
+        before_offset_w_pattern_bits = before_offset_w_pattern_bits,
+        bits = match.bits,
+        found = true,
+        sep = match.sep,
+    }
 end
 
 return M
