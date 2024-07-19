@@ -1,4 +1,28 @@
 
+-- " This function sets up the opfunc so it can be repeated with a dot.
+-- " Align to Column works by moving the next none whitespace character to the
+-- " desired columned. e.g. 32<hotkey> will align the next none whitespace
+-- " character to column 32. Then press dot to repeat the operation.
+-- function! myal#SetupAlignToColumn(col)
+--     if v:count != 0
+--         let w:myal_align_col = v:count
+--     endif
+--     set opfunc=myal#AlignToColumn
+--     return 'g@l'
+-- endfunction
+-- function! myal#AlignToColumn(motion)
+--     " Get cursor to just before next none space
+--     let reg_backup_value = getreg('z')    " Backup the contents of the unnamed register
+--     let reg_backup_type = getregtype('z')      " Save the type of the register as well
+--     let l:winview = winsaveview()
+--     let cmd = 'normal wh'.w:myal_align_col.'a'."\<SPACE>\<ESC>".'"zd'.(w:myal_align_col - 1).'|'
+--     exe cmd
+--     call winrestview(l:winview)
+--     call setreg('z', reg_backup_value, reg_backup_value) " Restore register
+--     normal j
+-- endfunction
+
+
 -- Commenting - Built in Neovim comments, by default is gc - see :help commenting
 -- gc comment/uncomment
 -- gcc comment/uncomment line

@@ -3,25 +3,13 @@ local wsl = require("namespace.wsl")
 local M = {}
 
 
-function M.is_mapping_exist(mode, lhs)
-  local mappings = vim.api.nvim_get_keymap(mode)
-  for _, map in ipairs(mappings) do
-    if map.lhs == lhs then
-      return true
-    end
-  end
-  return false
-end
-
 function M.map_leader_char_to_nop()
     -- If one pressed <leader>cl and its not mapped to anything, then it performs a `cl`, .. not great
     -- So before mapping any leader keys, disable all maps, then add them in
     -- for char = 97, 122 do -- loop through the alphabet
     -- Only iterate the descructive operators, so which key can grab the rest
     for _, char in ipairs({'C', 'd', 'D', 's', 'S'}) do -- 'c' is used for component switcher prefix
-        if not M.is_mapping_exist("n", "<leader>" .. char) then
-            vim.keymap.set("n", "<leader>" .. char, "<ESC>", {noremap = true, desc = "<nop>"})
-        end
+        vim.keymap.set("n", "<leader>" .. char, "<ESC>", {noremap = true, desc = "<nop>"})
     end
 end
 
@@ -126,7 +114,12 @@ function M.run()
     vim.cmd("stopinsert")
     vim.cmd("write")
     local file = vim.fn.expand("%:p")
-    if vim.bo.filetype == "python" then
+    if vim.bo.filetype == "lua" then
+        vim.cmd("messages clear")
+        vim.cmd("luafile %")
+        local keys = vim.api.nvim_replace_termcodes(':messages<cr>',true,false,true)
+        vim.api.nvim_feedkeys(keys,'n',false)
+    elseif vim.bo.filetype == "python" then
         vim.cmd("!python " .. file)
     elseif vim.bo.filetype == "typescript" then
         vim.cmd("!tsc --target es2015 --noImplicitAny " .. file)

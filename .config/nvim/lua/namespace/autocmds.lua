@@ -81,6 +81,31 @@ vim.api.nvim_create_autocmd(
 )
 
 vim.api.nvim_create_autocmd(
+    "BufWritePre",
+    {
+        pattern = {"*"},
+        group = NamespaceGroup,
+        desc = "Remove trailing whitespace on save",
+        callback = function()
+            local excluded_filetypes = { "markdown", "html", "htmldjango" }
+            local current_filetype = vim.bo.filetype
+            for _, ft in ipairs(excluded_filetypes) do
+                if current_filetype == ft then
+                    return
+                end
+            end
+            local save_cursor = vim.fn.getpos(".")
+            pcall( -- catch any errors
+                function()
+                    vim.cmd [[%s/\s\+$//e]]
+                end
+            )
+            vim.fn.setpos(".", save_cursor)
+        end
+    }
+)
+
+vim.api.nvim_create_autocmd(
     "BufWritePost",
     {
         desc = "Prettify Gateway Files",
