@@ -129,10 +129,24 @@ Plugin.config = function ()
                 diagnostics = { globals = {'vim'} }
             }
         },
-        runtime = {
-            -- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
-            version = 'LuaJIT'
-        },
+        on_init = function(client)
+            local path = client.workspace_folders[1].name
+            if vim.loop.fs_stat(path..'/.luarc.json') or vim.loop.fs_stat(path..'/.luarc.jsonc') then
+                return
+            end
+            client.config.settings.Lua = vim.tbl_deep_extend('force', client.config.settings.Lua, {
+                    runtime = {
+                        version = 'LuaJIT'
+                    },
+                    workspace = { -- Make the server aware of Neovim runtime files
+                        checkThirdParty = false,
+                        library = {
+                        vim.env.VIMRUNTIME
+                        }
+                    }
+                }
+            )
+        end,
     }
 
     require('lspconfig').tsserver.setup {
@@ -164,7 +178,7 @@ Plugin.config = function ()
         capabilities = capabilities,
         filetypes = {'html', 'htmldjango'}, -- Add htmldjango
     }
-    
+
     -- null-ls / none-ls
     local null_ls = require("null-ls")  -- 'none-ls' keeps the original api name of 'null-ls'
 

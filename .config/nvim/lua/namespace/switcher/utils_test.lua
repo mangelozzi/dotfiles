@@ -63,15 +63,67 @@ run_test(utils.get_cwd_includes, {".config/nvim/", false}, false)
 
 setup_test_set('find_in_path')
 run_test(utils.find_in_path, {"some/path/app/foo/bar", "app"}, {found = true, before = "some/path", before_w_pattern = "some/path/app", after = "foo/bar", after_w_pattern = "app/foo/bar"})
-run_test(utils.find_in_path, {"some/path/app/foo/bar", "/app"}, {found = true, before = "some/path", before_w_pattern = "some/path/app", after = "foo/bar", after_w_pattern = "/app/foo/bar"})
-run_test(utils.find_in_path, {"some/path/app/foo/bar", "app/"}, {found = true, before = "some/path", before_w_pattern = "some/path/app/", after = "foo/bar", after_w_pattern = "app/foo/bar"})
-run_test(utils.find_in_path, {"some/path/app/foo/bar", "/app/"}, {found = true, before = "some/path", before_w_pattern = "some/path/app/", after = "foo/bar", after_w_pattern = "/app/foo/bar"})
 run_test(utils.find_in_path, {"/some/path/app/foo/bar", "app"}, {found = true, before = "/some/path", before_w_pattern = "/some/path/app", after = "foo/bar", after_w_pattern = "app/foo/bar"})
-run_test(utils.find_in_path, {"some/path/app/foo/bar/", "app"}, {found = true, before = "some/path", before_w_pattern = "some/path/app", after = "foo/bar/", after_w_pattern = "app/foo/bar/"})
-run_test(utils.find_in_path, {"/some/path/app/foo/bar/", "app"}, {found = true, before = "/some/path", before_w_pattern = "/some/path/app", after = "foo/bar/", after_w_pattern = "app/foo/bar/"})
+run_test(utils.find_in_path, {"//some/path/app/foo/bar", "app"}, {found = true, before = "//some/path", before_w_pattern = "//some/path/app", after = "foo/bar", after_w_pattern = "app/foo/bar"})
+run_test(utils.find_in_path, {"some/path/app/foo/bar/", "app"}, {found = true, before = "some/path", before_w_pattern = "some/path/app", after = "foo/bar", after_w_pattern = "app/foo/bar"})
+run_test(utils.find_in_path, {"/some/path/app/foo/bar/", "app"}, {found = true, before = "/some/path", before_w_pattern = "/some/path/app", after = "foo/bar", after_w_pattern = "app/foo/bar"})
+run_test(utils.find_in_path, {"/some/path/app/foo/bar/", "/app/"}, {found = false})
+run_test(utils.find_in_path, {"/some/path/app/foo/bar/", "ap"}, {found = false})
 run_test(utils.find_in_path, {"/some/path/app", "app"}, {found = true, before = "/some/path", before_w_pattern = "/some/path/app", after = nil, after_w_pattern = "app"})
 run_test(utils.find_in_path, {"app/foo/bar", "app"}, {found = true, before = nil, before_w_pattern = "app", after = "foo/bar", after_w_pattern = "app/foo/bar"})
 run_test(utils.find_in_path, {"/some/path/app/foo/bar/", "zzz"}, {found = false, before = nil, before_w_pattern = nil, after = nil, after_w_pattern = nil})
+
+-- nth_match not provided, should default to first occurrence
+run_test(utils.find_in_path, {"some/app/path/app/foo/bar/app", "app"},
+    {found = true, before = "some", before_w_pattern = "some/app", after = "path/app/foo/bar/app", after_w_pattern = "app/path/app/foo/bar/app"})
+
+-- nth_match = -4, out of range (negative)
+run_test(utils.find_in_path, {"some/app/path/app/foo/bar/app", "app", -4},
+    {found = false, before = nil, before_w_pattern = nil, after = nil, after_w_pattern = nil})
+
+-- nth_match = -3, third last occurrence
+run_test(utils.find_in_path, {"some/app/path/app/foo/bar/app", "app", -3},
+    {found = true, before = "some", before_w_pattern = "some/app", after = "path/app/foo/bar/app", after_w_pattern = "app/path/app/foo/bar/app"})
+
+-- nth_match = -2, second last occurrence
+run_test(utils.find_in_path, {"some/app/path/app/foo/bar/app", "app", -2},
+    {found = true, before = "some/app/path", before_w_pattern = "some/app/path/app", after = "foo/bar/app", after_w_pattern = "app/foo/bar/app"})
+
+-- nth_match = -1, last occurrence
+run_test(utils.find_in_path, {"some/app/path/app/foo/bar/app", "app", -1},
+    {found = true, before = "some/app/path/app/foo/bar", before_w_pattern = "some/app/path/app/foo/bar/app", after = nil, after_w_pattern = "app"})
+
+-- nth_match = 0, should be invalid and return found=false
+run_test(utils.find_in_path, {"some/app/path/app/foo/bar/app", "app", 0},
+    {found = false, before = nil, before_w_pattern = nil, after = nil, after_w_pattern = nil})
+
+-- nth_match = 1, first occurrence
+run_test(utils.find_in_path, {"some/app/path/app/foo/bar/app", "app", 1},
+    {found = true, before = "some", before_w_pattern = "some/app", after = "path/app/foo/bar/app", after_w_pattern = "app/path/app/foo/bar/app"})
+
+-- nth_match = 2, second occurrence
+run_test(utils.find_in_path, {"some/app/path/app/foo/bar/app", "app", 2},
+    {found = true, before = "some/app/path", before_w_pattern = "some/app/path/app", after = "foo/bar/app", after_w_pattern = "app/foo/bar/app"})
+
+-- nth_match = 3, third occurrence
+run_test(utils.find_in_path, {"some/app/path/app/foo/bar/app", "app", 3},
+    {found = true, before = "some/app/path/app/foo/bar", before_w_pattern = "some/app/path/app/foo/bar/app", after = nil, after_w_pattern = "app"})
+
+-- nth_match = 4, out of range (positive)
+run_test(utils.find_in_path, {"some/app/path/app/foo/bar/app", "app", 4},
+    {found = false, before = nil, before_w_pattern = nil, after = nil, after_w_pattern = nil})
+
+
+run_test(utils.find_in_path, {"/some/app/path/app/foo/bar/app", "app"},
+    {found = true, before = "/some", before_w_pattern = "/some/app", after = "path/app/foo/bar/app", after_w_pattern = "app/path/app/foo/bar/app"})
+run_test(utils.find_in_path, {"app/foo/bar", "app"},
+    {found = true, before = nil, before_w_pattern = "app", after = "foo/bar", after_w_pattern = "app/foo/bar"})
+run_test(utils.find_in_path, {"/some/app/path/app/foo/bar/app/", "zzz"},
+    {found = false, before = nil, before_w_pattern = nil, after = nil, after_w_pattern = nil})
+
+
+
+
 
 setup_test_set('offset_path')
 run_test(utils.offset_path, {"some/path/app/foo/bar", "app", -4}, {found = false})

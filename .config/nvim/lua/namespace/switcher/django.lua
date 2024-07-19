@@ -24,27 +24,27 @@ local function django_app_switcher(context, goto_type, file)
     print('reunning dj app sw')
 
     -- LINKCUBE
-    local app_dir = utils.offset_path(file, "/app/", 1)
+    local app_dir = utils.offset_path(file, "app", 1)
     if goto_type == "dint" then
-        return app_dir .. "dint.py"
+        return app_dir .. "/dint.py"
     elseif goto_type == "models" then
-        return app_dir .. "models.py"
+        return app_dir .. "/models.py"
     elseif goto_type == "views" then
-        return app_dir .. "views.py"
+        return app_dir .. "/views.py"
     elseif goto_type == "rest" then
-        return app_dir .. "rest.py"
+        return app_dir .. "/rest.py"
     elseif goto_type == "urls" then
-        return app_dir .. "urls.py"
+        return app_dir .. "/urls.py"
     elseif goto_type == "serializers" then
-        return app_dir .. "serializers.py"
+        return app_dir .. "/serializers.py"
     elseif goto_type == "tests" then
-        return app_dir .. "tests.py"
+        return app_dir .. "/tests.py"
     elseif goto_type == "fetcher" then
         -- get one dir to the right of app
-        local app_name = utils.offset_path(file, '/app/', 1).at
-        return app_dir .. "assets/" .. app_name .. "/jsapp/fetcher.js"
+        local app_name = utils.offset_path(file, 'app', 1).at
+        return app_dir .. "/assets/" .. app_name .. "/jsapp/fetcher.js"
     elseif goto_type == "other" then
-        return app_dir .. "utils.py"
+        return app_dir .. "/utils.py"
     end
 end
 

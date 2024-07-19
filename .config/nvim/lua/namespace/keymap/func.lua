@@ -7,7 +7,7 @@ vim.keymap.set({"", "!"}, "<F1>", "<ESC>:h <C-R><C-W><CR>", { noremap = true, de
 vim.keymap.set({"", "!"}, "<F2>", require("namespace.utils").reload_config, { noremap = true, desc = "Reload config"})
 
 -- <F4> Force quit (not save any changes)
-vim.keymap.set({"", "!"}, "<F4>", '<ESC><ESC>q<ESC><ESC>:qa!<CR>', { noremap = true, desc = "Force quit"})
+vim.keymap.set({"", "!"}, "<F4>", function() vim.cmd('qa!') end, { noremap = true, desc = "Force quit"})
 
 -- OS xdg-open the current file
 vim.keymap.set({"", "!"}, "<F5>", require("namespace.utils").run, {noremap = true, desc = "XDG-Open file"})

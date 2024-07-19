@@ -1,5 +1,40 @@
 local M = {}
 
+local function infer_sep(path)
+    if path:find("\\") then
+        return "\\"
+    end
+    return "/"
+end
+
+local function blank_to_nil(str)
+    if str == "" then
+        return nil
+    end
+    return str
+end
+
+local function concat_strings(array, delimiter)
+    local result = {}
+    for _, value in ipairs(array) do
+        if value  and value ~= "" then
+            table.insert(result, value)
+        end
+    end
+    return table.concat(result, delimiter)
+end
+
+function M.get_second_to_last_extension(path)
+    local extensions = {}
+    for ext in string.gmatch(path, "%.[^%.\\/]+") do
+        table.insert(extensions, ext:sub(2)) -- exclude the last dot
+    end
+    if #extensions >= 2 then
+        return extensions[#extensions - 1]
+    end
+end
+
+
 --[[
 given: "some/path/to/file.ext    returns {path="some/path/to", up_dir="path", dir="to", name="file.ext", base_name="file",  ext="ext"}
 given: "some/path/to/file"       returns {path="some/path/to", up_dir="path", dir="to", name="file",     base_name="file",  ext=nil}
@@ -38,13 +73,17 @@ end
 --[[
 given: "some/path/to/file.ext"      returns {"some", "path", "to", "file.ext"}
 given: "some/path/to/dir"           returns {"some", "path", "to, ""dir"}
+given: "/some/path/to/dir", true    returns {"/some", "path", "to, ""dir"}
+given: "//some/path/to/dir", true   returns {"//some", "path", "to, ""dir"}
 given: "some\\path\\to\\file.ext"   returns {"some", "path", "to", "file.ext"}
 --]]
-function M.split_path(path)
+function M.split_path(path, keep_leading_sep)
     local bits = {}
+    local leading_delim = keep_leading_sep and path:match("^([/\\]+)") or ""
     for bit in path:gmatch("([^/\\]+)") do
         table.insert(bits, bit)
     end
+    bits[1] = table.concat({leading_delim, bits[1]}, "")
     return bits
 end
 
@@ -55,8 +94,8 @@ given: "some\\path\\to\\file.ext", 2     returns "path"
 given: "some/path/to/file.ext", 3        returns "to"
 given: "some/path/to/file.ext", 99       returns nil
 --]]
-function M.get_nth_bit(path, n)
-    local bits = M.split_path(path)
+function M.get_nth_bit(path, n, keep_leading_sep)
+    local bits = M.split_path(path, keep_leading_sep)
     if n <= #bits then
         return bits[n]
     end
@@ -69,8 +108,8 @@ given: "some\\path\\to\\file.ext", 2     returns "to"
 given: "some/path/to/file.ext", 3        returns "path"
 given: "some/path/to/file.ext", 99       returns nil
 --]]
-function M.get_last_nth_bit(path, n)
-    local bits = M.split_path(path)
+function M.get_last_nth_bit(path, n, keep_leading_sep)
+    local bits = M.split_path(path, keep_leading_sep)
     if n <= #bits then
         return bits[#bits - n + 1]
     end
@@ -98,84 +137,64 @@ function M.get_cwd_includes(pattern, case_sensitive)
 end
 
 --[[
-given: "some/path/app"      returns {"some", "/", "path", "/", "app"}
-given: "/some/path/app"     returns {"/", "some", "/", "path", "/", "app"}
-given: "some/path/app/"     returns {"some", "/", "path", "/", "app", "/"}
-given: "/some/path/app/"    returns {"/", "some", "/", "path", "/", "app", "/"}
-given: "C:\\\\some\\path\\app"    returns {"c:", "\\", "\\", "some", "\\", "path", "\\", "app"}
---]]
--- Function to split a path into its components, including delimiters
--- Most used internally, just exported for testing
--- function M._split_path_with_delimiters(path)
---     local bits={}
---     local pattern="([/\\]*)([^/\\]*)"
---     for delim, part in path:gmatch(pattern) do
---         if delim ~= "" then
---             table.insert(bits, delim)
---         end
---         if part ~= "" then
---             table.insert(bits, part)
---         end
---     end
---     return bits
--- end
-
---[[
 given: "some/path/app/foo/bar",   "app"   returns {found=true,  before="some/path",  bafter_w_pattern="some/path/app",  after="foo/bar"  after_w_pattern="app/foo/bar"  }
-given: "some/path/app/foo/bar",   "/app"  returns {found=true,  before="some/path",  bafter_w_pattern="some/path/app",  after="foo/bar"  after_w_pattern="/app/foo/bar" }
-given: "some/path/app/foo/bar",   "app/"  returns {found=true,  before="some/path",  bafter_w_pattern="some/path/app/", after="foo/bar"  after_w_pattern="app/foo/bar"  }
-given: "some/path/app/foo/bar",   "/app/" returns {found=true,  before="some/path",  bafter_w_pattern="some/path/app/", after="foo/bar"  after_w_pattern="/app/foo/bar" }
 given: "/some/path/app/foo/bar",  "app"   returns {found=true,  before="/some/path", before_w_pattern="/some/path/app", after="foo/bar"  after_w_pattern="app/foo/bar"  }
+given: "//some/path/app/foo/bar", "app"   returns {found=true,  before="//some/path",before_w_pattern="//some/path/app",after="foo/bar"  after_w_pattern="app/foo/bar"  }
 given: "some/path/app/foo/bar/",  "app"   returns {found=true,  before="some/path",  before_w_pattern="some/path/app",  after="foo/bar/" after_w_pattern="app/foo/bar/" }
 given: "/some/path/app/foo/bar/", "app"   returns {found=true,  before="/some/path", before_w_pattern="/some/path/app", after="foo/bar/" after_w_pattern="app/foo/bar/" }
 given: "/some/path/app",          "app"   returns {found=true,  before="/some/path", before_w_pattern="/some/path/app", after=nil        after_w_pattern=nil            }
 given: "app/foo/bar",             "app"   returns {found=true,  before=nil,          before_w_pattern=nil,              after="foo/bar"  after_w_pattern="app/foo/bar"  }
+given: "app/foo/bar",             "ap"    returns {found=false} -- Must match exactly, not be a sub part
+given: "app/foo/bar",             "/app/" returns {found=false} -- Must not specify delimiters
 given: "/some/path/app/foo/bar/", "zzz"   returns {found=false, before=nil,          before_w_pattern=nil,              after=nil        after_w_pattern=nil            }
 --]]
 -- Function to find the first pattern in the path and return the detailed breakdown
-function M.find_in_path(path, pattern)
+function M.find_in_path(path, pattern, nth_match)
     -- Escape special characters in pattern
-    local escaped_pattern = pattern:gsub("([%.%+%-%*%?%[%^%$%(%)%%])", "%%%1")
+    local sep = infer_sep(path)
+    local bits = M.split_path(path, true)
 
-    -- Find the pattern in the path
-    local start_pos, end_pos = path:find(escaped_pattern)
-
-    -- Initialize result table
-    local result = {
-        found = false,
-        before = nil,
-        before_w_pattern = nil,
-        after = nil,
-        after_w_pattern = nil
-    }
-    if not start_pos then
-        return result
+    -- Find all matches
+    local matches = {}
+    for i, bit in ipairs(bits) do
+        if bit == pattern then
+            table.insert(matches, i)
+        end
     end
 
-    -- Pattern found
-    result.found = true
+    -- Determine the nth match to use
+    local total_matches = #matches
+    if total_matches == 0 then
+        return { found = false }
+    end
+
+    nth_match = nth_match or 1
+    local match_index = nth_match > 0 and nth_match or total_matches + nth_match + 1
+    if match_index < 1 or match_index > total_matches then
+        return { found = false }
+    end
+
+    local match_pos = matches[match_index]
+
     -- Extract before and after parts
-    local before = path:sub(1, start_pos - 1)
-    local after = path:sub(end_pos + 1)
-    local before_w_pattern = path:sub(1, end_pos)
-    local after_w_pattern = path:sub(start_pos)
-    -- Remove trailing delimiters from before
-    before = before:gsub("[/\\]+$", "")
-    -- Remove leading delimiters from after
-    after = after:gsub("^[/\\]+", "")
-    -- Assign values to result table
-    result.before = before ~= "" and before or nil
-    result.before_w_pattern = before_w_pattern
-    result.after = after ~= "" and after or nil
-    result.after_w_pattern = after_w_pattern
-    return result
-end
+    local before_bits = {unpack(bits, 1, match_pos - 1)}
+    local after_bits = {unpack(bits, match_pos + 1)}
+    local before_w_pattern_bits = {unpack(bits, 1, match_pos)}
+    local after_w_pattern_bits = {unpack(bits, match_pos)}
 
-local function get_path_delimiter(path)
-    if path:find("\\") then
-        return "\\"
-    end
-    return "/"
+    -- Handle leading delimiters
+    local before = table.concat(before_bits, sep):gsub(sep .. "$", "")
+    local after = table.concat(after_bits, sep):gsub("^" .. sep, "")
+    local before_w_pattern = table.concat(before_w_pattern_bits, sep)
+    local after_w_pattern = table.concat(after_w_pattern_bits, sep)
+
+    return {
+        found = true,
+        before = blank_to_nil(before),
+        before_w_pattern = blank_to_nil(before_w_pattern),
+        after = blank_to_nil(after),
+        after_w_pattern = blank_to_nil(after_w_pattern)
+    }
 end
 
 --[[
@@ -189,30 +208,14 @@ given: "some/path/app/foo/bar", "app",  2   returns {found=true, before_offset="
 given: "some/path/app/foo/bar", "app",  3   returns {found=false }
 given: "some/path/app/foo/bar", "app",  4   returns {found=false }
 --]]
-local function blank_to_nil(str)
-    if str == "" then
-        return nil
-    end
-    return str
-end
 
-local function concat_strings(array, delimiter)
-    local result = {}
-    for _, value in ipairs(array) do
-        if value  and value ~= "" then
-            table.insert(result, value)
-        end
-    end
-    return table.concat(result, delimiter)
-end
-
-function M.offset_path(path, pattern, offset)
+function M.offset_path(path, pattern, offset, nth_match)
     print(path.." "..offset)
     local info = M.find_in_path(path, pattern)
     if not info.found then
         return {found = false}
     end
-    local delimiter = get_path_delimiter(path)
+    local sep = infer_sep(path)
     local at = pattern
     if offset == 0 then
         return {found = true, before_offset = info.before, at = pattern, after_offset = info.after}
@@ -222,16 +225,16 @@ function M.offset_path(path, pattern, offset)
             return {found = false}
         end
         at = after_bits[offset]
-        local before_offset_str = info.before_w_pattern .. delimiter .. table.concat(after_bits, delimiter, 1, offset - 1)
-        local after_str = table.concat(after_bits, delimiter, offset + 1)
-        return {found = true, before_offset = blank_to_nil(before_offset_str:gsub(delimiter .. "$", "")), at = at, after_offset = blank_to_nil(after_str)}
+        local before_offset_str = info.before_w_pattern .. sep .. table.concat(after_bits, sep, 1, offset - 1)
+        local after_str = table.concat(after_bits, sep, offset + 1)
+        return {found = true, before_offset = blank_to_nil(before_offset_str:gsub(sep .. "$", "")), at = at, after_offset = blank_to_nil(after_str)}
     elseif offset < 0 then
         local before_bits = M.split_path(info.before)
         if -offset > #before_bits then
             return {found = false}
         end
         at = before_bits[#before_bits + offset + 1]
-        local before_str = table.concat(before_bits, delimiter, 1, #before_bits + offset)
+        local before_str = table.concat(before_bits, sep, 1, #before_bits + offset)
 
         -- If offset = -1, pop off 0
         -- If offset = -2, pop off 1
@@ -241,21 +244,11 @@ function M.offset_path(path, pattern, offset)
         for _ = 1, iterations do
             table.insert(from_before_bits, 1, table.remove(before_bits))
         end
-        local from_before_str = table.concat(from_before_bits, delimiter);
-        local after_offset_str = concat_strings({from_before_str, info.after_w_pattern}, delimiter)
+        local from_before_str = table.concat(from_before_bits, sep);
+        local after_offset_str = concat_strings({from_before_str, info.after_w_pattern}, sep)
         return {found = true, before_offset = blank_to_nil(before_str), at = at, after_offset = blank_to_nil(after_offset_str)}
     end
     return {found = false}
-end
-
-function M.get_second_to_last_extension(path)
-    local extensions = {}
-    for ext in string.gmatch(path, "%.[^%.\\/]+") do
-        table.insert(extensions, ext:sub(2)) -- exclude the last dot
-    end
-    if #extensions >= 2 then
-        return extensions[#extensions - 1]
-    end
 end
 
 return M
