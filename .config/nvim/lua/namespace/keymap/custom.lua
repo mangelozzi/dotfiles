@@ -11,12 +11,14 @@ vim.keymap.set({"n", "x"}, ";", ":", {noremap = true, desc = "Command mode"})
 
 -- Make x/X not change the registers, i.e. uses the black hole register
 -- Note: Use d/D to change the register
+-- Note the `xp` swap letters is mapped to `<leader>x`
+vim.keymap.set({"n", "x"}, "x", '"_x', {noremap = true, desc = "Delete char"})
 vim.keymap.set({"n", "x"}, "x", '"_x', {noremap = true, desc = "Delete char"})
 
 -- Change record macro to "Q", so it runs "q" (so can use q for line start)
 vim.keymap.set({"n", "x"}, "Q", "q", {noremap = true, desc = "Record macro"})
 -- Change q to the hard to reach ^
-vim.keymap.set({"n", "x"}, "q", "^", {noremap = true, desc = "Line start"})
+vim.keymap.set({"n", "o", "x"}, "q", "^", {noremap = true, desc = "Line start"})
 
 -- :h yy = If you like "Y" to work from the cursor to the end of line (which is
 -- more logical, but not Vi-compatible) use ":map Y y$".

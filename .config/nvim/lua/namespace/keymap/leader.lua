@@ -13,6 +13,9 @@ vim.keymap.set("n", "<leader>c", "1z=", {noremap = true, desc = "(c)orrect spell
 -- Map ga to gA to text-case.nvim
 vim.keymap.set("n", "<leader>a", "ga", {noremap = true, desc = "Show (A)scii value"})
 
+-- Swap letters under cursor
+vim.keymap.set("n", "<leader>x", "xp", {noremap = true, desc = "Swap chars"})
+
 -- GIT ------------------------------------------------------------------------
 
 -- Open the current file in GITk and dettach from the process
