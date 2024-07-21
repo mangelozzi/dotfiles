@@ -1,6 +1,6 @@
 --[[
 
-NOTES: 
+NOTES:
     - Still have <CR> to use as a second leader
     - In neovim (not vim) you can use P instead of p in visual mode to preserve the clipboard.
     - Use `<C-o>` to execute a normal mode mapping during insert mode
@@ -75,4 +75,5 @@ require("namespace.keymap.command")
 require("namespace.keymap.custom")
 require("namespace.keymap.func")
 require("namespace.keymap.leader")
+require("namespace.keymap.operator")
 require("namespace.keymap.talk")
