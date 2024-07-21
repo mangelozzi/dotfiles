@@ -410,6 +410,16 @@ function M.escape_html_visual_selection()
     M.alter_visual_range(M.escape_html_lines)
 end
 
+-- Set the operator function to the passed in function
+-- e.g. require('namespace.utils').set_opfunc(function() print("Hello") end)
+-- Refer to: https://github.com/neovim/neovim/issues/14157#issuecomment-1320787927
+M.set_opfunc = vim.fn[vim.api.nvim_exec([[
+  func s:set_opfunc(val)
+    let &opfunc = a:val
+  endfunc
+  echon get(function('s:set_opfunc'), 'name')
+]], true)]
+
 return M
 
 -- " This function sets up the opfunc so it can be repeated with a dot.
