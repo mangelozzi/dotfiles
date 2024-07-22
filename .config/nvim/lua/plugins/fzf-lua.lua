@@ -121,8 +121,8 @@ Plugin.config = function()
                 -- Rotate preview clockwise/counter-clockwise
                 ["<M-h>"] = "toggle-preview-ccw",
                 ["<M-l>"] = "toggle-preview-cw",
-                ["<M-f>"] = "preview-page-down", -- Like vim forwards
-                ["<M-b>"] = "preview-page-up", -- Like vim backwards
+                ["<M-n>"] = "preview-page-down", -- Easy to switch between pick/previewer scrolling with just ctrl->alt
+                ["<M-p>"] = "preview-page-up",
                 ["<M-o>"] = "preview-page-reset" -- Mnemonic: (O)rigin
             },
             fzf = {
@@ -140,8 +140,8 @@ Plugin.config = function()
                 -- Only valid with fzf previewers (bat/cat/git/etc)
                 ["f3"] = "toggle-preview-wrap",
                 ["f4"] = "toggle-preview",
-                ["alt-f"] = "preview-page-down",
-                ["alt-b"] = "preview-page-up"
+                ["alt-n"] = "preview-page-down",
+                ["alt-p"] = "preview-page-up"
             }
         },
         winopts = {
@@ -170,14 +170,14 @@ Plugin.config = function()
                 -- providers that inherit these actions: buffers, tabs, lines, blines
                 -- Preserve existing
                 ["default"]     = actions.buf_edit,
-                ["ctrl-s"]      = actions.buf_split,
-                ["ctrl-v"]      = actions.buf_vsplit,
+                ["ctrl-s"]      = actions.buf_split, -- Made Neogit match this
+                ["ctrl-v"]      = actions.buf_vsplit, -- Made Neogit match this
                 ["ctrl-t"]      = actions.buf_tabedit,
                 -- When on :buffers, pressing <Ctrl-Space> will resume with files
                 ["Ctrl-space"]  = function(_, opts) fzf.files({ query=opts.last_query, cwd=opts.cwd }) end, -- _ = sel
                 ["Ctrl-h"]      = function(_, opts) fzf.oldfiles({ query=opts.last_query, cwd=opts.cwd }) end, -- _ = sel
             },
-            -- 
+            --
             files = {
                 -- providers that inherit these actions: files, git_files, git_status, grep, lsp oldfiles, quickfix, loclist, tags, btags args
                 -- Preserve existing

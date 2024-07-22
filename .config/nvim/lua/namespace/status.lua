@@ -24,10 +24,14 @@ local function get_filename()
     elseif vim.bo.buftype == 'quickfix' then
         -- "%{exists('w:quickfix_title')? ' '.w:quickfix_title : ''}"
         local qftitle = vim.fn.getqflist({title = 0})['title']
-        return '[QUICKFIX] ' .. qftitle
+        return qftitle
+    elseif vim.bo.buftype == 'help' then
+        return vim.fn.expand('%:t')
+    elseif vim.bo.buftype == 'terminal' then
+        return vim.fn.expand('%:t') .. ' ' .. vim.api.nvim_buf_get_name(0)
     else
-        -- terminal, prompt, help, etc
-        return '[' .. string.upper(vim.bo.buftype) .. ']'
+        -- prompt, etc
+        return vim.fn.expand('%:t')
     end
 end
 
@@ -178,7 +182,7 @@ vim.g.get_status_line = function(current_window)
     local s3 = table.concat{
         "%=",                                     -- Left/Right separator
         groups['col_impact'],
-        vim.b.current_git_branch or "",
+        vim.bo.buftype == "" and vim.b.current_git_branch or "", -- Only show branch if in file type buffers
         groups['col_line'],
         get_file_type(),
         "│%-3c",                                    -- Current column number, left aligned 3 characters wide

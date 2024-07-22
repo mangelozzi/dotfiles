@@ -69,7 +69,7 @@ vim.api.nvim_create_autocmd(
 
 -- Set global variable with current git branch
 vim.api.nvim_create_autocmd(
-    "BufEnter",
+    {"FileChangedShellPost", "BufEnter"},
     {
         desc = "Set the git branch for the status line",
         group = NamespaceGroup,

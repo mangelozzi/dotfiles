@@ -25,6 +25,10 @@ vim.keymap.set("n", "<leader>gk", function() vim.cmd('!gitk --follow -- % &') en
 local function viewGitDiffCurrentFile()
     local filePath = vim.fn.expand('%')
     vim.cmd('vsplit | terminal git diff ' .. filePath)
+    vim.opt_local.buflisted = false
+    vim.opt_local.bufhidden = "wipe"
+    -- vim.opt_local.buftype = "nofile" -- Does not work cause it's a terminal buffer
+    -- vim.cmd('redraw!') -- Make the status line update -- Does not work, need to switch between window to reflect the name
 end
 vim.keymap.set('n', '<leader>gv', viewGitDiffCurrentFile, { noremap = true, silent = true, desc = "Git (v)split diff buffer" })
 
