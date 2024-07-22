@@ -45,7 +45,7 @@ end
 function M.format_new_buffer_as_json_no_save()
     local lines = vim.api.nvim_buf_get_lines(0, 0, -1, false)
     local input = table.concat(lines, "\n")
-    local cmd = "prettier --parser json"
+    local cmd = "prettier --parser json --tab-width 4"
     local handle = io.popen(cmd, "w")
     handle:write(input)
     handle:close()
@@ -76,19 +76,19 @@ function M.format_code()
     elseif vim.bo.filetype == "javascript" or vim.bo.filetype == "typescript" then
         -- https://prettier.io/
         -- Prettier edit in place (--write)
-        vim.cmd("!prettier --write " .. file)
+        vim.cmd("!prettier --write --tab-width 4 " .. file)
     elseif vim.bo.filetype == "htmldjango" then
         -- vim.cmd("silent! !djlint --reformat --preserve-blank-lines " .. file)
         vim.cmd("!djlint --profile=django --reformat --format-css --format-js --preserve-blank-lines " .. file)
         vim.api.nvim_feedkeys("\\<CR>", "n", false)  -- Need a lot of enters
     elseif vim.bo.filetype == "html" then
-        vim.cmd("!prettier --write " .. file)
+        vim.cmd("!prettier --write --tab-width 4 " .. file)
     elseif vim.bo.filetype == "css" then
-        vim.cmd("!prettier --write " .. file)
+        vim.cmd("!prettier --write --tab-width 4 " .. file)
     elseif vim.bo.filetype == "json" then
         -- The json module is included in Python's Standard Library
         -- Set filein/fileout both to be the same (replace)
-        vim.cmd("!prettier --write " .. file)
+        vim.cmd("!prettier --write --tab-width 4 " .. file)
     else
         vim.cmd("!prettier --write --parser json --tab-width 4 " .. file)
     end
