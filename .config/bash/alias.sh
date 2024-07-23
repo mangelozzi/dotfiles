@@ -135,3 +135,6 @@ alias gdsass="git diff --diff-filter=M --ws-error-highlight=all '*.sass' '*.scss
 # XDG_CURRENT_DESKTOP=ubuntu:GNOME
 alias settings="gnome-control-center &"
 alias update="update-manager"
+
+# Called "Document sacnner - work with Canon MFC635
+alias scan="simple-scan"
