@@ -8,7 +8,7 @@ local switcher = require("namespace.switcher")
 vim.keymap.set({"n", "x"}, "<leader>h", ":noh<CR>", {noremap = true, desc = "Disable highlighting"})
 
 -- Replace with first spelling suggestion
-vim.keymap.set("n", "<leader>=", "1z=", {noremap = true, desc = "1st spelling suggestion"})
+vim.keymap.set("n", "<leader>w", "1z=", {noremap = true, desc = "(w)ord spelling"})
 
 -- Map ga to gA to text-case.nvim
 vim.keymap.set("n", "<leader>a", "ga", {noremap = true, desc = "Show (A)scii value"})
