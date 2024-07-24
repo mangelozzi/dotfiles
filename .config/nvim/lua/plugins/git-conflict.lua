@@ -20,8 +20,8 @@ Plugin.config = function()
     vim.keymap.set('', '<leader>ct', function() vim.cmd('GitConflictChooseTheirs') end, { silent = true, desc = "Select the incoming changes."})
     vim.keymap.set('', '<leader>cb', function() vim.cmd('GitConflictChooseBoth')   end, { silent = true, desc = "Select both changes."})
     vim.keymap.set('', '<leader>cx', function() vim.cmd('GitConflictChooseNone')   end, { silent = true, desc = "Select none of the changes."})
-    vim.keymap.set('', ']x',         function() vim.cmd('GitConflictNextConflict') end, { silent = true, desc = "Move to the next conflict."})
-    vim.keymap.set('', '[x',         function() vim.cmd('GitConflictPrevConflict') end, { silent = true, desc = "Move to the previous conflict."})
+    vim.keymap.set('', ']x',         function() vim.cmd('GitConflictNextConflict') end, { silent = true, nowait = true, desc = "Move to the next conflict."})
+    vim.keymap.set('', '[x',         function() vim.cmd('GitConflictPrevConflict') end, { silent = true, nowait = true, desc = "Move to the previous conflict."})
     vim.keymap.set('', '<leader>cw', function() vim.cmd('GitConflictListQf')       end, { silent = true, desc = "Get all conflict to quickfix"})
 end
 
