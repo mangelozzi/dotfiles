@@ -1,3 +1,5 @@
+-- NOTE: The leader is assigned in globals.lua
+
 local switcher = require("namespace.switcher")
 
 -- If dont execute leader command, perform no operation instead of move one char to the right

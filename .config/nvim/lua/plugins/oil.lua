@@ -69,7 +69,7 @@ Plugin.config = function()
         -- Configuration for the floating keymaps help window
     }
 
-    vim.keymap.set("n", "-", function()
+    vim.keymap.set("n", "<BS>", function()
         require("oil").toggle_float()
         -- require("oil").open()
     end, {noremap = true, desc = "Oil"})
