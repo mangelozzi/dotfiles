@@ -177,7 +177,7 @@ Plugin.config = function()
                         vim.defer_fn(function()
                             -- Neogit needs time to settle, or else detecting next line is incorrect
                             open_callback(MyNeogitGroup, file_rel)
-                        end, 10)
+                        end, 20)  -- 10ms seems a bit flaky
                     end
                 }
             )

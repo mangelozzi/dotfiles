@@ -32,6 +32,23 @@ function M.get_groups(p)
         -- IblWhitespace = { fg = "#00ff00" }, -- Whitespace between bars? Usefull if coloring BG color
         IblScope = { fg = "#404040" }, -- Active bars
 
+        -- -- Git Conflict
+        -- GitConflictCurrent       = {bg = "#6d9088", bold = true},
+        -- GitConflictCurrentLabel  = {bg = "#aee6d9"},
+        -- GitConflictIncoming      = {bg = "#2f3220", bold = true},
+        -- GitConflictIncomingLabel = {bg = "#4b5033"},
+        -- GitConflictAncestor      = {bg = "#68217a", bold = true},
+        -- GitConflictAncestorLabel = {bg = "#a634c3"},
+
+        -- Git Conflict
+        GitConflictCurrent       = {bg = "#5d7068", bold = true},
+        GitConflictCurrentLabel  = {bg = p.blue},
+        GitConflictIncoming      = {bg = "#2f3220", bold = true},
+        GitConflictIncomingLabel = {bg = "#4b5033"},
+        GitConflictAncestor      = {bg = "#68217a", bold = true},
+        GitConflictAncestorLabel = {bg = p.purple},
+
+
         -- Rainbow Delimiters - Lowercase cause my own highilight group
         rainbowDelimiter1 = { fg = rainbow1, bold = false },
         rainbowDelimiter2 = { fg = rainbow2, bold = false },

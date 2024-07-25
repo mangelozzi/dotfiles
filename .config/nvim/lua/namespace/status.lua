@@ -123,6 +123,7 @@ local function get_hi_groups(is_current_window)
         col_fade2  = change_color(prefix .. "StatusFade2"),
         col_fade3  = change_color(prefix .. "StatusFade3"),
         col_impact = change_color(prefix .. "StatusImpact"),
+        col_emphasis = change_color(prefix .. "StatusEmphasis"),
     }
 end
 
@@ -181,12 +182,14 @@ vim.g.get_status_line = function(current_window)
     -- col_line
     local s3 = table.concat{
         "%=",                                     -- Left/Right separator
-        groups['col_impact'],
+        groups['col_emphasis'],
         vim.bo.buftype == "" and vim.b.current_git_branch or "", -- Only show branch if in file type buffers
         groups['col_line'],
         get_file_type(),
         "│%-3c",                                    -- Current column number, left aligned 3 characters wide
-        "▏%P ",                                     -- Percentage through the file
+        "▏",
+        groups['col_emphasis'],
+        "%P ",                                     -- Percentage through the file
     }
     if vim.bo.filetype == "NvimTree" then
         return s2 .. s3

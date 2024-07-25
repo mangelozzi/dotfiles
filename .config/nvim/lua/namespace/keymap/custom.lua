@@ -1,13 +1,13 @@
 -- Save
 vim.keymap.set({"", "!"}, "<C-s>", "<ESC>:w!<CR>", {noremap = true, desc = "Save"})
 
--- Map backspace to other buffer
+-- Map dash to other buffer
 -- Note!!! Using recursive version so will recurse to <ESC> when in the
 -- quickfix window
-vim.keymap.set({"n", "x"}, "<BS>", "<C-^>", { noremap = true, desc = "Jump to alternate buffer" })
+vim.keymap.set({"n", "x"}, "-", "<C-^>", { noremap = false, desc = "Jump to alternate buffer" })
 
 -- Map ; to : for speed
-vim.keymap.set({"n", "x"}, ";", ":", {noremap = true, desc = "Command mode"})
+-- vim.keymap.set({"n", "x"}, ";", ":", {noremap = true, desc = "Command mode"})
 
 -- Make x/X not change the registers, i.e. uses the black hole register
 -- Note: Use d/D to change the register

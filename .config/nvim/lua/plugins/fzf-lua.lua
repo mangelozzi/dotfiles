@@ -228,7 +228,7 @@ Plugin.config = function()
     -- Matches documentation listing
 
     -- Buffers and Files
-    vim.keymap.set("n", "<leader><leader>", require("fzf-lua").buffers, {noremap = true, silent = true, desc = "FZF (b)uffers"})
+    vim.keymap.set("n", ";", require("fzf-lua").buffers, {noremap = true, silent = true, desc = "FZF (b)uffers"})
     vim.keymap.set("n", "<leader>f", require("fzf-lua").files, {noremap = true, silent = true, desc = "FZF (f)iles - cwd"})
     vim.keymap.set("n", "<leader>F", function() require("fzf-lua").files({
         fd_opts = fd_distros_ignore,
