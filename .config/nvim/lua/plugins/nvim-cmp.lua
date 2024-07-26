@@ -15,7 +15,7 @@ local Plugin = {
 
 Plugin.config = function()
     local cmp = require('cmp')
-    cmp.setup({
+    cmp.setup {
         preselect = cmp.PreselectMode.None,
         completion = {
             keyword_length = 2,  -- Min word length before showing result
@@ -69,13 +69,15 @@ Plugin.config = function()
                 end
             end,
         }),
-        sources = cmp.config.sources({
+        sources = cmp.config.sources{
             { name = 'nvim_lsp' },
             -- { name = 'luasnip' }, -- For luasnip users.
-        }, {
-                { name = 'buffer' },
-            })
-    })
+        },
+        --- Fall backs
+        {
+            { name = 'buffer' },
+        }
+    }
 end
 
 return Plugin

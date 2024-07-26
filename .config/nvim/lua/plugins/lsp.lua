@@ -186,7 +186,6 @@ Plugin.config = function ()
         -- on_attach = lsp_attach,
         sources = {
             -- null_ls.builtins.formatting.stylua,
-            null_ls.builtins.completion.spell,
             -- djlint
             null_ls.builtins.formatting.djlint.with(
                 {
@@ -196,6 +195,12 @@ Plugin.config = function ()
             null_ls.builtins.diagnostics.djlint,
             -- curlylint
             -- null_ls.builtins.diagnostics.curlylint,
+            {
+                -- Conditionally include spell completion on markdown and text files only
+                method = null_ls.methods.COMPLETION,
+                filetypes = { "markdown", "txt" },  -- Only enable for markdown and txt files
+                generator = null_ls.builtins.completion.spell.generator,
+            },
         }
     }
 end
