@@ -17,20 +17,3 @@ vim.keymap.set("n", "]t", "vit<ESC>`>", {noremap = true, desc = "Jump to end of 
 -- Navigate to the start/end of the <tag>...</tag> set
 vim.keymap.set("n", "[T", "vat<ESC>`<", {noremap = true, desc = "Jump to start of tag outer"})
 vim.keymap.set("n", "]T", "vat<ESC>`>", {noremap = true, desc = "Jump to end of tag outer"})
-
--- Sort operator
--- TODO DOESNT WORK
--- vim.keymap.set({"n", "x"}, "gs", require("namespace.utils").sort_lines, {noremap = true, silent = true}) -- Replace builtin sleep operator
-
---[[
-
-aa
-dsafds
-gf
-cvc
-vd
-adf
-sdf
-
-
---]]

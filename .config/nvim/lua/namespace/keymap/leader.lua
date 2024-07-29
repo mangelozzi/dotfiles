@@ -26,8 +26,8 @@ vim.keymap.set("v", "<leader><", function() require("namespace/utils").escape_ht
 vim.keymap.set("v", "<leader>>", function() require("namespace/utils").escape_html_visual_selection() end, {noremap = true, desc = "Escape html entities"})
 
 -- Short/Long ---/------- dash dividers
-vim.keymap.set({"n", "i", "x"}, '<C-->', "3a-<esc>", { noremap = true, nowait = true, desc ="(d)ivider - short" })
-vim.keymap.set({"n", "i", "x"}, '<C-=>', "7a-<esc>", { noremap = true, nowait = true, desc ="(D)ivider - long" })
+vim.keymap.set({"n", "x"}, '<leader>b', "3a-<Esc>", { noremap = true, nowait = true, desc ="(b)locky ---" })
+vim.keymap.set({"n", "x"}, '<leader>B', "7a-<Esc>", { noremap = true, nowait = true, desc ="(B)locky -------" })
 
 -- GIT ------------------------------------------------------------------------
 

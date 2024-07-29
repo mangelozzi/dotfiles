@@ -121,7 +121,7 @@ Plugin.config = function()
         vim.keymap.set("n", "[d", function() vim.diagnostic.jump({count=-1, float=true}) end, get_opts("previous diagnostic"))
         vim.keymap.set("n", "]d", function() vim.diagnostic.jump({count=1, float=true}) end, get_opts("next diagnostic"))
         -- vim.keymap.set('n', '<space>???', function() vim.diagnostic.set_loclist() end, get_opts('Set loclist'))
-        vim.keymap.set("n", "<leader>lf", vim.lsp.buf.formatting, get_opts("(f)ormatting"))
+        vim.keymap.set("n", "<leader>lf", function() vim.lsp.buf.formatting() end, get_opts("(f)ormatting")) -- Sometimes is nil so wrap in a function
         vim.keymap.set("n", "<leader>ll", function() vim.api.nvim_command("LspRestart") print("...LSP Restarted") end, get_opts("server restart"))
         vim.keymap.set("n", "<leader>li", function() vim.api.nvim_command("LspInfo") end, get_opts("server (i)nfo"))
         -- Note null-ls will always be shown as autostart: false in LspInfo, it is managed separately

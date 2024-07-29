@@ -33,6 +33,8 @@ vim.keymap.set({"", "!"}, "<F4>", safer_quit, { noremap = true, desc = "Safer qu
 
 -- <F4> Force quit (not save any changes)
 vim.keymap.set({"", "!"}, "<M-F4>", function() vim.cmd('qa!') end, { noremap = true, desc = "Force quit"})
+-- <F52> == <M-F4> in xterm-256color
+vim.keymap.set({"", "!"}, "<F52>", function() vim.cmd('qa!') end, { noremap = true, desc = "Force quit"})
 
 -- OS xdg-open the current file
 vim.keymap.set({"", "!"}, "<F5>", require("namespace.utils").run, {noremap = true, desc = "XDG-Open file"})
