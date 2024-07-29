@@ -18,6 +18,17 @@ vim.keymap.set("n", "<leader>a", "ga", {noremap = true, desc = "Show (A)scii val
 -- Swap letters under cursor
 vim.keymap.set("n", "<leader>x", "xp", {noremap = true, desc = "Swap chars"})
 
+-- Insert a debugger breakpoint statement
+vim.keymap.set("n", "<leader><DEL>", require("namespace/utils").breakpoint, {noremap = true, desc = "Insert breakpoint"})
+
+-- Escape html entities <>'"{} to &lt;&gt;&quot;&lbrace;&rbrace;
+vim.keymap.set("v", "<leader><", function() require("namespace/utils").escape_html_visual_selection() end, {noremap = true, desc = "Escape html entities"})
+vim.keymap.set("v", "<leader>>", function() require("namespace/utils").escape_html_visual_selection() end, {noremap = true, desc = "Escape html entities"})
+
+-- Short/Long ---/------- dash dividers
+vim.keymap.set({"n", "i", "x"}, '<Meta>d', "3a-<esc>", { noremap = true, nowait = true, desc ="(d)ivider - short" })
+vim.keymap.set({"n", "i", "x"}, '<Meta>D', "7a-<esc>", { noremap = true, nowait = true, desc ="(D)ivider - long" })
+
 -- GIT ------------------------------------------------------------------------
 
 -- Open the current file in GITk and dettach from the process

@@ -8,7 +8,7 @@ function M.map_leader_char_to_nop()
     -- So before mapping any leader keys, disable all maps, then add them in
     -- for char = 97, 122 do -- loop through the alphabet
     -- Only iterate the descructive operators, so which key can grab the rest
-    for _, char in ipairs({'C', 'd', 'D'}) do -- 'c' is used for component switcher prefix
+    for _, char in ipairs({'C'}) do -- 'c' is used for component switcher prefix, 'd' for short divider, 'D' for long divider
         vim.keymap.set("n", "<leader>" .. char, "<ESC>", {noremap = true, desc = "<nop>"})
     end
 end
