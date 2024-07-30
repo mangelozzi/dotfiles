@@ -1,6 +1,6 @@
 local utils = require("namespace.switcher.utils")
 
-Switcher = {}
+local Switcher = {}
 
 -- Function to check if the current directory contains Django files
 local function is_django_project()

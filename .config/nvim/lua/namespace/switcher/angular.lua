@@ -1,5 +1,7 @@
 local utils = require("namespace.switcher.utils")
 
+local Switcher = {}
+
 -- Function to check if the current directory contains Angular files
 
 local function is_angular_project()
@@ -41,10 +43,9 @@ local function angular_component_switcher(context, goto_type, file)
     -- Angular Component
     -- GATEWAY
     local info = utils.get_file_path_info(file)
-    local base = info.dir
-    local component_name = info.name
-    local component_type = utils.get_second_to_last_extension(file) or "component"
-    local dir = base .. "/" .. component_name .. "/"
+    local component_name = utils.get_nth_last_ext(info.name, 3) or "?" -- e.g. given "../app.component.ts" return "app"
+    local component_type = utils.get_nth_last_ext(info.name, 2) or "?" -- e.g. given "app.component.ts" return "component"
+    local dir = info.path .. "/" .. component_name .. "/"
     if goto_type == "javascript" then
         return guess_angular_file_name(dir, component_name, nil, "ts")
     elseif goto_type == "html" then
@@ -72,7 +73,7 @@ local function angular_component_switcher(context, goto_type, file)
     end
 end
 
-Switcher.get_switch_fnzzz = function(context, goto_type, original_file)
+Switcher.get_switch_fn = function(context, goto_type, original_file)
     if is_angular_project() then
         return angular_component_switcher
     end

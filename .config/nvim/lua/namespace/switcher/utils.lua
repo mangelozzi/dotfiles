@@ -27,16 +27,19 @@ local function concat_strings(array, delimiter)
     return table.concat(result, delimiter)
 end
 
-function M.get_second_to_last_extension(path)
-    local extensions = {}
-    for ext in string.gmatch(path, "%.[^%.\\/]+") do
-        table.insert(extensions, ext:sub(2)) -- exclude the last dot
+-- Return the nth last extension in a filename, defualt to 2
+function M.get_nth_last_ext(filename, n)
+    n = n or 2
+    local parts = {}
+    for part in string.gmatch(filename, "[^.]+") do
+        table.insert(parts, part)
     end
-    if #extensions >= 2 then
-        return extensions[#extensions - 1]
+    if #parts >= n then
+        return parts[#parts - n + 1]
+    elseif #parts > 0 then
+        return parts[1]
     end
 end
-
 
 --[[
 given: "some/path/to/file.ext    returns {path="some/path/to", up_dir="path", dir="to", name="file.ext", base_name="file",  ext="ext"}
