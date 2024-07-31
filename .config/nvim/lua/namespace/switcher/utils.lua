@@ -13,19 +13,15 @@ local function blank_to_nil(str)
     end
 end
 
-local function empty_to_nil(t)
-    return #t == 0 and nil or t
-end
-
-local function concat_strings(array, delimiter)
-    local result = {}
-    for _, value in ipairs(array) do
-        if value  and value ~= "" then
-            table.insert(result, value)
-        end
-    end
-    return table.concat(result, delimiter)
-end
+-- local function concat_strings(array, delimiter)
+--     local result = {}
+--     for _, value in ipairs(array) do
+--         if value  and value ~= "" then
+--             table.insert(result, value)
+--         end
+--     end
+--     return table.concat(result, delimiter)
+-- end
 
 -- Return the nth last extension in a filename, defualt to 2
 function M.get_nth_last_ext(filename, n)
@@ -248,8 +244,6 @@ function M.offset_path(path, pattern, offset, nth_match)
     if new_pos < 1 or new_pos > #match.bits then
         return { found = false }
     end
-
-    local at = match.bits[new_pos]
 
     -- Create the new arrays
     local before_offset_bits = {}

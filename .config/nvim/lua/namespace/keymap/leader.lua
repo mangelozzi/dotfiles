@@ -29,6 +29,9 @@ vim.keymap.set("v", "<leader>>", function() require("namespace/utils").escape_ht
 vim.keymap.set({"n", "x"}, '<leader>b', "3a-<Esc>", { noremap = true, nowait = true, desc ="(b)locky ---" })
 vim.keymap.set({"n", "x"}, '<leader>B', "7a-<Esc>", { noremap = true, nowait = true, desc ="(B)locky -------" })
 
+-- Delete buffer but keep window
+vim.keymap.set({"n", "x"}, '<leader>d', function() require("namespace/utils").close_buffer_keep_window() end, { noremap = true, nowait = true, desc ="buffer (d)elete, keep window" })
+
 -- GIT ------------------------------------------------------------------------
 
 -- Open the current file in GITk and dettach from the process

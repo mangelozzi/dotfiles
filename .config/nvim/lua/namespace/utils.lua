@@ -8,7 +8,7 @@ function M.map_leader_char_to_nop()
     -- So before mapping any leader keys, disable all maps, then add them in
     -- for char = 97, 122 do -- loop through the alphabet
     -- Only iterate the descructive operators, so which key can grab the rest
-    for _, char in ipairs({'d', 'D', 'C'}) do -- 'c' is used for component switcher prefix
+    for _, char in ipairs({'D', 'C'}) do -- 'c' is used for component switcher prefix, 'd' is used for buffer delete
         vim.keymap.set("n", "<leader>" .. char, "<ESC>", {noremap = true, nowait = true, desc = "<nop>"})
     end
 end
@@ -195,50 +195,6 @@ function M.sort_lines()
     end
 end
 
-function M.strip_whitespace()
-    -- vim.g.cursor_position = vim.fn.winsaveview()
-    -- vim.cmd(':%s/\\s\\+$//e')   -- Backslashes escaped to form :%s/\s\+$//e
-    -- vim.defer_fn(function() vim.fn.winrestview(vim.g.cursor_position) end, 0)
-    -- print("Trailing whitespace stripped.")
-end
-
-function M.quit_if_last_buffer()
-    -- vim.fn.getbufvar(i, '&buftype') ==# 'help' then
-    -- If help buftype = 'help'
-    -- If NvimTree buftype = 'nofile'
-    local buf_list = vim.api.nvim_list_bufs()
-    for _, buf_id in pairs(buf_list) do
-        if vim.api.nvim_buf_is_loaded(buf_id) then
-            local empty = vim.api.nvim_buf_line_count(buf_id)
-            local safe =
-                vim.api.nvim_buf_get_option(buf_id, "modifiable") and
-                not vim.api.nvim_buf_get_option(buf_id, "modified")
-            local buftype = vim.api.nvim_buf_get_option(buf_id, "buftype")
-            if not safe and buftype == "" then
-                return
-            end
-        end
-    end
-    vim.cmd("quit")
-end
-function M.close_all_buffers()
-    local buf_list = vim.api.nvim_list_bufs()
-    -- First close all safe buffers
-    for _, buf_id in pairs(buf_list) do
-        if vim.api.nvim_buf_is_loaded(buf_id) then
-            local empty = vim.api.nvim_buf_line_count(buf_id)
-            local safe =
-                vim.api.nvim_buf_get_option(buf_id, "modifiable") and
-                not vim.api.nvim_buf_get_option(buf_id, "modified")
-            local buftype = vim.api.nvim_buf_get_option(buf_id, "buftype")
-            if safe or empty or buftype ~= "" then
-                vim.api.nvim_buf_delete(buf_id, {force = false, unload = false})
-            end
-        end
-    end
-    M.quit_if_last_buffer()
-end
-
 function M.close_buffer_keep_window()
     local file = vim.api.nvim_buf_get_name(0)
     vim.cmd("edit #") -- switch to alternate file, like <C-^>
@@ -248,7 +204,7 @@ function M.close_buffer_keep_window()
         vim.cmd("enew")
     end
     -- Now delete the original buffer
-    vim.cmd("bdelete #")
+    vim.cmd("bwipeout #") -- use bwipeout instead of delete so alternate file is gone too
 end
 
 function M.reload_config()

@@ -89,7 +89,6 @@ Plugin.config = function ()
     end
 
     -- Use `o` to open a file
-    -- Use `<CR>` to open a file and close the tree
     local function edit_and_close(node)
         api.node.open.edit(node, {})
         api.tree.close()
@@ -132,7 +131,7 @@ Plugin.config = function ()
         end, opts('edit_and_close'))
         -- Open a file, and keep tree
         vim.keymap.set('n', 'o', api.node.open.edit, opts('Open'))
-        vim.keymap.set('n', '<CR>', api.node.open.edit, opts('Open'))
+        -- vim.keymap.set('n', '<CR>', api.node.open.edit, opts('Open')) -- Keep <CR> for leap
 
         vim.keymap.set('n', '<LeftRelease>', api.node.open.edit, opts('Open'))
         vim.keymap.set('n', '<C-]>', api.tree.change_root_to_node, opts('CD'))
