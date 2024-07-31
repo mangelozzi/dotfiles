@@ -92,7 +92,8 @@ Plugin.config = function()
 
     local lsp_attach = function(client, bufnr)
         local function get_opts(desc)
-            return {buffer = bufnr, noremap = true, desc = "LSP " .. desc}
+            -- some key presses like gr wait for another press, so set nowait = true
+            return {buffer = bufnr, noremap = true, nowait = true, desc = "LSP " .. desc}
         end
 
         -- Declaration - Wher you first declare a symbol (variable, constant, function etc.), e.g. let foo;
@@ -126,6 +127,7 @@ Plugin.config = function()
         vim.keymap.set("n", "<leader>li", function() vim.api.nvim_command("LspInfo") end, get_opts("server (i)nfo"))
         -- Note null-ls will always be shown as autostart: false in LspInfo, it is managed separately
         vim.keymap.set("n", "<leader>lI", function() vim.api.nvim_command("NullLsInfo") end, get_opts("server Null-ls (I)nfo"))
+        vim.keymap.set("n", "<leader>ln", function() require("namespace/lsputils").detach_lsp(0) end, get_opts("(n)o buf clients (detach)"))
     end
 
     -- 4. Setup LSP servers for the ones we wish to attach to buffers

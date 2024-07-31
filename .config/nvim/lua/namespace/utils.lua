@@ -1,4 +1,5 @@
 local wsl = require("namespace.wsl")
+local lsputils = require("namespace.lsputils")
 
 local M = {}
 
@@ -196,13 +197,19 @@ function M.sort_lines()
 end
 
 function M.close_buffer_keep_window()
-    local file = vim.api.nvim_buf_get_name(0)
-    vim.cmd("edit #") -- switch to alternate file, like <C-^>
-    local other_file = vim.api.nvim_buf_get_name(0)
-    if file == other_file then
-        -- If switch to alternate file results in the same file name we create a new file to switch to
+    local current_buf = vim.api.nvim_get_current_buf()
+    local file = vim.api.nvim_buf_get_name(current_buf)
+
+    -- Try to switch to the alternate file
+    local has_alt_file = pcall(vim.cmd, "edit #")
+    if not has_alt_file or vim.api.nvim_buf_get_name(0) == file then
+        -- If no alternate file or the alternate file is the same as the current, create a new buffer
         vim.cmd("enew")
     end
+
+    -- Stop LSP for the buffer to avoid semantic token errors
+    lsputils.detach_lsp(current_buf);
+
     -- Now delete the original buffer
     vim.cmd("bwipeout #") -- use bwipeout instead of delete so alternate file is gone too
 end
