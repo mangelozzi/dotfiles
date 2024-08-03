@@ -12,8 +12,8 @@ vim.keymap.set({"n", "x"}, "<leader>h", ":noh<CR>", {noremap = true, desc = "Dis
 -- Replace with first spelling suggestion
 vim.keymap.set("n", "<leader>w", "1z=", {noremap = true, desc = "(w)ord spelling"})
 
--- Map ga to gA to text-case.nvim
-vim.keymap.set("n", "<leader>a", "ga", {noremap = true, desc = "Show (A)scii value"})
+-- Map ga to gA to text-case.nvim ( leader a is used for switcher)
+vim.keymap.set("n", "<leader>?", "ga", {noremap = true, desc = "Show (A)scii value"})
 
 -- Swap letters under cursor
 vim.keymap.set("n", "<leader>x", "xp", {noremap = true, desc = "Swap chars"})
@@ -73,23 +73,25 @@ vim.keymap.set({"n", "x"}, "<leader>9", ":s/[1-9]/9/g<CR>:noh<CR>", {noremap = t
 -- SWITCHER -------------------------------------------------------------------
 
 -- Web Component Dev switching between files
-vim.keymap.set("n", "<leader>cc", function() switcher.switch('component', 'css')        end, {noremap = true, desc = "Switch component css"})
-vim.keymap.set("n", "<leader>cd", function() switcher.switch('component', 'def')        end, {noremap = true, desc = "Switch component def"})
-vim.keymap.set("n", "<leader>ch", function() switcher.switch('component', 'html')       end, {noremap = true, desc = "Switch component html"})
-vim.keymap.set("n", "<leader>cj", function() switcher.switch('component', 'javascript') end, {noremap = true, desc = "Switch component javascript"})
-vim.keymap.set("n", "<leader>cm", function() switcher.switch('component', 'sample')     end, {noremap = true, desc = "Switch component sample"})
-vim.keymap.set("n", "<leader>co", function() switcher.switch('component', 'other')      end, {noremap = true, desc = "Switch component other"})
-vim.keymap.set("n", "<leader>cs", function() switcher.switch('component', 'story')      end, {noremap = true, desc = "Switch component story"})
-vim.keymap.set("n", "<leader>ct", function() switcher.switch('component', 'type')       end, {noremap = true, desc = "Switch component type"})
-vim.keymap.set("n", "<leader>cu", function() switcher.switch('component', 'utils')      end, {noremap = true, desc = "Switch component utils"})
+vim.keymap.set("n", "<leader>cc", function() switcher.switch('component', 'css')        end, {noremap = true, desc = "Switch component (c)ss"})
+vim.keymap.set("n", "<leader>cd", function() switcher.switch('component', 'def')        end, {noremap = true, desc = "Switch component (d)ef"})
+vim.keymap.set("n", "<leader>ch", function() switcher.switch('component', 'html')       end, {noremap = true, desc = "Switch component (h)tml"})
+vim.keymap.set("n", "<leader>cj", function() switcher.switch('component', 'javascript') end, {noremap = true, desc = "Switch component (j)avascript"})
+vim.keymap.set("n", "<leader>cm", function() switcher.switch('component', 'sample')     end, {noremap = true, desc = "Switch component (s)ample"})
+vim.keymap.set("n", "<leader>co", function() switcher.switch('component', 'other')      end, {noremap = true, desc = "Switch component (o)ther"})
+vim.keymap.set("n", "<leader>cs", function() switcher.switch('component', 'story')      end, {noremap = true, desc = "Switch component (s)tory"})
+vim.keymap.set("n", "<leader>ct", function() switcher.switch('component', 'type')       end, {noremap = true, desc = "Switch component (t)ype"})
+vim.keymap.set("n", "<leader>cu", function() switcher.switch('component', 'utils')      end, {noremap = true, desc = "Switch component (u)tils"})
 
 -- Switching between Django app files
-vim.keymap.set("n", "<leader>ad", function() switcher.switch('app', 'dint')             end, {noremap = true, desc = "Switch app dint"})
-vim.keymap.set("n", "<leader>af", function() switcher.switch('app', 'fetcher')          end, {noremap = true, desc = "Switch app fetcher"})
-vim.keymap.set("n", "<leader>am", function() switcher.switch('app', 'models')           end, {noremap = true, desc = "Switch app models"})
-vim.keymap.set("n", "<leader>ao", function() switcher.switch('app', 'other')            end, {noremap = true, desc = "Switch app other"})
-vim.keymap.set("n", "<leader>ar", function() switcher.switch('app', 'rest')             end, {noremap = true, desc = "Switch app rest"})
-vim.keymap.set("n", "<leader>as", function() switcher.switch('app', 'serializers')      end, {noremap = true, desc = "Switch app serializers"})
-vim.keymap.set("n", "<leader>at", function() switcher.switch('app', 'tests')            end, {noremap = true, desc = "Switch app tests"})
-vim.keymap.set("n", "<leader>au", function() switcher.switch('app', 'urls')             end, {noremap = true, desc = "Switch app urls"})
-vim.keymap.set("n", "<leader>av", function() switcher.switch('app', 'views')            end, {noremap = true, desc = "Switch app views"})
+vim.keymap.set("n", "<leader>ad", function() switcher.switch('app', 'dint')             end, {noremap = true, desc = "Switch app (d)int"})
+vim.keymap.set("n", "<leader>af", function() switcher.switch('app', 'fetcher')          end, {noremap = true, desc = "Switch app (f)etcher"})
+vim.keymap.set("n", "<leader>am", function() switcher.switch('app', 'models')           end, {noremap = true, desc = "Switch app (m)odels"})
+vim.keymap.set("n", "<leader>aM", function() switcher.switch('app', 'menu')             end, {noremap = true, desc = "Switch app (M)enu"})
+vim.keymap.set("n", "<leader>ao", function() switcher.switch('app', 'other')            end, {noremap = true, desc = "Switch app (o)ther"})
+vim.keymap.set("n", "<leader>ar", function() switcher.switch('app', 'rest')             end, {noremap = true, desc = "Switch app (r)est"})
+vim.keymap.set("n", "<leader>as", function() switcher.switch('app', 'serializers')      end, {noremap = true, desc = "Switch app (s)erializers"})
+vim.keymap.set("n", "<leader>at", function() switcher.switch('app', 'tests')            end, {noremap = true, desc = "Switch app (t)ests"})
+vim.keymap.set("n", "<leader>au", function() switcher.switch('app', 'urls')             end, {noremap = true, desc = "Switch app (u)rls"})
+vim.keymap.set("n", "<leader>av", function() switcher.switch('app', 'views')            end, {noremap = true, desc = "Switch app (v)iews"})
+vim.keymap.set("n", "<leader>aU", function() switcher.switch('app', 'utils')            end, {noremap = true, desc = "Switch app (U)tils"})

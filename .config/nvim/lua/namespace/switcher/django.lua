@@ -46,6 +46,8 @@ local function django_app_switcher(context, goto_type, file)
         return app_dir .. "/assets/" .. app_name .. "/jsapp/fetcher.js"
     elseif goto_type == "other" then
         return app_dir .. "/utils.py"
+    elseif goto_type == "utils" then
+        return app_dir .. "/utils.py"
     end
 end
 
