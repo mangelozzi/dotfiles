@@ -26,6 +26,7 @@ local function django_app_switcher(context, goto_type, file)
     local app_dir =
         utils.offset_path(file, "app", 1).before_offset_w_pattern or
         utils.offset_path(file, "pack", 1).before_offset_w_pattern
+    local app_name = utils.get_file_path_info(app_dir).name
     if goto_type == "dint" then
         return app_dir .. "/dint.py"
     elseif goto_type == "models" then
@@ -48,6 +49,8 @@ local function django_app_switcher(context, goto_type, file)
         return app_dir .. "/utils.py"
     elseif goto_type == "utils" then
         return app_dir .. "/utils.py"
+    elseif goto_type == "index" then
+        return app_dir .. "/templates/"..app_name.."/index.html"
     end
 end
 
