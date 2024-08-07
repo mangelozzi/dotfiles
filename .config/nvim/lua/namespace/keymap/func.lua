@@ -9,22 +9,29 @@ vim.keymap.set({"", "!"}, "<F2>", require("namespace.utils").reload_config, { no
 -- <F4> Close (safe if file buffers are modified)
 local function safer_quit()
     local unsaved_file_buffers = {}
+    local current = vim.api.nvim_get_current_buf()
     for _, buf in ipairs(vim.api.nvim_list_bufs()) do
         local bufname = vim.api.nvim_buf_get_name(buf)
         -- print('file name2 is>>>'..bufname.."<<< type "..type(bufname).. ' is blank '.. tostring(bufname == "").. " length is ".. tostring(#bufname) .. ' ascii is '..string_to_ascii_list(bufname))
         local is_file = bufname ~= ""
-        local is_modified = vim.api.nvim_get_option_value("modified", {})
+        local is_modified = vim.api.nvim_get_option_value("modified", {buf = buf})
         local is_listed = vim.fn.buflisted(buf) ~= 0
         if is_modified and is_file and is_listed then
             table.insert(unsaved_file_buffers, buf)
         else
-            vim.api.nvim_buf_delete(buf, { force = true })
+            if buf ~= current then
+                -- We keep the current buffer open to maintain the jump list, so when reopen neovim CTRL+O gets as back to where we were
+                vim.api.nvim_buf_delete(buf, { force = true })
+            end
         end
     end
     if #unsaved_file_buffers == 0 then
         vim.cmd("qa!")
-        -- vim.defer_fn(function() vim.cmd("qa!") end, 1000)
     else
+        if not vim.api.nvim_get_option_value("modified", {buf = current}) then
+            -- Close the current buffer so we can focus on only unmodified buffers
+            vim.api.nvim_buf_delete(current, { force = true })
+        end
         -- Print a message indicating unsaved changes
         print("Unsaved changes in buffers with paths.")
     end

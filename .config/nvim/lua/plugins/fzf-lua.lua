@@ -146,7 +146,7 @@ Plugin.config = function()
         },
         winopts = {
             height = 0.85, -- window height
-            width = 0.90, -- window width
+            width = 0.96, -- window width
             preview = {
                 horizontal = "right:50%" -- right|left:size
             }
@@ -248,7 +248,7 @@ Plugin.config = function()
     vim.keymap.set("n", "<leader>gc", require("fzf-lua").git_commits, {noremap = true, silent = true, desc = "Git FZF (C)ommits"})
     vim.keymap.set("n", "<leader>gb", require("fzf-lua").git_bcommits, {noremap = true, silent = true, desc = "Git FZF (B)commits"})
     vim.keymap.set("n", "<leader>gs", require("fzf-lua").git_status, {noremap = true, silent = true, desc = "Git FZF (S)tatus"})
-     
+
 
     -- (G)rep for search results
     vim.keymap.set("n", "<leader>zg", require("fzf-lua").live_grep, {noremap = true, silent = true, desc = "FZF (g)rep"})
