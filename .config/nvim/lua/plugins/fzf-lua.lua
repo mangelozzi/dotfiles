@@ -68,6 +68,7 @@ local fd_exclude = ""
     .. " -E '*.git'"
     .. " -E '*.min.css'"
     .. " -E '*.min.js'"
+    .. " -E '*.js.map'"
 -- --type file will not show symlinks
 -- --follow will follow symlinks
 local fd_dist_ignore= "--type file --type symlink --follow --no-ignore" .. fd_exclude .. " -E 'distros'"

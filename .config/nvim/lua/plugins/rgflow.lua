@@ -18,7 +18,7 @@ Plugin.config = function()
                 open_qf_cmd_or_func = "botright copen" -- Open the quickfix window across the full bottom edge
             },
             -- WARNING !!! Glob for '-g *{*}' will not use .gitignore file: https://github.com/BurntSushi/ripgrep/issues/2252
-            cmd_flags = ("--smart-case -g *.{*,py} -g !*.{min.css,min.js,pyc} --fixed-strings --no-fixed-strings --no-ignore -M 500"
+            cmd_flags = ("--smart-case -g *.{*,py} -g !*.{min.css,min.js,pyc,js.map} --fixed-strings --no-fixed-strings --no-ignore -M 500"
                 -- WARNING when testing changes, dont use "previous search", which will not include these changes, typing in the search term again
                 -- Exclude globs
                 .. " -g !**/.angular/"
