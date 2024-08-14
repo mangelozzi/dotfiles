@@ -22,7 +22,8 @@ end
 
 local function django_app_switcher(context, goto_type, file)
     -- LINKCUBE
-    -- get one dir to the right of `app` or pack `dir`
+    -- get one dir to the right of `app` or `pack` dir
+    -- local app_name = utils.offset_path(file, "app", 1).at
     local app_dir =
         utils.offset_path(file, "app", 1).before_offset_w_pattern or
         utils.offset_path(file, "pack", 1).before_offset_w_pattern
@@ -42,11 +43,9 @@ local function django_app_switcher(context, goto_type, file)
     elseif goto_type == "tests" then
         return app_dir .. "/tests.py"
     elseif goto_type == "fetcher" then
-        -- get one dir to the right of app
-        local app_name = utils.offset_path(file, "app", 1).at
         return app_dir .. "/assets/" .. app_name .. "/jsapp/fetcher.js"
     elseif goto_type == "other" then
-        return app_dir .. "/utils.py"
+        return app_dir .. "/assets/" .. app_name .. "/jsapp/former.js"
     elseif goto_type == "utils" then
         return app_dir .. "/utils.py"
     elseif goto_type == "index" then

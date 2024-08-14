@@ -35,7 +35,8 @@ Plugin.config = function()
         mapping = cmp.mapping.preset.insert({
             ['<C-b>'] = cmp.mapping.scroll_docs(-4),
             ['<C-f>'] = cmp.mapping.scroll_docs(4),
-            ['<C-Space>'] = cmp.mapping.complete(),
+            -- ['<C-Space>'] = cmp.mapping.complete(), -- using <C-Space> for backspace
+            ['<C-e>'] = cmp.mapping.close(),
             ['<C-e>'] = cmp.mapping.abort(),
             -- Michael: This is the desired golden behaviour:
             -- Auto complete only pops up after 4 chars

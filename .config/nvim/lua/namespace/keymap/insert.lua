@@ -51,4 +51,18 @@ vim.keymap.set("i", '<C-K>', "<Esc>lDa", { noremap = true, desc ="Kill until end
 vim.keymap.set("i", '<C-A>', "<Esc>^i", { noremap = true, desc ="Jump to line start" })
 
 -- Add a short divider `---`
-vim.keymap.set("i", '<C-B>', "---", { noremap = true, desc ="(b)locky - short divider" })
+-- vim.keymap.set("i", '<C-B>', "---", { noremap = true, desc ="(b)locky - short divider" })
+
+
+-- like terminal goto line start (not column 0)
+-- Default <C-L> is same as <C-P> for: Completing whole lines					*compl-whole-line*
+vim.keymap.set("i", '<C-L>', "<C-O><Del>", { noremap = true, desc ="Insert mode delete" })
+
+vim.keymap.set("i", '<C-H>', "<Left>",  { noremap = true, desc ="Right" })
+vim.keymap.set("i", '<C-J>', "<Down>",  { noremap = true, desc ="Down" })
+vim.keymap.set("i", '<C-K>', "<Up>",    { noremap = true, desc ="Up" })
+vim.keymap.set("i", '<C-L>', "<Right>", { noremap = true, desc ="Right" })
+
+vim.keymap.set("i", '<C-B>', "<Bs>",    { noremap = true, desc ="(b)ackspace" })
+vim.keymap.set("i", '<C-d>', "<Del>",   { noremap = true, desc ="(d)elete" })
+vim.keymap.set("i", '<C-Space>', "<Bs>",   { noremap = true, desc ="(d)elete" })
