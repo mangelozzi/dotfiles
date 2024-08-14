@@ -3,7 +3,7 @@
 
 local M = {}
 
-local palette = {
+M.palette = {
     base = {
         orange = "#e78a4e",
         yellow = "#d8a657",
@@ -33,14 +33,17 @@ local palette = {
         bg_statusline1 = "#282828",
         bg_statusline2 = "#32302f",
         bg_statusline3 = "#504945",
-        bg_diff_blue = "#0d3138",
+        bg_current_word = "#32302f",
+        bg_visual_red = "#442e2d",
+        bg_visual_green = "#333e34",
         bg_visual_blue = "#2e3b3b",
         bg_visual_yellow = "#473c29",
-        bg_current_word = "#32302f",
-        bg_diff_green = "#32361a",
-        bg_visual_green = "#333e34",
-        bg_diff_red = "#3c1f1e",
-        bg_visual_red = "#442e2d",
+        -- bg_diff_red = "#3c1f1e",
+        -- bg_diff_green = "#32361a",
+        -- bg_diff_blue = "#0d3138",
+        bg_diff_red = "#4c1f1e",
+        bg_diff_green = "#186018",
+        bg_diff_blue = "#123060",
     },
     medium = {
         bg_dim = "#1b1b1b",
@@ -54,14 +57,17 @@ local palette = {
         bg_statusline1 = "#32302f",
         bg_statusline2 = "#3a3735",
         bg_statusline3 = "#504945",
-        bg_diff_blue = "#0e363e",
+        bg_current_word = "#3c3836",
+        bg_visual_red = "#4c3432",
+        bg_visual_green = "#3b4439",
         bg_visual_blue = "#374141",
         bg_visual_yellow = "#4f422e",
-        bg_current_word = "#3c3836",
-        bg_diff_green = "#34421b",
-        bg_visual_green = "#3b4439",
-        bg_diff_red = "#402120",
-        bg_visual_red = "#4c3432",
+        -- bg_diff_red = "#402120",
+        -- bg_diff_green = "#34421b",
+        -- bg_diff_blue = "#0e363e",
+        bg_diff_red = "#502120",
+        bg_diff_green = "#205820",
+        bg_diff_blue = "#1e366e",
     },
     soft = {
         bg_dim = "#2e2c2a",
@@ -75,20 +81,23 @@ local palette = {
         bg_statusline1 = "#3c3836",
         bg_statusline2 = "#46413e",
         bg_statusline3 = "#5b534d",
-        bg_diff_blue = "#0f3a42",
+        bg_current_word = "#45403d",
+        bg_visual_red = "#543937",
+        bg_visual_green = "#424a3e",
         bg_visual_blue = "#404946",
         bg_visual_yellow = "#574833",
-        bg_current_word = "#45403d",
-        bg_diff_green = "#3d4220",
-        bg_visual_green = "#424a3e",
-        bg_diff_red = "#472322",
-        bg_visual_red = "#543937",
+        -- bg_diff_red = "#472322",
+        -- bg_diff_green = "#3d4220",
+        -- bg_diff_blue = "#0f3a42",
+        bg_diff_red = "#572322",
+        bg_diff_green = "#185218",
+        bg_diff_blue = "#1d3a67",
     }
 }
 
 function M.get_palette(p, style)
-    local base = palette.base
-    local ext = palette[style]
+    local base = M.palette.base
+    local ext = M.palette[style]
     for k, v in pairs(ext) do
         base[k] = v
     end

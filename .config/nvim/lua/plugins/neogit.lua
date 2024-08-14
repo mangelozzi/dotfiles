@@ -153,7 +153,8 @@ Plugin.config = function()
         end
 
         local function open_callback(augroup_id, file_rel)
-            vim.api.nvim_del_augroup_by_id(augroup_id)
+            local ok, _ = pcall(vim.api.nvim_del_augroup_by_id, augroup_id)
+            cursor_to_line(file_rel)
             if (not line_after_cursor_starts_with_atat()) then
                 -- Send a tab to open the file
                 local keys = vim.api.nvim_replace_termcodes('<tab>',true,false,true)
@@ -178,6 +179,8 @@ Plugin.config = function()
                             -- Neogit needs time to settle, or else detecting next line is incorrect
                             open_callback(MyNeogitGroup, file_rel)
                         end, 20)  -- 10ms seems a bit flaky
+                        -- Take variable amount of time to detect
+                        vim.defer_fn(function() open_callback(MyNeogitGroup, file_rel) end, 100)
                     end
                 }
             )

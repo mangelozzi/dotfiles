@@ -30,6 +30,7 @@
 --]]
 
 local calc = require("theme.calc")
+local gruvbox = require("theme.gruvbox")
 
 local M = {}
 
@@ -44,6 +45,12 @@ local darken_map = {
     soft = 0.85
 }
 
+local function isGruvboxColor(key)
+    if gruvbox.palette.hard[key] then
+        return true
+    end
+end
+
 -- Function to merge tables and show only changes
 function M.update_palette(base_palette, new_palette, style)
     local desat = desat_map[style]
@@ -52,7 +59,7 @@ function M.update_palette(base_palette, new_palette, style)
         if base_palette[k] then
             error("Duplicate Palette Key: " .. k .. " was " .. base_palette[k] .. " -> " .. new_palette[k])
         end
-        local adj_color = calc.adjust_color(v, desat, darken)
+        local adj_color = isGruvboxColor(k) and v or calc.adjust_color(v, desat, darken)
         base_palette[k] = adj_color
     end
 end
