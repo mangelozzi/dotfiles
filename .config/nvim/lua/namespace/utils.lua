@@ -57,6 +57,10 @@ end
 
 -- Auto format code
 function M.format_code()
+    if vim.bo.filetype == "" then
+        M.format_new_buffer_as_json_no_save()
+        return;
+    end
     local file = vim.fn.expand("%:p")
     -- Note: os.execute messes up the terminal
     -- 1. Exit insert mode (if necessart), and save file changes
