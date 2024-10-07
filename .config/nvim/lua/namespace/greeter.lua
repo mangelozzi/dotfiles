@@ -170,7 +170,7 @@ function M.display()
         callback = function() M.draw(buf) end,
     })
 
-    vim.api.nvim_create_autocmd({"InsertEnter"}, {
+    vim.api.nvim_create_autocmd({"InsertEnter", "ModeChanged"}, {
         buffer = buf,
         desc = "If entering insert mode, change greeter to a normal buffer",
         group = NamespaceGroup,

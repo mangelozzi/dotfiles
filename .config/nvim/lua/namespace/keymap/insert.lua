@@ -64,5 +64,5 @@ vim.keymap.set("i", '<C-K>', "<Up>",    { noremap = true, desc ="Up" })
 vim.keymap.set("i", '<C-L>', "<Right>", { noremap = true, desc ="Right" })
 
 vim.keymap.set("i", '<C-B>', "<Bs>",    { noremap = true, desc ="(b)ackspace" })
-vim.keymap.set("i", '<C-d>', "<Del>",   { noremap = true, desc ="(d)elete" })
+vim.keymap.set("i", '<C-D>', "<Del>",   { noremap = true, desc ="(d)elete" })
 vim.keymap.set("i", '<C-Space>', "<Bs>",   { noremap = true, desc ="(d)elete" })

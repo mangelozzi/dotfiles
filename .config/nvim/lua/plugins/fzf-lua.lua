@@ -87,7 +87,7 @@ Plugin.config = function()
             -- ["--layout"] = "reverse-list",
             -- ["--border"] = "none"
             ["--keep-right"] = "", -- If a line is long, truncate the front of the line
-            ["--tiebreak"] = "end"
+            ["--tiebreak"] = "end", -- Mostly does nothing due to ranking algorithm
         },
         -- fzf '--color=' options (optional)
         -- Sets the colors of FZF (not the colors of FZF-Lua interface
