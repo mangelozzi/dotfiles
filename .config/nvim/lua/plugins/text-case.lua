@@ -45,6 +45,8 @@ Plugin.config = function()
     end
 
     -- Define key mappings for various cases
+    setup_textcase_keymaps('_', 'to_snake_case', '_ (snake-case)', 'to-snake-case')
+    setup_textcase_keymaps('-', 'to_dash_case', '- (dash-case)', 'to-dash-case')
     setup_textcase_keymaps('k', 'to_dash_case', 'kebab-case', 'to-kebab-case')
     setup_textcase_keymaps('d', 'to_dot_case', 'dot.case', 'to.dot.case')
     setup_textcase_keymaps('t', 'to_title_case', 'Title Case', 'To Title Case')
