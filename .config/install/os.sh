@@ -10,7 +10,6 @@ echo
 echo "Grub"
 echo "----"
 read -p "Press <ENTER> to continue..."
-sudo /home/michael/.config/usr_share_X11_xkb_keycodes/install
 echo
 echo "Change GRUB_TIMEOUT=10 to 2 seconds"
 read -p "Press <ENTER> to open vi and perform the change..."

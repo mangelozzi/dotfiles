@@ -1,3 +1,5 @@
+-- Avilable: e / j / m / o / p / q / u / v / y
+
 -- Sort lines using Vim's built-in :sort command
 local utils = require('namespace.utils')
 
@@ -22,8 +24,8 @@ function UniqueSortOperator()
 end
 
 -- Normal mode mapping for normal and unique sort operators
-vim.keymap.set('n', '<leader>s', function() return NormalSortOperator() end, { noremap = true, silent = true, expr = true, desc = "(s) operator" })
-vim.keymap.set('n', '<leader>S', function() return UniqueSortOperator() end, { noremap = true, silent = true, expr = true, desc = "(S) unique operator" })
+vim.keymap.set('n', '<leader>s', function() return NormalSortOperator() end, { noremap = true, silent = true, expr = true, desc = "(s)ort operator" })
+vim.keymap.set('n', '<leader>S', function() return UniqueSortOperator() end, { noremap = true, silent = true, expr = true, desc = "(S)ort unique operator" })
 
 
 -- Visual mode mapping for direct sort without operator

@@ -4,17 +4,32 @@ default xkb_keycodes "evdev" {
 	minimum = 8;
 	maximum = 255;
 
-	# Michael
-	# Original Keycodes:
-	# 9    Escape
-	# 66   Caps_Lock
-	# 133  Super_L
-	<ESC> = 133;
-	<CAPS> = 9;
-	<LWIN> = 66;
+    # ------- Michael
+	# Original state
+	#     9    Escape
+	#     66   Caps_Lock
+	#     133  Super_L
+	#     37   Control_L
+    #     23   TAB
 
-        # Added for pc105 compatibility
-        <LSGT> = 94;
+    # New state
+    #     Escape    9 <- Capslock
+    #     TAB      23 <- Super_L
+    #     CAPS     66 <- Control_L
+    #     CTRL     37 <- TAB
+    #     SUPER_L 133 <- Escape
+
+    # New mapping
+	<ESC>  = 133;
+    <TAB>  = 37;
+	<CAPS> = 9;
+	<LWIN> = 23;
+	<LCTL> = 66;
+
+    # -------
+
+    # Added for pc105 compatibility
+    <LSGT> = 94;
 
 	<TLDE> = 49;
 	<AE01> = 10;
@@ -31,7 +46,7 @@ default xkb_keycodes "evdev" {
 	<AE12> = 21;
 	<BKSP> = 22;
 
-	<TAB> = 23;
+	# <TAB> = 23;
 	<AD01> = 24;
 	<AD02> = 25;
 	<AD03> = 26;
@@ -74,12 +89,12 @@ default xkb_keycodes "evdev" {
 	<RTSH> = 62;
 
 	<LALT> = 64;
-	<LCTL> = 37;
+	#<LCTL> = 37;
 	<SPCE> = 65;
 	<RCTL> = 105;
 	<RALT> = 108;
 	// Microsoft keyboard extra keys
-	<LWIN> = 66;
+	#<LWIN> = 66;
 	<RWIN> = 134;
 	<COMP> = 135;
 	alias <MENU> = <COMP>;
