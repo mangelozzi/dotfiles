@@ -25,3 +25,4 @@ alias pmr="npm run ng serve"
 alias fe="cd $IOEC/gateway/Gateway/Gateway.Client; npm start"
 alias fen="cd $IOEC/gateway/Gateway/Gateway.NextClient; npm start"
 
+cdgn
