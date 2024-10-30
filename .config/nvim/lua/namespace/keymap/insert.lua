@@ -65,4 +65,6 @@ vim.keymap.set("i", '<C-L>', "<Right>", { noremap = true, desc ="Right" })
 
 vim.keymap.set("i", '<C-B>', "<Bs>",    { noremap = true, desc ="(b)ackspace" })
 vim.keymap.set("i", '<C-d>', "<Del>",   { noremap = true, desc ="(d)elete" })
-vim.keymap.set("i", '<C-Space>', "<Bs>",   { noremap = true, desc ="(d)elete" })
+
+vim.keymap.set("i", '<C-v>', '<C-r>+',   { noremap = true, desc ="paste (insert mode)" })
+vim.keymap.set("i", '<C-i>', '<C-v>',    { noremap = true, desc ="(i)nsert chart (same as mapped over ctrl+v)" })

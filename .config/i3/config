@@ -181,9 +181,9 @@ floating_modifier $mod
 # -------
 
 # Kill focused window
-bindsym $mod+Control+q kill
+bindsym $mod+Mod1+q kill
 # Kill or other windows except currently focussed window
-bindsym $mod+Mod1+q exec ~/.config/i3/scripts/keep-focused-window.py
+# bindsym $mod+Mod1+q exec ~/.config/i3/scripts/keep-focused-window.py
 # Kill all windows in workspace and move to next workspace
 bindsym $mod+Control+Mod1+q exec ~/.config/i3/scripts/close-all-windows.py
 
