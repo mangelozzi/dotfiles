@@ -1,3 +1,24 @@
+# Add this to Windows terminal settings to enable copy/paste with Ctrl+C/V:
+#     "keybindings":
+#     [
+#         {
+#             "id": "Terminal.PasteFromClipboard",
+#             "keys": "ctrl+shift+v"
+#         },
+#         {
+#             "id": "Terminal.CopyToClipboard",
+#             "keys": "ctrl+c"
+#         },
+#         {
+#             "id": "Terminal.PasteFromClipboard",
+#             "keys": "ctrl+v"
+#         },
+#         {
+#             "id": "Terminal.CopyToClipboard",
+#             "keys": "ctrl+shift+c"
+#         }
+#     ],
+
 # IOEC
 # IOEC=~/ioec/admin
 IOEC=/mnt/c/Users/Michaela/ioec

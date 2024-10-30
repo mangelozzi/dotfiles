@@ -158,6 +158,6 @@ XDG_CURRENT_DESKTOP=ubuntu:GNOME
 # /etc/init.d/kmod start; sensors
 # sensors
 
-# CLIENTS
-#----------------
-source ~/.config/bash/ioec.sh
+stty intr ^X   # Map SIGINT (interrupt) to CTRL+X so CTL+C can be copy
+stty lnext ^B  # Map insert literal char to CTRL+B so CTL+V can be paste
+echo "syyu done"
