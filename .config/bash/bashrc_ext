@@ -158,6 +158,16 @@ XDG_CURRENT_DESKTOP=ubuntu:GNOME
 # /etc/init.d/kmod start; sensors
 # sensors
 
+
+# CTRL+C/CTRL+V forcopy paste
+#----------------------------
+# Remapped due to RSI issues
+# Map Ctrl+X to send SIGINT (like Ctrl+C)
+stty intr ^X
+
+# Map Ctrl+B to do the same as Ctrl+V (quote the next character)
+bind '"\C-b": vi-rubout'  # This remaps Ctrl+B to behave as quoted-insert (like Ctrl+V)
+
+
 # CLIENTS
 #----------------
-source ~/.config/bash/ioec.sh
