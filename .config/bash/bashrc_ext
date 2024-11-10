@@ -159,8 +159,8 @@ XDG_CURRENT_DESKTOP=ubuntu:GNOME
 # sensors
 
 
-# CTRL+C/CTRL+V forcopy paste
-#----------------------------
+# CTRL+C/CTRL+V for copy paste
+#-----------------------------
 # Remapped due to RSI issues
 # Map Ctrl+X to send SIGINT (like Ctrl+C)
 stty intr ^X
@@ -168,6 +168,15 @@ stty intr ^X
 # Map Ctrl+B to do the same as Ctrl+V (quote the next character)
 bind '"\C-b": vi-rubout'  # This remaps Ctrl+B to behave as quoted-insert (like Ctrl+V)
 
+# POWER/SCREEEN SAVER
+# -------------------
+# Refer to: https://askubuntu.com/a/764844
+# You can disable the screen saver feature with:
+xset s off
+
+# The power saving feature can be turned off with
+xset -dpms
 
 # CLIENTS
+
 #----------------
