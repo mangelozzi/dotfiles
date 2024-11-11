@@ -72,7 +72,6 @@ require("namespace.utils").map_leader_char_to_nop()
 
 require("namespace.keymap.code")
 require("namespace.keymap.command")
-require("namespace.keymap.custom")
 require("namespace.keymap.func")
 require("namespace.keymap.insert")
 require("namespace.keymap.leader")
