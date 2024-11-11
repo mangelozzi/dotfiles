@@ -64,12 +64,12 @@ vim.keymap.set("n", "N", "Nzv", { noremap = true, desc = "Previous search" }) --
 
 -- Move line up and down (Uses the :m Ex command)
 -- Refer to: https://vim.fandom.com/wiki/Moving_lines_up_or_down
-vim.keymap.set("n", "<M-J>", ":m .+1<CR>==", { noremap = true, desc = "Move selected lines down"})
-vim.keymap.set("n", "<M-K>", ":m .-2<CR>==", { noremap = true, desc = "Move selected lines up"})
-vim.keymap.set("i", "<M-J>", "<Esc>:m .+1<CR>==gi", { noremap = true, desc = "Move selected lines down"})
-vim.keymap.set("i", "<M-K>", "<Esc>:m .-2<CR>==gi", { noremap = true, desc = "Move selected lines up"})
-vim.keymap.set("v", "<M-J>", ":m '>+1<CR>gv=gv", { noremap = true, desc = "Move selected lines down"})
-vim.keymap.set("v", "<M-K>", ":m '<-2<CR>gv=gv", { noremap = true, desc = "Move selected lines up"})
+vim.keymap.set("n", "<M-j>", ":m .+1<CR>==", { noremap = true, desc = "Move selected lines down"})
+vim.keymap.set("n", "<M-k>", ":m .-2<CR>==", { noremap = true, desc = "Move selected lines up"})
+vim.keymap.set("i", "<M-j>", "<Esc>:m .+1<CR>==gi", { noremap = true, desc = "Move selected lines down"})
+vim.keymap.set("i", "<M-k>", "<Esc>:m .-2<CR>==gi", { noremap = true, desc = "Move selected lines up"})
+vim.keymap.set("v", "<M-j>", ":m '>+1<CR>gv=gv", { noremap = true, desc = "Move selected lines down"})
+vim.keymap.set("v", "<M-k>", ":m '<-2<CR>gv=gv", { noremap = true, desc = "Move selected lines up"})
 
 -- Duplicate line and keep cursor in same column position in the new line (uses the :t Ex command)
 vim.keymap.set("", "<M-K>", ":t.<CR>k", { noremap = true, desc = "Duplicate line above" })
