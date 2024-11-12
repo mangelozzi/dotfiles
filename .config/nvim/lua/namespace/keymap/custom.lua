@@ -81,3 +81,7 @@ vim.keymap.set("n", "<M-Up>", ":resize -2<CR>", { noremap = true, desc = "Decrea
 vim.keymap.set("n", "<M-Down>", ":resize +2<CR>", { noremap = true, desc = "Increase buffer size" })
 vim.keymap.set("n", "<M-Left>", ":vertical resize -2<CR>", { noremap = true, desc = "Decrease buffer size" })
 vim.keymap.set("n", "<M-Right>", ":vertical resize +2<CR>", { noremap = true, desc = "Increase buffer size" })
+
+vim.keymap.set("n", '<M-B>', "i{%  %}<Esc>hhi", { noremap = true, desc ="Django (B)lock" })
+vim.keymap.set("n", '<M-C>', "i{#  #}<Esc>hhi", { noremap = true, desc ="Django (C)omment" })
+vim.keymap.set("n", '<M-V>', "i{{  }}<Esc>hhi", { noremap = true, desc ="Django (V)ariable" })
