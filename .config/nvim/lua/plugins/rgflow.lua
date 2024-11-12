@@ -28,6 +28,8 @@ Plugin.config = function()
                 .. " -g !**/static/*/wcapp/"
                 .. " -g !**/coverage/"
                 .. " -g !**/scraper/tests/templates/"
+                -- IOEC
+                .. " -g !**/dist/ngClient/"
             )
         }
     )

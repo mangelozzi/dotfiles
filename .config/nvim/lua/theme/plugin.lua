@@ -43,8 +43,9 @@ function M.get_groups(p)
         -- Git Conflict
         GitConflictCurrent       = {bg = "#5d7068", bold = true},
         GitConflictCurrentLabel  = {bg = p.blue},
-        GitConflictIncoming      = {bg = "#2f3220", bold = true},
-        GitConflictIncomingLabel = {bg = "#4b5033"},
+        -- GitConflictIncoming      = {bg = "#2f3220", bold = true},
+        GitConflictIncoming      = {bg = "#5f5220", bold = true},
+        GitConflictIncomingLabel = {bg = "#6b6033"},
         GitConflictAncestor      = {bg = "#68217a", bold = true},
         GitConflictAncestorLabel = {bg = p.purple},
 

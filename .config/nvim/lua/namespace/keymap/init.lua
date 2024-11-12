@@ -70,7 +70,7 @@ Comment code with built in 'gc'
 -- If one pressed <leader>dd and its not mapped to anything, then it performs a `dd`... yikes, map unused change/del/susbtitute to a nop's
 require("namespace.utils").map_leader_char_to_nop()
 
-require("namespace.keymap.code")
+require("namespace.keymap.custom")
 require("namespace.keymap.command")
 require("namespace.keymap.func")
 require("namespace.keymap.insert")
