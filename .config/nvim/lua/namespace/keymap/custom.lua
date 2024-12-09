@@ -66,8 +66,6 @@ vim.keymap.set("n", "N", "Nzv", { noremap = true, desc = "Previous search" }) --
 -- Refer to: https://vim.fandom.com/wiki/Moving_lines_up_or_down
 vim.keymap.set("n", "<M-j>", ":m .+1<CR>==", { noremap = true, desc = "Move selected lines down"})
 vim.keymap.set("n", "<M-k>", ":m .-2<CR>==", { noremap = true, desc = "Move selected lines up"})
-vim.keymap.set("i", "<M-j>", "<Esc>:m .+1<CR>==gi", { noremap = true, desc = "Move selected lines down"})
-vim.keymap.set("i", "<M-k>", "<Esc>:m .-2<CR>==gi", { noremap = true, desc = "Move selected lines up"})
 vim.keymap.set("v", "<M-j>", ":m '>+1<CR>gv=gv", { noremap = true, desc = "Move selected lines down"})
 vim.keymap.set("v", "<M-k>", ":m '<-2<CR>gv=gv", { noremap = true, desc = "Move selected lines up"})
 

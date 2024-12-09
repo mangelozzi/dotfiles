@@ -33,11 +33,10 @@ Plugin.config = function()
             -- documentation = cmp.config.window.bordered(),
         },
         mapping = cmp.mapping.preset.insert({
-            ['<C-B>'] = cmp.mapping.scroll_docs(-4),
-            ['<C-F>'] = cmp.mapping.scroll_docs(4),
-            -- ['<C-Space>'] = cmp.mapping.complete(), -- using <C-Space> for backspace
+            ['<M-p>'] = cmp.mapping.scroll_docs(-4),
+            ['<M-n>'] = cmp.mapping.scroll_docs(4),
             -- ['<C-E>'] = cmp.mapping.close(),
-            ['<C-E>'] = cmp.mapping.abort(),
+            -- ['<C-F>'] = cmp.mapping.abort(),
             -- Michael: This is the desired golden behaviour:
             -- Auto complete only pops up after 4 chars
             -- Auto complete options is never auto selected
@@ -45,16 +44,16 @@ Plugin.config = function()
             -- <CR> inserts a line break, after changing to an autocomplete recommendation, one often wishes to insert a new line
             -- To select the first auto complete suggestion can press <C-l>, but rather just use <C-n>
             -- ['<CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
-            ["<C-l>"] = function(fallback)
-                if cmp.visible() then
-                    return cmp.mapping.confirm {
-                        behavior = cmp.ConfirmBehavior.Insert,
-                        select = true,
-                    }(fallback)
-                else
-                    return fallback()
-                end
-            end,
+            -- ["<C-l>"] = function(fallback) -- C-l is more to window on right
+            --     if cmp.visible() then
+            --         return cmp.mapping.confirm {
+            --             behavior = cmp.ConfirmBehavior.Insert,
+            --             select = true,
+            --         }(fallback)
+            --     else
+            --         return fallback()
+            --     end
+            -- end,
             ["<C-n>"] = function(fallback)
                 if cmp.visible() then
                     return cmp.mapping.select_next_item { behavior = cmp.SelectBehavior.Insert }(fallback)

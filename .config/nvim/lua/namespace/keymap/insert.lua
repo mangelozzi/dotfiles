@@ -72,6 +72,6 @@ vim.keymap.set("i", '<C-Q>', '<C-v>',    { noremap = true, desc ="Insert literal
 -- Insert django style {% tag %}
 -- Not lower case to keep alt+key free to escape insert mode and run the normal mode command
 -- <C-m> = <CR>
-vim.keymap.set("i", '<M-B>', "{%  %}<Esc>hhi", { noremap = true, desc ="Django (B)lock" })
-vim.keymap.set("i", '<M-C>', "{#  #}<Esc>hhi", { noremap = true, desc ="Django (C)omment" })
-vim.keymap.set("i", '<M-V>', "{{  }}<Esc>hhi", { noremap = true, desc ="Django (V)ariable" })
+vim.keymap.set("i", '<M-P>', "{%  %}<Esc>hhi", { noremap = true, desc ="Django (P)ercent  {% %}" })
+vim.keymap.set("i", '<M-C>', "{#  #}<Esc>hhi", { noremap = true, desc ="Django (C)omment  {# #}" })
+vim.keymap.set("i", '<M-V>', "{{  }}<Esc>hhi", { noremap = true, desc ="Django (V)ariable {{ }}" })
