@@ -259,7 +259,7 @@ Plugin.config = function ()
             dotfiles = false,
             git_clean = false,
             no_buffer = false,
-            custom = {},
+            custom = { "__pycache__", ".angular", ".vscode"},
             exclude = {},
         },
         git = {

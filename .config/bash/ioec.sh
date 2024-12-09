@@ -25,7 +25,8 @@ IOEC=/mnt/c/Users/Michaela/ioec
 
 # DIRS
 alias cdi="cd $IOEC"
-alias cda="cd $IOEC/admin"
+#alias cda="cd $IOEC/admin"
+alias cda="cd ~/Admin/scripts/product_group"
 
 alias cdg="cd ~/Ggateway/Gateway"
 alias cdgn="cd ~/Ggateway/Gateway/Gateway.NextClient"
@@ -45,5 +46,7 @@ alias pmr="npm run ng serve"
 # Angular.js (client/gw1) start
 alias fe="cd $IOEC/gateway/Gateway/Gateway.Client; npm start"
 alias fen="cd $IOEC/gateway/Gateway/Gateway.NextClient; npm start"
+
+alias pg="cda; source ./activate.sh; echo 'clear; python run.py'"
 
 cdgn
