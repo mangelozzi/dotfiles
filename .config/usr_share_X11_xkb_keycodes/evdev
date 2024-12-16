@@ -4,17 +4,21 @@ default xkb_keycodes "evdev" {
 	minimum = 8;
 	maximum = 255;
 
+    # Ended up doing this: https://askubuntu.com/a/1082423/433891
+    # sudo nvim /etc/default/keyboard
+    # XKBOPTIONS="" --> XKBOPTIONS="caps:swapescape"
+
 	# Michael
 	# Original Keycodes:
 	# 9    Escape
 	# 66   Caps_Lock
 	# 133  Super_L
-	<ESC> = 66;
-	<CAPS> = 9;
-	<LWIN> = 133;
+	# <ESC> = 66;
+	# <CAPS> = 9;
+	# <LWIN> = 133;
 
-    # Added for pc105 compatibility
-    <LSGT> = 95;
+        # Added for pc105 compatibility
+        <LSGT> = 94;
 
 	<TLDE> = 49;
 	<AE01> = 10;
@@ -48,6 +52,7 @@ default xkb_keycodes "evdev" {
 	alias <AC12> = <BKSL>;
 	<RTRN> = 36;
 
+	<CAPS> = 66;
 	<AC01> = 38;
 	<AC02> = 39;
 	<AC03> = 40;
@@ -79,10 +84,12 @@ default xkb_keycodes "evdev" {
 	<RCTL> = 105;
 	<RALT> = 108;
 	// Microsoft keyboard extra keys
+	<LWIN> = 133;
 	<RWIN> = 134;
 	<COMP> = 135;
 	alias <MENU> = <COMP>;
 
+	<ESC> = 9;
 	<FK01> = 67;
 	<FK02> = 68;
 	<FK03> = 69;
@@ -211,7 +218,7 @@ default xkb_keycodes "evdev" {
 	alias <I130> = <HNGL>;	// #define KEY_HANGEUL             122
 	alias <I131> = <HJCV>;	// #define KEY_HANJA               123
 	alias <I132> = <AE13>;	// #define KEY_YEN                 124
-	alias <I66> = <LWIN>;	// #define KEY_LEFTMETA            125
+	alias <I133> = <LWIN>;	// #define KEY_LEFTMETA            125
 	alias <I134> = <RWIN>;	// #define KEY_RIGHTMETA           126
 	alias <I135> = <COMP>;	// #define KEY_COMPOSE             127
 	alias <I136> = <STOP>;	// #define KEY_STOP                128
@@ -602,4 +609,3 @@ default xkb_keycodes "evdev" {
 	// For Brazilian ABNT2
 	alias <KPPT> = <I129>;
 };
-

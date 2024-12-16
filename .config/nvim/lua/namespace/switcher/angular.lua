@@ -1,5 +1,7 @@
 local utils = require("namespace.switcher.utils")
 
+local Switcher = {}
+
 -- Function to check if the current directory contains Angular files
 
 local function is_angular_project()

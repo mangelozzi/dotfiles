@@ -380,23 +380,23 @@ exec_always --no-startup-id ~/.config/i3/scripts/app-on-ws-init.py --workspace $
 set $wsV "21-Vhome"
 bindsym $mod+v workspace number $wsV
 bindsym $mod+Shift+v move container to workspace number $wsV
-exec_always --no-startup-id ~/.config/i3/scripts/app-on-ws-init.py --workspace $wsV --command 'google-chrome --password-store=gnome --profile-directory="Default"'
+exec_always --no-startup-id ~/.config/i3/scripts/app-on-ws-init.py --workspace $wsV --command 'google-chrome --password-store=gnome-libsecret --profile-directory="Default"'
 
 set $wsC "22-Cwork"
 bindsym $mod+c workspace number $wsC
 bindsym $mod+Shift+c move container to workspace number $wsC
 # exec_always --no-startup-id ~/.config/i3/scripts/app-on-ws-init.py --workspace $wsC --command 'google-chrome --password-store=gnome --profile-directory="Profile 1" https://mail.google.com/mail/u/0/#inbox https://outlook.office.com/mail/'
-exec_always --no-startup-id ~/.config/i3/scripts/app-on-ws-init.py --workspace $wsC --command 'google-chrome --password-store=gnome --profile-directory="Profile 1" https://mail.google.com/mail/u/0/#inbox'
+exec_always --no-startup-id ~/.config/i3/scripts/app-on-ws-init.py --workspace $wsC --command 'google-chrome --password-store=gnome-libsecret --profile-directory="Profile 1" https://mail.google.com/mail/u/0/#inbox'
 
 set $wsX "23-Xmom"
 bindsym $mod+x workspace number $wsX
 bindsym $mod+Shift+x move container to workspace number $wsX
-exec_always --no-startup-id ~/.config/i3/scripts/app-on-ws-init.py --workspace $wsX --command "google-chrome --password-store=gnome --profile-directory='Profile 2' 'https://mail.google.com/mail/u/0/#inbox' 'https://onlinebanking.standardbank.co.za/#/login'"
+exec_always --no-startup-id ~/.config/i3/scripts/app-on-ws-init.py --workspace $wsX --command "google-chrome --password-store=gnome-libsecret --profile-directory='Profile 2' 'https://mail.google.com/mail/u/0/#inbox' 'https://onlinebanking.standardbank.co.za/#/login'"
 
 set $wsZ "24-Zik"
 bindsym $mod+z workspace number $wsZ
 bindsym $mod+Shift+z move container to workspace number $wsZ
-exec_always --no-startup-id ~/.config/i3/scripts/app-on-ws-init.py --workspace $wsZ --command 'google-chrome --password-store=gnome --profile-directory="Default"'
+exec_always --no-startup-id ~/.config/i3/scripts/app-on-ws-init.py --workspace $wsZ --command 'google-chrome --password-store=gnome-libsecret --profile-directory="Default"'
 
 # Browser, guest/dev/cookies testing etc
 set $wsB "25-Bguest"
@@ -407,7 +407,7 @@ exec_always --no-startup-id ~/.config/i3/scripts/app-on-ws-init.py --workspace $
 set $wsN "26-Nmighty"
 bindsym $mod+N workspace number $wsN
 bindsym $mod+Shift+n move container to workspace number $wsN
-exec_always --no-startup-id ~/.config/i3/scripts/app-on-ws-init.py --workspace $wsN --command 'google-chrome --password-store=gnome --profile-directory="Profile 5" https://music.youtube.com/playlist?list=LM'
+exec_always --no-startup-id ~/.config/i3/scripts/app-on-ws-init.py --workspace $wsN --command 'google-chrome --password-store=gnome-libsecret --profile-directory="Profile 5" https://music.youtube.com/playlist?list=LM'
 
 # switch to workspace
 # Make F the first workspace
@@ -731,3 +731,19 @@ exec --no-startup-id /usr/lib/policykit-1-gnome/polkit-gnome-authentication-agen
 # Set the initial workspace
 exec --no-startup-id i3-msg workspace $ws1
 # exec redshift-gtk
+
+# Bluetooth
+# 1. First enable the service with: sudo systemctl enable bluetooth.service
+# 2. Pair the bluetooth device:
+#   $ bluetoothctl <-- input
+#   Agent registered
+#   [bluetooth]# power on <-- input
+#   Changing power on succeeded
+#   [bluetooth]# scan on <-- input
+#   Discovery started
+#   [CHG] Controller 48:F1:7F:F6:92:1B Discovering: yes
+#   [NEW] Device DA:86:B3:D1:C3:AC Glove80
+#   [NEW] Device 45:77:06:A6:E9:F1 45-77-06-A6-E9-F1
+#   [bluetooth]# pair DA:86:B3:D1:C3:AC <-- input
+#   [Glove80]# trust DA:86:B3:D1:C3:AC <-- input
+
