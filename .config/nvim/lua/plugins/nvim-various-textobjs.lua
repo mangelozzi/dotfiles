@@ -52,6 +52,8 @@ Plugin.config = function()
 
         -- display notifications if a text object is not found
         notifyNotFound = true,
+        keys = {
+        },
     })
 
     -- Own map preserves the cursor position

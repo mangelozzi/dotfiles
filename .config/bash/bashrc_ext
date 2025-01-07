@@ -162,11 +162,11 @@ XDG_CURRENT_DESKTOP=ubuntu:GNOME
 # Remapped due to RSI issues
 # Map Ctrl+X to send SIGINT (like Ctrl+C)
 # stty doesn't support mapping Ctrl+Shift+C (like Django)
-stty intr ^X
+# stty intr ^X
 
 # Map Ctrl+B to do the same as Ctrl+V (quote the next character)
 # stty lnext ^B  # Map insert literal char to CTRL+B so CTL+V can be paste
-bind '"\C-b": vi-rubout'  # This remaps Ctrl+B to behave as quoted-insert (like Ctrl+V)
+# bind '"\C-b": vi-rubout'  # This remaps Ctrl+B to behave as quoted-insert (like Ctrl+V)
 
 # POWER/SCREEEN SAVER
 # -------------------
