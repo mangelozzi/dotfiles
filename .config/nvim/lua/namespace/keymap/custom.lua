@@ -2,7 +2,7 @@
 vim.keymap.set({"", "!"}, "<C-s>", "<ESC>:w!<CR>", {noremap = true, desc = "Save"})
 
 -- Copy / Paste
-vim.keymap.set({"n"}, "<M-v>", "<C-v>", {noremap = true, desc = "Visual block mode"})
+-- vim.keymap.set({"n"}, "<M-v>", "<C-v>", {noremap = true, desc = "Visual block mode"})
 
 -- Map dash to other buffer
 -- Note!!! Using recursive version so will recurse to <ESC> when in the

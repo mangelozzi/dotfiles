@@ -9,8 +9,8 @@ default xkb_keycodes "evdev" {
 	# 9    Escape
 	# 66   Caps_Lock
 	# 133  Super_L
-	<ESC> = 9;
-	<CAPS> = 66;
+	<ESC> = 66;
+	<CAPS> = 9;
 	<LWIN> = 133;
 
     # Added for pc105 compatibility
