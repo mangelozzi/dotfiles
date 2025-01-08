@@ -60,9 +60,7 @@ alias cdp='cd ~/.config/nvim/tmp'
 alias cdr='cd ~/.config/nvim/tmp/rgflow.nvim/'
 
 # GIT development add key
-# Hostname/IP varies, so can only add key
-# alias gitdev='ssh-add -l || ssh-add ~/.ssh/gitdev'
-# alias gitdev='ssh-add -l | grep "KaFOpY9S84" || ssh-add ~/.ssh/gitdev'
+# Main purpose is so dont have to keep typing in the password for every command
 gitdev() {
     ssh-add -l | grep "KaFOpY9S84" || ssh-add ~/.ssh/gitdev
 }
