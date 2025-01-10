@@ -6,8 +6,6 @@
 # SSH port 22
 Host github.com
     # LogLevel DEBUG3
-    User git
-    Hostname github.com
     PreferredAuthentications publickey
     IdentityFile ~/.ssh/gitdev
     AddKeysToAgent yes
@@ -26,9 +24,6 @@ Host github.com
 #                   ^^^^^^    ^^^^           ^^^^
 Host ssh.github.com
     # LogLevel DEBUG3
-    User git
-    Hostname ssh.github.com
-    Port 443
     PreferredAuthentications publickey
     IdentityFile ~/.ssh/gitdev
     AddKeysToAgent yes

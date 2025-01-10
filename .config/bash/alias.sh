@@ -59,12 +59,6 @@ alias cdt='cd ~/.config/nvim/tmp'
 alias cdp='cd ~/.config/nvim/tmp'
 alias cdr='cd ~/.config/nvim/tmp/rgflow.nvim/'
 
-# GIT development add key
-# Main purpose is so dont have to keep typing in the password for every command
-gitdev() {
-    ssh-add -l | grep "KaFOpY9S84" || ssh-add ~/.ssh/gitdev
-}
-
 # GIT SET REPOS
 alias gitdot='export GIT_DIR=~/.dotfiles GIT_WORK_TREE=~'
 alias gitlc='export GIT_DIR=~/linkcube/.git GIT_WORK_TREE=~/linkcube'
@@ -77,9 +71,9 @@ alias grso="git remote set-url origin"
 dot="git --git-dir=$HOME/.dotfiles --work-tree=$HOME"
 alias dot="$dot"
 # Purposes don't have many dot aliases to keep default git skills sharp
-alias dotp="gitdev && $dot push"
+alias dotp="$dot push"
 alias dota="dot commit --amend --no-edit"
-alias dotap="dot commit --amend --no-edit; gitdev && dot push -f"
+alias dotap="dot commit --amend --no-edit; dot push -f"
 
 # Git
 alias gl='git log'
@@ -109,12 +103,12 @@ alias gcb='git checkout -b '
 # Git new branch...
 alias gnb='git checkout -b $1; git push -u origin $1;'
 # ---
-alias gpom='gitdev && git pull origin master:master'
+alias gpom='git pull origin master:master'
 # ---
-alias gp='gitdev && git push'
-alias gP='gitdev && git pull'
+alias gp='git push'
+alias gP='git pull'
 alias gm='git commit --amend --no-edit'
-alias gmp='gitdev && git commit --amend --no-edit && git push -f'
+alias gmp='git commit --amend --no-edit && git push -f'
 # Show a list of patched changes in the file, e.g. gp foo.txt
 # alias gp='git log -p'
 # -R to turn removed lines into added lines, so whitespace can be be highlighted.
