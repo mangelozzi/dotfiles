@@ -1,14 +1,38 @@
 # Install location: ~/.ssh/config
 # This is a skeleton file. Replace file in installation dir with
-# version from Cryptomator which includes all SSH hosts.
+# The version from Cryptomator which includes all SSH hosts.
 
-# Uses it automatically with git commands
+
+# SSH port 22
 Host github.com
+    # LogLevel DEBUG3
     User git
     Hostname github.com
     PreferredAuthentications publickey
-    IdentityFile ~/.ssh/github_dev
+    IdentityFile ~/.ssh/gitdev
     AddKeysToAgent yes
+
+
+# SSH vis HTTPS on port 443
+# Used so it is not blocked by firewall
+# Notice the change in domain AND protocol: `ssh://git@ssh.github.com`
+# To see the current remote URL:
+#   git remote -v
+# And to change it to the new URL format:
+#   git remote set-url origin <new-url>
+#         git clone https://github.com/YOUR-USERNAME/YOUR-REPOSITORY                <--- HTTPS on port 443
+#         git clone git@github.com:YOUR-USERNAME/YOUR-REPOSITORY.git                <--- SSH on port 22
+#         git clone ssh://git@ssh.github.com:443/YOUR-USERNAME/YOUR-REPOSITORY.git  <--- SSH over HTTPS on port 443
+#                   ^^^^^^    ^^^^           ^^^^
+Host ssh.github.com
+    # LogLevel DEBUG3
+    User git
+    Hostname ssh.github.com
+    Port 443
+    PreferredAuthentications publickey
+    IdentityFile ~/.ssh/gitdev
+    AddKeysToAgent yes
+
 
 # Connect with: `ssh vps_slug`
 Host vps_slug
