@@ -1,6 +1,7 @@
 local Plugin = {
     "zbirenbaum/copilot.lua",
     event = "VeryLazy",
+    enabled = false,
 }
 
 Plugin.config = function()

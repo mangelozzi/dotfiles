@@ -48,9 +48,9 @@ local function angular_component_switcher(context, goto_type, file)
     local component_type = utils.get_second_to_last_extension(file) or "component"
     local dir = base .. "/"
     if goto_type == "javascript" then
-        return guess_angular_file_name(dir, component_name, nil, "ts")
+        return guess_angular_file_name(dir, component_name, "component", "ts")
     elseif goto_type == "html" then
-        return guess_angular_file_name(dir, component_name, nil, "html")
+        return guess_angular_file_name(dir, component_name, "component", "html")
     elseif goto_type == "css" then
         local extensions = {"scss", "css", "less"}
         for _, ext in ipairs(extensions) do
