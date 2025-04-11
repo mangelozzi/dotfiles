@@ -47,8 +47,10 @@ function M.format_new_buffer_as_json_no_save()
     local input = table.concat(lines, "\n")
     local cmd = "prettier --parser json --tab-width 4"
     local handle = io.popen(cmd, "w")
-    handle:write(input)
-    handle:close()
+    if handle then
+        handle:write(input)
+        handle:close()
+    end
     local output = vim.fn.system(cmd, input)
     vim.api.nvim_buf_set_lines(0, 0, -1, false, vim.split(output, "\n"))
     vim.cmd('redraw')
@@ -197,13 +199,6 @@ function M.sort_lines()
     else
         vim.api.nvim_command("sort")
     end
-end
-
-function M.strip_whitespace()
-    -- vim.g.cursor_position = vim.fn.winsaveview()
-    -- vim.cmd(':%s/\\s\\+$//e')   -- Backslashes escaped to form :%s/\s\+$//e
-    -- vim.defer_fn(function() vim.fn.winrestview(vim.g.cursor_position) end, 0)
-    -- print("Trailing whitespace stripped.")
 end
 
 function M.quit_if_last_buffer()
