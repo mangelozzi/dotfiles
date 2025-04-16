@@ -23,15 +23,15 @@ Plugin.config = function()
             },
             suggestion = {
                 enabled = true,
-                auto_trigger = true,
-                debounce = 75,
+                auto_trigger = false,
+                debounce = 100,
                 keymap = {
                     accept = "<C-Space>",
                     accept_word = false,
                     accept_line = false,
                     next = "<M-]>",
                     prev = "<M-[>",
-                    dismiss = "<C-]>"
+                    dismiss = "<M-}>"
                 }
             },
             filetypes = {
