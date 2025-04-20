@@ -14,17 +14,18 @@ Plugin.config = function()
         --     current = 'DiffText',
         -- }
     }
-    vim.keymap.set('', '<leader>cr', function()
+    -- <leader>c ... is used by the component switcher
+    vim.keymap.set('', '<leader>er', function()
         vim.cmd('GitConflictRefresh')
         vim.cmd('redraw')
     end, { silent = true, desc = "(R)efresh (ie. attach)"})
-    vim.keymap.set('', '<leader>co', function() vim.cmd('GitConflictChooseOurs')   end, { silent = true, desc = "(O)urs - Select the current changes."})
-    vim.keymap.set('', '<leader>ct', function() vim.cmd('GitConflictChooseTheirs') end, { silent = true, desc = "(T)heirs - Select the incoming changes."})
-    vim.keymap.set('', '<leader>cb', function() vim.cmd('GitConflictChooseBoth')   end, { silent = true, desc = "(B)oth - Select both changes."})
-    vim.keymap.set('', '<leader>cx', function() vim.cmd('GitConflictChooseNone')   end, { silent = true, desc = "Select none of the changes."})
+    vim.keymap.set('', '<leader>eo', function() vim.cmd('GitConflictChooseOurs')   end, { silent = true, desc = "(O)urs - Select the current changes."})
+    vim.keymap.set('', '<leader>et', function() vim.cmd('GitConflictChooseTheirs') end, { silent = true, desc = "(T)heirs - Select the incoming changes."})
+    vim.keymap.set('', '<leader>eb', function() vim.cmd('GitConflictChooseBoth')   end, { silent = true, desc = "(B)oth - Select both changes."})
+    vim.keymap.set('', '<leader>ex', function() vim.cmd('GitConflictChooseNone')   end, { silent = true, desc = "Select none of the changes."})
     vim.keymap.set('', ']c',         function() vim.cmd('GitConflictNextConflict') end, { silent = true, nowait = true, desc = "Git - Next conflict."})
     vim.keymap.set('', '[c',         function() vim.cmd('GitConflictPrevConflict') end, { silent = true, nowait = true, desc = "Git - Previous conflict."})
-    vim.keymap.set('', '<leader>cw', function() vim.cmd('GitConflictListQf')       end, { silent = true, desc = "Get all conflict to quickfix"})
+    vim.keymap.set('', '<leader>ew', function() vim.cmd('GitConflictListQf')       end, { silent = true, desc = "Get all conflict to quickfix"})
 end
 
 return Plugin

@@ -8,6 +8,7 @@ vim.keymap.set({"", "!"}, "<C-s>", "<ESC>:w!<CR>", {noremap = true, desc = "Save
 -- Note!!! Using recursive version so will recurse to <ESC> when in the
 -- quickfix window
 vim.keymap.set({"n", "x"}, "-", "<C-^>", { noremap = false, desc = "Jump to alternate buffer" })
+vim.keymap.set({"n", "x"}, "<bs>", "<C-^>", { noremap = false, desc = "Jump to alternate buffer" })
 
 -- Map ; to : for speed
 -- vim.keymap.set({"n", "x"}, ";", ":", {noremap = true, desc = "Command mode"})

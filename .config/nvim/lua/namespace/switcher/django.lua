@@ -79,6 +79,8 @@ local function django_component_switcher(context, goto_type, file)
         return path .. "/story.html"
     elseif goto_type == "other" then
         return path .. "/dom.css"
+    elseif goto_type == "type" then
+        return path .. "/types.d.ts"
     end
 end
 
