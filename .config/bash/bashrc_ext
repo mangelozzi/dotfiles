@@ -176,3 +176,35 @@ xset s off
 
 # The power saving feature can be turned off with
 xset -dpms
+
+
+# CRYPTOMAOR FIX
+# --------------
+
+# >>> cd ~/.local/share/Cryptomator/mnt; sudo fusermount3 -u dir_name
+cryptofix() {
+    local mnt_dir="$HOME/.local/share/Cryptomator/mnt"
+
+    # Use sudo and find to list only subdirectories (mounted vaults)
+    mapfile -t dirs < <(sudo ls -1A "$mnt_dir" 2>/dev/null)
+
+    if [ ${#dirs[@]} -eq 0 ]; then
+        echo "No mounted directories found in $mnt_dir."
+        return 1
+    fi
+
+    # Display a menu for the user to choose a directory
+    echo "Mounted directories in $mnt_dir: (to run with the cmd: sudo fusermount3 -u)"
+    PS3="Select a directory to unmount: "
+    select chosen in "${dirs[@]}"; do
+        if [ -n "$chosen" ]; then
+            cd $mnt_dir
+            echo "Unmounting $chosen..."
+            echo ">>> sudo fusermount3 -u $chosen"
+            sudo fusermount3 -u $chosen
+            break
+        else
+            echo "Invalid selection. Please try again."
+        fi
+    done
+}

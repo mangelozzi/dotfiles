@@ -27,7 +27,11 @@ local function django_app_switcher(context, goto_type, file)
     local app_dir =
         utils.offset_path(file, "app", 1).before_offset_w_pattern or
         utils.offset_path(file, "pack", 1).before_offset_w_pattern
-    local app_name = utils.get_file_path_info(app_dir).name
+    if not app_dir then
+        return;
+    end
+    local app_info = utils.get_file_path_info(app_dir)
+    local app_name = app_info.name
     if goto_type == "admin" then
         return app_dir .. "/admin.py"
     elseif goto_type == "dint" then
@@ -75,6 +79,8 @@ local function django_component_switcher(context, goto_type, file)
         return path .. "/story.html"
     elseif goto_type == "other" then
         return path .. "/dom.css"
+    elseif goto_type == "type" then
+        return path .. "/types.d.ts"
     end
 end
 
