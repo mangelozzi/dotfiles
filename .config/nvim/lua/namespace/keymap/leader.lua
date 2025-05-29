@@ -72,7 +72,7 @@ vim.keymap.set({"n", "x"}, "<leader>9", ":s/[1-9]/9/g<CR>:noh<CR>", {noremap = t
 
 -- SWITCHER -------------------------------------------------------------------
 
--- Web Component Dev switching between files
+-- Switching between Web/Angular (C)omponent files
 vim.keymap.set("n", "<leader>cc", function() switcher.switch('component', 'css')        end, {noremap = true, desc = "Switch component (c)ss"})
 vim.keymap.set("n", "<leader>cd", function() switcher.switch('component', 'def')        end, {noremap = true, desc = "Switch component (d)ef"})
 vim.keymap.set("n", "<leader>ch", function() switcher.switch('component', 'html')       end, {noremap = true, desc = "Switch component (h)tml"})
@@ -83,7 +83,7 @@ vim.keymap.set("n", "<leader>cs", function() switcher.switch('component', 'story
 vim.keymap.set("n", "<leader>ct", function() switcher.switch('component', 'type')       end, {noremap = true, desc = "Switch component (t)ype"})
 vim.keymap.set("n", "<leader>cu", function() switcher.switch('component', 'utils')      end, {noremap = true, desc = "Switch component (u)tils"})
 
--- Switching between Django app files
+-- Switching between Django (A)pp files
 vim.keymap.set("n", "<leader>aa", function() switcher.switch('app', 'admin')            end, {noremap = true, desc = "Switch app (a)dmin"})
 vim.keymap.set("n", "<leader>ad", function() switcher.switch('app', 'dint')             end, {noremap = true, desc = "Switch app (d)int"})
 vim.keymap.set("n", "<leader>af", function() switcher.switch('app', 'fetcher')          end, {noremap = true, desc = "Switch app (f)etcher"})

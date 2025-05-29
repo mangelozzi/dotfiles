@@ -4,25 +4,6 @@ local utils = require("namespace.utils")
 
 local NamespaceGroup = vim.api.nvim_create_augroup("NamespaceGroup", {clear = true})
 
-local no_trim_fts = {
-    ["markdown"] = true
-}
-local function strip_whitespace_handler(opts)
-    local ft = vim.bo[opts.buf].filetype
-    if not no_trim_fts[ft] then
-        utils.strip_whitespace()
-    end
-end
-
-vim.api.nvim_create_autocmd(
-    "BufWritePre",
-    {
-        desc = "Strip whitespace before save on all filetypes except markdown files",
-        group = NamespaceGroup,
-        callback = strip_whitespace_handler
-    }
-)
-
 vim.api.nvim_create_autocmd(
     "BufWritePost",
     {
@@ -54,11 +35,11 @@ vim.api.nvim_create_autocmd(
     }
 )
 
--- [[ Highlight on yank ]]
 -- See `:help vim.highlight.on_yank()`
 vim.api.nvim_create_autocmd(
     "TextYankPost",
     {
+        desc = "Highlight on yank",
         callback = function()
             vim.highlight.on_yank {timeout = 150, higroup = "HighlightOnYank"}
         end,
@@ -80,12 +61,13 @@ vim.api.nvim_create_autocmd(
     }
 )
 
+
 vim.api.nvim_create_autocmd(
     "BufWritePre",
     {
+        desc = "Remove trailing whitespace on save",
         pattern = {"*"},
         group = NamespaceGroup,
-        desc = "Remove trailing whitespace on save",
         callback = function()
             local excluded_filetypes = { "markdown", "html", "htmldjango" }
             local current_filetype = vim.bo.filetype
@@ -102,6 +84,42 @@ vim.api.nvim_create_autocmd(
             )
             vim.fn.setpos(".", save_cursor)
         end
+    }
+)
+
+vim.api.nvim_create_autocmd("BufWritePre", {
+    desc = "Use most common line ending \\r\\n or just \\n",
+    pattern = {"*"},
+    group = NamespaceGroup,
+    callback = function()
+        -- Determine if we should remove stray "\r"
+        -- If the file is already using dos line endings, we keep them.
+        if vim.bo.fileformat == "dos" then return end
+        local lines = vim.api.nvim_buf_get_lines(0, 0, -1, false)
+        local total_lines = #lines
+        if total_lines == 0 then return end
+
+        local cr_count = 0
+        for _, line in ipairs(lines) do
+            -- Check if the last character is a carriage return.
+            if string.sub(line, -1) == "\r" then
+            cr_count = cr_count + 1
+            end
+        end
+
+        local save_cursor = vim.fn.getpos(".")
+        if cr_count < (total_lines / 2) then
+            -- If fewer than half of the lines end with "\r",
+            -- then remove all stray "\r" characters.
+            pcall(function()
+                vim.cmd [[%s/\r//g]]
+            end)
+        else
+            -- force all \r\n
+            vim.cmd [[%s/$/\r/g]]
+        end
+        vim.fn.setpos(".", save_cursor)
+    end
     }
 )
 
