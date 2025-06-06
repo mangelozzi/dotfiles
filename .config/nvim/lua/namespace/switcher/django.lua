@@ -48,6 +48,8 @@ local function django_app_switcher(context, goto_type, file)
         return app_dir .. "/serializers.py"
     elseif goto_type == "tests" then
         return app_dir .. "/tests.py"
+    elseif goto_type == "filters" then
+        return app_dir .. "/filters.py"
     elseif goto_type == "fetcher" then
         return app_dir .. "/assets/" .. app_name .. "/jsapp/fetcher.js"
     elseif goto_type == "other" then

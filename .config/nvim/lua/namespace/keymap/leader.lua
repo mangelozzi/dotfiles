@@ -87,6 +87,7 @@ vim.keymap.set("n", "<leader>cu", function() switcher.switch('component', 'utils
 vim.keymap.set("n", "<leader>aa", function() switcher.switch('app', 'admin')            end, {noremap = true, desc = "Switch app (a)dmin"})
 vim.keymap.set("n", "<leader>ad", function() switcher.switch('app', 'dint')             end, {noremap = true, desc = "Switch app (d)int"})
 vim.keymap.set("n", "<leader>af", function() switcher.switch('app', 'fetcher')          end, {noremap = true, desc = "Switch app (f)etcher"})
+vim.keymap.set("n", "<leader>al", function() switcher.switch('app', 'filters')          end, {noremap = true, desc = "Switch app fi(l)ters"})
 vim.keymap.set("n", "<leader>am", function() switcher.switch('app', 'models')           end, {noremap = true, desc = "Switch app (m)odels"})
 vim.keymap.set("n", "<leader>aM", function() switcher.switch('app', 'menu')             end, {noremap = true, desc = "Switch app (M)enu"})
 vim.keymap.set("n", "<leader>ao", function() switcher.switch('app', 'other')            end, {noremap = true, desc = "Switch app (o)ther"})
