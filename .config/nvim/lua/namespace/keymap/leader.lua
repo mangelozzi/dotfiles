@@ -9,6 +9,11 @@ local switcher = require("namespace.switcher")
 -- Disable highlighting
 vim.keymap.set({"n", "x"}, "<leader>h", ":noh<CR>", {noremap = true, desc = "Disable highlighting"})
 
+-- New buffer
+vim.keymap.set({"n", "x"}, "<leader>N", ":enew<CR>", {noremap = true, desc = "(N)ew buffer fill whole window"})
+vim.keymap.set({"n", "x"}, "<leader>V", ":vnew<CR>", {noremap = true, desc = "New (V)split buffer"})
+vim.keymap.set({"n", "x"}, "<leader>H", ":new<CR>",  {noremap = true, desc = "New (H)split buffer"})
+
 -- Replace with first spelling suggestion
 vim.keymap.set("n", "<leader>w", "1z=", {noremap = true, desc = "(w)ord spelling"})
 
