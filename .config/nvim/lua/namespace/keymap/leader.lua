@@ -9,6 +9,12 @@ local switcher = require("namespace.switcher")
 -- Disable highlighting
 vim.keymap.set({"n", "x"}, "<leader>h", ":noh<CR>", {noremap = true, desc = "Disable highlighting"})
 
+-- Reload vim config
+vim.keymap.set("n", "<leader>R", function()
+    vim.cmd("luafile " .. vim.env.MYVIMRC)
+    print("Config reloaded")
+end, { desc = "(R)eload init.lua" })
+
 -- New buffer
 vim.keymap.set({"n", "x"}, "<leader>N", ":enew<CR>", {noremap = true, desc = "(N)ew buffer fill whole window"})
 vim.keymap.set({"n", "x"}, "<leader>V", ":vnew<CR>", {noremap = true, desc = "New (V)split buffer"})

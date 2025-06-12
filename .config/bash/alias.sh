@@ -48,6 +48,8 @@ alias fd=fdfind
 alias cdc='cd ~/.local/share/Cryptomator/mnt'
 
 # Neovim
+alias n=nvim
+alias nv=nvim
 alias vim=nvim
 alias cdn='cd ~/.config/nvim'
 # Neovim Tmp/ or Plugin dir

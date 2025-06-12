@@ -51,7 +51,19 @@ vim.keymap.set({"", "!"}, "<F5>", require("namespace.utils").run, {noremap = tru
 vim.keymap.set({"", "!"}, "<F6>", require("namespace.utils").format_code, {noremap = true, desc = "Autoformat the file"})
 
 -- Copy the current filepath into the system clipboard
-vim.keymap.set({"", "!"}, "<F7>", [[<ESC>:let @+=expand('%:p')<CR>:echo 'F7 - Copied ABSOLUTE file path'<CR>]], { noremap = true, desc = "Copy ABSOLUTE file path"})
+vim.keymap.set({"", "!"}, "<F7>", "<ESC>:let@+=@%<CR>:echo 'F8 - Copied RELATIVE file path'<CR>", { noremap = true, desc = "Copy RELATIVE file path"})
+-- SHIFT + F7 = F19
+vim.keymap.set({"", "!"}, "<F19>", [[<ESC>:let @+=expand('%:p')<CR>:echo 'F7 - Copied ABSOLUTE file path'<CR>]], { noremap = true, desc = "Copy ABSOLUTE file path"})
 
--- Copy the current filepath into the system clipboard
-vim.keymap.set({"", "!"}, "<F8>", "<ESC>:let@+=@%<CR>:echo 'F8 - Copied RELATIVE file path'<CR>", { noremap = true, desc = "Copy RELATIVE file path"})
+-- F8 open new tab, paste in the text, and prettify the JSON
+vim.keymap.set({"", "!"}, "<F8>",
+    function()
+        vim.cmd(":enew")
+        local utils = require("namespace.utils")
+        local clip = utils.as_string(vim.fn.getreg("+"))
+        -- split so line-breaks stay intact
+        vim.api.nvim_put(vim.split(clip, "\n"), "", true, true)
+        utils.format_new_buffer_as_json_no_save()
+    end,
+    {noremap = true, desc = "Prettify JSON new buf"}
+)
