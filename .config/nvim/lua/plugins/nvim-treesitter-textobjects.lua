@@ -60,7 +60,7 @@ Plugin.config = function()
                 -- mapping query_strings to modes.
                 selection_modes = {
                     ['@parameter.outer'] = 'v', -- charwise
-                    ['@function.outer'] = 'V', -- linewise
+                    ['@function.outer'] = 'v', -- charwise
                     ['@class.outer'] = '<c-v>', -- blockwise
                 },
                 -- If you set this to `true` (default is `false`) then any textobject is
