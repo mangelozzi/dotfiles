@@ -60,6 +60,7 @@ Plugin.config = function()
                 -- mapping query_strings to modes.
                 selection_modes = {
                     ['@parameter.outer'] = 'v', -- charwise
+                    -- ['@function.outer'] = 'V', -- linewise, WARNING!!! Dont combine with 'include_surrounding_whitespace = true' cause then will select the next signature
                     ['@function.outer'] = 'v', -- charwise
                     ['@class.outer'] = '<c-v>', -- blockwise
                 },

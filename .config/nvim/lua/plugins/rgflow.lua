@@ -34,7 +34,7 @@ Plugin.config = function()
         }
     )
 
-    vim.cmd("highlight RgFlowInputPattern guifg=green gui=bold")
+    -- vim.cmd("highlight RgFlowInputPattern guifg=green gui=bold")
 
     -- Testing
     -- vim.keymap.set("n", "<leader>RG", function()
