@@ -220,8 +220,15 @@ Plugin.config = function()
     }
     -- Own
     -- Breakpoints
-    vim.keymap.set("n", "<leader><S-DEL>", function()
-            require("fzf-lua").lines({query = "debugger | breakpoint()", no_esc = true}) end,
+    vim.keymap.set("n", "<leader><S-DEL>",
+        function()
+            -- leading dash mean literal match to the word, or else on long lines it finds the words due to fuzzyness
+            require("fzf-lua").lines({
+                query = "'debugger | 'breakpoint()",
+                rg_opts = "--glob '*.js' --glob '*.py'",  -- limit to JS and Python files
+                no_esc = true,
+            })
+        end,
         {noremap = true, silent = true, desc = "FZF breakpoints"}
     )
 
