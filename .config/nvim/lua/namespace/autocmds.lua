@@ -108,7 +108,8 @@ vim.api.nvim_create_autocmd("BufWritePre", {
         end
 
         local save_cursor = vim.fn.getpos(".")
-        if cr_count < (total_lines / 2) then
+        local force_linux_end = true
+        if force_linux_end or cr_count < (total_lines / 2) then
             -- If fewer than half of the lines end with "\r",
             -- then remove all stray "\r" characters.
             pcall(function()

@@ -41,8 +41,10 @@ alias cdu='cd /mnt/c/Users/Michael/'
 alias cdw='cd /mnt/c/work/'
 
 # Angular (next/gw2) start
-alias pmrh="clear; npm run ng serve"
-alias pmr="clear; npm run ng serve --live-reload=false"
+# Warning: will keep serving old app if there are errors
+alias pmrn="clear; npm run ng serve -- --no-live-reload --no-hmr"
+alias pmr="clear; npm run ng serve"
+ng serve --hmr --no-live-reload
 alias build="npm run ng build"
 
 # Angular.js (client/gw1) start
