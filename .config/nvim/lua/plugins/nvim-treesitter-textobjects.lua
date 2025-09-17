@@ -62,7 +62,7 @@ Plugin.config = function()
                     ['@parameter.outer'] = 'v', -- charwise
                     -- ['@function.outer'] = 'V', -- linewise, WARNING!!! Dont combine with 'include_surrounding_whitespace = true' cause then will select the next signature
                     ['@function.outer'] = 'v', -- charwise
-                    ['@class.outer'] = '<c-v>', -- blockwise
+                    ['@class.outer'] = 'v', -- blockwise
                 },
                 -- If you set this to `true` (default is `false`) then any textobject is
                 -- extended to include preceding or succeeding whitespace. Succeeding

@@ -43,6 +43,7 @@ local my_servers = {
     eslint = true, -- For JSDoc
     jsonls = true,
     marksman = true,
+    zls = true, -- Zig
     -- angularls = true,
     ---- Null Ls
     curlylint = false, -- Handled by none_ls -- Django

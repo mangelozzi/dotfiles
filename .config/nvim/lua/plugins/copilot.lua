@@ -1,7 +1,7 @@
 local Plugin = {
     "zbirenbaum/copilot.lua",
     event = "VeryLazy",
-    enabled = false,
+    enabled = true,
 }
 
 Plugin.config = function()
@@ -25,7 +25,7 @@ Plugin.config = function()
             suggestion = {
                 enabled = true,
                 auto_trigger = false,
-                debounce = 100,
+                debounce = 500,
                 keymap = {
                     accept = "<C-Space>",
                     accept_word = false,
