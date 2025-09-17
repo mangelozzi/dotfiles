@@ -77,6 +77,8 @@ function M.format_code()
     if vim.bo.filetype == "lua" then
         -- https://github.com/trixnz/lua-fmt
         vim.cmd("!luafmt --write-mode replace " .. file)
+    elseif vim.bo.filetype == "zig" then
+        vim.cmd("!zig fmt " .. file)
     elseif vim.bo.filetype == "python" then
         -- https://github.com/psf/black
         -- Black will edit the file and save it

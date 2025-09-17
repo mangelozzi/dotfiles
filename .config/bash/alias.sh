@@ -11,6 +11,10 @@ alias term="source ~/terminal/script/console.sh"
 alias djangodev="source ~/.venv/djangodev/bin/activate"
 alias ml="source ~/.venv/ml/bin/activate"
 
+# LANGS
+# --------
+alias zr="zig run"
+
 # APPS
 # --------
 alias chrome="sudo apt-get update; sudo apt-get --only-upgrade install google-chrome-stable"
