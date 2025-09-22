@@ -44,7 +44,7 @@ local my_servers = {
     jsonls = true,
     marksman = true,
     zls = true, -- Zig
-    -- angularls = true,
+    angularls = true,
     ---- Null Ls
     curlylint = false, -- Handled by none_ls -- Django
     djlint = false -- Handled by none_ls -- Django
