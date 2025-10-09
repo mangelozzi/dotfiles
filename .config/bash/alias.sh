@@ -85,6 +85,7 @@ alias gb='git branch'
 # List branches on remote
 alias gbr='git branch -r'
 alias gbc='git branch | cat'
+alias gsw='git branch | fzf | xargs git switch'
 
 # Git - add
 alias ga='git add -A' # -A = Stages modifications, new files, deletions
