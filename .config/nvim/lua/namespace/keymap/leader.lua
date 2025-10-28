@@ -62,13 +62,14 @@ vim.keymap.set("n", "<leader>gw", function() vim.cmd("windo diffthis") end, { no
 -- SWAP -----------------------------------------------------------------------
 
 -- Swap to single/double/back quotes with <leader>' or <leader>" or <leader>` respectively.
-vim.keymap.set({"n", "x"}, [[<leader>']], [[:s/[`"]/'/g<CR>:noh<CR>]], {noremap = true, silent = true, desc = "Swap quotes to '"})
-vim.keymap.set({"n", "x"}, [[<leader>"]], [[:s/['`]/"/g<CR>:noh<CR>]], {noremap = true, silent = true, desc = 'Swap quotes to "'})
+vim.keymap.set({"n", "x"}, [[<leader>']], [[:s/[`"‘’]/'/g<CR>:noh<CR>]], {noremap = true, silent = true, desc = "Swap quotes to '"})
+vim.keymap.set({"n", "x"}, [[<leader>"]], [[:s/['`“”]/"/g<CR>:noh<CR>]], {noremap = true, silent = true, desc = 'Swap quotes to "'})
 vim.keymap.set({"n", "x"}, [[<leader>`]], [[:s/['"]/`/g<CR>:noh<CR>]], {noremap = true, silent = true, desc = "Swap quotes to `"})
 
 -- Swap to underscore/dash with <leader>_ or <leader>-
 vim.keymap.set({"n", "x"}, "<leader>_", ":s/-/_/g<CR>:noh<CR>", {noremap = true, desc = "Swap - to _"})
-vim.keymap.set({"n", "x"}, "<leader>-", ":s/_/-/g<CR>:noh<CR>", {noremap = true, desc = "Swap _ to -"})
+-- Also swap long dash to normal dash
+vim.keymap.set({"n", "x"}, "<leader>-", ":s/[_—]/-/g<CR>:noh<CR>", {noremap = true, desc = "Swap _ to -"})
 
 -- Swap numbers to given number, excl zeros
 vim.keymap.set({"n", "x"}, "<leader>1", ":s/[1-9]/1/g<CR>:noh<CR>", {noremap = true, desc = "Swap numbers to 1"})
