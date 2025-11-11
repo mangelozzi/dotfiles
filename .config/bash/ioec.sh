@@ -52,6 +52,6 @@ alias fe="cd $IOEC/gateway/Gateway/Gateway.Client; npm start"
 alias fen="cd $IOEC/gateway/Gateway/Gateway.NextClient; npm start"
 
 alias pg="cda; source ./activate.sh; echo 'clear; python run.py'"
-alias purgejs='cd ~/Ggateway/Gateway/Gateway.NextClient/src; find . -type f -name "*.js" -delete; cd ..';
+alias purgejs='cd ~/Ggateway/Gateway/Gateway.NextClient/src; find . -type f -name "*.js" ! -path "./public/link.js" -delete; cd ..'
 
 cdgn
