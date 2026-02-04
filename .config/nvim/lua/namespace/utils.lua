@@ -44,22 +44,28 @@ function M.get_return_value(cmd)
 end
 
 function M.as_string(v)
-  -- v:t_blob == 5
-  if vim.fn.type(v) == vim.v.t_blob then
-    return vim.fn.blob2str(v)
-  end
-  return v
+    -- v:t_blob == 5
+    if vim.fn.type(v) == vim.v.t_blob then
+        return vim.fn.blob2str(v)
+    end
+    return v
 end
 
 function M.format_new_buffer_as_json_no_save()
-  local buf  = 0
-  local text = table.concat( vim.api.nvim_buf_get_lines(buf, 0, -1, false), "\n")
-  local output = vim.fn.system( { "prettier", "--parser", "json", "--tab-width", "4" }, text)
-  if vim.v.shell_error ~= 0 then
-    vim.notify("Prettier failed: " .. output, vim.log.levels.ERROR)
-    return
-  end
-  vim.api.nvim_buf_set_lines(buf, 0, -1, false, vim.split(output, "\n", { plain = true }))
+    local buf  = 0
+    local text = table.concat( vim.api.nvim_buf_get_lines(buf, 0, -1, false), "\n")
+    local output = vim.fn.system( { "prettier", "--parser", "json", "--tab-width", "4" }, text)
+    if vim.v.shell_error ~= 0 then
+        -- Sometimes copying JSON that has JSON stringified within it doubles up the escape characters, change \\ -> \ and try again
+        local squashed = text:gsub("\\\\", "\\"):gsub("\n", "")
+        output = vim.fn.system( { "prettier", "--parser", "json", "--tab-width", "4" }, squashed)
+        -- If still errored show error
+        if vim.v.shell_error ~= 0 then
+            vim.notify("Prettier failed: " .. output, vim.log.levels.ERROR)
+            return
+        end
+    end
+    vim.api.nvim_buf_set_lines(buf, 0, -1, false, vim.split(output, "\n", { plain = true }))
 end
 
 -- Auto format code

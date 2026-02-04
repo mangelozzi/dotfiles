@@ -55,12 +55,25 @@ vim.keymap.set({"", "!"}, "<F7>", "<ESC>:let@+=@%<CR>:echo 'F8 - Copied RELATIVE
 -- SHIFT + F7 = F19
 vim.keymap.set({"", "!"}, "<F19>", [[<ESC>:let @+=expand('%:p')<CR>:echo 'F7 - Copied ABSOLUTE file path'<CR>]], { noremap = true, desc = "Copy ABSOLUTE file path"})
 
--- F8 open new tab, paste in the text, and prettify the JSON
+-- F8 open new vert split, paste in the text, and prettify the JSON
 vim.keymap.set({"", "!"}, "<F8>",
     function()
-        vim.cmd(":enew")
+        -- scratch buffer: no save prompts, wiped when closed
+        vim.cmd(":vnew")
+        vim.bo.buftype = "nofile"
+        vim.bo.bufhidden = "wipe"
+        vim.bo.swapfile = false
+        vim.bo.undofile = false
+        vim.bo.filetype = "json"
+        vim.bo.modifiable = true
+
         local utils = require("namespace.utils")
         local clip = utils.as_string(vim.fn.getreg("+"))
+        -- trim leading/trailing single or double quotes
+        clip = clip
+            :gsub('^%s*["\']', '')
+            :gsub('["\']%s*$', '')
+
         -- split so line-breaks stay intact
         vim.api.nvim_put(vim.split(clip, "\n"), "", true, true)
         utils.format_new_buffer_as_json_no_save()
