@@ -186,8 +186,8 @@ Plugin.config = function()
     end
 
     -- Use <leader>g as a prefix for bunch of other git related commands, this keep fast
-    vim.keymap.set("n", "<leader>i", function() open_neogit_on_current_buffer() end, {noremap = true, desc = "Neogit buffer"})
-    vim.keymap.set("n", "<leader>I", function() require('neogit').open({ kind = 'tab' }) end, {noremap = true, desc = "Neogit"})
+    vim.keymap.set("n", "<leader>j", function() open_neogit_on_current_buffer() end, {noremap = true, desc = "Neogit buffer"})
+    vim.keymap.set("n", "<leader>J", function() require('neogit').open({ kind = 'tab' }) end, {noremap = true, desc = "Neogit"})
 
 end
 

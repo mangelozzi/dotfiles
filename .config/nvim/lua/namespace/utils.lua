@@ -423,6 +423,71 @@ function M.escape_html_visual_selection()
     M.alter_visual_range(M.escape_html_lines)
 end
 
+--- Determine whether a window is suitable for normal editing.
+---
+--- A window is considered editable if:
+--- - the window is valid
+--- - it is not a quickfix / location list window
+--- - its buffer has an empty 'buftype' (i.e. a real file buffer)
+--- - it is not a sidebar or panel such as NvimTree
+---
+--- @param win integer Window handle
+--- @return boolean true if the window can be used for editing
+function M.is_edit_win(win)
+    if not vim.api.nvim_win_is_valid(win) then
+        return false
+    end
+
+    local info = vim.fn.getwininfo(win)[1]
+    if info and info.quickfix == 1 then
+        return false
+    end
+
+    local buf = vim.api.nvim_win_get_buf(win)
+    if vim.bo[buf].buftype ~= '' then
+        return false
+    end
+
+    if vim.bo[buf].filetype == 'NvimTree' then
+        return false
+    end
+
+    return true
+end
+
+--- Find a "normal" editing window in the current tabpage.
+---
+--- A normal editing window is:
+--- - not a quickfix / loclist window
+--- - not a special buftype (help, terminal, nofile, prompt, etc.)
+--- - not NvimTree
+---
+--- Selection order:
+--- 1. Prefer another window (not the current one)
+--- 2. Optionally fall back to the current window
+---
+--- @param allow_current boolean|nil
+---   If true, allows returning the current window when no other suitable
+---   window exists. Defaults to false.
+---
+--- @return integer|nil Window handle, or nil if no suitable window was found.
+function M.find_edit_window(allow_current)
+    local cur = vim.api.nvim_get_current_win()
+
+    for _, win in ipairs(vim.api.nvim_tabpage_list_wins(0)) do
+        if win ~= cur and M.is_edit_win(win) then
+        return win
+        end
+    end
+
+    if allow_current and M.is_edit_win(cur) then
+        return cur
+    end
+
+    return nil
+end
+
+
 -- Set the operator function to the passed in function
 -- e.g. require('namespace.utils').set_opfunc(function() print("Hello") end)
 -- Refer to: https://github.com/neovim/neovim/issues/14157#issuecomment-1320787927

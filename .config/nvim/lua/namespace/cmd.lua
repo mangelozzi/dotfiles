@@ -13,3 +13,7 @@ vim.cmd('highlight SpecialKey ctermfg = 3')
 --   :cfilter /pattern/   " If theres a match will KEEP it in the quickfix window
 --   :cfilter! /pattern/   " If there a match will REMOVE from quickfix window
 vim.cmd('packadd cfilter')
+
+-- Alias :Qa for :qa due to typo so often
+vim.cmd('cabbrev Qa qa')
+

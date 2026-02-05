@@ -76,8 +76,8 @@ vim.opt.showmode = true          -- Do show mode in command window area, e.g. `-
 -- vim.opt.switchbuf = "usetab,newtab" -- Control how QUICKFIX ONLY window links are opened are handled and :sb
 -- vim.opt.winaltkeys = "menu"   -- Default value, if a ALT+... hotkey is pressed, first let windowing system handle it, if not then vim will try
 -- vim.opt.winblend = 30         -- Enables pseudo-transparency for a floating window.
--- vim.opt.splitbelow = true     -- Splitting a window will put the new window below the current one.
--- vim.opt.splitright = true     -- Splitting a window will put the new window right of the current one
+vim.opt.splitbelow = true     -- Splitting a window will put the new window below the current one.
+vim.opt.splitright = true     -- Splitting a window will put the new window right of the current one
 
 -- FINDING FILES
 -- Use with wild menu

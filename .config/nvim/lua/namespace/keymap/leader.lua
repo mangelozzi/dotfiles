@@ -1,6 +1,7 @@
 -- NOTE: The leader is assigned in globals.lua
 
 local switcher = require("namespace.switcher")
+local leader_utils = require("namespace.keymap.leader_utils")
 
 -- If dont execute leader command, perform no operation instead of move one char to the right
 -- Let whichkey grab this instead
@@ -113,3 +114,7 @@ vim.keymap.set("n", "<leader>ai", function() switcher.switch('app', 'index')    
 
 -- JSDoc @type annotation - Open previous line, type in `/** @type {} */` then left arrow to the culy braces
 vim.keymap.set("n", "<leader>D", "O/** @type {} */<esc>hhhi", {noremap = true, desc = "(D)oc type"})
+
+-- Open current buf or alt in vsp (reuse window if available
+vim.keymap.set('n', '<leader>i', function() leader_utils.openInVsp(false, true) end, { desc = '(i)nit Vsplit buf' })
+vim.keymap.set('n', '<leader>I', function() leader_utils.openInVsp(true, true) end,  { desc = '(Init) Vsplit alt buf' })
