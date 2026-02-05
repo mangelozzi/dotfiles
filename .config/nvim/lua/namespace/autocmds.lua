@@ -140,3 +140,59 @@ vim.api.nvim_create_autocmd(
         end
     }
 )
+
+
+-- Copy the other editable window's relative file path into reg '8' and its alt bug into reg '9'
+vim.api.nvim_create_autocmd(
+    { "WinEnter" },
+    {
+        desc = "Copy other editable window's relative file path to register s",
+        group = NamespaceGroup,
+        callback = function()
+            local cur_win = vim.api.nvim_get_current_win()
+            local wins = vim.api.nvim_tabpage_list_wins(0)
+
+            local other_win = nil
+            for _, w in ipairs(wins) do
+                if w ~= cur_win and utils.is_edit_win(w) then
+                    other_win = w
+                    break
+                end
+            end
+
+            if not other_win then
+                return
+            end
+
+            -- Helper: absolute -> relative-to-cwd (or nil if empty)
+            local function rel(abs_path)
+                if not abs_path or abs_path == "" then
+                    return nil
+                end
+                return vim.fn.fnamemodify(abs_path, ":.")
+            end
+
+            -- 1) Other window's current buffer path -> register '8'
+            local other_buf = vim.api.nvim_win_get_buf(other_win)
+            local other_abs = vim.api.nvim_buf_get_name(other_buf)
+            local other_rel = rel(other_abs)
+            if other_rel then
+                vim.fn.setreg("8", other_rel)
+            end
+
+            -- 2) Other window's alternate buffer path -> register '9'
+            -- Must evaluate '#' in the context of the OTHER window.
+            local alt_abs = vim.api.nvim_win_call(other_win, function()
+                local alt_buf = vim.fn.bufnr("#")
+                if alt_buf == -1 then
+                    return ""
+                end
+                return vim.api.nvim_buf_get_name(alt_buf)
+            end)
+            local alt_rel = rel(alt_abs)
+            if alt_rel then
+                vim.fn.setreg("9", alt_rel)
+            end
+        end
+    }
+)

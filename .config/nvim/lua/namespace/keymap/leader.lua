@@ -115,6 +115,9 @@ vim.keymap.set("n", "<leader>ai", function() switcher.switch('app', 'index')    
 -- JSDoc @type annotation - Open previous line, type in `/** @type {} */` then left arrow to the culy braces
 vim.keymap.set("n", "<leader>D", "O/** @type {} */<esc>hhhi", {noremap = true, desc = "(D)oc type"})
 
+-- LEADER UTILS ---------------------------------------------------------------
 -- Open current buf or alt in vsp (reuse window if available
 vim.keymap.set('n', '<leader>i', function() leader_utils.openInVsp(false, true) end, { desc = '(i)nit Vsplit buf' })
 vim.keymap.set('n', '<leader>I', function() leader_utils.openInVsp(true, true) end,  { desc = '(Init) Vsplit alt buf' })
+
+vim.keymap.set('n', '<leader>gm', function() leader_utils.strip_plus_minus_block() end,  { desc = 'Stip patch (M)arkers' })

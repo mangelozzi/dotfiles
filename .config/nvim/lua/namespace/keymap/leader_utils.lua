@@ -59,4 +59,75 @@ function M.openInVsp(isAltBuf, focus_new)
     end
 end
 
+-- Clean +/- markers in the nearest contiguous +/- block around the cursor.
+-- Deletes lines starting with '-'
+-- Keeps lines starting with '+' (strips the '+')
+-- Cursor can be anywhere in/near the block (even on a non +/- line).
+function M.strip_plus_minus_block()
+    local buf = 0
+    local row = vim.api.nvim_win_get_cursor(0)[1] - 1 -- 0-based
+    local lines = vim.api.nvim_buf_get_lines(buf, 0, -1, true)
+    local n = #lines
+    if n == 0 then
+        return
+    end
+
+    local function getline(i0)
+        -- i0 is 0-based, lines[] is 1-based
+        return lines[i0 + 1] or ''
+    end
+
+    local function is_pm_line(s)
+        local c = s:sub(1, 1)
+        return c == '+' or c == '-'
+    end
+
+    -- Find an anchor +/- line near the cursor (prefer upwards, then downwards)
+    local anchor = nil
+    for i = math.min(row, n - 1), 0, -1 do
+        if is_pm_line(getline(i)) then
+        anchor = i
+        break
+        end
+    end
+    if not anchor then
+        for i = math.max(row + 1, 0), n - 1 do
+        if is_pm_line(getline(i)) then
+            anchor = i
+            break
+        end
+        end
+    end
+    if not anchor then
+        error('No +/- lines found near cursor')
+    end
+
+    -- Expand to contiguous +/- block around anchor
+    local start_row = anchor
+    while start_row > 0 and is_pm_line(getline(start_row - 1)) do
+        start_row = start_row - 1
+    end
+
+    local end_row = anchor
+    while end_row < n - 1 and is_pm_line(getline(end_row + 1)) do
+        end_row = end_row + 1
+    end
+
+    local out = {}
+    for i = start_row, end_row do
+        local s = getline(i)
+        local c = s:sub(1, 1)
+        if c == '+' then
+        table.insert(out, s:sub(2))
+        elseif c == '-' then
+        -- drop
+        else
+        table.insert(out, s)
+        end
+    end
+
+    vim.api.nvim_buf_set_lines(buf, start_row, end_row + 1, true, out)
+    vim.api.nvim_win_set_cursor(0, { start_row + 1, 0 })
+end
+
 return M
