@@ -12,6 +12,11 @@ Dot case        lorem.ipsum   textcase.api.to_dot_case      d
 Title case      Lorem Ipsum   textcase.api.to_title_case    t
 Path case       lorem/ipsum   textcase.api.to_path_case     /
 Phrase case     Lorem ipsum   textcase.api.to_phrase_case   <space>
+
+Operator, e.g. make the text within " title case:
+gaot i"
+    - gaot - ga-operator-titlecase
+    - i" - inner "..."
 --]]
 
 local Plugin = {

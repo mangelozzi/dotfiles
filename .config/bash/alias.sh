@@ -10,6 +10,7 @@ alias lc="source ~/linkcube/script/console.sh"
 alias term="source ~/terminal/script/console.sh"
 alias djangodev="source ~/.venv/djangodev/bin/activate"
 alias ml="source ~/.venv/ml/bin/activate"
+alias br="cd ~/beready"
 
 # LANGS
 # --------

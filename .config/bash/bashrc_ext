@@ -208,3 +208,41 @@ cryptofix() {
         fi
     done
 }
+
+fuji_no_clean_up() {
+    gphoto2 --stdout --capture-movie | \
+    ffmpeg -i - -vcodec rawvideo -pix_fmt yuv420p -f v4l2 /dev/video2
+}
+
+
+fuji() {
+    local dev="/dev/video2"
+    local dev_nr="${dev#/dev/video}"
+    local label="X-T2 Webcam"
+
+    echo "[fuji] Killing gvfs gphoto helpers (if any)..."
+    killall gvfs-gphoto2-volume-monitor gvfsd-gphoto2 2>/dev/null || true
+
+    echo "[fuji] Reloading v4l2loopback on $dev..."
+    if lsmod | grep -q '^v4l2loopback'; then
+        sudo modprobe -r v4l2loopback || {
+            echo "[fuji] Failed to unload v4l2loopback"
+            return 1
+        }
+    fi
+    sudo modprobe v4l2loopback devices=1 video_nr="$dev_nr" card_label="$label" exclusive_caps=1 || {
+        echo "[fuji] Failed to load v4l2loopback"
+        return 1
+    }
+
+    echo "[fuji] Checking for Fujifilm X-T2..."
+    if ! gphoto2 --auto-detect 2>/dev/null | grep -q "Fujifilm X-T2"; then
+        echo "[fuji] X-T2 not detected. Is it on and in tether mode?"
+        return 1
+    fi
+
+    echo "[fuji] Starting Fuji -> ffmpeg -> $dev"
+    gphoto2 --stdout --capture-movie | \
+        ffmpeg -f mjpeg -i - -pix_fmt yuv420p -s 640x480 -f v4l2 "$dev"
+}
+
