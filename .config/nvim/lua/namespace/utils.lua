@@ -181,16 +181,15 @@ function M.breakpoint()
     end
 end
 
--- Text object to select the whole buffer, used in normal/visual modes
-function M.text_object_all()
-    vim.g.cursor_position = vim.fn.winsaveview()
-    vim.cmd("normal! ggVG")
+function M.text_object(cmd)
+    local view = vim.fn.winsaveview()
+    vim.cmd(cmd)
     local pattern = "[cd]" -- 'c' or 'd'
     if not string.find(vim.v.operator, pattern) then
         -- Running the command straight does not work, have to pass it through feedkeys or defer it
         vim.defer_fn(
             function()
-                vim.fn.winrestview(vim.g.cursor_position)
+                vim.fn.winrestview(view)
             end,
             0
         )

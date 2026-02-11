@@ -7,14 +7,14 @@ Plugin.cond = false, -- like enabled but does not uninstall the plugin
 --]]
 return {
     -- OPERATOR + MOTION + TEXT-OBJECT = AWESOME (VIM SPEAK LANGUAGE)
-    {"wellle/targets.vim"},
+    -- {"wellle/targets.vim"}, -- overrides other objects
     {"tpope/vim-repeat"},
     {"tpope/vim-unimpaired"},
     {"AndrewRadev/bufferize.vim"},
-    {
-        "whatyouhide/vim-textobj-xmlattr",
-        dependencies = {"kana/vim-textobj-user"}
-    },
+    -- {
+    --     "whatyouhide/vim-textobj-xmlattr",
+    --     dependencies = {"kana/vim-textobj-user"}
+    -- },
     {
         "inkarkat/vim-SpellCheck",
         descr = "Spell check extras",

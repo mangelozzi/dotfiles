@@ -45,13 +45,10 @@ Special Functions:
 --]]
 
 -- like terminal kill to end of line
-vim.keymap.set("i", '<C-K>', "<Esc>lDa", { noremap = true, desc ="Kill until end of line" })
+-- vim.keymap.set("i", '<C-K>', "<Esc>lDa", { noremap = true, desc ="Kill until end of line" })
 
 -- like terminal goto line start (not column 0)
 vim.keymap.set("i", '<C-A>', "<Esc>^i", { noremap = true, desc ="Jump to line start" })
-
--- Add a short divider `---`
--- vim.keymap.set("i", '<C-B>', "---", { noremap = true, desc ="(b)locky - short divider" })
 
 
 -- like terminal goto line start (not column 0)
@@ -63,9 +60,6 @@ vim.keymap.set("i", '<C-J>', "<Down>",  { noremap = true, desc ="Down" })
 vim.keymap.set("i", '<C-K>', "<Up>",    { noremap = true, desc ="Up" })
 vim.keymap.set("i", '<C-L>', "<Right>", { noremap = true, desc ="Right" })
 
--- vim.keymap.set("i", '<C-B>', "<Bs>",    { noremap = true, desc ="(b)ackspace" }) -- Never use it
--- vim.keymap.set("i", '<C-D>', "<Del>",   { noremap = true, desc ="(d)elete" }) -- Never use it
-
 vim.keymap.set("i", '<C-V>', '<C-r>+',   { noremap = true, desc ="paste (insert mode)" })
 vim.keymap.set("i", '<C-Q>', '<C-v>',    { noremap = true, desc ="Insert literally, (used to be ctrl+v)" })
 
@@ -73,9 +67,9 @@ vim.keymap.set("i", '<C-Q>', '<C-v>',    { noremap = true, desc ="Insert literal
 -- Not lower case to keep alt+key free to escape insert mode and run the normal mode command
 -- <C-m> = <CR>
 vim.keymap.set("i", '<C-B>', "{%  %}<Esc>hhi", { noremap = true, desc ="Django (B)lock  {% %}" })
-vim.keymap.set("i", '<C-D>', "{{  }}<Esc>hhi", { noremap = true, desc ="(D)jango variable {{ }}" })
-vim.keymap.set("i", '<C-W>', "{#  #}<Esc>hhi", { noremap = true, desc ="Django Comment (W)hat {# #}" })
+vim.keymap.set("i", '<M-C>', "{#  #}<Esc>hhi", { noremap = true, desc ="Django (C)omment  {# #}" })
+vim.keymap.set("i", '<M-V>', "{{  }}<Esc>hhi", { noremap = true, desc ="Django (V)ariable {{ }}" })
 
 -- Blocky Dividers
-vim.keymap.set("i", '<C-F>', "---", { noremap = true, nowait = true, desc ="(F)aint blocky ---" })
-vim.keymap.set("i", '<C-M>', "-------", { noremap = true, nowait = true, desc ="(M)ega blocky ------- <C-M>" })
+vim.keymap.set("i", '<M-F>', "---", { noremap = true, nowait = true, desc ="(F)aint blocky ---" })
+vim.keymap.set("i", '<M-G>', "-------", { noremap = true, nowait = true, desc ="(M)ega blocky ------- <C-M>" })
