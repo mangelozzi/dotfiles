@@ -63,8 +63,8 @@ vim.keymap.set("i", '<C-J>', "<Down>",  { noremap = true, desc ="Down" })
 vim.keymap.set("i", '<C-K>', "<Up>",    { noremap = true, desc ="Up" })
 vim.keymap.set("i", '<C-L>', "<Right>", { noremap = true, desc ="Right" })
 
-vim.keymap.set("i", '<C-B>', "<Bs>",    { noremap = true, desc ="(b)ackspace" })
-vim.keymap.set("i", '<C-D>', "<Del>",   { noremap = true, desc ="(d)elete" })
+-- vim.keymap.set("i", '<C-B>', "<Bs>",    { noremap = true, desc ="(b)ackspace" }) -- Never use it
+-- vim.keymap.set("i", '<C-D>', "<Del>",   { noremap = true, desc ="(d)elete" }) -- Never use it
 
 vim.keymap.set("i", '<C-V>', '<C-r>+',   { noremap = true, desc ="paste (insert mode)" })
 vim.keymap.set("i", '<C-Q>', '<C-v>',    { noremap = true, desc ="Insert literally, (used to be ctrl+v)" })
@@ -72,6 +72,10 @@ vim.keymap.set("i", '<C-Q>', '<C-v>',    { noremap = true, desc ="Insert literal
 -- Insert django style {% tag %}
 -- Not lower case to keep alt+key free to escape insert mode and run the normal mode command
 -- <C-m> = <CR>
-vim.keymap.set("i", '<M-P>', "{%  %}<Esc>hhi", { noremap = true, desc ="Django (P)ercent  {% %}" })
-vim.keymap.set("i", '<M-C>', "{#  #}<Esc>hhi", { noremap = true, desc ="Django (C)omment  {# #}" })
-vim.keymap.set("i", '<M-V>', "{{  }}<Esc>hhi", { noremap = true, desc ="Django (V)ariable {{ }}" })
+vim.keymap.set("i", '<C-B>', "{%  %}<Esc>hhi", { noremap = true, desc ="Django (B)lock  {% %}" })
+vim.keymap.set("i", '<C-D>', "{{  }}<Esc>hhi", { noremap = true, desc ="(D)jango variable {{ }}" })
+vim.keymap.set("i", '<C-W>', "{#  #}<Esc>hhi", { noremap = true, desc ="Django Comment (W)hat {# #}" })
+
+-- Blocky Dividers
+vim.keymap.set("i", '<C-F>', "---", { noremap = true, nowait = true, desc ="(F)aint blocky ---" })
+vim.keymap.set("i", '<C-M>', "-------", { noremap = true, nowait = true, desc ="(M)ega blocky ------- <C-M>" })

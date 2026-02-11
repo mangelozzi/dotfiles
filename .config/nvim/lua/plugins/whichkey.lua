@@ -61,10 +61,19 @@ Plugin.config = function()
         "n",
         "<leader>?",
         function()
-            vim.cmd("WhichKey")
+            require('which-key').show();
         end,
-        {noremap = true, desc = "Show which-key mappings"}
+        {noremap = true, desc = "Show which-key NORMAL mappings"}
     )
+    vim.keymap.set(
+        "n",
+        "<F1>",
+        function()
+            require('which-key').show({ mode = 'i' });
+        end,
+        {noremap = true, desc = "Show which-key INSERT mappings"}
+    )
+
     -- Register own mappings
     wk.add({
         -- Wrap text (built in) - default is gq, but requires textwidth to be none zero, built in, but does not show up in which key by default
