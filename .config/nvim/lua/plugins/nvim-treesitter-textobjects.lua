@@ -104,18 +104,18 @@ Plugin.config = function()
                     -- F = (F)unction
                     ["af"] = "@function.outer",
                     ["if"] = "@function.inner",
-                    -- P = (P)redicate
-                    ["ap"] = "@conditional.outer",
-                    ["ip"] = "@conditional.inner",
+                    -- T = (T)est (conditional/predicate)
+                    ["at"] = "@conditional.outer",
+                    ["it"] = "@conditional.inner",
                     -- R = (R)eturn
                     ["ar"] = "@return.outer",
                     ["ir"] = "@return.inner",
                     -- X = Attributes
                     ["ax"] = "@attribute.outer",
                     ["ix"] = "@attribute.inner",
-                    -- M = comment or (T)ext
-                    ["at"] = "@comment.outer",
-                    ["it"] = "@comment.inner",
+                    -- S = comment or (S)ayings
+                    ["as"] = "@comment.outer",
+                    ["is"] = "@comment.inner",
                     --
                     ["ak"] = "@statement.outer", -- A (K)ode line, note ik = assignment LHS
                     ["av"] = "@scopename.inner", -- A scope (V)alue (e.g. function/class name), note iv = assignment RHS
@@ -125,6 +125,7 @@ Plugin.config = function()
                     ["ik"] = "@assignment.lhs", -- (K)ey
                     ["iv"] = "@assignment.rhs", -- (V)value
                     -- FREE: e h j r s u w x y A B C D E F G H J K L M O P Q R T U V W X Y Z
+                    -- p = paragraph
                 },
                 -- You can choose the select mode (default is charwise 'v')
                 --
