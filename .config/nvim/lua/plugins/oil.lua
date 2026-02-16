@@ -38,6 +38,8 @@ Plugin.config = function()
         keymaps = {
             ["<C-c>"] = false, -- disable this default mapping
             ["<esc>"] = "actions.close",
+            ["<CR>"] = "actions.select",
+            ["o"] = "actions.select",
         }
         -- Selecting a new/moved/renamed file or directory will prompt you to save changes first
         -- (:help prompt_save_on_select_new_entry)
@@ -69,11 +71,14 @@ Plugin.config = function()
         -- Configuration for the floating keymaps help window
     }
 
+    -- IN CURRENT WINDOW
+    vim.keymap.set("n", "<leader>o", function()
+        require("oil").open()
+    end, {noremap = true, desc = "Oil"})
+    -- FLOAT WINDOW
     vim.keymap.set("n", "<leader>O", function()
         require("oil").toggle_float()
-        -- require("oil").open()
     end, {noremap = true, desc = "Oil"})
-
     -- vim.keymap.set("n", "-", "<CMD>Oil<CR>", { desc = "Open parent directory" })
 
 end

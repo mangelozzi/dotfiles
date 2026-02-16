@@ -93,8 +93,8 @@ Plugin.config = function()
                     ["aa"] = "@parameter.outer",
                     ["ia"] = "@parameter.inner",
                     -- B = (B)lock
-                    ["ab"] = "@block.outer",
-                    ["ib"] = "@block.inner",
+                    ["aB"] = "@block.outer", -- ab used for = a "bracket pair"
+                    ["iB"] = "@block.inner", -- ib used for = inner "bracket pair"
                     -- C = (c)lass
                     ["ac"] = "@class.outer",
                     ["ic"] = "@class.inner",
