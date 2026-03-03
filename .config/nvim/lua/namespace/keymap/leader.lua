@@ -121,3 +121,17 @@ vim.keymap.set('n', '<leader>i', function() leader_utils.openInVsp(false, true) 
 vim.keymap.set('n', '<leader>I', function() leader_utils.openInVsp(true, true) end,  { desc = '(Init) Vsplit alt buf' })
 
 vim.keymap.set('n', '<leader>gm', function() leader_utils.strip_plus_minus_block() end,  { desc = 'Stip patch (M)arkers' })
+
+
+-- BUFFER SIZE ----------------------------------------------------------------
+-- Print the buffer size in bytes if less than 1KB, else in KB
+vim.keymap.set('n', '<leader>Z', function()
+    local bytes = vim.api.nvim_buf_get_offset(0, vim.api.nvim_buf_line_count(0))
+
+    if bytes < 1024 then
+        vim.notify(string.format('Buffer size: %d bytes', bytes))
+    else
+        local kib = bytes / 1024
+        vim.notify(string.format('Buffer size: %.2f KiB', kib))
+    end
+end, { desc = 'buffer si(Z)e' })
