@@ -1,6 +1,6 @@
 local Plugin = {
     "stevearc/oil.nvim",
-    dependencies = {"nvim-tree/nvim-web-devicons"}
+    dependencies = {"nvim-tree/nvim-web-devicons"},
     -- cmd = "Oil",
     -- keys = {"<leader>O"},
 }
@@ -35,40 +35,37 @@ Plugin.config = function()
             max_width = 120,
             -- max_height = 0
         },
+        use_default_keymaps = false,
         keymaps = {
-            ["<C-c>"] = false, -- disable this default mapping
-            ["<esc>"] = "actions.close",
+            -- Selecting a new/moved/renamed file or directory will prompt you to save changes first
+            -- (:help prompt_save_on_select_new_entry)
+            -- prompt_save_on_select_new_entry = true, -- this is the default
+            -- Keymaps in oil buffer. Can be any value that `vim.keymap.set` accepts OR a table of keymap
+            -- options with a `callback` (e.g. { callback = function() ... end, desc = "", mode = "n" })
+            -- Additionally, if it is a string that matches "actions.<name>",
+            -- it will use the mapping at require("oil.actions").<name>
+            -- Set to `false` to remove a keymap
+            -- See :help oil-actions for a list of all available actions
+            -- ["g?"] = { "actions.show_help", mode = "n" },
+            ["?"] = { "actions.show_help", mode = "n", desc = "This help" }, -- changed from g?
             ["<CR>"] = "actions.select",
-            ["o"] = "actions.select",
+            ["o"] = "actions.select", -- Mike added
+            ["<leader>v"] = { "actions.select", opts = { vertical = true }, desc = "Split (V)ertically" },
+            ["<leader>h"] = { "actions.select", opts = { horizontal = true }, desc = "Split (H)ertically" },
+            -- ["<C-t>"] = { "actions.select", opts = { tab = true } },
+            ["<C-p>"] = "actions.preview",
+            -- ["<C-c>"] = { "actions.close", mode = "n" },
+            ["<esc>"] = { "actions.close", mode = "n", desc = "Close" }, -- Mike
+            -- ["<C-l>"] = "actions.refresh",
+            ["-"] = { "actions.parent", mode = "n", desc = "Parent" },
+            ["_"] = { "actions.open_cwd", mode = "n", desc = "Open CWD" },
+            ["`"] = { "actions.cd", mode = "n", desc="CD" },
+            -- ["g~"] = { "actions.cd", opts = { scope = "tab" }, mode = "n" },
+            ["gs"] = { "actions.change_sort", mode = "n", desc = "Change sort" },
+            ["gx"] = { "actions.open_external", desc = "Open external" },
+            ["g."] = { "actions.toggle_hidden", mode = "n", desc = "Toggle hidden" },
+            -- ["g\\"] = { "actions.toggle_trash", mode = "n", desc="Toggle Trash" },
         }
-        -- Selecting a new/moved/renamed file or directory will prompt you to save changes first
-        -- (:help prompt_save_on_select_new_entry)
-        -- prompt_save_on_select_new_entry = true, -- this is the default
-        -- Keymaps in oil buffer. Can be any value that `vim.keymap.set` accepts OR a table of keymap
-        -- options with a `callback` (e.g. { callback = function() ... end, desc = "", mode = "n" })
-        -- Additionally, if it is a string that matches "actions.<name>",
-        -- it will use the mapping at require("oil.actions").<name>
-        -- Set to `false` to remove a keymap
-        -- See :help oil-actions for a list of all available actions
-        -- keymaps = {
-        --     ["g?"] = "actions.show_help",
-        --     ["<CR>"] = "actions.select",
-        --     ["<C-s>"] = "actions.select_vsplit",
-        --     ["<C-h>"] = "actions.select_split",
-        --     ["<C-t>"] = "actions.select_tab",
-        --     ["<C-p>"] = "actions.preview",
-        --     ["<C-c>"] = "actions.close",
-        --     ["<C-l>"] = "actions.refresh",
-        --     ["-"] = "actions.parent",
-        --     ["_"] = "actions.open_cwd",
-        --     ["`"] = "actions.cd",
-        --     ["~"] = "actions.tcd",
-        --     ["gs"] = "actions.change_sort",
-        --     ["gx"] = "actions.open_external",
-        --     ["g."] = "actions.toggle_hidden",
-        --     ["g\\"] = "actions.toggle_trash"
-        -- },
-        -- Configuration for the floating keymaps help window
     }
 
     -- IN CURRENT WINDOW
