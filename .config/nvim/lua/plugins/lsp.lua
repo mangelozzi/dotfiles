@@ -34,7 +34,7 @@ local my_servers = {
     html = false,
     lua_ls = false,
     pyright = false,
-    tsserver = false,
+    ts_ls = false,
     ---- Auto Setup
     -- emmet_ls, -- emmet html completion support, prefer emmet-vim plugin
     bashls = true,
@@ -86,7 +86,13 @@ Plugin.config = function()
 
     -- 2. Get LSP servers executables
     -- :Mason ... select one and press i to install, add it to the `ensure_installed` below.
-    require("mason-lspconfig").setup {ensure_installed = my_servers}
+    local ensure_installed = {}
+    for server, _ in pairs(my_servers) do
+        if server ~= "curlylint" and server ~= "djlint" then
+            table.insert(ensure_installed, server)
+        end
+    end
+    require("mason-lspconfig").setup { ensure_installed = ensure_installed }
 
     -- 3. Default LSP settings
     local capabilities = require("cmp_nvim_lsp").default_capabilities()
@@ -122,9 +128,9 @@ Plugin.config = function()
         vim.keymap.set("n", "[d", function() vim.diagnostic.jump({count=-1, float=true}) end, get_opts("previous diagnostic"))
         vim.keymap.set("n", "]d", function() vim.diagnostic.jump({count=1, float=true}) end, get_opts("next diagnostic"))
         -- vim.keymap.set('n', '<space>???', function() vim.diagnostic.set_loclist() end, get_opts('Set loclist'))
-        vim.keymap.set("n", "<leader>lf", function() vim.lsp.buf.formatting() end, get_opts("(f)ormatting")) -- Sometimes is nil so wrap in a function
-        vim.keymap.set("n", "<leader>ll", function() vim.api.nvim_command("LspRestart") print("...LSP Restarted") end, get_opts("server restart"))
-        vim.keymap.set("n", "<leader>li", function() vim.api.nvim_command("LspInfo") end, get_opts("server (i)nfo"))
+        vim.keymap.set("n", "<leader>lf", function() vim.lsp.buf.format() end, get_opts("(f)ormatting"))
+        vim.keymap.set("n", "<leader>ll", function() vim.cmd("LspRestart") print("...LSP Restarted") end, get_opts("server restart"))
+        vim.keymap.set("n", "<leader>li", function() vim.cmd("LspInfo") end, get_opts("server (i)nfo"))
         -- Note null-ls will always be shown as autostart: false in LspInfo, it is managed separately
         vim.keymap.set("n", "<leader>lI", function() vim.api.nvim_command("NullLsInfo") end, get_opts("server Null-ls (I)nfo"))
     end
@@ -133,33 +139,41 @@ Plugin.config = function()
     -- :help lspconfig-quickstart recommends not using `require('mason-lspconfig').setup_handlers` but rather lspconfig
     -- {filetypes}
 
+    vim.lsp.config("*", {
+        on_attach = lsp_attach,
+        capabilities = capabilities
+    })
+
     -- First Default Setup
     for server, default in pairs(my_servers) do
         if default then
-            require("lspconfig")[server].setup {
-                on_attach = lsp_attach,
-                capabilities = capabilities
-            }
+            vim.lsp.enable(server)
         end
     end
 
-    require("lspconfig").lua_ls.setup {
-        on_attach = lsp_attach,
-        capabilities = capabilities,
+    vim.lsp.config("lua_ls", {
         settings = {
             Lua = {
                 diagnostics = {globals = {"vim"}}
             }
         },
         on_init = function(client)
-            local path = client.workspace_folders[1].name
-            if vim.loop.fs_stat(path .. "/.luarc.json") or vim.loop.fs_stat(path .. "/.luarc.jsonc") then
+            local workspace = client.workspace_folders and client.workspace_folders[1]
+            local path = workspace and workspace.name
+            local uv = vim.uv or vim.loop
+
+            if not path then
                 return
             end
+
+            if uv.fs_stat(path .. "/.luarc.json") or uv.fs_stat(path .. "/.luarc.jsonc") then
+                return
+            end
+
             client.config.settings.Lua =
                 vim.tbl_deep_extend(
                 "force",
-                client.config.settings.Lua,
+                client.config.settings.Lua or {},
                 {
                     runtime = {
                         version = "LuaJIT"
@@ -174,16 +188,13 @@ Plugin.config = function()
                 }
             )
         end
-    }
+    })
+    vim.lsp.enable("lua_ls")
 
-    require("lspconfig").tsserver.setup {
-        on_attach = lsp_attach,
-        capabilities = capabilities
-    }
+    vim.lsp.config("ts_ls", {})
+    vim.lsp.enable("ts_ls")
 
-    require("lspconfig").pyright.setup {
-        on_attach = lsp_attach,
-        capabilities = capabilities,
+    vim.lsp.config("pyright", {
         flags = {
             debounce_text_changes = 300
         },
@@ -198,13 +209,13 @@ Plugin.config = function()
                 }
             }
         }
-    }
+    })
+    vim.lsp.enable("pyright")
 
-    require("lspconfig").html.setup {
-        on_attach = lsp_attach,
-        capabilities = capabilities,
+    vim.lsp.config("html", {
         filetypes = {"html", "htmldjango"} -- Add htmldjango
-    }
+    })
+    vim.lsp.enable("html")
 
     -- null-ls / none-ls
     local null_ls = require("null-ls") -- 'none-ls' keeps the original api name of 'null-ls'
