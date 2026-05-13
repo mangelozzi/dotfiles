@@ -19,7 +19,7 @@ alias zr="zig run"
 # APPS
 # --------
 alias chrome="sudo apt-get update; sudo apt-get --only-upgrade install google-chrome-stable"
-alias freecad="QT_FONT_DPI=96 ~/appimages/freecad-0.21.1.AppImage &"
+alias freecad="QT_FONT_DPI=96 ~/appimages/FreeCAD_1.1.0-Linux-x86_64-py311.AppImage &"
 
 # TOOLS
 alias rpiboot="sudo ~/tools/rpiboot/rpiboot"

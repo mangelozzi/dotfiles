@@ -130,4 +130,20 @@ function M.strip_plus_minus_block()
     vim.api.nvim_win_set_cursor(0, { start_row + 1, 0 })
 end
 
+-- Given a string like "customers models" it would insert "from customers import models as customers_models"
+function M.insert_import_alias()
+    local input = vim.fn.input("Import: ")
+    local module, name = input:match("^%s*(%S+)%s+(%S+)%s*$")
+    if not module or not name then
+        module, name = input:match("^%s*([^_]+)_(.+)%s*$")
+    end
+    if not module or not name then
+        error('Expected format: "providers dint" or "providers_dint"')
+    end
+    local alias = string.format("%s_%s", module, name)
+    local line = string.format("from %s import %s as %s", module, name, alias)
+    vim.api.nvim_put({ line }, "l", true, true)
+    vim.fn.setreg("+", alias)
+end
+
 return M

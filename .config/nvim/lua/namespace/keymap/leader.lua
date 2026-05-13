@@ -112,6 +112,8 @@ vim.keymap.set("n", "<leader>av", function() switcher.switch('app', 'views')    
 vim.keymap.set("n", "<leader>aU", function() switcher.switch('app', 'utils')            end, {noremap = true, desc = "Switch app (U)tils"})
 vim.keymap.set("n", "<leader>ai", function() switcher.switch('app', 'index')            end, {noremap = true, desc = "Switch app (i)ndex"})
 
+vim.keymap.set("n", "<leader>m", leader_utils.insert_import_alias, { desc = "Insert aliased import" })
+
 -- JSDoc @type annotation - Open previous line, type in `/** @type {} */` then left arrow to the culy braces
 vim.keymap.set("n", "<leader>D", "O/** @type {} */<esc>hhhi", {noremap = true, desc = "(D)oc type"})
 

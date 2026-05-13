@@ -61,7 +61,6 @@ vim.api.nvim_create_autocmd(
     }
 )
 
-
 vim.api.nvim_create_autocmd(
     "BufWritePre",
     {
@@ -69,7 +68,7 @@ vim.api.nvim_create_autocmd(
         pattern = {"*"},
         group = NamespaceGroup,
         callback = function()
-            local excluded_filetypes = { "markdown", "html", "htmldjango" }
+            local excluded_filetypes = {"markdown", "html", "htmldjango"}
             local current_filetype = vim.bo.filetype
             for _, ft in ipairs(excluded_filetypes) do
                 if current_filetype == ft then
@@ -87,40 +86,48 @@ vim.api.nvim_create_autocmd(
     }
 )
 
-vim.api.nvim_create_autocmd("BufWritePre", {
-    desc = "Use most common line ending \\r\\n or just \\n",
-    pattern = {"*"},
-    group = NamespaceGroup,
-    callback = function()
-        -- Determine if we should remove stray "\r"
-        -- If the file is already using dos line endings, we keep them.
-        if vim.bo.fileformat == "dos" then return end
-        local lines = vim.api.nvim_buf_get_lines(0, 0, -1, false)
-        local total_lines = #lines
-        if total_lines == 0 then return end
-
-        local cr_count = 0
-        for _, line in ipairs(lines) do
-            -- Check if the last character is a carriage return.
-            if string.sub(line, -1) == "\r" then
-            cr_count = cr_count + 1
+vim.api.nvim_create_autocmd(
+    "BufWritePre",
+    {
+        desc = "Use most common line ending \\r\\n or just \\n",
+        pattern = {"*"},
+        group = NamespaceGroup,
+        callback = function()
+            -- Determine if we should remove stray "\r"
+            -- If the file is already using dos line endings, we keep them.
+            if vim.bo.fileformat == "dos" then
+                return
             end
-        end
+            local lines = vim.api.nvim_buf_get_lines(0, 0, -1, false)
+            local total_lines = #lines
+            if total_lines == 0 then
+                return
+            end
 
-        local save_cursor = vim.fn.getpos(".")
-        local force_linux_end = true
-        if force_linux_end or cr_count < (total_lines / 2) then
-            -- If fewer than half of the lines end with "\r",
-            -- then remove all stray "\r" characters.
-            pcall(function()
-                vim.cmd [[%s/\r//g]]
-            end)
-        else
-            -- force all \r\n
-            vim.cmd [[%s/$/\r/g]]
+            local cr_count = 0
+            for _, line in ipairs(lines) do
+                -- Check if the last character is a carriage return.
+                if string.sub(line, -1) == "\r" then
+                    cr_count = cr_count + 1
+                end
+            end
+
+            local save_cursor = vim.fn.getpos(".")
+            local force_linux_end = true
+            if force_linux_end or cr_count < (total_lines / 2) then
+                -- If fewer than half of the lines end with "\r",
+                -- then remove all stray "\r" characters.
+                pcall(
+                    function()
+                        vim.cmd [[%s/\r//g]]
+                    end
+                )
+            else
+                -- force all \r\n
+                vim.cmd [[%s/$/\r/g]]
+            end
+            vim.fn.setpos(".", save_cursor)
         end
-        vim.fn.setpos(".", save_cursor)
-    end
     }
 )
 
@@ -141,10 +148,9 @@ vim.api.nvim_create_autocmd(
     }
 )
 
-
 -- Copy the other editable window's relative file path into reg '8' and its alt bug into reg '9'
 vim.api.nvim_create_autocmd(
-    { "WinEnter" },
+    {"WinEnter"},
     {
         desc = "Copy other editable window's relative file path to register s",
         group = NamespaceGroup,
@@ -182,17 +188,38 @@ vim.api.nvim_create_autocmd(
 
             -- 2) Other window's alternate buffer path -> register '9'
             -- Must evaluate '#' in the context of the OTHER window.
-            local alt_abs = vim.api.nvim_win_call(other_win, function()
-                local alt_buf = vim.fn.bufnr("#")
-                if alt_buf == -1 then
-                    return ""
+            local alt_abs =
+                vim.api.nvim_win_call(
+                other_win,
+                function()
+                    local alt_buf = vim.fn.bufnr("#")
+                    if alt_buf == -1 then
+                        return ""
+                    end
+                    return vim.api.nvim_buf_get_name(alt_buf)
                 end
-                return vim.api.nvim_buf_get_name(alt_buf)
-            end)
+            )
             local alt_rel = rel(alt_abs)
             if alt_rel then
                 vim.fn.setreg("9", alt_rel)
             end
+        end
+    }
+)
+
+--[[
+Disable annoying when open new line o/O it starts with comment
+Built in javascript pluging turns it on even though I disable it in opt.lua
+    c  auto-wrap comments using textwidth, inserting the comment leader
+    r  continue the comment leader when pressing Enter in Insert mode
+    o  continue the comment leader when pressing o or O in Normal mode
+--]]
+vim.api.nvim_create_autocmd(
+    "FileType",
+    {
+        group = NamespaceGroup,
+        callback = function()
+            vim.opt_local.formatoptions:remove({"c", "o"})
         end
     }
 )

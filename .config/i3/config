@@ -544,7 +544,8 @@ hide_edge_borders smart
 # from https://wiki.archlinux.org/title/I3#Shutdown.2C_reboot.2C_lock_screen
 
 # Add Cronjob to suspend every night, refer to .config/i3/scripts/cron_suspend
-set $locker i3lock --show-failed-attempts --ignore-empty-password --color=004000 && sleep 1
+# White background to not age the projector, especially when blocking the blue LED and heating it up
+set $locker i3lock --show-failed-attempts --ignore-empty-password --color=ffffff && sleep 1
 set $mode-system SYSTEM (l)ock, (e)xit, (s)uspend, (h)ibernate, (r)eboot, shut(d)own
 mode "$mode-system" {
     # Loc then suspend, so when wake up from syspend its locked

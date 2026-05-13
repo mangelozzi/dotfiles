@@ -50,7 +50,7 @@ vim.opt.cursorline = true       -- High lights the line number and cusor line
 -- vim.opt.timeoutlen = 1000    -- Timeout for a hotkey mapping, default is 1000ms
 vim.opt.swapfile = false        -- Disable creating swapfiles, see https://goo.gl/FA6m6h
 
--- 'backup' 'writebackup'	action	 
+-- 'backup' 'writebackup'	action
 --    off	     off	no backup made
 --    off	     on		backup current file, deleted afterwards (DEFAULT)
 --    on	     off	delete old backup, backup current file
@@ -60,8 +60,14 @@ vim.opt.writebackup = true
 
 -- set noshowmode               -- Disables showing which mode one is in (does not giveback any more space cause I use 2 lines for the command area)
 
--- Disable auto wrap lines, auto insert comment leader, other stupid magic
-vim.opt.formatoptions:remove { "f", "c", "r", "o" }
+--[[
+Disable auto wrap lines, auto insert comment leader, other stupid magic
+    f  when using gq or automatic formatting, recognize numbered lists
+    c  auto-wrap comments using textwidth, inserting the comment leader
+    o  continue the comment leader when pressing o or O in Normal mode
+    r  continue the comment leader when pressing Enter in Insert mode
+--]]
+vim.opt.formatoptions:remove { "c", "o" }
 
 -- Show white space chars. extends and precedes is for when word wrap is off
 -- Get shapes from here https://www.copypastecharacter.com/graphic-shapes
