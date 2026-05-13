@@ -38,10 +38,13 @@ local ascii_str = [[
 local M = {}
 
 local ascii = vim.split(ascii_str, "\n")
+
 local vers = vim.version()
 local commit =  vers.build ~= vim.NIL and ("+" .. vers.build) or ""
+local is_nightly = (vers.prerelease ~= nil and vers.prerelease ~= vim.NIL)
+local channel = is_nightly and "Nightly " or "Stable"
 local nvim_version =
-    "NVIM v" .. vers.major .. "." .. vers.minor .. "." .. vers.patch .. "-" .. vers.prerelease .. commit
+    "NVIM v" .. vers.major .. "." .. vers.minor .. "." .. vers.patch .. " (" .. channel .. ") " .. commit
 
 local function pad_str(padding, string)
     return string.rep(" ", padding) .. string

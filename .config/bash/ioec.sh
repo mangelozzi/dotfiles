@@ -42,7 +42,7 @@ alias cdw='cd /mnt/c/work/'
 
 # Angular (next/gw2) start
 # Warning: will keep serving old app if there are errors
-alias pmrn="clear; npm run ng serve -- --no-live-reload --no-hmr"
+alias pmrn="clear; npm run ng serve -- --no-live-reload --hmr=false"
 alias pmr="clear; npm run ng cache clean; npm run ng serve"
 ng serve --hmr --no-live-reload
 alias build="npm run ng build"
