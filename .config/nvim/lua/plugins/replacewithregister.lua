@@ -11,16 +11,14 @@
 -- Use gr for the default go references, used by LSP
 -- Mnemonic: TAB is like switch
 
-local Plugin = {
-    "vim-scripts/ReplaceWithRegister",
-    -- keys = {"<leader>k", "<leader>kk", "<leader>K"}, -- So which key shows keymaps before its used
-}
+-- Must configure before it's configured else it will map gr for you
+vim.keymap.set("n", "<leader>k", "<Plug>ReplaceWithRegisterOperator", { desc = "Replace with register"})
+vim.keymap.set("n", "<leader>K", "<Plug>ReplaceWithRegisterLine", { desc = "Replace line with register"})
+vim.keymap.set("x", "<leader>k", "<Plug>ReplaceWithRegisterVisual", { desc = "Replace visual with register"})
 
-Plugin.init = function()
-    -- Must configure before it's configured else it will map gr for you
-    vim.keymap.set("n", "<leader>k", "<Plug>ReplaceWithRegisterOperator", { desc = "Replace with register"})
-    vim.keymap.set("n", "<leader>K", "Plug>ReplaceWithRegisterLine", { desc = "Replace line with register"})
-    vim.keymap.set("x", "<leader>k", "<Plug>ReplaceWithRegisterVisual", { desc = "Replace visual with register"})
-end
-
-return Plugin
+vim.pack.add({
+    {
+        src = "https://github.com/vim-scripts/ReplaceWithRegister",
+        name = "ReplaceWithRegister",
+    },
+})

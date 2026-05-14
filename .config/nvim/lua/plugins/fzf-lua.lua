@@ -43,13 +43,28 @@ That said, fzf has useful binds for line editing, for example ctrl-w to delete l
 
 --]]
 
-local Plugin = {
-    "ibhagwan/fzf-lua",
-    commit = "b442569ab827",
-    -- not lazy loaded so we can show oldfiles picker at startup
-    -- optional for icon support
-    dependencies = {"nvim-tree/nvim-web-devicons"},
-    build = "./install --bin",
+vim.api.nvim_create_autocmd("PackChanged", {
+    callback = function(ev)
+        if ev.data.spec.name ~= "fzf-lua" then
+            return
+        end
+
+        if ev.data.kind == "install" or ev.data.kind == "update" then
+            vim.system({"./install", "--bin"}, {cwd = ev.data.path}):wait()
+        end
+    end
+})
+
+vim.pack.add {
+    {
+        src = "https://github.com/nvim-tree/nvim-web-devicons",
+        name = "nvim-web-devicons",
+    },
+    {
+        src = "https://github.com/ibhagwan/fzf-lua",
+        name = "fzf-lua",
+        version = "b442569ab827",
+    },
 }
 
 local fd_exclude = ""
@@ -73,7 +88,6 @@ local fd_exclude = ""
 local fd_dist_ignore= "--type file --type symlink --follow --no-ignore" .. fd_exclude .. " -E 'distros'"
 local fd_distros_ignore= "--type file --no-ignore" .. fd_exclude
 
-Plugin.config = function()
     local fzf = require('fzf-lua')
     local actions = fzf.actions
 
@@ -287,7 +301,3 @@ Plugin.config = function()
     vim.keymap.set("n", "<leader>zk", require("fzf-lua").keymaps, {noremap = true, silent = true, desc = "FZF (k)eymaps"})
     vim.keymap.set("n", "<leader>zF", require("fzf-lua").filetypes, {noremap = true, silent = true, desc = "FZF (F)iletypes"})
     vim.keymap.set("n", "<leader>zs", require("fzf-lua").spell_suggest, {noremap = true, silent = true, desc = "FZF (s)pelling suggestions"})
-
-end
-
-return Plugin

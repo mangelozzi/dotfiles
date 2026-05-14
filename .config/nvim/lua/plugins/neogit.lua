@@ -1,14 +1,20 @@
 -- Settings, refer to: https://github.com/TimUntersberger/neogit
 
-local Plugin = {
-    "NeogitOrg/neogit",
-    dependencies = {"nvim-lua/plenary.nvim"},
-    commit = 'c5e09bfcc18fa9ff', -- older faithful, when open repo in browser broke stuff
-    -- keys = {'<leader>i'},
-    event = "VeryLazy",
-}
+vim.pack.add({
+    {
+        src = "https://github.com/nvim-lua/plenary.nvim",
+        name = "plenary.nvim",
+    },
+})
 
-Plugin.config = function()
+vim.pack.add({
+    {
+        src = "https://github.com/NeogitOrg/neogit",
+        name = "neogit",
+        version = "c5e09bfcc18fa9ff",
+    },
+})
+
     require("neogit").setup({
         -- Neogit refreshes its internal state after specific events, which can be expensive depending on the repository size.
         -- Disabling `auto_refresh` will make it so you have to manually refresh the status after you open it.
@@ -132,9 +138,9 @@ Plugin.config = function()
     local function open_neogit_on_current_buffer()
         local function cursor_to_line(pattern)
             local lines = vim.api.nvim_buf_get_lines(0, 0, -1, false)
-            local esccaped_pattern = string.gsub(pattern, "[%p]", "%%%1")
+            local escaped_pattern = string.gsub(pattern, "[%p]", "%%%1")
             for i, line in ipairs(lines) do
-                if line:match(esccaped_pattern) then
+                if line:match(escaped_pattern) then
                     vim.api.nvim_win_set_cursor(0, {i, 0}) -- If pattern is found, move the cursor to the matching line
                     return
                 end
@@ -188,7 +194,3 @@ Plugin.config = function()
     -- Use <leader>g as a prefix for bunch of other git related commands, this keep fast
     vim.keymap.set("n", "<leader>j", function() open_neogit_on_current_buffer() end, {noremap = true, desc = "Neogit buffer"})
     vim.keymap.set("n", "<leader>J", function() require('neogit').open({ kind = 'tab' }) end, {noremap = true, desc = "Neogit"})
-
-end
-
-return Plugin

@@ -30,129 +30,84 @@
 -- @scopename.inner
 -- @statement.outer
 
-local Plugin = {
-    "nvim-treesitter-textobjects",
-}
+vim.pack.add({
+    {
+        src = "https://github.com/nvim-treesitter/nvim-treesitter-textobjects",
+        name = "nvim-treesitter-textobjects",
+    },
+})
 
-local function include_surrounding_whitespace(ctx)
-    local q = ctx.query_string
-    local include_whitespace = {
-        ['@assignment.inner'] = false,
-        ['@assignment.lhs']   = false,
-        ['@assignment.outer'] = true,
-        ['@assignment.rhs']   = false,
-        ['@attribute.inner']  = false,
-        ['@attribute.outer']  = false,
-        ['@block.inner']      = false,
-        ['@block.outer']      = false,
-        ['@call.inner']       = false,
-        ['@call.outer']       = false,
-        ['@class.inner']      = false,
-        ['@class.outer']      = false,
-        ['@comment.inner']    = false,
-        ['@comment.outer']    = false,
-        ['@conditional.inner'] = false,
-        ['@conditional.outer'] = true,
-        ['@frame.inner']      = false,
-        ['@frame.outer']      = true,
-        ['@function.inner']   = false,
-        ['@function.outer']   = false,
-        ['@loop.inner']       = false,
-        ['@loop.outer']       = false,
-        ['@number.inner']     = false,
-        ['@parameter.inner']  = false,
-        ['@parameter.outer']  = false,
-        ['@regex.inner']      = false,
-        ['@regex.outer']      = false,
-        ['@return.inner']     = false,
-        ['@return.outer']     = true,
-        ['@scopename.inner']  = false,
-        ['@statement.outer']  = true,
-    }
-    local include = include_whitespace[q]
-    if include == nil then
-        return false
-    else
-        return include
+local include_surrounding_whitespace = true
+
+require("nvim-treesitter-textobjects").setup({
+    select = {
+        lookahead = true,
+        selection_modes = {
+            ["@parameter.outer"] = "v",
+            ["@function.outer"] = "v",
+            ["@class.outer"] = "v",
+        },
+        include_surrounding_whitespace = include_surrounding_whitespace,
+    },
+})
+
+local function select_textobject(capture)
+    return function()
+        require("nvim-treesitter-textobjects.select").select_textobject(capture, "textobjects")
     end
 end
 
-Plugin.config = function()
-    require'nvim-treesitter.configs'.setup {
-        textobjects = {
-            select = {
-                enable = true,
-
-                -- Automatically jump forward to textobj, similar to targets.vim
-                lookahead = true,
-                keymaps = {
-                    -- You can use the capture groups defined in textobjects.scm
-                    -- Arguments from some other plugin?
-
-                    -- A = (A)rgument
-                    ["aa"] = "@parameter.outer",
-                    ["ia"] = "@parameter.inner",
-                    -- B = (B)lock
-                    ["aB"] = "@block.outer", -- ab used for = a "bracket pair"
-                    ["iB"] = "@block.inner", -- ib used for = inner "bracket pair"
-                    -- C = (c)lass
-                    ["ac"] = "@class.outer",
-                    ["ic"] = "@class.inner",
-                    -- D = Do.. as in a function call()
-                    ["ad"] = "@call.outer",
-                    ["id"] = "@call.inner",
-                    -- F = (F)unction
-                    ["af"] = "@function.outer",
-                    ["if"] = "@function.inner",
-                    -- T = (T)est (conditional/predicate)
-                    ["at"] = "@conditional.outer",
-                    ["it"] = "@conditional.inner",
-                    -- R = (R)eturn
-                    ["ar"] = "@return.outer",
-                    ["ir"] = "@return.inner",
-                    -- X = Attributes
-                    ["ax"] = "@attribute.outer",
-                    ["ix"] = "@attribute.inner",
-                    -- S = comment or (S)ayings
-                    ["as"] = "@comment.outer",
-                    ["is"] = "@comment.inner",
-                    --
-                    ["ak"] = "@statement.outer", -- A (K)ode line, note ik = assignment LHS
-                    ["av"] = "@scopename.inner", -- A scope (V)alue (e.g. function/class name), note iv = assignment RHS
-                    -- Assignments
-                    ["i="] = "@assignment.inner",
-                    ["a="] = "@assignment.outer",
-                    ["ik"] = "@assignment.lhs", -- (K)ey
-                    ["iv"] = "@assignment.rhs", -- (V)value
-                    -- FREE: e h j r s u w x y A B C D E F G H J K L M O P Q R T U V W X Y Z
-                    -- p = paragraph
-                },
-                -- You can choose the select mode (default is charwise 'v')
-                --
-                -- Can also be a function which gets passed a table with the keys
-                -- * query_string: eg '@function.inner'
-                -- * method: eg 'v' or 'o'
-                -- and should return the mode ('v', 'V', or '<c-v>') or a table
-                -- mapping query_strings to modes.
-                selection_modes = {
-                    ['@parameter.outer'] = 'v', -- charwise
-                    -- ['@function.outer'] = 'V', -- linewise, WARNING!!! Dont combine with 'include_surrounding_whitespace = true' cause then will select the next signature
-                    ['@function.outer'] = 'v', -- charwise
-                    ['@class.outer'] = 'v', -- blockwise
-                },
-                -- If you set this to `true` (default is `false`) then any textobject is
-                -- extended to include preceding or succeeding whitespace. Succeeding
-                -- whitespace has priority in order to act similarly to eg the built-in
-                -- `ap`.
-                --
-                -- Can also be a function which gets passed a table with the keys
-                -- * query_string: eg '@function.inner'
-                -- * selection_mode: eg 'v'
-                -- and should return true of false
-                include_surrounding_whitespace = include_surrounding_whitespace,
-            },
-        },
-    }
+local function map(lhs, capture, desc)
+    vim.keymap.set({"x", "o"}, lhs, select_textobject(capture), {
+        desc = desc,
+        silent = true,
+    })
 end
 
-return Plugin
+-- A = argument
+map("aa", "@parameter.outer", "Outer argument")
+map("ia", "@parameter.inner", "Inner argument")
+
+-- B = block
+map("aB", "@block.outer", "Outer block")
+map("iB", "@block.inner", "Inner block")
+
+-- C = class
+map("ac", "@class.outer", "Outer class")
+map("ic", "@class.inner", "Inner class")
+
+-- D = function call
+map("ad", "@call.outer", "Outer call")
+map("id", "@call.inner", "Inner call")
+
+-- F = function
+map("af", "@function.outer", "Outer function")
+map("if", "@function.inner", "Inner function")
+
+-- T = test / conditional
+map("at", "@conditional.outer", "Outer conditional")
+map("it", "@conditional.inner", "Inner conditional")
+
+-- R = return
+map("ar", "@return.outer", "Outer return")
+map("ir", "@return.inner", "Inner return")
+
+-- X = attribute / decorator
+map("ax", "@attribute.outer", "Outer attribute")
+map("ix", "@attribute.inner", "Inner attribute")
+
+-- S = comment / saying
+map("as", "@comment.outer", "Outer comment")
+map("is", "@comment.inner", "Inner comment")
+
+-- K = statement / kode line
+map("ak", "@statement.outer", "Outer statement")
+
+-- V = scope value, for example function/class name
+map("av", "@scopename.inner", "Scope name")
+
+-- Assignments
+map("i=", "@assignment.inner", "Inner assignment")
+map("a=", "@assignment.outer", "Outer assignment")
+map("ik", "@assignment.lhs", "Assignment lhs")
+map("iv", "@assignment.rhs", "Assignment rhs")

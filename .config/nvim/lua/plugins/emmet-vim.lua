@@ -3,7 +3,7 @@
 - If no tag specified, uses a div by default
 - li*5
 
-- Use `>` within and `+` sibling 
+- Use `>` within and `+` sibling
 
 - E.g. expand this:
 div.parent>div.foo-${child-$}*10
@@ -61,31 +61,28 @@ margin: 16px;
 
 --]]
 
-
-local Plugin = {
-    "mattn/emmet-vim",
-    event = "VeryLazy",
+vim.pack.add {
+    {
+        src = "https://github.com/mattn/emmet-vim",
+        name = "emmet-vim"
+    }
 }
 
-Plugin.config = function()
-    -- vim.g.user_emmet_expandabbr_key = '<C-y>y'
+-- vim.g.user_emmet_expandabbr_key = '<C-y>y'
 
-    -- C-hjkl for changing windows, so we need something else:
-    vim.keymap.set({"n", "i", "v"}, '<M-o>', "<plug>(emmet-expand-abbr)", { noremap = true, desc = "Emmet expand abbr" })
+-- C-hjkl for changing windows, so we need something else:
+vim.keymap.set({"n", "i", "v"}, "<M-o>", "<plug>(emmet-expand-abbr)", {noremap = true, desc = "Emmet expand abbr"})
 
-    -- -- Expand an abbr, e.g. 'div>p#foo$*3>a' and type '<C-y>,'.
-    -- -- vim.keymap.set({"n", "i", "v"}, '<C-y>y', "<plug>(emmet-expand-abbr)", { noremap = true })
-    -- -- vim.keymap.set({"n", "i", "v"}, '<C-y>w', "<plug>(emmet-expand-word)", { noremap = true })
-    --
-    -- -- When you want to expand word except html tokens like below, use this.
-    -- -- e.g. <html>foo  ->  <html><foo></foo>
-    -- vim.keymap.set("i", '<C-e>w', "<plug>(emmet-expand-word)", { noremap = true })
-    --
-    -- -- Add attributes using syntax like '.moo' to add the class 'moo'
-    -- vim.keymap.set("n", '<C-e>w', "<plug>(emmet-update-tag)", { noremap = true })
-    --
-    -- -- Wraps each line with abbr
-    -- vim.keymap.set("v", '<C-e>', "<plug>(emmet-expand-abbr)", { noremap = true })
-end
-
-return Plugin
+-- -- Expand an abbr, e.g. 'div>p#foo$*3>a' and type '<C-y>,'.
+-- -- vim.keymap.set({"n", "i", "v"}, '<C-y>y', "<plug>(emmet-expand-abbr)", { noremap = true })
+-- -- vim.keymap.set({"n", "i", "v"}, '<C-y>w', "<plug>(emmet-expand-word)", { noremap = true })
+--
+-- -- When you want to expand word except html tokens like below, use this.
+-- -- e.g. <html>foo  ->  <html><foo></foo>
+-- vim.keymap.set("i", '<C-e>w', "<plug>(emmet-expand-word)", { noremap = true })
+--
+-- -- Add attributes using syntax like '.moo' to add the class 'moo'
+-- vim.keymap.set("n", '<C-e>w', "<plug>(emmet-update-tag)", { noremap = true })
+--
+-- -- Wraps each line with abbr
+-- vim.keymap.set("v", '<C-e>', "<plug>(emmet-expand-abbr)", { noremap = true })

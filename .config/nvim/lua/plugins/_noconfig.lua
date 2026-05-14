@@ -1,35 +1,56 @@
 --[[
-Drop the trailing `.nvim` from plugin names because the . messes up the imports,
-lua can use . or / for import heirarchy.
+Config-less plugins. These are installed eagerly with vim.pack.
 
-Plugin.cond = false, -- like enabled but does not uninstall the plugin
-
+Drop the trailing `.nvim` from plugin names because the . messes up imports,
+lua can use . or / for import hierarchy.
 --]]
-return {
-    -- OPERATOR + MOTION + TEXT-OBJECT = AWESOME (VIM SPEAK LANGUAGE)
-    -- {"wellle/targets.vim"}, -- overrides other objects
-    {"tpope/vim-repeat"},
-    {"tpope/vim-unimpaired"},
-    {"AndrewRadev/bufferize.vim"},
-    -- {
-    --     "whatyouhide/vim-textobj-xmlattr",
-    --     dependencies = {"kana/vim-textobj-user"}
-    -- },
+
+vim.pack.add({
     {
-        "inkarkat/vim-SpellCheck",
-        descr = "Spell check extras",
-        dependencies = {"inkarkat/vim-ingo-library"}
-    }
-}
+        src = "https://github.com/tpope/vim-repeat",
+        name = "vim-repeat",
+    },
+})
+vim.pack.add({
+    {
+        src = "https://github.com/tpope/vim-unimpaired",
+        name = "vim-unimpaired",
+    },
+})
+vim.pack.add({
+    {
+        src = "https://github.com/AndrewRadev/bufferize.vim",
+        name = "bufferize.vim",
+    },
+})
+vim.pack.add({
+    {
+        src = "https://github.com/inkarkat/vim-ingo-library",
+        name = "vim-ingo-library",
+    },
+})
+vim.pack.add({
+    {
+        src = "https://github.com/inkarkat/vim-SpellCheck",
+        name = "vim-SpellCheck",
+    },
+})
 
 --[[
     -- maybe messes up quickfix colors
     -- Allows one to easily align text
-    use("junegunn/vim-easy-align")
+    vim.pack.add({
+        {
+            src = "https://github.com/junegunn/vim-easy-align",
+            name = "vim-easy-align",
+        },
+    })
 
     -- COLORSCHEMES / THEMES
-    use {
-        "sainnhe/gruvbox-material",
-    }
-
+    vim.pack.add({
+        {
+            src = "https://github.com/sainnhe/gruvbox-material",
+            name = "gruvbox-material",
+        },
+    })
 --]]

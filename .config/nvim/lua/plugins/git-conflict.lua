@@ -1,9 +1,10 @@
-local Plugin = {
-    "akinsho/git-conflict.nvim",
-    version = "*",
-}
+vim.pack.add({
+    {
+        src = "https://github.com/akinsho/git-conflict.nvim",
+        name = "git-conflict.nvim",
+    },
+})
 
-Plugin.config = function()
     require('git-conflict').setup{
         default_mappings = false, -- disable buffer local mapping created by this plugin
         default_commands = true, -- disable commands created by this plugin
@@ -26,6 +27,3 @@ Plugin.config = function()
     vim.keymap.set('', ']c',         function() vim.cmd('GitConflictNextConflict') end, { silent = true, nowait = true, desc = "Git - Next conflict."})
     vim.keymap.set('', '[c',         function() vim.cmd('GitConflictPrevConflict') end, { silent = true, nowait = true, desc = "Git - Previous conflict."})
     vim.keymap.set('', '<leader>ew', function() vim.cmd('GitConflictListQf')       end, { silent = true, desc = "Get all conflict to quickfix"})
-end
-
-return Plugin

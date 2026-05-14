@@ -1,73 +1,57 @@
--- To update a single treesitter config:
+-- To update a single treesitter parser:
 --  :TSInstall python
 -- To update all:
 --  :TSUpdate
 -- To update/sync all:
 --  :TSUpdateSync
 
-local Plugin = {
-    "nvim-treesitter/nvim-treesitter",
-    auto_install = true,
-    dependencies = {'nvim-treesitter/nvim-treesitter-textobjects'},
-    build = ":TSUpdate", -- TODO UNCOMMENT
+vim.api.nvim_create_autocmd("PackChanged", {
+    callback = function(ev)
+        if ev.data.spec.name ~= "nvim-treesitter" then
+            return
+        end
+
+        if ev.data.kind == "install" or ev.data.kind == "update" then
+            vim.schedule(function()
+                vim.cmd("TSUpdate")
+            end)
+        end
+    end,
+})
+
+vim.pack.add {
+    {
+        src = "https://github.com/nvim-treesitter/nvim-treesitter",
+        name = "nvim-treesitter",
+        version = "main",
+    }
 }
 
-Plugin.config = function()
-    require('nvim-treesitter.configs').setup({
-        -- A list of parser names, or "all" (the four listed parsers should always be installed)
-        ensure_installed = {
-            "bash",
-            "c",
-            "comment",
-            -- "cpp",
-            -- "c_sharp",
-            "css",
-            "diff",
-            "html",
-            "htmldjango",
-            "ini",
-            "javascript",
-            "jsonc",
-            "lua",
-            "python",
-            -- "sql",
-            "typescript",
-        },
+local treesitter_parsers = {
+    "bash",
+    "c",
+    "css",
+    "diff",
+    "html",
+    "htmldjango",
+    "ini",
+    "javascript",
+    "jsonc",
+    "lua",
+    "python",
+    "typescript",
+}
 
-        indent = {
-            enable = true,
-        },
+require("nvim-treesitter").setup({
+    install_dir = vim.fn.stdpath("data") .. "/site",
+})
 
-        incremental_selection = {
-            enable = true,
-            keymaps = {
-                init_selection = "<M-l>",
-                node_incremental = "<M-l>",
-                scope_incremental = "<M-L>",
-                node_decremental = "<M-h>",
-            },
-        },
+require("nvim-treesitter").install(treesitter_parsers)
 
-        -- Install parsers synchronously (only applied to `ensure_installed`)
-        sync_install = false,
-
-        -- Automatically install missing parsers when entering buffer
-        -- Recommendation: set to false if you don't have `tree-sitter` CLI installed locally
-        auto_install = true,
-
-        highlight = {
-            -- `false` will disable the whole extension
-            enable = true,
-
-            -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
-            -- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
-            -- Using this option may slow down your editor, and you may see some duplicate highlights.
-            -- Instead of true it can also be a list of languages
-            additional_vim_regex_highlighting = false,
-        },
-    })
-    -- local parser_config = require "nvim-treesitter.parsers".get_parser_configs()
-    -- parser_config.tsx.filetype_to_parsername = { "javascript", "typescript.tsx" }
-end
-
-return Plugin
+vim.api.nvim_create_autocmd("FileType", {
+    pattern = treesitter_parsers,
+    callback = function()
+        vim.treesitter.start()
+        vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+    end,
+})
