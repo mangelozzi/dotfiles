@@ -11,9 +11,7 @@ require("plugins.fzf-lua")
 require("plugins.git-conflict")
 require("plugins.indent-blankline")
 require("plugins.leap")
-require("plugins.lsp")
 require("plugins.neogit")
-require("plugins.none-ls")
 require("plugins.nvim-cmp")
 require("plugins.nvim-surround")
 require("plugins.nvim-toggler")
@@ -23,7 +21,13 @@ require("plugins.oil")
 require("plugins.replacewithregister")
 require("plugins.rgflow")
 require("plugins.text-case")
-require("plugins.treesitter")
-require("plugins.nvim-treesitter-textobjects") -- After treesitter
 require("plugins.vim-doge")
 require("plugins.whichkey")
+
+-- Order Dependant Plugins --
+
+require("plugins.none-ls")  -- Before lsp
+require("plugins.lsp")
+
+require("plugins.treesitter")
+require("plugins.nvim-treesitter-textobjects") -- After treesitter

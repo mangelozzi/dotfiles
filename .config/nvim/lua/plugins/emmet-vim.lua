@@ -25,7 +25,7 @@ link
 <link rel="stylesheet" href="">
 
 lorem
-Amet consectetur pariatur quae dolorum suscipit. Beatae consectetur sint quae nesciunt minima Natus quaerat ducimus ex possimus odio? Ipsa ratione dolor eligendi corporis pariatur. Exercitationem quam delectus minima nihil nobis
+Amet consectetur pariatur quae dolorum suscipit...
 
 lorem3
 Elit facilis veniam

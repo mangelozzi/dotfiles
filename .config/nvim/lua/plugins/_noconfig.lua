@@ -5,36 +5,29 @@ Drop the trailing `.nvim` from plugin names because the . messes up imports,
 lua can use . or / for import hierarchy.
 --]]
 
-vim.pack.add({
+vim.pack.add {
     {
         src = "https://github.com/tpope/vim-repeat",
-        name = "vim-repeat",
+        name = "vim-repeat"
     },
-})
-vim.pack.add({
     {
         src = "https://github.com/tpope/vim-unimpaired",
-        name = "vim-unimpaired",
+        name = "vim-unimpaired"
     },
-})
-vim.pack.add({
     {
         src = "https://github.com/AndrewRadev/bufferize.vim",
-        name = "bufferize.vim",
+        name = "bufferize.vim"
     },
-})
-vim.pack.add({
     {
+        -- Is just a helper lib for the next Vim-SpellCheck
         src = "https://github.com/inkarkat/vim-ingo-library",
-        name = "vim-ingo-library",
+        name = "vim-ingo-library"
     },
-})
-vim.pack.add({
     {
         src = "https://github.com/inkarkat/vim-SpellCheck",
-        name = "vim-SpellCheck",
-    },
-})
+        name = "vim-SpellCheck"
+    }
+}
 
 --[[
     -- maybe messes up quickfix colors

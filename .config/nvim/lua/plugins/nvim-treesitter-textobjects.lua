@@ -85,8 +85,9 @@ map("af", "@function.outer", "Outer function")
 map("if", "@function.inner", "Inner function")
 
 -- T = test / conditional
-map("at", "@conditional.outer", "Outer conditional")
-map("it", "@conditional.inner", "Inner conditional")
+-- NOTE: cit used for change inner tag (in html)
+map("aT", "@conditional.outer", "Outer conditional")
+map("iT", "@conditional.inner", "Inner conditional")
 
 -- R = return
 map("ar", "@return.outer", "Outer return")

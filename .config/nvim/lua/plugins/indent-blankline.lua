@@ -1,3 +1,5 @@
+-- Adds vertical lines to indented blocks of code
+
 vim.pack.add({
     {
         src = "https://github.com/lukas-reineke/indent-blankline.nvim",
@@ -6,8 +8,8 @@ vim.pack.add({
 })
 
     -- Hi groups IblIndent, IblWhitespace, and IblScope must be defined before setup, because these colors are used for some TS groups
-    require("ibl").setup { 
-        scope = { 
+    require("ibl").setup {
+        scope = {
             highlight = {
                 'rainbowDelimiter1',
                 'rainbowDelimiter2',

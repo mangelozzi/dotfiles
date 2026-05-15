@@ -11,7 +11,7 @@ vim.keymap.set({"x", "o"}, "il", function() require("namespace.utils").text_obje
 vim.keymap.set({"x", "o"}, "al", function() require("namespace.utils").text_object("normal! 0vg_") end, {noremap = true, desc = "A (l)ine text object"})
 
 
--- Navigate to the start/end of the inner text of a <tag>...</tag> set
+-- Navigate to the start/end of the INNER TEXT of a <tag>...</tag> set
 vim.keymap.set("n", "[t", "vit<ESC>`<", {noremap = true, desc = "Jump to start of tag inner"})
 vim.keymap.set("n", "]t", "vit<ESC>`>", {noremap = true, desc = "Jump to end of tag inner"})
 

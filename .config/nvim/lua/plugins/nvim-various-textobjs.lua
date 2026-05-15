@@ -34,32 +34,37 @@ vim.pack.add({
         name = "nvim-various-textobjs",
     },
 })
+
 require("various-textobjs").setup({
     -- set to 0 to only look in the current line
-    lookForwardSmall = 5,
-    lookForwardBig = 15,
+    forwardLooking = {
+        small = 5,
+        big = 15,
+    },
 
     -- use suggested keymaps (see overview table in README)
-    useDefaultKeymaps = true,
+    keymaps = {
+        useDefaults = true,
 
-    -- disable only some default keymaps, e.g. { "ai", "ii" }
-    disabledKeymaps = {
-        "il", -- markdown link titles - rather use for own inner line
-        "al", -- markdown link titles - rather use for own a line
-        "gw", -- visibleInWindow - smashes the built v_gw command for wrapping text
-        "L",  -- in visual mode use L to goto bottom
-        "n",  -- nearEoL - interfers with delete until next match
-        "ax", -- using nvim-treesitter-textobjects instead
-        "ix", -- using nvim-treesitter-textobjects instead
-        "ak", -- using nvim-treesitter-textobjects instead
-        "ik", -- using nvim-treesitter-textobjects instead
-        "av", -- using nvim-treesitter-textobjects instead
-        "iv", -- using nvim-treesitter-textobjects instead
+        -- disable only some default keymaps, e.g. { "ai", "ii" }
+        disabledDefaults = {
+            "il", -- markdown link titles - rather use for own inner line
+            "al", -- markdown link titles - rather use for own a line
+            "gw", -- visibleInWindow - smashes the built v_gw command for wrapping text
+            "L",  -- in visual mode use L to goto bottom
+            "n",  -- nearEoL - interfers with delete until next match
+            "ax", -- using nvim-treesitter-textobjects instead
+            "ix", -- using nvim-treesitter-textobjects instead
+            "ak", -- using nvim-treesitter-textobjects instead
+            "ik", -- using nvim-treesitter-textobjects instead
+            "av", -- using nvim-treesitter-textobjects instead
+            "iv", -- using nvim-treesitter-textobjects instead
+        },
     },
 
     -- display notifications if a text object is not found
-    notifyNotFound = true,
-    keys = {
+    notify = {
+        whenObjectNotFound = true,
     },
 })
 
