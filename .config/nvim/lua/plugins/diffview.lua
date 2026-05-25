@@ -1,13 +1,8 @@
 vim.pack.add {
-    {
-        src = "https://github.com/nvim-lua/plenary.nvim",
-        name = "plenary.nvim"
-    },
-    {
-        src = "https://github.com/sindrets/diffview.nvim",
-        name = "diffview.nvim"
-    }
+    { src = "https://github.com/sindrets/diffview.nvim" },
 }
+
+local actions = require("diffview.actions")
 
 require("diffview").setup(
     {
@@ -27,11 +22,11 @@ require("diffview").setup(
             },
             file_panel = {
                 -- The source code window
-                {"n", "h", require("diffview.actions").close_fold, {desc = "Collapse fold"}},
-                {"n", "zc", require("diffview.actions").close_fold, {desc = "Collapse fold"}},
-                {"n", "za", require("diffview.actions").toggle_fold, {desc = "Toggle fold"}},
-                {"n", "zR", require("diffview.actions").open_all_folds, {desc = "Expand all folds"}},
-                {"n", "zM", require("diffview.actions").close_all_folds, {desc = "Collapse all folds"}}
+                {"n", "h", actions.close_fold, {desc = "Collapse fold"}},
+                {"n", "zc", actions.close_fold, {desc = "Collapse fold"}},
+                {"n", "za", actions.toggle_fold, {desc = "Toggle fold"}},
+                {"n", "zR", actions.open_all_folds, {desc = "Expand all folds"}},
+                {"n", "zM", actions.close_all_folds, {desc = "Collapse all folds"}}
             },
             file_history_panel = {
                 {

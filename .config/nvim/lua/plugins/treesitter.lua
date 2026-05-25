@@ -36,7 +36,7 @@ local treesitter_parsers = {
     "htmldjango",
     "ini",
     "javascript",
-    "jsonc",
+    "json",
     "lua",
     "python",
     "typescript",
