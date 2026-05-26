@@ -76,6 +76,7 @@ local fd_exclude = ""
     .. " -E '**/static/**/wcapp'"
     .. " -E '**/.angular'"
     .. " -E '**/node_modules'"
+    .. " -E '**/ignore'"
     -- File types
     .. " -E '*.jpg'"
     .. " -E '*.png'"
