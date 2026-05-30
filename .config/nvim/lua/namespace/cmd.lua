@@ -17,3 +17,9 @@ vim.cmd('packadd cfilter')
 -- Alias :Qa for :qa due to typo so often
 vim.cmd('cabbrev Qa qa')
 
+-- Dettach LSP from buffer
+vim.api.nvim_create_user_command("LspStop", function()
+    for _, client in ipairs(vim.lsp.get_clients({ bufnr = 0 })) do
+        vim.lsp.buf_detach_client(0, client.id)
+    end
+end, {})

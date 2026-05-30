@@ -112,7 +112,7 @@ vim.pack.add({
                 ["3"] = "Depth3",
                 ["4"] = "Depth4",
                 ["<tab>"] = "Toggle",
-                ["x"] = "Discard",
+                ["d"] = "Discard", -- Was "x", but "x" in nim-tree is cut, and delete is "d", make same as delete in tree
                 ["s"] = "Stage",
                 ["S"] = false, -- "StageUnstaged",
                 -- ["<c-s>"] = false, -- "StageAll",
