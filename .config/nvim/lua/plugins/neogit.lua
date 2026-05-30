@@ -1,14 +1,20 @@
--- Settings, refer to: https://github.com/TimUntersberger/neogit
+-- Settings, refer to: https://github.com/NeogitOrg/neogit
+-- Force version update with
+--  :lua vim.pack.update({ "neogit" }, { force = true })
 
 vim.pack.add {
     { src = "https://github.com/nvim-lua/plenary.nvim" },
     {
         src = "https://github.com/NeogitOrg/neogit",
-        version = "c5e09bfcc18fa9ff",
+        version = "99326a1310fb2d61",
     },
 }
 
 require("neogit").setup({
+    -- Set to false because I want to be responsible for ALL keymappings.
+    -- This prevents Neogit from stealing normal Vim motions like j/k, {, }, etc.
+    use_default_keymaps = false,
+
     -- Neogit refreshes its internal state after specific events, which can be expensive depending on the repository size.
     -- Disabling `auto_refresh` will make it so you have to manually refresh the status after you open it.
     auto_refresh = true,
@@ -20,50 +26,50 @@ require("neogit").setup({
     sections = {
         sequencer = {
             folded = false,
-            hidden = false
+            hidden = false,
         },
         untracked = {
             folded = true, -- By default fold untracked
-            hidden = false
+            hidden = false,
         },
         unstaged = {
             folded = false,
-            hidden = false
+            hidden = false,
         },
         staged = {
             folded = false,
-            hidden = false
+            hidden = false,
         },
         stashes = {
             folded = true,
-            hidden = false
+            hidden = false,
         },
         unpulled_upstream = {
             folded = true,
-            hidden = false
+            hidden = false,
         },
         unmerged_upstream = {
             folded = false,
-            hidden = false
+            hidden = false,
         },
         unpulled_pushRemote = {
             folded = true,
-            hidden = false
+            hidden = false,
         },
         unmerged_pushRemote = {
             folded = false,
-            hidden = false
+            hidden = false,
         },
         recent = {
             folded = true,
-            hidden = false
+            hidden = false,
         },
         rebase = {
             folded = true,
-            hidden = false
-        }
+            hidden = false,
+        },
     },
-    -- override/add mappings
+
     mappings = {
         finder = {
             ["<cr>"] = "Select",
@@ -75,116 +81,149 @@ require("neogit").setup({
             ["<up>"] = "Previous",
             ["<tab>"] = "MultiselectToggleNext",
             ["<s-tab>"] = "MultiselectTogglePrevious",
-            ["<c-j>"] = "NOP"
+            ["<c-j>"] = "NOP",
         },
-        -- Setting any of these to `false` will disable the mapping.
+
         popup = {
             ["?"] = "HelpPopup",
-            ["A"] = false, -- "CherryPickPopup",
-            ["d"] = false, -- "DiffPopup" -- Must disable so can reassign it
             ["i"] = "DiffPopup",
-            ["M"] = false, -- "RemotePopup",
-            ["P"] = false, -- "PushPopup",
-            ["X"] = false, -- "ResetPopup",
-            ["Z"] = false, -- "StashPopup",
-            ["b"] = false, -- "BranchPopup",
-            ["c"] = false, -- "CommitPopup",
-            ["f"] = false, -- "FetchPopup",
-            ["l"] = false, -- "LogPopup",
-            ["m"] = false, -- "MergePopup",
-            ["p"] = false, -- "PullPopup",
-            ["r"] = false, -- "RebasePopup",
-            ["v"] = false, -- "RevertPopup",
-            ["w"] = false, -- "WorktreePopup",
         },
+
         status = {
             ["q"] = "Close",
-            ["<ESC>"] = "Close", -- Michael
-            ["I"] = false, -- "InitRepo",
+            ["<esc>"] = "Close", -- Michael
             ["1"] = "Depth1",
             ["2"] = "Depth2",
             ["3"] = "Depth3",
             ["4"] = "Depth4",
             ["<tab>"] = "Toggle",
-            ["x"] = false, -- default "Discard"
             ["d"] = "Discard", -- Was "x", but "x" in nim-tree is cut, and delete is "d", make same as delete in tree
             ["s"] = "Stage",
-            ["S"] = false, -- "StageUnstaged",
-            -- ["<c-s>"] = false, -- "StageAll",
             ["u"] = "Unstage",
-            ["U"] = false, -- "UnstageStaged",
             ["$"] = "CommandHistory",
             ["<c-r>"] = "RefreshBuffer",
             ["<enter>"] = "GoToFile",
             ["o"] = "GoToFile", -- Michael
             ["<c-v>"] = "VSplitOpen", -- <--- Same as Fzf-lua
             ["<c-s>"] = "SplitOpen", -- <--- Same as Fzf-lua
-            ["<c-t>"] = "TabOpen", -- "TabOpen",
-            ["{"] = false, -- "GoToPreviousHunkHeader",
-            ["}"] = false, -- "GoToNextHunkHeader",
+            ["<c-t>"] = "TabOpen", -- "TabOpen"
             ["<c-p>"] = "GoToPreviousHunkHeader",
-            ["<c-n>"] = "GoToNextHunkHeader"
-        }
-    }
+            ["<c-n>"] = "GoToNextHunkHeader",
+        },
+
+        commit_editor = {
+            ["q"] = "Close",
+            ["<c-c><c-c>"] = "Submit",
+            ["<c-c><c-k>"] = "Abort",
+        },
+
+        commit_editor_I = {
+            ["<c-c><c-c>"] = "Submit",
+            ["<c-c><c-k>"] = "Abort",
+        },
+
+        rebase_editor = {
+            ["q"] = "Close",
+            ["<c-c><c-c>"] = "Submit",
+            ["<c-c><c-k>"] = "Abort",
+        },
+
+        rebase_editor_I = {
+            ["<c-c><c-c>"] = "Submit",
+            ["<c-c><c-k>"] = "Abort",
+        },
+
+        commit_view = {},
+
+        refs_view = {},
+    },
 })
 
 -- KEY MAPS TO START NEOGIT
 local function open_neogit_on_current_buffer()
-    local function cursor_to_line(pattern)
+    local function cursor_to_line(patterns)
         local lines = vim.api.nvim_buf_get_lines(0, 0, -1, false)
-        local escaped_pattern = string.gsub(pattern, "[%p]", "%%%1")
-        for i, line in ipairs(lines) do
-            if line:match(escaped_pattern) then
-                vim.api.nvim_win_set_cursor(0, {i, 0}) -- If pattern is found, move the cursor to the matching line
-                return
+
+        for _, pattern in ipairs(patterns) do
+            local escaped_pattern = string.gsub(pattern, "[%p]", "%%%1")
+
+            for i, line in ipairs(lines) do
+                if line:match(escaped_pattern) then
+                    vim.api.nvim_win_set_cursor(0, { i, 0 }) -- If pattern is found, move the cursor to the matching line
+                    return true
+                end
             end
         end
+
+        return false
     end
 
     local function line_after_cursor_starts_with_atat()
         local cursor_pos = vim.api.nvim_win_get_cursor(0)
         local next_line_nr = cursor_pos[1] + 1
         local total_lines = vim.api.nvim_buf_line_count(0)
+
         if next_line_nr > total_lines then
             return false
         end
+
         local next_line = vim.api.nvim_buf_get_lines(0, next_line_nr - 1, next_line_nr, false)[1]
         return vim.startswith(next_line, "@@")
     end
 
-    local function open_callback(augroup_id, file_rel)
-        vim.api.nvim_del_augroup_by_id(augroup_id)
-        if (not line_after_cursor_starts_with_atat()) then
+    local function open_callback(file_patterns)
+        if not cursor_to_line(file_patterns) then
+            return
+        end
+
+        if not line_after_cursor_starts_with_atat() then
             -- Send a tab to open the file
-            local keys = vim.api.nvim_replace_termcodes('<tab>',true,false,true)
-            vim.api.nvim_feedkeys(keys,'i',false) -- Is insert mode!!
-            cursor_to_line(file_rel)
+            local keys = vim.api.nvim_replace_termcodes("<tab>", true, false, true)
+            vim.api.nvim_feedkeys(keys, "i", false) -- Is insert mode!!
+
+            vim.defer_fn(function()
+                cursor_to_line(file_patterns)
+            end, 20)
         end
     end
 
     local filename = vim.api.nvim_buf_get_name(0)
-    if (filename ~= "") then
-        local file_rel = vim.fn.fnamemodify(vim.fn.expand('%'), ':.')
-        -- local escaped_file = vim.fn.escape(file_rel, '\\/.*$^~[]')
-        local MyNeogitGroup = vim.api.nvim_create_augroup("MyNeogitGroup", {clear = true})
-        vim.api.nvim_create_autocmd(
-            "User",
-            {
-                desc = "A temp autocmd to open neogit on current buffer",
-                pattern = "NeogitStatusRefreshed",
-                group = MyNeogitGroup,
-                callback = function()
-                    vim.defer_fn(function()
-                        -- Neogit needs time to settle, or else detecting next line is incorrect
-                        open_callback(MyNeogitGroup, file_rel)
-                    end, 20)  -- 10ms seems a bit flaky
-                end
-            }
-        )
+
+    if filename == "" then
+        require("neogit").open({ kind = "tab" })
+        return
     end
-    require('neogit').open({kind = 'tab'})
+
+    local git_root = assert(vim.fs.root(filename, ".git"), "Could not find git root for current buffer")
+    local file_rel = assert(vim.fs.relpath(git_root, filename), "Could not make current buffer path relative to git root")
+    local cwd_rel = vim.fn.fnamemodify(vim.fn.expand("%"), ":.")
+
+    local group = vim.api.nvim_create_augroup("MyNeogitGroup", { clear = true })
+
+    vim.api.nvim_create_autocmd("User", {
+        desc = "A temp autocmd to open neogit on current buffer",
+        pattern = "NeogitStatusRefreshed",
+        group = group,
+        once = true,
+        callback = function()
+            vim.defer_fn(function()
+                -- Neogit needs time to settle, or else detecting next line is incorrect
+                open_callback({ file_rel, cwd_rel })
+            end, 50)
+        end,
+    })
+
+    require("neogit").open({
+        kind = "tab",
+        cwd = git_root,
+    })
 end
 
 -- Use <leader>g as a prefix for bunch of other git related commands, this keep fast
-vim.keymap.set("n", "<leader>j", function() open_neogit_on_current_buffer() end, {noremap = true, desc = "Neogit buffer"})
-vim.keymap.set("n", "<leader>J", function() require('neogit').open({ kind = 'tab' }) end, {noremap = true, desc = "Neogit"})
+vim.keymap.set("n", "<leader>j", function()
+    open_neogit_on_current_buffer()
+end, { noremap = true, desc = "Neogit buffer" })
+
+vim.keymap.set("n", "<leader>J", function()
+    require("neogit").open({ kind = "tab" })
+end, { noremap = true, desc = "Neogit" })
