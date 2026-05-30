@@ -27,8 +27,10 @@ require("rgflow").setup(
             .. " -g !**/static/*/wcapp/"
             .. " -g !**/coverage/"
             .. " -g !**/scraper/tests/templates/"
+            .. " -g !**/combined_files.py"
             -- IOEC
             .. " -g !**/dist/ngClient/"
+            .. " -g !**/ignore/"
         )
     }
 )

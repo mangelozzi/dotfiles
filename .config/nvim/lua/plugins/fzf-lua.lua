@@ -83,6 +83,140 @@ local fd_exclude = ""
     .. " -E '*.git'"
     .. " -E '*.min.css'"
     .. " -E '*.min.js'"
+
+
+-- ChatGPT Special, allow bcommits to follow renamed files
+local function git_bcommits_follow()
+    local file = vim.api.nvim_buf_get_name(0)
+    local root_result = vim.system(
+        {"git", "-C", vim.fn.fnamemodify(file, ":h"), "rev-parse", "--show-toplevel"},
+        {text = true}
+    ):wait()
+
+    if root_result.code ~= 0 then
+        vim.notify(vim.trim(root_result.stderr), vim.log.levels.ERROR)
+        return
+    end
+
+    local root = vim.trim(root_result.stdout)
+    local rel_file = vim.fs.relpath(root, file)
+
+    local log_result = vim.system({
+        "git",
+        "-C",
+        root,
+        "log",
+        "--follow",
+        "--name-status",
+        "--color=always",
+        "--format=format:%H%x09%h%x09%cr%x09%an%x09%s%x09%C(yellow)%h%Creset %C(green)(%cr)%Creset %<(50,trunc)%s %C(blue)<%an>%Creset",
+        "--",
+        rel_file,
+    }, {text = true}):wait()
+
+    if log_result.code ~= 0 then
+        vim.notify(vim.trim(log_result.stderr), vim.log.levels.ERROR)
+        return
+    end
+
+    local entries = {}
+    local commit
+
+    local function add_commit()
+        if commit and commit.path then
+            table.insert(entries, string.format(
+                "%s\t%s\t%s",
+                commit.hash,
+                commit.path,
+                commit.display
+            ))
+        end
+    end
+
+    for line in log_result.stdout:gmatch("[^\r\n]+") do
+        local hash, short, age, author, subject, display =
+            line:match("^([0-9a-f]+)\t([0-9a-f]+)\t([^\t]+)\t([^\t]+)\t([^\t]+)\t(.+)$")
+
+        if hash then
+            add_commit()
+
+            commit = {
+                hash = hash,
+                short = short,
+                age = age,
+                author = author,
+                subject = subject,
+                display = display,
+            }
+        elseif commit and not commit.path then
+            local cols = vim.split(line, "\t", {plain = true})
+            local status = cols[1]
+
+            if status and (status:sub(1, 1) == "R" or status:sub(1, 1) == "C") then
+                commit.path = cols[3]
+            else
+                commit.path = cols[2]
+            end
+        end
+    end
+
+    add_commit()
+
+    local function open_blob(selected, open_cmd)
+        local line = selected[1]
+        local commit_hash, path = line:match("^([^\t]+)\t([^\t]+)\t")
+
+        local blob_result = vim.system({
+            "git",
+            "-C",
+            root,
+            "show",
+            string.format("%s:%s", commit_hash, path),
+        }, {text = true}):wait()
+
+        if blob_result.code ~= 0 then
+            vim.notify(vim.trim(blob_result.stderr), vim.log.levels.ERROR)
+            return
+        end
+
+        vim.cmd(open_cmd)
+
+        local buf = vim.api.nvim_get_current_buf()
+        local lines = vim.split(blob_result.stdout, "\n", {plain = true})
+
+        if lines[#lines] == "" then
+            table.remove(lines)
+        end
+
+        vim.api.nvim_buf_set_name(buf, string.format("git:%s:%s", commit_hash:sub(1, 12), path))
+        vim.api.nvim_buf_set_lines(buf, 0, -1, false, lines)
+
+        vim.bo[buf].buftype = "nofile"
+        vim.bo[buf].bufhidden = "wipe"
+        vim.bo[buf].swapfile = false
+        vim.bo[buf].readonly = true
+        vim.bo[buf].modifiable = false
+        vim.bo[buf].filetype = vim.filetype.match({filename = path}) or ""
+    end
+
+    require('fzf-lua').fzf_exec(entries, {
+        prompt = "BCommits Follow >>> ",
+        preview = "git -C " .. vim.fn.shellescape(root) .. " show --color=always {1} -- {2}",
+        fzf_opts = {
+            ["--ansi"] = "",
+            ["--delimiter"] = "\t",
+            ["--with-nth"] = "3",
+        },
+        actions = {
+            ["default"] = function(selected) open_blob(selected, "edit") end,
+            ["ctrl-s"] = function(selected) open_blob(selected, "split") end,
+            ["ctrl-v"] = function(selected) open_blob(selected, "vsplit") end,
+            ["ctrl-t"] = function(selected) open_blob(selected, "tabedit") end,
+        },
+    })
+end
+
+
 -- --type file will not show symlinks
 -- --follow will follow symlinks
 local fd_dist_ignore= "--type file --type symlink --follow --no-ignore" .. fd_exclude .. " -E 'distros'"
@@ -267,7 +401,14 @@ local fd_distros_ignore= "--type file --no-ignore" .. fd_exclude
 
     -- (G)it - <leader>g...
     vim.keymap.set("n", "<leader>gc", require("fzf-lua").git_commits, {noremap = true, silent = true, desc = "Git FZF (C)ommits"})
-    vim.keymap.set("n", "<leader>gb", require("fzf-lua").git_bcommits, {noremap = true, silent = true, desc = "Git FZF (B)commits"})
+    -- The built in buffer commits picker, the issue it does not follow filename renames
+    vim.keymap.set("n", "<leader>gB", require("fzf-lua").git_bcommits, {noremap = true, silent = true, desc = "Git FZF (B)commits (original)"})
+    -- Like The built in buffer commits picker, but DOES follow filename renames
+    vim.keymap.set("n", "<leader>gb", git_bcommits_follow, {
+        noremap = true,
+        silent = true,
+        desc = "Git FZF (b)commits (follow renames)",
+    })
     vim.keymap.set("n", "<leader>gs", require("fzf-lua").git_status, {noremap = true, silent = true, desc = "Git FZF (S)tatus"})
 
 

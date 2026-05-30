@@ -8,16 +8,8 @@ vim.g.loaded_netrwPlugin = 1
 vim.opt.termguicolors = true
 
 vim.pack.add({
-    {
-        src = "https://github.com/nvim-tree/nvim-web-devicons",
-        name = "nvim-web-devicons",
-    },
-})
-vim.pack.add({
-    {
-        src = "https://github.com/nvim-tree/nvim-tree.lua",
-        name = "nvim-tree.lua",
-    },
+    { src = "https://github.com/nvim-tree/nvim-web-devicons" },
+    { src = "https://github.com/nvim-tree/nvim-tree.lua" },
 })
 
 local api = require("nvim-tree.api")

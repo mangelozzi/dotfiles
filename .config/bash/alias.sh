@@ -80,7 +80,24 @@ alias dotap="dot commit --amend --no-edit; dot push -f"
 
 # Git
 alias gl='git log'
-alias gs='git status'
+
+gs() {
+    if [ "$#" -gt 0 ]; then
+        local msg cmd
+        msg="$*"
+        printf -v cmd 'gc "%s"' "${msg//\"/\\\"}"
+        printf '\a'
+        printf '\033[41;97;1m ERROR: you typed gs with arguments. Did you mean gc? \033[0m\n' >&2
+        READLINE_LINE="$cmd"
+        read -e -i "$cmd" -p "$ " cmd
+        [ -n "$cmd" ] && eval "$cmd"
+        return
+    fi
+    git status
+}
+# Make gs "A commit message" fail very loud and noisely, and retype it correctly
+# alias gs='git status'
+
 alias gco='git checkout'
 alias gb='git branch'
 # List branches on remote

@@ -1,4 +1,8 @@
 -- Require every plugin file once. Each file owns its vim.pack.add(...) and setup.
+-- Remove problem plugins like this:
+-- 1. Delete from local share:
+--      rm -rf ~/.local/share/nvim/site/pack/core/opt/diffview.nvim
+-- 2. Delete entry from /home/michael/.config/nvim/nvim-pack-lock.json
 
 require("plugins._noconfig")
 require("plugins.brightest")
