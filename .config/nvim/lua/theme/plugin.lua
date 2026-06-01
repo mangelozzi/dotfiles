@@ -95,124 +95,198 @@ function M.get_groups(p)
 
         -- NeoGit
 
-        NeogitGraphYellow = { fg = p.yellow },
-        NeogitGraphPurple = { fg = p.purple },
-        NeogitGraphCyan = { fg = p.aqua },
-        NeogitGraphWhite = { fg = p.fg0 },
-        NeogitGraphGreen = { fg = p.green },
-        NeogitGraphGray = { fg = p.grey0 },
+        NeogitDiffContext = { link = "Normal" }, -- Unchanged/context diff lines, usually should stay quiet
 
-        NeogitDiffDelete = { fg = p.red, },
-        NeogitDiffAdd  = { fg = p.green },
-        NeogitDiffContext = { link = "Normal" },
+        -- The little label to the left before the file path
+        NeogitChangeAdded    = { fg = p.green,  bg = p.bg_diff_green,   bold = true, italic = true }, -- The added/new-file label at the left of a file row
+        NeogitChangeNewFile  = { fg = p.green,  bg = p.bg_diff_green,   bold = true, italic = true }, -- The new file label at the left of a file row
+        NeogitChangeDeleted  = { fg = p.red,    bg = p.bg_diff_red,     bold = true, italic = true }, -- The deleted label at the left of a file row
+        NeogitChangeModified = { fg = '#ffffff',bg = p.blue,            bold = false, italic = true}, -- The modified label at the left of a file row
+        NeogitChangeUpdated  = { fg = '#ffffff',bg = p.blue,            bold = false, italic = true}, -- The updated label at the left of a file row
+        NeogitChangeCopied   = { fg = p.yellow, bg = p.bg5,             bold = true, italic = true }, -- The copied label at the left of a file row
+        NeogitChangeRenamed  = { fg = p.yellow, bg = p.bg5,             bold = true, italic = true }, -- The renamed label at the left of a file row
+        NeogitChangeUnmerged = { fg = p.bg1,    bg = p.orange,          bold = true, italic = true }, -- The unmerged/conflict label at the left of a file row
 
-        -- The whole hunk you currently are on
-        NeogitDiffDeleteHighlight = { fg = p.red, bg = p.bg_diff_red },
-        NeogitDiffAddHighlight = { fg = p.green, bg = p.bg_diff_green },
-        NeogitDiffContextHighlight = { link = "CursorLine" },
-        NeogitCursorLine = { link = "CursorLine", bold = true },
+        NeogitHunkHeader          = { fg = p.grey2, bg = p.bg2 },       -- Hunk header lines, the @@ lines
+        NeogitHunkHeaderHighlight = { fg = p.fg0, bg = p.bg3 },         -- Hunk header when that hunk is the current context
+        NeogitHunkHeaderCursor    = { fg = p.yellow,   bg = p.bg3 },    -- Exact cursor line when cursor is on a hunk header
 
-        NeogitHunkHeader = {fg = p.fg0, bg = p.bg3, bold = true},
-        NeogitHunkHeaderHighlight = {fg = p.fg1, bg = p.bg5, bold = true},
+        -- Inline changes, the actual part of the line that changes, very poppy
+        NeogitDiffAddInline    = { fg = '#30ff00', bg = '#407000'},
+        NeogitDiffDeleteInline = { fg = '#ff0000',   bg = '#702020'},
 
-        NeogitNotificationInfo = {fg = p.blue },
-        NeogitNotificationWarning = {fg = p.yellow },
-        NeogitNotificationError = {fg = p.red },
+        -- More general changes/not inline
+        NeogitDiffDelete = { fg = p.red }, -- Deleted diff lines, the lines starting with -
+        NeogitDiffAdd    = { fg = p.green }, -- Added diff lines, the lines starting with +
+        -- As above but current Hunk
+        NeogitDiffDeleteHighlight = { bold = true},
+        NeogitDiffAddHighlight    = { bold = true},
+        -- As above but on current line
+        NeogitDiffDeleteCursor = { bg = p.bg_diff_red },
+        NeogitDiffAddCursor    = { bg = p.bg_diff_green },
 
-        -- NeogitBranch   xxx cterm=bold gui=bold guifg=#e392cc
-        -- NeogitBranchHead xxx cterm=bold,underline gui=bold,underline guifg=#e392cc
-        -- NeogitChangeAdded xxx cterm=bold,italic gui=bold,italic guifg=#6ebf22
-        -- NeogitChangeBothModified xxx cterm=bold,italic gui=bold,italic guifg=#d46cb7
-        -- NeogitChangeCopied xxx cterm=bold,italic gui=bold,italic guifg=#abab00
-        -- NeogitChangeDeleted xxx cterm=bold,italic gui=bold,italic guifg=#ae9c7d
-        -- NeogitChangeModified xxx cterm=bold,italic gui=bold,italic guifg=#ba78a7
-        -- NeogitChangeNewFile xxx cterm=bold,italic gui=bold,italic guifg=#6ebf22
-        -- NeogitChangeRenamed xxx cterm=bold,italic gui=bold,italic guifg=#ad6e7f
-        -- NeogitChangeUpdated xxx cterm=bold,italic gui=bold,italic guifg=#83b5d4
-        -- NeogitCommandCodeError xxx links to Error
-        -- NeogitCommandCodeNormal xxx links to String
-        -- NeogitCommandText xxx links to Comment
-        -- NeogitCommandTime xxx links to Comment
-        -- NeogitCommitMessage xxx cleared
-        -- NeogitCommitViewDescription xxx links to String
-        -- NeogitCommitViewHeader xxx guifg=#32302f guibg=#abab00
-        -- NeogitDiffAddRegion xxx cleared
-        -- NeogitDiffDeleteRegion xxx cleared
-        -- NeogitDiffHeader xxx cterm=bold gui=bold guifg=#e392cc guibg=#494746
-        -- NeogitDiffHeaderHighlight xxx cterm=bold gui=bold guifg=#9edaff guibg=#494746
-        -- NeogitFilePath xxx cterm=italic gui=italic guifg=#e392cc
-        -- NeogitFold     xxx cleared
-        -- NeogitGraphAuthor xxx guifg=#9edaff
-        -- NeogitGraphBlue xxx guifg=#e392cc
-        -- NeogitGraphBoldBlue xxx cterm=bold gui=bold guifg=#e392cc
-        -- NeogitGraphBoldCyan xxx cterm=bold gui=bold guifg=#d0d000
-        -- NeogitGraphBoldGray xxx cterm=bold gui=bold guifg=#848382
-        -- NeogitGraphBoldGreen xxx cterm=bold gui=bold guifg=#86e929
-        -- NeogitGraphBoldPurple xxx cterm=bold gui=bold guifg=#d3869b
-        -- NeogitGraphBoldRed xxx cterm=bold gui=bold guifg=#d4be98
-        -- NeogitGraphBoldWhite xxx cterm=bold gui=bold
-        -- NeogitGraphBoldYellow xxx cterm=bold gui=bold guifg=#ff82dc
-        -- NeogitGraphOrange xxx guifg=#9edaff
-        -- NeogitGraphRed xxx guifg=#d4be98
-        -- NeogitHeadRegion xxx cleared
-        -- NeogitMergeRegion xxx cleared
-        -- NeogitObjectId xxx links to Comment
-        -- NeogitPicking  xxx links to NeogitSectionHeader
-        -- NeogitPickingRegion xxx cleared
-        -- NeogitPopupActionDisabled xxx links to Comment
-        -- NeogitPopupActionKey xxx guifg=#d3869b
-        -- NeogitPopupBold xxx cterm=bold gui=bold
-        -- NeogitPopupBranchName xxx links to String
-        -- NeogitPopupConfigDisabled xxx links to Comment
-        -- NeogitPopupConfigEnabled xxx links to SpecialChar
-        -- NeogitPopupConfigKey xxx guifg=#d3869b
-        -- NeogitPopupOptionDisabled xxx links to Comment
-        -- NeogitPopupOptionEnabled xxx links to SpecialChar
-        -- NeogitPopupOptionKey xxx guifg=#d3869b
-        -- NeogitPopupSectionTitle xxx links to Function
-        -- NeogitPopupSwitchDisabled xxx links to Comment
-        -- NeogitPopupSwitchEnabled xxx links to SpecialChar
-        -- NeogitPopupSwitchKey xxx guifg=#d3869b
-        -- NeogitPushRegion xxx cleared
-        -- NeogitRebaseDone xxx links to Comment
-        -- NeogitRebasing xxx links to NeogitSectionHeader
-        -- NeogitRebasingRegion xxx cleared
-        -- NeogitRecentcommits xxx links to NeogitSectionHeader
-        -- NeogitRecentcommitsRegion xxx cleared
-        -- NeogitRemote   xxx cterm=bold gui=bold guifg=#86e929
-        -- NeogitReverting xxx links to NeogitSectionHeader
-        -- NeogitRevertingRegion xxx cleared
-        -- NeogitSectionHeader xxx cterm=bold gui=bold guifg=#ad6e7f
-        -- NeogitSignatureBad xxx links to NeogitGraphBoldRed
-        -- NeogitSignatureGood xxx links to NeogitGraphGreen
-        -- NeogitSignatureGoodExpired xxx links to NeogitGraphOrange
-        -- NeogitSignatureGoodExpiredKey xxx links to NeogitGraphYellow
-        -- NeogitSignatureGoodRevokedKey xxx links to NeogitGraphRed
-        -- NeogitSignatureGoodUnknown xxx links to NeogitGraphBlue
-        -- NeogitSignatureMissing xxx links to NeogitGraphPurple
-        -- NeogitSignatureNone xxx links to Comment
-        -- NeogitStagedchanges xxx links to NeogitSectionHeader
-        -- NeogitStagedchangesRegion xxx cleared
-        -- NeogitStash    xxx links to Comment
-        -- NeogitStashes  xxx links to NeogitSectionHeader
-        -- NeogitStashesRegion xxx cleared
-        -- NeogitTagDistance xxx guifg=#d0d000
-        -- NeogitTagName  xxx guifg=#ff82dc
-        -- NeogitTagRegion xxx cleared
-        -- NeogitUnmergedInto xxx cterm=bold gui=bold guifg=#ad6e7f
-        -- NeogitUnmergedIntoRegion xxx cleared
-        -- NeogitUnmergedchanges xxx links to NeogitSectionHeader
-        -- NeogitUnmergedchangesRegion xxx cleared
-        -- NeogitUnpulledFrom xxx cterm=bold gui=bold guifg=#ad6e7f
-        -- NeogitUnpulledFromRegion xxx cleared
-        -- NeogitUnpulledchanges xxx links to NeogitSectionHeader
-        -- NeogitUnpulledchangesRegion xxx cleared
-        -- NeogitUnpushedTo xxx cterm=bold gui=bold guifg=#ad6e7f
-        -- NeogitUnpushedToRegion xxx cleared
-        -- NeogitUnstagedchanges xxx links to NeogitSectionHeader
-        -- NeogitUnstagedchangesRegion xxx cleared
-        -- NeogitUntrackedfiles xxx links to NeogitSectionHeader
-        -- NeogitUntrackedfilesRegion xxx cleared
+        NeogitGraphYellow = { fg = p.yellow }, -- Used in log graph view for yellow git graph lines
+        NeogitGraphPurple = { fg = p.purple }, -- Used in log graph view for purple git graph lines
+        NeogitGraphCyan = { fg = p.aqua }, -- Used in log graph view for cyan git graph lines
+        NeogitGraphWhite = { fg = p.fg0 }, -- Used in log graph view for white/default git graph lines
+        NeogitGraphGreen = { fg = p.green }, -- Used in log graph view for green git graph lines
+        NeogitGraphGray = { fg = p.grey0 }, -- Used in log graph view for grey git graph lines
+
+        NeogitNotificationInfo = { fg = p.blue }, -- Neogit info notification text
+        NeogitNotificationWarning = { fg = p.yellow }, -- Neogit warning notification text
+        NeogitNotificationError = { fg = p.red }, -- Neogit error notification text
+
+        --[[ FROM built in help
+        STATUS BUFFER
+        NeogitNormal                Normal text
+        NeogitFloat                 Normal text when using a floating window
+        NeogitFloatBorder           Border wen using a floating window
+        NeogitBranch                Local branches
+        NeogitBranchHead            Accent highlight for current HEAD in LogBuffer
+        NeogitRemote                Remote branches
+        NeogitObjectId              Object's SHA hash
+        NeogitStash                 Stash name
+        NeogitFold                  Folded text highlight
+        NeogitFoldColumn            Column where folds are displayed
+        NeogitSignColumn            Column where signs are displayed
+        NeogitRebaseDone            Current position within rebase
+        NeogitTagName               Closest Tag name
+        NeogitTagDistance           Number of commits between the tag and HEAD
+        NeogitStatusHEAD            The left text in the HEAD section
+
+        STATUS BUFFER SECTION HEADERS
+        NeogitSectionHeader
+        NeogitUnpushedTo            Linked to NeogitSectionHeader
+        NeogitUnmergedInto          ^
+        NeogitUnpulledFrom          ^
+        NeogitUntrackedfiles        ^
+        NeogitUnstagedchanges       ^
+        NeogitUnmergedchanges       ^
+        NeogitUnpushedchanges       ^
+        NeogitUnpulledchanges       ^
+        NeogitRecentcommits         ^
+        NeogitStagedchanges         ^
+        NeogitStashes               ^
+        NeogitRebasing              ^
+        NeogitReverting             ^
+        NeogitPicking               ^
+        NeogitMerging               ^
+        NeogitBisecting             ^
+        NeogitSectionHeaderCount    The number, for sections with a number.
+
+        STATUS BUFFER FILE
+        Applied to the label on the left of filenames. These highlight groups are not
+        used directly, but linked to by other groups:
+
+        NeogitChangeModified
+        NeogitChangeAdded
+        NeogitChangeDeleted
+        NeogitChangeRenamed
+        NeogitChangeUpdated
+        NeogitChangeCopied
+        NeogitChangeNewFile
+        NeogitChangeUnmerged
+
+        SIGNS FOR LINE HIGHLIGHTING
+        Used to highlight different sections of the status buffer or commit buffer.
+
+        NeogitHunkHeader
+        NeogitDiffContext
+        NeogitDiffAdd
+        NeogitDiffDelete
+        NeogitDiffHeader
+        NeogitActiveItem            Highlight of current commit-ish open
+
+        SIGNS FOR LINE HIGHLIGHTING CURRENT CONTEXT
+        These are essentially an accented version of the above highlight groups. Only
+        applies to the current context the cursor is within.
+
+        The "Cursor" suffix applies only to the Cursor line
+
+        NeogitHunkHeaderHighlight
+        NeogitDiffContextHighlight
+        NeogitDiffAddHighlight
+        NeogitDiffDeleteHighlight
+        NeogitDiffHeaderHighlight
+        NeogitHunkHeaderCursor
+        NeogitDiffContextCursor
+        NeogitDiffAddCursor
+        NeogitDiffDeleteCursor
+        NeogitDiffHeaderCursor
+
+        INLINE DIFF
+        Groups for showing word-level diff in a hunk
+
+        NeogitDiffAddInline
+        NeogitDiffDeleteInline
+
+        COMMIT BUFFER
+        NeogitFilePath              Applied to filepath
+        NeogitCommitViewHeader      Applied to header of Commit View
+
+        LOG VIEW BUFFER
+        NeogitGraphAuthor           Applied to the commit's author in graph view
+        NeogitGraphBlack            Used when --colors is enabled for graph
+        NeogitGraphBoldBlack
+        NeogitGraphRed
+        NeogitGraphBoldRed
+        NeogitGraphGreen
+        NeogitGraphBoldGreen
+        NeogitGraphYellow
+        NeogitGraphBoldYellow
+        NeogitGraphBlue
+        NeogitGraphBoldBlue
+        NeogitGraphPurple
+        NeogitGraphBoldPurple
+        NeogitGraphCyan
+        NeogitGraphBoldCyan
+        NeogitGraphWhite
+        NeogitGraphBoldWhite
+        NeogitGraphGray
+        NeogitGraphBoldGray
+        NeogitGraphOrange
+
+        NeogitSignatureGood        For highlighting the commit hash when
+        NeogitSignatureBad         --show-signature is passed
+        NeogitSignatureMissing
+        NeogitSignatureNone
+        NeogitSignatureGoodUnknown
+        NeogitSignatureGoodExpired
+        NeogitSignatureGoodExpiredKey
+        NeogitSignatureGoodRevokedKey
+
+        POPUPS
+        NeogitPopupSectionTitle    Applied to all section headers
+        NeogitPopupBranchName      Applied to the current branch name for emphasis
+        NeogitPopupBold            Applied on "@{upstream}" and "pushRemote" for
+                                emphasis (but less emphasis than BranchName)
+
+        NeogitPopupSwitchKey       Applied to the key that will toggle switch
+        NeogitPopupSwitchEnabled   Applied to the flag if enabled
+        NeogitPopupSwitchDisabled  Applied to the flag if disabled
+
+        NeogitPopupOptionKey       Applied to the key that will trigger option
+        NeogitPopupOptionEnabled   Applied if option is set
+        NeogitPopupOptionDisabled  Applied if option has no value
+
+        NeogitPopupConfigKey       Applied to the key that triggers config
+        NeogitPopupConfigEnabled   Applied to enabled config value
+        NeogitPopupConfigDisabled  Applied to config without value
+
+        NeogitPopupActionKey       Applied to key that triggers function
+        NeogitPopupActionDisabled  Applied to key when function is unimplemented
+
+        COMMAND HISTORY BUFFER
+        NeogitCommandText          Git command that was run
+        NeogitCommandTime          Execution time
+        NeogitCommandCodeNormal    Applied to a successful command's exit status (0)
+        NeogitCommandCodeError     When command exits with non-zero status
+
+        COMMIT SELECT BUFFER
+        NeogitFloatHeader          Foreground/Background for header text at top of win
+        NeogitFloatHeaderHighlight Emphasized text in header
+        --]]
+
 
         -- FZF-Lua
 
