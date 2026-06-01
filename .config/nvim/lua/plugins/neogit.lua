@@ -37,7 +37,7 @@ require("neogit").setup({
             hidden = false,
         },
         staged = {
-            folded = false,
+            folded = true,
             hidden = false,
         },
         stashes = {
@@ -68,6 +68,13 @@ require("neogit").setup({
             folded = true,
             hidden = false,
         },
+    },
+
+    -- Folded/unfolded signs
+    signs = {
+        section = { "", "" }, -- E.g. Staged / Unstaged
+        item = { "▶", "▼" }, -- A file
+        hunk = { "▸", "▾" },
     },
 
     mappings = {
@@ -136,57 +143,62 @@ require("neogit").setup({
         commit_view = {},
 
         refs_view = {},
+
     },
 })
 
 -- KEY MAPS TO START NEOGIT
-local function open_neogit_on_current_buffer()
-    local function cursor_to_line(patterns)
-        local lines = vim.api.nvim_buf_get_lines(0, 0, -1, false)
+local function jump_to_line_matching(patterns)
+    local lines = vim.api.nvim_buf_get_lines(0, 0, -1, false)
 
-        for _, pattern in ipairs(patterns) do
-            local escaped_pattern = string.gsub(pattern, "[%p]", "%%%1")
+    for _, pattern in ipairs(patterns) do
+        local escaped_pattern = string.gsub(pattern, "[%p]", "%%%1")
 
-            for i, line in ipairs(lines) do
-                if line:match(escaped_pattern) then
-                    vim.api.nvim_win_set_cursor(0, { i, 0 }) -- If pattern is found, move the cursor to the matching line
-                    return true
-                end
+        for i, line in ipairs(lines) do
+            if line:match(escaped_pattern) then
+                vim.api.nvim_win_set_cursor(0, { i, 0 }) -- If pattern is found, move the cursor to the matching line
+                return true
             end
         end
+    end
 
+    return false
+end
+
+local function line_after_cursor_starts_with_atat()
+    local cursor_pos = vim.api.nvim_win_get_cursor(0)
+    local next_line_nr = cursor_pos[1] + 1
+    local total_lines = vim.api.nvim_buf_line_count(0)
+
+    if next_line_nr > total_lines then
         return false
     end
 
-    local function line_after_cursor_starts_with_atat()
-        local cursor_pos = vim.api.nvim_win_get_cursor(0)
-        local next_line_nr = cursor_pos[1] + 1
-        local total_lines = vim.api.nvim_buf_line_count(0)
+    local next_line = vim.api.nvim_buf_get_lines(0, next_line_nr - 1, next_line_nr, false)[1]
+    return vim.startswith(next_line, "@@")
+end
 
-        if next_line_nr > total_lines then
-            return false
-        end
-
-        local next_line = vim.api.nvim_buf_get_lines(0, next_line_nr - 1, next_line_nr, false)[1]
-        return vim.startswith(next_line, "@@")
+local function jump_to_current_file_and_expand(file_patterns)
+    if not jump_to_line_matching(file_patterns) then
+        return
     end
 
-    local function open_callback(file_patterns)
-        if not cursor_to_line(file_patterns) then
-            return
-        end
+    if not line_after_cursor_starts_with_atat() then
+        -- Send a tab to open the file
+        local keys = vim.api.nvim_replace_termcodes("<tab>", true, false, true)
+        vim.api.nvim_feedkeys(keys, "i", false) -- Is insert mode!!
 
-        if not line_after_cursor_starts_with_atat() then
-            -- Send a tab to open the file
-            local keys = vim.api.nvim_replace_termcodes("<tab>", true, false, true)
-            vim.api.nvim_feedkeys(keys, "i", false) -- Is insert mode!!
-
-            vim.defer_fn(function()
-                cursor_to_line(file_patterns)
-            end, 20)
-        end
+        vim.defer_fn(function()
+            jump_to_line_matching(file_patterns)
+        end, 20)
     end
+end
 
+local function jump_to_current_file_only(file_patterns)
+    jump_to_line_matching(file_patterns)
+end
+
+local function open_neogit_for_current_buffer(after_status_refresh)
     local filename = vim.api.nvim_buf_get_name(0)
 
     if filename == "" then
@@ -208,7 +220,7 @@ local function open_neogit_on_current_buffer()
         callback = function()
             vim.defer_fn(function()
                 -- Neogit needs time to settle, or else detecting next line is incorrect
-                open_callback({ file_rel, cwd_rel })
+                after_status_refresh({ file_rel, cwd_rel })
             end, 50)
         end,
     })
@@ -219,11 +231,25 @@ local function open_neogit_on_current_buffer()
     })
 end
 
+local function open_neogit_and_expand_current_file()
+    open_neogit_for_current_buffer(jump_to_current_file_and_expand)
+end
+
+local function open_neogit_and_jump_to_current_file()
+    open_neogit_for_current_buffer(jump_to_current_file_only)
+end
+
 -- Use <leader>g as a prefix for bunch of other git related commands, this keep fast
 vim.keymap.set("n", "<leader>j", function()
-    open_neogit_on_current_buffer()
-end, { noremap = true, desc = "Neogit buffer" })
+    open_neogit_and_jump_to_current_file()
+end, { noremap = true, desc = "Neogit current file" })
 
 vim.keymap.set("n", "<leader>J", function()
+    open_neogit_and_expand_current_file()
+end, { noremap = true, desc = "Neogit current file expanded" })
+
+
+vim.keymap.set("n", "<leader><c-j>", function()
     require("neogit").open({ kind = "tab" })
 end, { noremap = true, desc = "Neogit" })
+
