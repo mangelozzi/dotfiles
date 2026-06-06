@@ -88,10 +88,12 @@ function M.format_code()
     elseif vim.bo.filetype == "python" then
         -- https://github.com/psf/black
         -- Black will edit the file and save it
-        vim.cmd("!black -S --line-length 100 " .. file)
+        -- vim.cmd("!black -S --line-length 100 " .. file)
+        vim.cmd("!black " .. file)
         if vim.v.shell_error == 0 then
             -- Only run black if isort was successful
-            vim.cmd("!isort --line-length 100 --profile black " .. file)
+            -- vim.cmd("!isort --line-length 100 --profile black " .. file)
+            vim.cmd("!isort --profile black " .. file)
         end
     elseif vim.bo.filetype == "javascript" or vim.bo.filetype == "typescript" then
         -- https://prettier.io/
