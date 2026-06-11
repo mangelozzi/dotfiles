@@ -10,6 +10,16 @@ vim.keymap.set("o", "A", function() require("namespace.utils").text_object("norm
 vim.keymap.set({"x", "o"}, "il", function() require("namespace.utils").text_object("normal! ^vg_") end, {noremap = true, desc = "Inner (l)ine text object"})
 vim.keymap.set({"x", "o"}, "al", function() require("namespace.utils").text_object("normal! 0vg_") end, {noremap = true, desc = "A (l)ine text object"})
 
+-- Inner bracket pairs, one of {([<
+ --  1) current line, forward from cursor
+--   2) current line, backward to line start
+--   3) next lines, first hit, up to N lines (50 in this scenario)
+vim.keymap.set({ "x", "o" }, "ib", function()
+    require("namespace.utils").textobj_next_brackets(false, 50)
+end, { noremap = true, desc = "Next bracket pair (inner)" })
+vim.keymap.set({ "x", "o" }, "ab", function()
+    require("namespace.utils").textobj_next_brackets(true, 50)
+end, { noremap = true, desc = "Next bracket pair (around)" })
 
 -- Navigate to the start/end of the INNER TEXT of a <tag>...</tag> set
 vim.keymap.set("n", "[t", "vit<ESC>`<", {noremap = true, desc = "Jump to start of tag inner"})

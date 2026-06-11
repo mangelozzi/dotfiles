@@ -70,9 +70,10 @@ end
 
 -- Auto format code
 function M.format_code()
-    if vim.bo.filetype == "" then
+    -- The buftype == "" it is a regular file buffer, e.g. a python or js etc
+    if vim.bo.filetype == "" or vim.bo.buftype ~= "" then
         M.format_new_buffer_as_json_no_save()
-        return;
+        return
     end
     local file = vim.fn.expand("%:p")
     -- Note: os.execute messes up the terminal
@@ -496,6 +497,218 @@ M.set_opfunc = vim.fn[vim.api.nvim_exec([[
   endfunc
   echon get(function('s:set_opfunc'), 'name')
 ]], true)]
+
+
+-- Select the "next bracket pair" as a textobject.
+-- around=true  includes the brackets
+-- around=false selects inside the brackets
+--[[
+Current line:
+    find all bracket pairs
+
+    score each pair by:
+        distance from cursor to pair
+
+    choose closest pair
+
+Nearby lines:
+    line +1
+    line -1
+    line +2
+    line -2
+    ...
+
+    choose first line containing a pair
+
+Given:
+    In*put()
+Pressing cib:
+    Input(*)
+
+--]]
+-- Select the "next bracket pair" as a textobject.
+-- Search order:
+--   1) Current line: cursor, cursor + 1, cursor - 1, cursor + 2, cursor - 2, etc.
+--   2) Then next line, previous line, next + 2, previous - 2, etc.
+-- around=true  includes the brackets
+-- around=false selects inside the brackets
+function M.textobj_next_brackets(around, max_lines)
+    around = around == true
+    max_lines = max_lines or 50
+    local win = 0
+    local buf = 0
+    local cursor = vim.api.nvim_win_get_cursor(win)
+    local cursor_row = cursor[1]
+    local cursor_col = cursor[2] + 1
+    local line_count = vim.api.nvim_buf_line_count(buf)
+    local closes = { ["("] = ")", ["{"] = "}", ["["] = "]", ["<"] = ">" }
+    local opens = { [")"] = "(", ["}"] = "{", ["]"] = "[", [">"] = "<" }
+    local function line_at(row)
+        return vim.api.nvim_buf_get_lines(buf, row - 1, row, true)[1] or ""
+    end
+    local function find_matching_close(open_row, open_col, open_ch)
+        local close_ch = closes[open_ch]
+        local depth = 0
+        for row = open_row, line_count do
+            local line = line_at(row)
+            local start_col = row == open_row and open_col or 1
+            for col = start_col, #line do
+                local ch = line:sub(col, col)
+                if ch == open_ch then
+                    depth = depth + 1
+                elseif ch == close_ch then
+                    depth = depth - 1
+                    if depth == 0 then
+                        return { row = row, col = col }
+                    end
+                end
+            end
+        end
+        return nil
+    end
+    local function find_matching_open(close_row, close_col, close_ch)
+        local open_ch = opens[close_ch]
+        local depth = 0
+        for row = close_row, 1, -1 do
+            local line = line_at(row)
+            local start_col = row == close_row and close_col or #line
+            for col = start_col, 1, -1 do
+                local ch = line:sub(col, col)
+                if ch == close_ch then
+                    depth = depth + 1
+                elseif ch == open_ch then
+                    depth = depth - 1
+                    if depth == 0 then
+                        return { row = row, col = col }
+                    end
+                end
+            end
+        end
+        return nil
+    end
+    local function resolve_pair(row, col)
+        local ch = line_at(row):sub(col, col)
+        if closes[ch] then
+            local close_pos = find_matching_close(row, col, ch)
+            if close_pos then
+                return { open = { row = row, col = col }, close = close_pos }
+            end
+            return nil
+        end
+        if opens[ch] then
+            local open_pos = find_matching_open(row, col, ch)
+            if open_pos then
+                return { open = open_pos, close = { row = row, col = col } }
+            end
+        end
+        return nil
+    end
+    local function find_pair_from_line(row)
+        local line = line_at(row)
+        local line_len = #line
+        if line_len == 0 then
+            return nil
+        end
+        local base_col = row == cursor_row and cursor_col or 1
+        base_col = math.max(1, math.min(line_len, base_col))
+        for distance = 0, line_len do
+            local forward_col = base_col + distance
+            if forward_col <= line_len then
+                local pair = resolve_pair(row, forward_col)
+                if pair then
+                    return pair
+                end
+            end
+            local backward_col = base_col - distance
+            if distance > 0 and backward_col >= 1 then
+                local pair = resolve_pair(row, backward_col)
+                if pair then
+                    return pair
+                end
+            end
+        end
+        return nil
+    end
+    local function find_pair()
+        local pair = find_pair_from_line(cursor_row)
+        if pair then
+            return pair
+        end
+        for distance = 1, max_lines do
+            local forward_row = cursor_row + distance
+            if forward_row <= line_count then
+                pair = find_pair_from_line(forward_row)
+                if pair then
+                    return pair
+                end
+            end
+            local backward_row = cursor_row - distance
+            if backward_row >= 1 then
+                pair = find_pair_from_line(backward_row)
+                if pair then
+                    return pair
+                end
+            end
+        end
+        return nil
+    end
+    local function next_pos(row, col)
+        local line = line_at(row)
+        if col < #line then
+            return row, col + 1
+        end
+        if row < line_count then
+            return row + 1, 1
+        end
+        return nil, nil
+    end
+    local function prev_pos(row, col)
+        if col > 1 then
+            return row, col - 1
+        end
+        if row > 1 then
+            local prev_row = row - 1
+            return prev_row, math.max(1, #line_at(prev_row))
+        end
+        return nil, nil
+    end
+    local function pos_after(a_row, a_col, b_row, b_col)
+        return a_row > b_row or (a_row == b_row and a_col > b_col)
+    end
+    local function to_selection(pair)
+        if around then
+            return pair.open.row, pair.open.col, pair.close.row, pair.close.col, false
+        end
+        local start_row, start_col = next_pos(pair.open.row, pair.open.col)
+        local end_row, end_col = prev_pos(pair.close.row, pair.close.col)
+        if not start_row or not end_row or pos_after(start_row, start_col, end_row, end_col) then
+            return pair.close.row, pair.close.col, pair.close.row, pair.close.col, true
+        end
+        return start_row, start_col, end_row, end_col, false
+    end
+    local pair = find_pair()
+    if not pair then
+        vim.notify("No bracket pair found", vim.log.levels.INFO)
+        return
+    end
+    local start_row, start_col, end_row, end_col, empty_inner = to_selection(pair)
+    if empty_inner and vim.v.operator == "c" then
+        vim.api.nvim_feedkeys(vim.keycode("<C-c>"), "n", false)
+        vim.schedule(function()
+            vim.api.nvim_win_set_cursor(win, { start_row, start_col - 1 })
+            vim.cmd("startinsert")
+        end)
+        return
+    end
+    if empty_inner then
+        vim.api.nvim_win_set_cursor(win, { start_row, start_col - 1 })
+        return
+    end
+    vim.api.nvim_win_set_cursor(win, { start_row, start_col - 1 })
+    vim.cmd("normal! v")
+    vim.api.nvim_win_set_cursor(win, { end_row, end_col - 1 })
+end
+
 
 return M
 
