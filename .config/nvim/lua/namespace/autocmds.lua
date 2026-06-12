@@ -148,7 +148,7 @@ vim.api.nvim_create_autocmd(
     }
 )
 
--- Copy the other editable window's relative file path into reg '8' and its alt bug into reg '9'
+-- Copy the other editable window's relative file path into reg 'w' and its alt bug into reg 'e'
 vim.api.nvim_create_autocmd(
     {"WinEnter"},
     {
@@ -178,15 +178,15 @@ vim.api.nvim_create_autocmd(
                 return vim.fn.fnamemodify(abs_path, ":.")
             end
 
-            -- 1) Other window's current buffer path -> register '8'
+            -- 1) Other window's current buffer path -> register 'w'
             local other_buf = vim.api.nvim_win_get_buf(other_win)
             local other_abs = vim.api.nvim_buf_get_name(other_buf)
             local other_rel = rel(other_abs)
             if other_rel then
-                vim.fn.setreg("8", other_rel)
+                vim.fn.setreg("w", other_rel)
             end
 
-            -- 2) Other window's alternate buffer path -> register '9'
+            -- 2) Other window's alternate buffer path -> register 'e'
             -- Must evaluate '#' in the context of the OTHER window.
             local alt_abs =
                 vim.api.nvim_win_call(
@@ -201,7 +201,7 @@ vim.api.nvim_create_autocmd(
             )
             local alt_rel = rel(alt_abs)
             if alt_rel then
-                vim.fn.setreg("9", alt_rel)
+                vim.fn.setreg("e", alt_rel)
             end
         end
     }
