@@ -40,11 +40,13 @@ local M = {}
 local ascii = vim.split(ascii_str, "\n")
 
 local vers = vim.version()
-local commit =  vers.build ~= vim.NIL and ("+" .. vers.build) or ""
+local commit = vers.build ~= vim.NIL and ("+" .. vers.build) or ""
 local is_nightly = (vers.prerelease ~= nil and vers.prerelease ~= vim.NIL)
 local channel = is_nightly and "Nightly " or "Stable"
 local nvim_version =
     "NVIM v" .. vers.major .. "." .. vers.minor .. "." .. vers.patch .. " (" .. channel .. ") " .. commit
+
+local greeter_ns = vim.api.nvim_create_namespace("greeter")
 
 local function pad_str(padding, string)
     return string.rep(" ", padding) .. string
@@ -71,27 +73,48 @@ local function count_utf_chars(str)
 end
 
 local function set_options(buf)
-    vim.api.nvim_buf_set_option(buf, "modified", false)
-    vim.api.nvim_buf_set_option(buf, "buflisted", false)
-    vim.api.nvim_buf_set_option(buf, "bufhidden", "wipe")
-    vim.api.nvim_buf_set_option(buf, "buftype", "nofile")
-    vim.api.nvim_buf_set_option(buf, "swapfile", false)
-    vim.api.nvim_buf_set_option(buf, "colorcolumn", "")
-    vim.api.nvim_buf_set_option(buf, "relativenumber", false)
-    vim.api.nvim_buf_set_option(buf, "number", false)
-    vim.api.nvim_buf_set_option(buf, "list", false)
-    vim.api.nvim_buf_set_option(buf, "signcolumn", "no")
+    -- Don't set these values, else when opening from quickfix window it splits the greeter instead of using the greeter window
+    -- vim.bo[buf].modified = false
+    -- vim.bo[buf].buftype = "nofile"
+
+    vim.bo[buf].buflisted = false
+    vim.bo[buf].bufhidden = "wipe"
+    vim.bo[buf].swapfile = false
+
+    -- Slightly more ugly, but simpler code and not buggy
+    -- local win = vim.api.nvim_get_current_win()
+    -- vim.wo[win].colorcolumn = ""
+    -- vim.wo[win].relativenumber = false
+    -- vim.wo[win].number = false
+    -- vim.wo[win].list = false
+    -- vim.wo[win].signcolumn = "no"
+
     vim.api.nvim_set_current_buf(buf)
 end
 
+local function highlight_line(buf, row, hl_group)
+    local line = vim.api.nvim_buf_get_lines(buf, row, row + 1, false)[1]
+
+    if not line or line == "" then
+        return
+    end
+
+    vim.api.nvim_buf_set_extmark(buf, greeter_ns, row, 0, {
+        end_col = #line,
+        hl_group = hl_group,
+    })
+end
+
 local function apply_highlights(buf, vertical_pad)
+    vim.api.nvim_buf_clear_namespace(buf, greeter_ns, 0, -1)
+
     -- Apply highlight to each line of ASCII art
     for i = vertical_pad + 1, vertical_pad + #ascii do
-        vim.api.nvim_buf_add_highlight(buf, -1, "GreeterAsciiArt", i - 1, 0, -1)
+        highlight_line(buf, i - 1, "GreeterAsciiArt")
     end
 
     -- Highlight version line
-    vim.api.nvim_buf_add_highlight(buf, -1, "GreeterNvimVer", vertical_pad + #ascii + GAP_LINES, 0, -1)
+    highlight_line(buf, vertical_pad + #ascii + GAP_LINES, "GreeterNvimVer")
 end
 
 local function calc_ascii(width, vertical_pad, pad_cols)
@@ -121,15 +144,16 @@ local function calc_ascii(width, vertical_pad, pad_cols)
     return centered_ascii
 end
 
-
 function M.draw(buf)
     set_options(buf)
+
     -- width
-    local screen_width = vim.api.nvim_get_option("columns")
+    local screen_width = vim.api.nvim_get_option_value("columns", {})
     local draw_width = math.max(count_utf_chars(ascii[1]), #nvim_version)
     local pad_width = math.floor((screen_width - draw_width) / 2)
+
     -- height
-    local screen_height = vim.api.nvim_get_option("lines")
+    local screen_height = vim.api.nvim_get_option_value("lines", {})
     local draw_height = #ascii + GAP_LINES + 1 -- Including version line
     local pad_height = math.floor((screen_height - draw_height) / 2) - VERTICAL_OFFSET
 
@@ -141,21 +165,20 @@ function M.draw(buf)
     local centered_ascii = calc_ascii(screen_width, pad_height, pad_width)
     vim.api.nvim_buf_set_lines(buf, 0, -1, false, centered_ascii)
     apply_highlights(buf, pad_height)
+    vim.bo[buf].modified = false
 end
 
-function M.create_new_buffer_for_insert(greeter_buf)
-    -- Create a new buffer that is empty and listed
+function M.replace_greeter_with_normal_buffer(greeter_buf, start_insert)
     local new_buf = vim.api.nvim_create_buf(true, false)
-
-    -- Set the new buffer in the current window
     local win = vim.api.nvim_get_current_win()
+
     vim.api.nvim_win_set_buf(win, new_buf)
 
-    -- Start insert mode in the new buffer
-    vim.api.nvim_command('startinsert')
+    if start_insert then
+        vim.cmd("startinsert")
+    end
 
     if vim.api.nvim_buf_is_valid(greeter_buf) then
-        -- Delete the greeter buffer if it's no longer needed
         vim.api.nvim_buf_delete(greeter_buf, {force = true})
     end
 end
@@ -166,6 +189,7 @@ function M.display()
     M.draw(buf)
 
     local NamespaceGroup = vim.api.nvim_create_augroup("Greeter", {clear = true})
+
     vim.api.nvim_create_autocmd({"VimResized"}, {
         buffer = buf,
         desc = "Recalc and redraw greeter when window is resized",
@@ -175,11 +199,12 @@ function M.display()
 
     vim.api.nvim_create_autocmd({"InsertEnter"}, {
         buffer = buf,
-        desc = "If entering insert mode, change greeter to a normal buffer",
+        desc = "If entering insert mode from greeter, replace it with a normal empty buffer",
         group = NamespaceGroup,
-        callback = function() M.create_new_buffer_for_insert(buf) end,
+        callback = function()
+            M.replace_greeter_with_normal_buffer(buf, true)
+        end,
     })
-
 end
 
 function M.display_conditionally()

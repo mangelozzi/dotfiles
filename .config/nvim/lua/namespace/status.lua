@@ -39,12 +39,14 @@ local function contract_home(file)
     -- Contract "/home/name" to "~"
     return string.gsub(file, "/home/[^/]+/", "~/")
 end
+
 local function ensure_no_slash_prefix(file)
     if string.sub(file, 1, 1) == slash then
         file = string.sub(file, 2)
     end
     return file
 end
+
 local function ensure_slash_suffix(file)
     if file ~= "" and string.sub(file, -1) ~= slash then
         return file .. slash
@@ -61,14 +63,16 @@ local function get_dirs()
     elseif vim.bo.readonly or not vim.bo.modifiable then
         return '', '[R]'
     end
+
     local cwd = vim.fn.fnamemodify(vim.fn.getcwd(), "%:p")
     local file = vim.fn.expand("%:p")
     local head = vim.fn.expand("%:p:h")
     local start_idx, _ = string.find(file, cwd)
     local is_in_pwd = start_idx == 1
-    ---
+
     local root_to_pwd
     local pwd_to_head
+
     if is_in_pwd then
         root_to_pwd = ensure_slash_suffix(contract_home(cwd))
         pwd_to_head = string.sub(head, string.len(cwd) + 1)
@@ -77,6 +81,7 @@ local function get_dirs()
         root_to_pwd = ''
         pwd_to_head = ensure_slash_suffix(contract_home(head))
     end
+
     return root_to_pwd, pwd_to_head
 end
 
@@ -99,6 +104,7 @@ end
 local function get_hi_groups(is_current_window)
     local line_group = ""
     local prefix = ""
+
     if is_current_window then
         if vim.bo.buftype == 'quickfix' then
             line_group = "_qfStatusLine"
@@ -111,17 +117,18 @@ local function get_hi_groups(is_current_window)
             line_group = "StatusLine"
         end
     else
-    -- If not the current window, then override the colors with gray
+        -- If not the current window, then override the colors with gray
         line_group = "StatusLineNC"
         prefix = "_blur"
     end
+
     return {
-        col_line   = change_color(line_group),
-        col_file   = change_color(prefix .. "StatusFile"),
+        col_line = change_color(line_group),
+        col_file = change_color(prefix .. "StatusFile"),
         col_subtle = change_color(prefix .. "StatusSubtle"),
-        col_fade1  = change_color(prefix .. "StatusFade1"),
-        col_fade2  = change_color(prefix .. "StatusFade2"),
-        col_fade3  = change_color(prefix .. "StatusFade3"),
+        col_fade1 = change_color(prefix .. "StatusFade1"),
+        col_fade2 = change_color(prefix .. "StatusFade2"),
+        col_fade3 = change_color(prefix .. "StatusFade3"),
         col_impact = change_color(prefix .. "StatusImpact"),
         col_emphasis = change_color(prefix .. "StatusEmphasis"),
     }
@@ -146,11 +153,11 @@ local function print_status_hi_groups()
 end
 -- vim.keymap.set('n', '<F9>', print_status_hi_groups, { noremap = true})
 
-
 vim.g.get_status_line = function(current_window)
     local groups = get_hi_groups(current_window)
     local root_to_pwd, pwd_to_head = get_dirs()
-    local s1 =  table.concat{
+
+    local s1 = table.concat{
         --"%*"                                       " Return to default color StatusLine / StatusLineNC
         groups['col_subtle'],
         " ",
@@ -158,6 +165,7 @@ vim.g.get_status_line = function(current_window)
         groups['col_line'],
         pwd_to_head,
     }
+
     local s2 = table.concat{
         groups['col_line'],
         groups['col_fade1'], "▌",
@@ -177,6 +185,7 @@ vim.g.get_status_line = function(current_window)
         groups['col_fade1'], "▐",
         groups['col_line'],
     }
+
     -- "%#_StatusModified#%{&modified?' +++ ':''}"
     -- col_fade3."%{!&modified?'▐':''}".col_fade2."%{!&modified?'▐':''}".col_fade1."%{!&modified?'▐':''}"
     -- col_line
@@ -191,6 +200,7 @@ vim.g.get_status_line = function(current_window)
         groups['col_emphasis'],
         "%P ",                                     -- Percentage through the file
     }
+
     if vim.bo.filetype == "NvimTree" then
         return s2 .. s3
     else
@@ -221,6 +231,7 @@ vim.api.nvim_create_autocmd(
         pattern = "*",
     }
 )
+
 vim.api.nvim_create_autocmd(
     {"WinLeave"},
     {
@@ -236,30 +247,23 @@ vim.api.nvim_create_autocmd(
 
 -- Status Line - Quickfix custom colors
 vim.api.nvim_create_autocmd(
-    {"BufWinEnter", "BufEnter"},
+    {"BufWinEnter", "BufEnter", "WinEnter"},
     {
-        desc = "Quickfix custom coloring enable",
+        desc = "Sync quickfix custom window colouring",
         callback = function()
             if vim.bo.buftype == "quickfix" then
-                vim.opt.winhighlight =
-                    "Normal:_qfNormal,LineNr:_qfLineNr,CursorLineNr:_qfCursorLineNr,CursorLine:_qfCursorLine"
+                vim.wo.winhighlight = table.concat({
+                    "Normal:_qfNormal",
+                    "LineNr:_qfLineNr",
+                    "CursorLineNr:_qfCursorLineNr",
+                    "CursorLine:_qfCursorLine",
+                }, ",")
+            elseif vim.wo.winhighlight:find("_qf", 1, true) then
+                vim.wo.winhighlight = ""
             end
         end,
         group = StatusLineGroup,
-        pattern = "*"
-    }
-)
-vim.api.nvim_create_autocmd(
-    {"BufWinLeave"},
-    {
-        desc = "Quickfix custom coloring disable",
-        callback = function()
-            if vim.bo.buftype == "quickfix" then
-                vim.opt.winhighlight = "Normal:Normal"
-            end
-        end,
-        group = StatusLineGroup,
-        pattern = "*"
+        pattern = "*",
     }
 )
 
