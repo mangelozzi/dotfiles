@@ -146,4 +146,30 @@ function M.insert_import_alias()
     vim.fn.setreg("+", alias)
 end
 
+-- Sort according to JS/TS module file paths.
+local function get_import_path(line)
+    return line:match("from%s*[\"']([^\"']+)[\"']")
+        or line:match("import%s*[\"']([^\"']+)[\"']")
+        or line:match("require%s*%(%s*[\"']([^\"']+)[\"']%s*%)")
+        or line:match("import%s*%(%s*[\"']([^\"']+)[\"']%s*%)")
+        or ""
+end
+function M.sort_js_ts_imports_by_path()
+    local start_line = vim.fn.line("'<")
+    local end_line = vim.fn.line("'>")
+    if start_line > end_line then
+        start_line, end_line = end_line, start_line
+    end
+    local lines = vim.api.nvim_buf_get_lines(0, start_line - 1, end_line, false)
+    table.sort(lines, function(a, b)
+        local path_a = get_import_path(a)
+        local path_b = get_import_path(b)
+        if path_a == path_b then
+            return a < b
+        end
+        return path_a < path_b
+    end)
+    vim.api.nvim_buf_set_lines(0, start_line - 1, end_line, false, lines)
+end
+
 return M
