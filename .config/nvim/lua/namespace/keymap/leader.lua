@@ -121,10 +121,9 @@ vim.keymap.set("n", "<leader>D", "O/** @type {} */<esc>hhhi", {noremap = true, d
 -- Open current buf or alt in vsp (reuse window if available
 vim.keymap.set('n', '<leader>i', function() leader_utils.openInVsp(false, true) end, { desc = '(i)nit Vsplit buf' })
 vim.keymap.set('n', '<leader>I', function() leader_utils.openInVsp(true, true) end,  { desc = '(Init) Vsplit alt buf' })
-
 vim.keymap.set('n', '<leader>gm', function() leader_utils.strip_plus_minus_block() end,  { desc = 'Stip patch (M)arkers' })
-vim.keymap.set('n', '<leader>gp', function() leader_utils.sort_js_ts_imports_by_path() end,  { desc = '(p)ath imports sort JS/TS' })
-
+vim.keymap.set("x", "<leader>p", function() require("namespace.lang.javascript").sort_selected_imports_by_path() end, { desc = "(p)ath imports sort JS/TS" })
+vim.keymap.set("n", "<leader>p", function() require("namespace.lang.javascript").sort_current_paragraph_imports_by_path() end, { desc = "(p)ath imports sort paragraph JS/TS" })
 
 -- BUFFER SIZE ----------------------------------------------------------------
 -- Print the buffer size in bytes if less than 1KB, else in KB

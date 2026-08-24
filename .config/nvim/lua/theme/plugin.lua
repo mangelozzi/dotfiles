@@ -107,9 +107,9 @@ function M.get_groups(p)
         NeogitChangeRenamed  = { fg = p.yellow, bg = p.bg5,             bold = true, italic = true }, -- The renamed label at the left of a file row
         NeogitChangeUnmerged = { fg = p.bg1,    bg = p.orange,          bold = true, italic = true }, -- The unmerged/conflict label at the left of a file row
 
-        NeogitHunkHeader          = { fg = p.grey2, bg = p.bg2 },       -- Hunk header lines, the @@ lines
-        NeogitHunkHeaderHighlight = { fg = p.fg0, bg = p.bg3 },         -- Hunk header when that hunk is the current context
-        NeogitHunkHeaderCursor    = { fg = p.yellow,   bg = p.bg3 },    -- Exact cursor line when cursor is on a hunk header
+        NeogitHunkHeader          = { fg = p.fg0, bg = p.bg5 },       -- Hunk header lines, the @@ lines
+        NeogitHunkHeaderHighlight = { fg = p.yellow, bg = p.bg5 },         -- Hunk header when that hunk is the current context
+        NeogitHunkHeaderCursor    = { fg = p.yellow,   bg = p.bg5 },    -- Exact cursor line when cursor is on a hunk header
 
         -- Inline changes, the actual part of the line that changes, very poppy
         NeogitDiffAddInline    = { fg = '#30ff00', bg = '#407000'},
