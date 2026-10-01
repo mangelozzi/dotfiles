@@ -57,6 +57,7 @@ local my_servers = {
     cssls = true,
     css_variables = true,
     eslint = true, -- For JSDoc
+    elp = true, -- Erlang
     jsonls = true,
     marksman = true,
     zls = true, -- Zig

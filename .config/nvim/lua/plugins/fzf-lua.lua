@@ -402,12 +402,12 @@ local fd_distros_ignore= "--type file --no-ignore" .. fd_exclude
     -- (G)it - <leader>g...
     vim.keymap.set("n", "<leader>gc", require("fzf-lua").git_commits, {noremap = true, silent = true, desc = "Git FZF (C)ommits"})
     -- The built in buffer commits picker, the issue it does not follow filename renames
-    vim.keymap.set("n", "<leader>gB", require("fzf-lua").git_bcommits, {noremap = true, silent = true, desc = "Git FZF (B)commits (original)"})
+    vim.keymap.set("n", "<leader>gb", require("fzf-lua").git_bcommits, {noremap = true, silent = true, desc = "Git FZF (b)commits (original)"})
     -- Like The built in buffer commits picker, but DOES follow filename renames
-    vim.keymap.set("n", "<leader>gb", git_bcommits_follow, {
+    vim.keymap.set("n", "<leader>gB", git_bcommits_follow, {
         noremap = true,
         silent = true,
-        desc = "Git FZF (b)commits (follow renames)",
+        desc = "Git FZF (B)commits (follow renames)",
     })
     vim.keymap.set("n", "<leader>gs", require("fzf-lua").git_status, {noremap = true, silent = true, desc = "Git FZF (S)tatus"})
 
