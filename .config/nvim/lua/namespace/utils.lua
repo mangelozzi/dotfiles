@@ -2,14 +2,13 @@ local wsl = require("namespace.wsl")
 
 local M = {}
 
-
 function M.map_leader_char_to_nop()
     -- If one pressed <leader>cl and its not mapped to anything, then it performs a `cl`, .. not great
     -- So before mapping any leader keys, disable all maps, then add them in
     -- for char = 97, 122 do -- loop through the alphabet
     -- Only iterate the descructive operators, so which key can grab the rest
     -- d used for DOGE and D for @type variable declaration
-    for _, char in ipairs({'C'}) do -- 'c' is used for component switcher prefix
+    for _, char in ipairs({"C"}) do -- 'c' is used for component switcher prefix
         vim.keymap.set("n", "<leader>" .. char, "<ESC>", {noremap = true, nowait = true, desc = "<nop>"})
     end
 end
@@ -51,21 +50,39 @@ function M.as_string(v)
     return v
 end
 
+local function get_prettier_command(path)
+    local node_modules =
+        vim.fs.find(
+        "node_modules",
+        {
+            path = path,
+            upward = true,
+            type = "directory"
+        }
+    )[1]
+    if node_modules and vim.uv.fs_stat(node_modules .. "/.bin/prettier") then
+        return "npx --no-install prettier"
+    end
+    return "prettier"
+end
+
 function M.format_new_buffer_as_json_no_save()
-    local buf  = 0
-    local text = table.concat( vim.api.nvim_buf_get_lines(buf, 0, -1, false), "\n")
-    local output = vim.fn.system( { "prettier", "--parser", "json", "--tab-width", "4" }, text)
+    local buf = 0
+    local text = table.concat(vim.api.nvim_buf_get_lines(buf, 0, -1, false), "\n")
+    local prettier = get_prettier_command(vim.fn.getcwd())
+    local command = prettier .. " --parser json --tab-width 4"
+    local output = vim.fn.system(command, text)
     if vim.v.shell_error ~= 0 then
         -- Sometimes copying JSON that has JSON stringified within it doubles up the escape characters, change \\ -> \ and try again
         local squashed = text:gsub("\\\\", "\\"):gsub("\n", "")
-        output = vim.fn.system( { "prettier", "--parser", "json", "--tab-width", "4" }, squashed)
         -- If still errored show error
+        output = vim.fn.system(command, squashed)
         if vim.v.shell_error ~= 0 then
             vim.notify("Prettier failed: " .. output, vim.log.levels.ERROR)
             return
         end
     end
-    vim.api.nvim_buf_set_lines(buf, 0, -1, false, vim.split(output, "\n", { plain = true }))
+    vim.api.nvim_buf_set_lines(buf, 0, -1, false, vim.split(output, "\n", {plain = true}))
 end
 
 -- Auto format code
@@ -75,11 +92,16 @@ function M.format_code()
         M.format_new_buffer_as_json_no_save()
         return
     end
-    local file = vim.fn.expand("%:p")
+
+    local raw_file = vim.fn.expand("%:p")
+    local prettier = get_prettier_command(vim.fs.dirname(raw_file))
+    local file = vim.fn.shellescape(raw_file)
+
     -- Note: os.execute messes up the terminal
-    -- 1. Exit insert mode (if necessart), and save file changes
+    -- 1. Exit insert mode (if necessary), and save file changes
     vim.cmd("stopinsert")
     vim.cmd("write")
+
     -- 2. Format the file differently depending on the file type
     if vim.bo.filetype == "lua" then
         -- https://github.com/trixnz/lua-fmt
@@ -96,25 +118,28 @@ function M.format_code()
             -- vim.cmd("!isort --line-length 100 --profile black " .. file)
             vim.cmd("!isort --profile black " .. file)
         end
-    elseif vim.bo.filetype == "javascript" or vim.bo.filetype == "typescript" then
+    elseif vim.bo.filetype == "javascript" then
         -- https://prettier.io/
         -- Prettier edit in place (--write)
-        vim.cmd("!prettier --write --tab-width 4 " .. file)
+        vim.cmd("!" .. prettier .. " --parser flow --write --tab-width 4 " .. file)
+    elseif vim.bo.filetype == "typescript" then
+        vim.cmd("!" .. prettier .. " --write --tab-width 4 " .. file)
     elseif vim.bo.filetype == "htmldjango" then
         -- vim.cmd("silent! !djlint --reformat --preserve-blank-lines " .. file)
         vim.cmd("!djlint --profile=django --reformat --format-css --format-js --preserve-blank-lines " .. file)
-        vim.api.nvim_feedkeys("\\<CR>", "n", false)  -- Need a lot of enters
+        vim.api.nvim_feedkeys("\\<CR>", "n", false)
     elseif vim.bo.filetype == "html" then
-        vim.cmd("!prettier --write --tab-width 4 " .. file)
+        vim.cmd("!" .. prettier .. " --write --tab-width 4 " .. file)
     elseif vim.bo.filetype == "css" then
-        vim.cmd("!prettier --write --tab-width 4 " .. file)
+        vim.cmd("!" .. prettier .. " --write --tab-width 4 " .. file)
     elseif vim.bo.filetype == "json" then
         -- The json module is included in Python's Standard Library
         -- Set filein/fileout both to be the same (replace)
-        vim.cmd("!prettier --write --tab-width 4 " .. file)
+        vim.cmd("!" .. prettier .. " --write --tab-width 4 " .. file)
     else
-        vim.cmd("!prettier --write --parser json --tab-width 4 " .. file)
+        vim.cmd("!" .. prettier .. " --write --parser json --tab-width 4 " .. file)
     end
+
     if vim.v.shell_error ~= 0 then
         -- If it failed to format, show the error message so can see the line/col number
         -- 'normal g<' does not make the message stay up
@@ -140,8 +165,8 @@ function M.run()
     if vim.bo.filetype == "lua" then
         vim.cmd("messages clear")
         vim.cmd("luafile %")
-        local keys = vim.api.nvim_replace_termcodes(':messages<cr>',true,false,true)
-        vim.api.nvim_feedkeys(keys,'n',false)
+        local keys = vim.api.nvim_replace_termcodes(":messages<cr>", true, false, true)
+        vim.api.nvim_feedkeys(keys, "n", false)
     elseif vim.bo.filetype == "python" then
         vim.cmd("!python " .. file)
     elseif vim.bo.filetype == "typescript" then
@@ -295,11 +320,11 @@ function M.get_git_branch()
 end
 
 function M.fd_files_populate_qf(pattern, dir)
-    pattern = pattern or vim.fn.input('Enter search pattern: ')
+    pattern = pattern or vim.fn.input("Enter search pattern: ")
     -- dir = dir or vim.fn.getcwd()
     local fd_command = string.format("fdfind '.*%s.*'", pattern) -- fd is an alias for fdfind
     if dir then
-        fd_command = fd_command .. ' ' .. dir
+        fd_command = fd_command .. " " .. dir
     end
 
     local matching_files = vim.fn.systemlist(fd_command)
@@ -313,9 +338,9 @@ function M.fd_files_populate_qf(pattern, dir)
         table.insert(items, {filename = file, lnum = 1, text = " "})
     end
 
-    local title = pattern .. " ("..#items.." matches)"
+    local title = pattern .. " (" .. #items .. " matches)"
     vim.fn.setqflist({}, "r", {title = title, items = items})
-    vim.cmd('copen') -- Open the quickfix window
+    vim.cmd("copen") -- Open the quickfix window
 end
 
 -- Function to escape HTML characters
@@ -326,12 +351,12 @@ function M.escape_html_lines(lines)
         [">"] = "&gt;",
         -- ['"'] = "&quot;",
         -- ["'"] = "&#39;",
-        ['{'] = "&#123;",
+        ["{"] = "&#123;",
         ["}"] = "&#125;",
         ["@"] = "&#64;"
     }
     local escaped_lines = {}
-    print('escape lines is')
+    print("escape lines is")
     vim.print(lines)
 
     for _, line in ipairs(lines) do
@@ -404,7 +429,14 @@ function M.replace_selection(mode, info)
         -- <C-V> = ASCII char 22
         -- Block mode, trim every line
         for i, line in ipairs(info.lines) do
-            vim.api.nvim_buf_set_text(0, info.start_row + i - 1, info.start_col - 1, info.start_row + i - 1, info.end_col - 1, { line })
+            vim.api.nvim_buf_set_text(
+                0,
+                info.start_row + i - 1,
+                info.start_col - 1,
+                info.start_row + i - 1,
+                info.end_col - 1,
+                {line}
+            )
         end
     else
         error("Unknown visual mode: " .. mode)
@@ -446,11 +478,11 @@ function M.is_edit_win(win)
     end
 
     local buf = vim.api.nvim_win_get_buf(win)
-    if vim.bo[buf].buftype ~= '' then
+    if vim.bo[buf].buftype ~= "" then
         return false
     end
 
-    if vim.bo[buf].filetype == 'NvimTree' then
+    if vim.bo[buf].filetype == "NvimTree" then
         return false
     end
 
@@ -478,7 +510,7 @@ function M.find_edit_window(allow_current)
 
     for _, win in ipairs(vim.api.nvim_tabpage_list_wins(0)) do
         if win ~= cur and M.is_edit_win(win) then
-        return win
+            return win
         end
     end
 
@@ -489,17 +521,21 @@ function M.find_edit_window(allow_current)
     return nil
 end
 
-
 -- Set the operator function to the passed in function
 -- e.g. require('namespace.utils').set_opfunc(function() print("Hello") end)
 -- Refer to: https://github.com/neovim/neovim/issues/14157#issuecomment-1320787927
-M.set_opfunc = vim.fn[vim.api.nvim_exec([[
+M.set_opfunc =
+    vim.fn[
+    vim.api.nvim_exec(
+        [[
   func s:set_opfunc(val)
     let &opfunc = a:val
   endfunc
   echon get(function('s:set_opfunc'), 'name')
-]], true)]
-
+]],
+        true
+    )
+]
 
 -- Select the "next bracket pair" as a textobject.
 -- around=true  includes the brackets
@@ -543,8 +579,8 @@ function M.textobj_next_brackets(around, max_lines)
     local cursor_row = cursor[1]
     local cursor_col = cursor[2] + 1
     local line_count = vim.api.nvim_buf_line_count(buf)
-    local closes = { ["("] = ")", ["{"] = "}", ["["] = "]", ["<"] = ">" }
-    local opens = { [")"] = "(", ["}"] = "{", ["]"] = "[", [">"] = "<" }
+    local closes = {["("] = ")", ["{"] = "}", ["["] = "]", ["<"] = ">"}
+    local opens = {[")"] = "(", ["}"] = "{", ["]"] = "[", [">"] = "<"}
     local function line_at(row)
         return vim.api.nvim_buf_get_lines(buf, row - 1, row, true)[1] or ""
     end
@@ -561,7 +597,7 @@ function M.textobj_next_brackets(around, max_lines)
                 elseif ch == close_ch then
                     depth = depth - 1
                     if depth == 0 then
-                        return { row = row, col = col }
+                        return {row = row, col = col}
                     end
                 end
             end
@@ -581,7 +617,7 @@ function M.textobj_next_brackets(around, max_lines)
                 elseif ch == open_ch then
                     depth = depth - 1
                     if depth == 0 then
-                        return { row = row, col = col }
+                        return {row = row, col = col}
                     end
                 end
             end
@@ -593,14 +629,14 @@ function M.textobj_next_brackets(around, max_lines)
         if closes[ch] then
             local close_pos = find_matching_close(row, col, ch)
             if close_pos then
-                return { open = { row = row, col = col }, close = close_pos }
+                return {open = {row = row, col = col}, close = close_pos}
             end
             return nil
         end
         if opens[ch] then
             local open_pos = find_matching_open(row, col, ch)
             if open_pos then
-                return { open = open_pos, close = { row = row, col = col } }
+                return {open = open_pos, close = {row = row, col = col}}
             end
         end
         return nil
@@ -696,21 +732,22 @@ function M.textobj_next_brackets(around, max_lines)
     local start_row, start_col, end_row, end_col, empty_inner = to_selection(pair)
     if empty_inner and vim.v.operator == "c" then
         vim.api.nvim_feedkeys(vim.keycode("<C-c>"), "n", false)
-        vim.schedule(function()
-            vim.api.nvim_win_set_cursor(win, { start_row, start_col - 1 })
-            vim.cmd("startinsert")
-        end)
+        vim.schedule(
+            function()
+                vim.api.nvim_win_set_cursor(win, {start_row, start_col - 1})
+                vim.cmd("startinsert")
+            end
+        )
         return
     end
     if empty_inner then
-        vim.api.nvim_win_set_cursor(win, { start_row, start_col - 1 })
+        vim.api.nvim_win_set_cursor(win, {start_row, start_col - 1})
         return
     end
-    vim.api.nvim_win_set_cursor(win, { start_row, start_col - 1 })
+    vim.api.nvim_win_set_cursor(win, {start_row, start_col - 1})
     vim.cmd("normal! v")
-    vim.api.nvim_win_set_cursor(win, { end_row, end_col - 1 })
+    vim.api.nvim_win_set_cursor(win, {end_row, end_col - 1})
 end
-
 
 return M
 

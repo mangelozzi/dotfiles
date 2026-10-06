@@ -50,13 +50,13 @@ local my_servers = {
     html = false,
     lua_ls = false,
     pyright = false,
-    ts_ls = false,
+    ts_ls = false, -- Used for Angular/Typescript
     ---- Auto Setup
     -- emmet_ls, -- emmet html completion support, prefer emmet-vim plugin
     bashls = true,
     cssls = true,
     css_variables = true,
-    eslint = true, -- For JSDoc
+    -- eslint = true, -- For JSDoc
     elp = true, -- Erlang
     jsonls = true,
     marksman = true,
@@ -291,9 +291,6 @@ vim.lsp.config("lua_ls", {
 })
 vim.lsp.enable("lua_ls")
 
-vim.lsp.config("ts_ls", {})
-vim.lsp.enable("ts_ls")
-
 vim.lsp.config("pyright", {
     flags = {
         debounce_text_changes = 300
@@ -316,6 +313,25 @@ vim.lsp.config("html", {
     filetypes = {"html", "htmldjango"} -- Add htmldjango
 })
 vim.lsp.enable("html")
+
+-- Typescript/Angular
+vim.lsp.config("ts_ls", {
+    filetypes = {"typescript", "typescriptreact"},
+})
+vim.lsp.enable("ts_ls")
+
+-- Flow (Mason does not support it)
+-- Use the project flow
+vim.filetype.add({
+    pattern = {
+        [".*%.fjs"] = "javascript", -- Flow javascript
+    },
+})
+vim.lsp.config("flow", {
+    filetypes = {"javascript", "javascriptreact"},
+    cmd = {"npx", "flow", "lsp"},
+})
+vim.lsp.enable("flow")
 
 -- null-ls / none-ls
 local null_ls = require("null-ls") -- 'none-ls' keeps the original api name of 'null-ls'
